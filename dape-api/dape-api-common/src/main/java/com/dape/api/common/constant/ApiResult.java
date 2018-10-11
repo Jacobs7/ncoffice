@@ -14,6 +14,7 @@ public class ApiResult extends BaseResult {
 
     public ApiResult(ApiResultConstant apiResultConstant, Object data) {
         super(apiResultConstant.getCode(), apiResultConstant.getMessage(), data);
+        /***/
     }
 
 }
