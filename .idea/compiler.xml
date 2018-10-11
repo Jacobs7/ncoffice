@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dape-api-common" />
+        <module name="dape-api-rpc-api" />
+        <module name="dape-api-rpc-service" />
+        <module name="dape-api-server" />
+        <module name="dape-cms-admin" />
+        <module name="dape-cms-common" />
+        <module name="dape-cms-dao" />
+        <module name="dape-cms-job" />
+        <module name="dape-cms-lte" />
+        <module name="dape-cms-rpc-api" />
+        <module name="dape-cms-rpc-service" />
+        <module name="dape-cms-search" />
+        <module name="dape-cms-web" />
+        <module name="dape-common" />
+        <module name="dape-lte" />
+        <module name="dape-upms-client" />
+        <module name="dape-upms-common" />
+        <module name="dape-upms-dao" />
+        <module name="dape-upms-rpc-api" />
+        <module name="dape-upms-rpc-service" />
+        <module name="dape-upms-server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dape-ui" target="1.7" />
+      <module name="dape-upms-serverall" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
