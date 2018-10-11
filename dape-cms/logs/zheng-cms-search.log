@@ -1,0 +1,5 @@
+2018-09-24 15:20:36 [ INFO ] [ ?.java :?(?)]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2018-09-24 15:20:55 [ INFO ] [ Version.java :17(<clinit>)]  HV000001: Hibernate Validator 5.2.2.Final
+2018-09-24 15:20:56 [ INFO ] [ DocumentationPluginsBootstrapper.java :84(onApplicationEvent)]  Context refreshed
+2018-09-24 15:20:56 [ INFO ] [ DocumentationPluginsBootstrapper.java :87(onApplicationEvent)]  Found 1 custom documentation plugin(s)
+2018-09-24 15:20:56 [ INFO ] [ ApiListingReferenceScanner.java :44(scan)]  Scanning for api listing references
