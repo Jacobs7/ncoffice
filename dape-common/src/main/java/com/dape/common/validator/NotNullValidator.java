@@ -7,7 +7,7 @@ import com.baidu.unbiz.fluentvalidator.ValidatorHandler;
 
 /**
  * 校验不为null
- * Created by shuzheng on 2017/2/18.
+ * ncoffice on 2017/2/18.
  */
 public class NotNullValidator extends ValidatorHandler<String> implements Validator<String> {
 

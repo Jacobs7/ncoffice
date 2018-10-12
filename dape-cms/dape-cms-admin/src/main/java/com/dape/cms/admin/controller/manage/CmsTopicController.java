@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  * 专题控制器
- * Created by shuzheng on 2017/3/18.
+ * ncoffice on 2017/3/18.
  */
 @Controller
 @Api(value = "专题管理", description = "专题管理")

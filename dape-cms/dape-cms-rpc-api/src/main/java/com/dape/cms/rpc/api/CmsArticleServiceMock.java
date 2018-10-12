@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
 * 降级实现CmsArticleService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public class CmsArticleServiceMock extends BaseServiceMock<CmsArticleMapper, CmsArticle, CmsArticleExample> implements CmsArticleService {
 

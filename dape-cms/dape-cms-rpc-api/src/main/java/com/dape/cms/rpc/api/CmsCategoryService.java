@@ -6,7 +6,7 @@ import com.dape.cms.dao.model.CmsCategoryExample;
 
 /**
 * CmsCategoryService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public interface CmsCategoryService extends BaseService<CmsCategory, CmsCategoryExample> {
 

@@ -7,7 +7,7 @@ import com.dape.cms.dao.model.CmsPageExample;
 
 /**
 * 降级实现CmsPageService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public class CmsPageServiceMock extends BaseServiceMock<CmsPageMapper, CmsPage, CmsPageExample> implements CmsPageService {
 

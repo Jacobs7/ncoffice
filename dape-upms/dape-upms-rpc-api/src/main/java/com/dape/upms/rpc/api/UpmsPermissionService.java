@@ -7,7 +7,7 @@ import com.dape.upms.dao.model.UpmsPermissionExample;
 
 /**
 * UpmsPermissionService接口
-* Created by shuzheng on 2017/3/20.
+* ncoffice on 2017/3/20.
 */
 public interface UpmsPermissionService extends BaseService<UpmsPermission, UpmsPermissionExample> {
 

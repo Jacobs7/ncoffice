@@ -7,7 +7,7 @@ import com.dape.cms.dao.model.CmsCommentExample;
 
 /**
 * 降级实现CmsCommentService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public class CmsCommentServiceMock extends BaseServiceMock<CmsCommentMapper, CmsComment, CmsCommentExample> implements CmsCommentService {
 

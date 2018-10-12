@@ -7,7 +7,7 @@ import com.baidu.unbiz.fluentvalidator.ValidatorHandler;
 
 /**
  * 校验数字大小
- * Created by shuzheng on 2017/2/18.
+ * ncoffice on 2017/2/18.
  */
 public class SizeValidator extends ValidatorHandler<Integer> implements Validator<Integer> {
 

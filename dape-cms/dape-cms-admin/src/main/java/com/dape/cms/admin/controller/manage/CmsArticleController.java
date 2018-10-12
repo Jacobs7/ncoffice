@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * 文章控制器
- * Created by shuzheng on 2016/11/14.
+ * ncoffice on 2016/11/14.
  */
 @Controller
 @Api(value = "文章管理", description = "文章管理")

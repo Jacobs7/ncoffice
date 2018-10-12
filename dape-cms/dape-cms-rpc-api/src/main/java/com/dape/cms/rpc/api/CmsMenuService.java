@@ -6,7 +6,7 @@ import com.dape.cms.dao.model.CmsMenuExample;
 
 /**
 * CmsMenuService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public interface CmsMenuService extends BaseService<CmsMenu, CmsMenuExample> {
 

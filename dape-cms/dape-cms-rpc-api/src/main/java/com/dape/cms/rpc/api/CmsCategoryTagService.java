@@ -6,7 +6,7 @@ import com.dape.cms.dao.model.CmsCategoryTagExample;
 
 /**
 * CmsCategoryTagService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public interface CmsCategoryTagService extends BaseService<CmsCategoryTag, CmsCategoryTagExample> {
 

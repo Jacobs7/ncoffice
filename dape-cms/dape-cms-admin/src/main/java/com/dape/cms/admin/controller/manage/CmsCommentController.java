@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * 评论控制器
- * Created by shuzheng on 2016/11/14.
+ * ncoffice on 2016/11/14.
  */
 @Controller
 @Api(value = "评论管理", description = "评论管理")

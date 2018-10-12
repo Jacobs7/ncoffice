@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * 资讯首页控制器
- * Created by shuzheng on 2017/3/26.
+ * ncoffice on 2017/3/26.
  */
 @Controller
 @RequestMapping(value = "/news")

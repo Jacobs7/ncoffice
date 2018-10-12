@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
 * UpmsPermissionService实现
-* Created by shuzheng on 2017/3/20.
+* ncoffice on 2017/3/20.
 */
 @Service
 @Transactional

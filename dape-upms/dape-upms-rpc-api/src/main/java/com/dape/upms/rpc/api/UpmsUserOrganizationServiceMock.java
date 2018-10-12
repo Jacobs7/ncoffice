@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
 * 降级实现UpmsUserOrganizationService接口
-* Created by shuzheng on 2017/3/20.
+* ncoffice on 2017/3/20.
 */
 public class UpmsUserOrganizationServiceMock extends BaseServiceMock<UpmsUserOrganizationMapper, UpmsUserOrganization, UpmsUserOrganizationExample> implements UpmsUserOrganizationService {
 

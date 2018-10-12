@@ -11,7 +11,7 @@ import javax.jms.TextMessage;
 
 /**
  * MQ消费者
- * Created by shuzheng on 2017/2/19.
+ * ncoffice on 2017/2/19.
  */
 public class DefaultMessageQueueListener implements MessageListener {
 

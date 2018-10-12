@@ -6,7 +6,7 @@ import com.dape.cms.dao.model.CmsSystemExample;
 
 /**
 * CmsSystemService接口
-* Created by shuzheng on 2017/4/5.
+* ncoffice on 2017/4/5.
 */
 public interface CmsSystemService extends BaseService<CmsSystem, CmsSystemExample> {
 

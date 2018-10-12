@@ -6,7 +6,7 @@ import com.dape.upms.dao.model.UpmsUserOrganizationExample;
 
 /**
 * UpmsUserOrganizationService接口
-* Created by shuzheng on 2017/3/20.
+* ncoffice on 2017/3/20.
 */
 public interface UpmsUserOrganizationService extends BaseService<UpmsUserOrganization, UpmsUserOrganizationExample> {
 

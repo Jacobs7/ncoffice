@@ -9,7 +9,7 @@ import javax.servlet.ServletContext;
 
 /**
  * 启动解压zhengAdmin-x.x.x.jar到resources目录
- * Created by shuzheng on 2016/12/18.
+ * ncoffice on 2016/12/18.
  */
 public class DapeLTEUtil implements InitializingBean, ServletContextAware {
 

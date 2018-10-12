@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 服务启动类
- * Created by shuzheng on 2017/2/19.
+ * ncoffice on 2017/2/19.
  */
 public class DapeApiRpcServiceApplication {
 

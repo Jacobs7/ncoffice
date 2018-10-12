@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 搜索控制器
- * Created by shuzheng on 2017/3/26.
+ * ncoffice on 2017/3/26.
  */
 @Controller
 @RequestMapping(value = "/search")

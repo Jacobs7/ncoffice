@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
 * 降级实现UpmsPermissionService接口
-* Created by shuzheng on 2017/3/20.
+* ncoffice on 2017/3/20.
 */
 public class UpmsPermissionServiceMock extends BaseServiceMock<UpmsPermissionMapper, UpmsPermission, UpmsPermissionExample> implements UpmsPermissionService {
 

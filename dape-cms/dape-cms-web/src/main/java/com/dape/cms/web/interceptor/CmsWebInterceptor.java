@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * 公共拦截器
- * Created by shuzheng on 2017/3/25.
+ * ncoffice on 2017/3/25.
  */
 public class CmsWebInterceptor extends HandlerInterceptorAdapter {
 

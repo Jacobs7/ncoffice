@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * 日志controller
- * Created by shuzheng on 2017/3/14.
+ * ncoffice on 2017/3/14.
  */
 @Controller
 @Api(value = "日志管理", description = "日志管理")
