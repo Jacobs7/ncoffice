@@ -10,14 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dape-cms-web</artifactId>
-    <version>1.0</version>
     <packaging>war</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-cms-rpc-api</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

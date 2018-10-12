@@ -10,9 +10,9 @@
 
     <artifactId>dape-cms-common</artifactId>
     <packaging>jar</packaging>
-
     <name>dape-cms-common</name>
     <url>http://www.zhangshuzheng.cn</url>
+    <version>1.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

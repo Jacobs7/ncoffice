@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dape-cms-rpc-api</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <packaging>jar</packaging>
 
@@ -18,8 +18,8 @@
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-cms-dao</artifactId>
-            <version>1.0</version>
             <type>jar</type>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
