@@ -67,7 +67,7 @@ public class CmsArticleController extends BaseController {
 		}
 		List<CmsArticle> rows = cmsArticleService.selectByExampleForOffsetPage(cmsArticleExample, offset, limit);
 		long total = cmsArticleService.countByExample(cmsArticleExample);
-		Map<String, Object> result = new HashMap<>(2);
+		Map<String, Object> result = new HashMap(2);
 		result.put("rows", rows);
 		result.put("total", total);
 		return result;
@@ -101,6 +101,8 @@ public class CmsArticleController extends BaseController {
 		cmsArticle.setOrders(time);
 		cmsArticle.setReadnumber(0);
 		int count = cmsArticleService.insertSelective(cmsArticle);
+
+		System.out.println();
 		return new CmsResult(CmsResultConstant.SUCCESS, count);
 	}
 
