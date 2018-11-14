@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>dape-api</artifactId>
-        <groupId>com.dape</groupId>
-        <version>1.0</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.dape</groupId>
+        <artifactId>dape-api</artifactId>
+        <version>1.0</version>
+    </parent>
+
     <artifactId>dape-api-rpc-service</artifactId>
-    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>dape-api-rpc-service</name>
+    <url>http://www.zhangshuzheng.cn</url>
 
     <dependencies>
-
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-api-rpc-api</artifactId>
             <version>1.0</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -134,5 +134,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

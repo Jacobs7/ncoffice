@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>dape-cms</artifactId>
-        <groupId>com.dape</groupId>
-        <version>1.0</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.dape</groupId>
+        <artifactId>dape-cms</artifactId>
+        <version>1.0.0</version>
+    </parent>
 
     <artifactId>dape-cms-web</artifactId>
     <packaging>war</packaging>
+
+    <name>dape-cms-web Maven Webapp</name>
+    <url>http://www.zhangshuzheng.cn</url>
+    <version>1.0.0</version>
 
     <dependencies>
         <dependency>
@@ -21,18 +24,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
         </dependency>
         <!-- tbschedule -->
         <dependency>
@@ -49,7 +48,6 @@
             <artifactId>rocketmq-client</artifactId>
             <version>3.6.2.Final</version>
         </dependency>
-
     </dependencies>
 
     <profiles>
@@ -116,5 +114,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

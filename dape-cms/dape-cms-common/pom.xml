@@ -5,11 +5,12 @@
     <parent>
         <groupId>com.dape</groupId>
         <artifactId>dape-cms</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>dape-cms-common</artifactId>
     <packaging>jar</packaging>
+
     <name>dape-cms-common</name>
     <url>http://www.zhangshuzheng.cn</url>
     <version>1.0.0</version>
@@ -22,7 +23,7 @@
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-common</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
             <type>jar</type>
         </dependency>
     </dependencies>

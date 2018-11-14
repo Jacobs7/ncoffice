@@ -5,13 +5,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://code.alibabatech.com/schema/dubbo
-        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
 
     <dubbo:application name="dape-upms-rpc-service"/>
 
     <dubbo:registry address="zookeeper://zkserver:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20881"/>
+    <dubbo:protocol name="dubbo" port="20881"/>   //协议
 
     <!--<dubbo:monitor protocol="registry"/>-->
 
@@ -58,5 +58,6 @@
     <!-- 接口服务 -->
     <bean id="upmsApiService" class="com.dape.upms.rpc.service.impl.UpmsApiServiceImpl"/>
     <dubbo:service interface="com.dape.upms.rpc.api.UpmsApiService" ref="upmsApiService" timeout="10000"/>
+
 
 </beans>

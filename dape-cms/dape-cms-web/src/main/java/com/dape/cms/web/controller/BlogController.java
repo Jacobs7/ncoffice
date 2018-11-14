@@ -216,8 +216,7 @@ public class BlogController extends BaseController {
     public Object comment(@PathVariable("articleId") int articleId, CmsComment cmsComment, HttpServletRequest request) {
         // 系统id
         CmsSystemExample cmsSystemExample = new CmsSystemExample();
-        cmsSystemExample.createCriteria()
-                .andCodeEqualTo(CODE);
+        cmsSystemExample.createCriteria().andCodeEqualTo(CODE);
         CmsSystem system = cmsSystemService.selectFirstByExample(cmsSystemExample);
         long time = System.currentTimeMillis();
         cmsComment.setCtime(time);

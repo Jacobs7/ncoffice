@@ -5,15 +5,14 @@
     <parent>
         <groupId>com.dape</groupId>
         <artifactId>dape-cms</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>dape-cms-dao</artifactId>
     <packaging>jar</packaging>
-
-    <name>dape-cms-dao</name>
-    <url>http://www.zhangshudape.cn</url>
     <version>1.0.0</version>
+    <name>dape-cms-dao</name>
+    <url>http://www.zhangshuzheng.cn</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +22,6 @@
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-cms-common</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 
