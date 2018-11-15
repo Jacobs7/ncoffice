@@ -133,7 +133,7 @@ public class AESUtil {
 
     public static void main(String[] args) {
         String[] keys = {
-                  "","198568@xZ"
+                  "","root"
         };
         System.out.println("key | AESEncode | AESDecode");
         for (String key : keys) {
