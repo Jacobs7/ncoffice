@@ -15,10 +15,10 @@
     <module>dape-api</module>
     <module>dape-upms</module>
     <module>dape-cms</module>
+    <module>dape-shop</module>
   </modules>
 
   <name>dape-office</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://maven.apache.org</url>
 
   <properties>

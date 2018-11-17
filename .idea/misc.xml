@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/dape-api/dape-api-server" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-admin" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-job" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-search" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-web" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-shop/dape-shop-admin" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-shop/dape-shop-web" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-upms/dape-upms-server" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

@@ -21,6 +21,12 @@
         <module name="dape-cms-web" />
         <module name="dape-common" />
         <module name="dape-lte" />
+        <module name="dape-shop-admin" />
+        <module name="dape-shop-common" />
+        <module name="dape-shop-dao" />
+        <module name="dape-shop-rpc-api" />
+        <module name="dape-shop-rpc-service" />
+        <module name="dape-shop-web" />
         <module name="dape-upms-client" />
         <module name="dape-upms-common" />
         <module name="dape-upms-dao" />
