@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dape.shop.dao.mapper.ShopGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopGoods">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="num_iid" jdbcType="VARCHAR" property="numIid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pict_url" jdbcType="VARCHAR" property="pictUrl" />
+    <result column="small_images" jdbcType="VARCHAR" property="smallImages" />
+    <result column="reserve_price" jdbcType="VARCHAR" property="reservePrice" />
+    <result column="zk_final_price" jdbcType="VARCHAR" property="zkFinalPrice" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="provcity" jdbcType="VARCHAR" property="provcity" />
+    <result column="item_url" jdbcType="VARCHAR" property="itemUrl" />
+    <result column="nick" jdbcType="VARCHAR" property="nick" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="cat_leaf_name" jdbcType="VARCHAR" property="catLeafName" />
+    <result column="is_prepay" jdbcType="BIT" property="isPrepay" />
+    <result column="shop_dsr" jdbcType="INTEGER" property="shopDsr" />
+    <result column="ratesum" jdbcType="INTEGER" property="ratesum" />
+    <result column="i_rfd_rate" jdbcType="BIT" property="iRfdRate" />
+    <result column="h_good_rate" jdbcType="BIT" property="hGoodRate" />
+    <result column="h_pay_rate30" jdbcType="BIT" property="hPayRate30" />
+    <result column="free_shipment" jdbcType="BIT" property="freeShipment" />
+    <result column="material_lib_type" jdbcType="VARCHAR" property="materialLibType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_date, num_iid, title, pict_url, small_images, reserve_price, zk_final_price, 
+    user_type, provcity, item_url, nick, seller_id, volume, cat_leaf_name, is_prepay, 
+    shop_dsr, ratesum, i_rfd_rate, h_good_rate, h_pay_rate30, free_shipment, material_lib_type
+  </sql>
+  <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shop_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from shop_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample">
+    delete from shop_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dape.shop.dao.model.ShopGoods">
+    insert into shop_goods (id, create_date, num_iid, 
+      title, pict_url, small_images, 
+      reserve_price, zk_final_price, user_type, 
+      provcity, item_url, nick, 
+      seller_id, volume, cat_leaf_name, 
+      is_prepay, shop_dsr, ratesum, 
+      i_rfd_rate, h_good_rate, h_pay_rate30, 
+      free_shipment, material_lib_type)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{numIid,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
+      #{reservePrice,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{provcity,jdbcType=VARCHAR}, #{itemUrl,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
+      #{sellerId,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, #{catLeafName,jdbcType=VARCHAR}, 
+      #{isPrepay,jdbcType=BIT}, #{shopDsr,jdbcType=INTEGER}, #{ratesum,jdbcType=INTEGER}, 
+      #{iRfdRate,jdbcType=BIT}, #{hGoodRate,jdbcType=BIT}, #{hPayRate30,jdbcType=BIT}, 
+      #{freeShipment,jdbcType=BIT}, #{materialLibType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
+    insert into shop_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="numIid != null">
+        num_iid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="pictUrl != null">
+        pict_url,
+      </if>
+      <if test="smallImages != null">
+        small_images,
+      </if>
+      <if test="reservePrice != null">
+        reserve_price,
+      </if>
+      <if test="zkFinalPrice != null">
+        zk_final_price,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="provcity != null">
+        provcity,
+      </if>
+      <if test="itemUrl != null">
+        item_url,
+      </if>
+      <if test="nick != null">
+        nick,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="catLeafName != null">
+        cat_leaf_name,
+      </if>
+      <if test="isPrepay != null">
+        is_prepay,
+      </if>
+      <if test="shopDsr != null">
+        shop_dsr,
+      </if>
+      <if test="ratesum != null">
+        ratesum,
+      </if>
+      <if test="iRfdRate != null">
+        i_rfd_rate,
+      </if>
+      <if test="hGoodRate != null">
+        h_good_rate,
+      </if>
+      <if test="hPayRate30 != null">
+        h_pay_rate30,
+      </if>
+      <if test="freeShipment != null">
+        free_shipment,
+      </if>
+      <if test="materialLibType != null">
+        material_lib_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="numIid != null">
+        #{numIid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pictUrl != null">
+        #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null">
+        #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="reservePrice != null">
+        #{reservePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPrice != null">
+        #{zkFinalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="provcity != null">
+        #{provcity,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null">
+        #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="catLeafName != null">
+        #{catLeafName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrepay != null">
+        #{isPrepay,jdbcType=BIT},
+      </if>
+      <if test="shopDsr != null">
+        #{shopDsr,jdbcType=INTEGER},
+      </if>
+      <if test="ratesum != null">
+        #{ratesum,jdbcType=INTEGER},
+      </if>
+      <if test="iRfdRate != null">
+        #{iRfdRate,jdbcType=BIT},
+      </if>
+      <if test="hGoodRate != null">
+        #{hGoodRate,jdbcType=BIT},
+      </if>
+      <if test="hPayRate30 != null">
+        #{hPayRate30,jdbcType=BIT},
+      </if>
+      <if test="freeShipment != null">
+        #{freeShipment,jdbcType=BIT},
+      </if>
+      <if test="materialLibType != null">
+        #{materialLibType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultType="java.lang.Long">
+    select count(*) from shop_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shop_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.numIid != null">
+        num_iid = #{record.numIid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictUrl != null">
+        pict_url = #{record.pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smallImages != null">
+        small_images = #{record.smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reservePrice != null">
+        reserve_price = #{record.reservePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zkFinalPrice != null">
+        zk_final_price = #{record.zkFinalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.provcity != null">
+        provcity = #{record.provcity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemUrl != null">
+        item_url = #{record.itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nick != null">
+        nick = #{record.nick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerId != null">
+        seller_id = #{record.sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.volume != null">
+        volume = #{record.volume,jdbcType=INTEGER},
+      </if>
+      <if test="record.catLeafName != null">
+        cat_leaf_name = #{record.catLeafName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPrepay != null">
+        is_prepay = #{record.isPrepay,jdbcType=BIT},
+      </if>
+      <if test="record.shopDsr != null">
+        shop_dsr = #{record.shopDsr,jdbcType=INTEGER},
+      </if>
+      <if test="record.ratesum != null">
+        ratesum = #{record.ratesum,jdbcType=INTEGER},
+      </if>
+      <if test="record.iRfdRate != null">
+        i_rfd_rate = #{record.iRfdRate,jdbcType=BIT},
+      </if>
+      <if test="record.hGoodRate != null">
+        h_good_rate = #{record.hGoodRate,jdbcType=BIT},
+      </if>
+      <if test="record.hPayRate30 != null">
+        h_pay_rate30 = #{record.hPayRate30,jdbcType=BIT},
+      </if>
+      <if test="record.freeShipment != null">
+        free_shipment = #{record.freeShipment,jdbcType=BIT},
+      </if>
+      <if test="record.materialLibType != null">
+        material_lib_type = #{record.materialLibType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shop_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      num_iid = #{record.numIid,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      pict_url = #{record.pictUrl,jdbcType=VARCHAR},
+      small_images = #{record.smallImages,jdbcType=VARCHAR},
+      reserve_price = #{record.reservePrice,jdbcType=VARCHAR},
+      zk_final_price = #{record.zkFinalPrice,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      provcity = #{record.provcity,jdbcType=VARCHAR},
+      item_url = #{record.itemUrl,jdbcType=VARCHAR},
+      nick = #{record.nick,jdbcType=VARCHAR},
+      seller_id = #{record.sellerId,jdbcType=INTEGER},
+      volume = #{record.volume,jdbcType=INTEGER},
+      cat_leaf_name = #{record.catLeafName,jdbcType=VARCHAR},
+      is_prepay = #{record.isPrepay,jdbcType=BIT},
+      shop_dsr = #{record.shopDsr,jdbcType=INTEGER},
+      ratesum = #{record.ratesum,jdbcType=INTEGER},
+      i_rfd_rate = #{record.iRfdRate,jdbcType=BIT},
+      h_good_rate = #{record.hGoodRate,jdbcType=BIT},
+      h_pay_rate30 = #{record.hPayRate30,jdbcType=BIT},
+      free_shipment = #{record.freeShipment,jdbcType=BIT},
+      material_lib_type = #{record.materialLibType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.shop.dao.model.ShopGoods">
+    update shop_goods
+    <set>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="numIid != null">
+        num_iid = #{numIid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pictUrl != null">
+        pict_url = #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null">
+        small_images = #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="reservePrice != null">
+        reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPrice != null">
+        zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="provcity != null">
+        provcity = #{provcity,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null">
+        item_url = #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="catLeafName != null">
+        cat_leaf_name = #{catLeafName,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrepay != null">
+        is_prepay = #{isPrepay,jdbcType=BIT},
+      </if>
+      <if test="shopDsr != null">
+        shop_dsr = #{shopDsr,jdbcType=INTEGER},
+      </if>
+      <if test="ratesum != null">
+        ratesum = #{ratesum,jdbcType=INTEGER},
+      </if>
+      <if test="iRfdRate != null">
+        i_rfd_rate = #{iRfdRate,jdbcType=BIT},
+      </if>
+      <if test="hGoodRate != null">
+        h_good_rate = #{hGoodRate,jdbcType=BIT},
+      </if>
+      <if test="hPayRate30 != null">
+        h_pay_rate30 = #{hPayRate30,jdbcType=BIT},
+      </if>
+      <if test="freeShipment != null">
+        free_shipment = #{freeShipment,jdbcType=BIT},
+      </if>
+      <if test="materialLibType != null">
+        material_lib_type = #{materialLibType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopGoods">
+    update shop_goods
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      num_iid = #{numIid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pict_url = #{pictUrl,jdbcType=VARCHAR},
+      small_images = #{smallImages,jdbcType=VARCHAR},
+      reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      provcity = #{provcity,jdbcType=VARCHAR},
+      item_url = #{itemUrl,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=INTEGER},
+      cat_leaf_name = #{catLeafName,jdbcType=VARCHAR},
+      is_prepay = #{isPrepay,jdbcType=BIT},
+      shop_dsr = #{shopDsr,jdbcType=INTEGER},
+      ratesum = #{ratesum,jdbcType=INTEGER},
+      i_rfd_rate = #{iRfdRate,jdbcType=BIT},
+      h_good_rate = #{hGoodRate,jdbcType=BIT},
+      h_pay_rate30 = #{hPayRate30,jdbcType=BIT},
+      free_shipment = #{freeShipment,jdbcType=BIT},
+      material_lib_type = #{materialLibType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

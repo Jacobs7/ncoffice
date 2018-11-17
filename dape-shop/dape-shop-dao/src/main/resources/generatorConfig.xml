@@ -61,5 +61,11 @@
         <javaClientGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
-            </context>
+                                    <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
+                                                <table tableName="shop_order" domainObjectName="ShopOrder"></table>
+                                                <table tableName="shop_user" domainObjectName="ShopUser">
+                    <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+                </table>
+                                                <table tableName="shop_user_info" domainObjectName="ShopUserInfo"></table>
+                        </context>
 </generatorConfiguration>
