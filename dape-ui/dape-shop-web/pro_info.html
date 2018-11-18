@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title>产品详情</title>
 <meta charset="utf-8">
@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
-<link rel="stylesheet" href="css/weui.min.css">
-<link rel="stylesheet" href="css/jquery-weui.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
 </head>
 <body ontouchstart>
 <!--主体-->
@@ -26,11 +26,11 @@
         <!--主图轮播-->
         <div class="swiper-container swiper-zhutu">
           <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="upload/zhutu01.jpg" /></div>
-            <div class="swiper-slide"><img src="upload/zhutu02.jpg" /></div>
-            <div class="swiper-slide"><img src="upload/zhutu03.jpg" /></div>
-            <div class="swiper-slide"><img src="upload/zhutu04.jpg" /></div>
-            <div class="swiper-slide"><img src="upload/zhutu05.jpg" /></div>
+            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu01.jpg'}" /></div>
+            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu02.jpg'}" /></div>
+            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu03.jpg'}" /></div>
+            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu04.jpg'}" /></div>
+            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu05.jpg'}" /></div>
           </div>
           <div class="swiper-pagination swiper-zhutu-pagination"></div>
         </div>
@@ -126,7 +126,7 @@
       </div>
       <div id="tab2" class="weui-tab__bd-item ">
         <div class="pro-detail">
-          <img src="upload/xq1.jpg" /><img src="upload/xq2.jpg" /><img src="upload/xq3.jpg" /><img src="upload/xq4.jpg" /><img src="upload/xq5.jpg" /><img src="upload/xq6.jpg" /><img src="upload/xq7.jpg" /><img src="upload/xq8.jpg" /><img src="upload/xq9.jpg" />
+          <img th:src="@{${uiPath} + ${appName} + '/upload/xq1.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq2.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq3.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq4.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq5.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq6.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq7.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq8.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq9.jpg'}" />
         </div>
       </div>
       <div id="tab3" class="weui-tab__bd-item">
@@ -134,7 +134,7 @@
         <div class="weui-panel__bd">
           <div class="wy-media-box weui-media-box_text">
             <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
               <div class="weui-cell__bd weui-cell_primary"><p>飞翔的小土豆</p></div>
               <span class="weui-cell__time">2017-02-06</span>
             </div>
@@ -150,7 +150,7 @@
         <div class="weui-panel__bd">
           <div class="wy-media-box weui-media-box_text">
             <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
               <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
               <span class="weui-cell__time">2017-02-06</span>
             </div>
@@ -166,7 +166,7 @@
         <div class="weui-panel__bd">
           <div class="wy-media-box weui-media-box_text">
             <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
               <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
               <span class="weui-cell__time">2017-02-06</span>
             </div>
@@ -182,7 +182,7 @@
         <div class="weui-panel__bd">
           <div class="wy-media-box weui-media-box_text">
             <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
               <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
               <span class="weui-cell__time">2017-02-06</span>
             </div>
@@ -198,7 +198,7 @@
         <div class="weui-panel__bd">
           <div class="wy-media-box weui-media-box_text">
             <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img src="upload/headimg.jpg" alt="" style="width:20px;margin-right:5px;display:block"></div>
+              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
               <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
               <span class="weui-cell__time">2017-02-06</span>
             </div>
@@ -318,15 +318,15 @@
   </div>
 </div>
 
-<script src="js/jquery-2.1.4.js"></script> 
-<script src="js/fastclick.js"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script> 
 <script>
   $(function() {
     FastClick.attach(document.body);
   });
 </script> 
-<script src="js/jquery-weui.js"></script>
-<script src="js/swiper.js"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script>
 $(".swiper-zhutu").swiper({
         loop: true,
