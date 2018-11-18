@@ -26,10 +26,38 @@ public class IndexController extends BaseController {
     private ShopGoodsService shopGoodsService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
+    public String demo(Model model) {
+        ShopGoodsExample example = new ShopGoodsExample();
+        List<ShopGoods> list = shopGoodsService.selectByExample(example);
+        model.addAttribute("list", list);
+        return thymeleaf("/demo");
+    }
+
+    @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model) {
         ShopGoodsExample example = new ShopGoodsExample();
         List<ShopGoods> list = shopGoodsService.selectByExample(example);
         model.addAttribute("list", list);
         return thymeleaf("/index");
+    }
+
+    @RequestMapping(value = "/proInfo", method = RequestMethod.GET)
+    public String proInfo(Model model) {
+        return thymeleaf("/pro_info");
+    }
+
+    @RequestMapping(value = "/mine", method = RequestMethod.GET)
+    public String mine(Model model) {
+        return thymeleaf("/mine");
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(Model model) {
+        return thymeleaf("/address_edit");
+    }
+
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    public String order(Model model) {
+        return thymeleaf("/all_orders");
     }
 }
