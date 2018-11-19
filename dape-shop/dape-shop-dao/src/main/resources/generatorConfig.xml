@@ -62,6 +62,8 @@
 
         <!-- 需要映射的表 -->
                                     <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
+                                                <table tableName="shop_menu" domainObjectName="ShopMenu"></table>
+                                                <table tableName="shop_module" domainObjectName="ShopModule"></table>
                                                 <table tableName="shop_order" domainObjectName="ShopOrder"></table>
                                                 <table tableName="shop_user" domainObjectName="ShopUser">
                     <generatedKey column="id" sqlStatement="MySql" identity="true"/>

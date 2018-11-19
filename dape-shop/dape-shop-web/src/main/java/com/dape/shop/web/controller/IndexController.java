@@ -1,9 +1,10 @@
 package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
-import com.dape.shop.dao.model.ShopGoods;
-import com.dape.shop.dao.model.ShopGoodsExample;
+import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopGoodsService;
+import com.dape.shop.rpc.api.ShopMenuService;
+import com.dape.shop.rpc.api.ShopModuleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,12 @@ public class IndexController extends BaseController {
 
     @Autowired
     private ShopGoodsService shopGoodsService;
+    @Autowired
+    private ShopMenuService shopMenuService;
+    @Autowired
+    private ShopModuleService shopModuleService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "demo", method = RequestMethod.GET)
     public String demo(Model model) {
         ShopGoodsExample example = new ShopGoodsExample();
         List<ShopGoods> list = shopGoodsService.selectByExample(example);
@@ -33,11 +38,27 @@ public class IndexController extends BaseController {
         return thymeleaf("/demo");
     }
 
-    @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String index(Model model) {
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String index(Model model, Long showId) {
         ShopGoodsExample example = new ShopGoodsExample();
         List<ShopGoods> list = shopGoodsService.selectByExample(example);
         model.addAttribute("list", list);
+
+        // 查询导航栏列表: 首页、男装、女装等
+        ShopMenuExample shopMenuE = new ShopMenuExample();
+        shopMenuE.or().andIsEnabledEqualTo(true);
+        shopMenuE.setOrderByClause("sort ASC");
+        List<ShopMenu> menus = shopMenuService.selectByExample(shopMenuE);
+        model.addAttribute("menus", menus);
+        model.addAttribute("showId", showId == null ? 1L : showId);
+
+        // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
+        ShopModuleExample shopModuleE = new ShopModuleExample();
+        shopModuleE.or().andIsEnabledEqualTo(true);
+        shopModuleE.setOrderByClause("sort ASC");
+        List<ShopModule> modules = shopModuleService.selectByExample(shopModuleE);
+        model.addAttribute("modules", modules);
+
         return thymeleaf("/index");
     }
 

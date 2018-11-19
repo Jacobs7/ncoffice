@@ -16,4 +16,10 @@
     <bean id="shopGoodsServiceImpl" class="com.dape.shop.rpc.service.impl.ShopGoodsServiceImpl"/>
     <dubbo:service interface="com.dape.shop.rpc.api.ShopGoodsService" ref="shopGoodsServiceImpl" timeout="10000"/>
 
+    <bean id="shopMenuServiceImpl" class="com.dape.shop.rpc.service.impl.ShopMenuServiceImpl"/>
+    <dubbo:service interface="com.dape.shop.rpc.api.ShopMenuService" ref="shopMenuServiceImpl" timeout="10000"/>
+
+    <bean id="shopModuleServiceImpl" class="com.dape.shop.rpc.service.impl.ShopModuleServiceImpl"/>
+    <dubbo:service interface="com.dape.shop.rpc.api.ShopModuleService" ref="shopModuleServiceImpl" timeout="10000"/>
+
 </beans>
