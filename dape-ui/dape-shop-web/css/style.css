@@ -111,9 +111,9 @@ header,.weui-navbar{
 .swiper-container {width: 100%;} 
 .swiper-container img {display: block;width: 100%;}
 /*首页图标链接*/
-.wy-iconlist-box{background:#fff; padding:0 10px;}
-.wy-links-iconlist{display:block; text-align:center; margin:10px 0;}
-.wy-links-iconlist .img{margin:0 23px;}
+.wy-iconlist-box{background:#fff; padding:0 10px;display: flex;flex-flow: row wrap;}
+.wy-links-iconlist{display:block; text-align:center; margin:10px 0 0 0;}
+.wy-links-iconlist .img{margin:0 15px;}
 .wy-links-iconlist img{width:100%;}
 .wy-links-iconlist p{font-size:11px; color:#454545; margin-top:5px;}
 /*首页新闻切换*/
@@ -191,10 +191,10 @@ header,.weui-navbar{
 .weui-media-box__desc{line-height:1.4;}
 
 /*商品详情tab切换*/
-.weui-navbar__item.proinfo-tab-tit{padding:10px 0;}
+.weui-navbar__item.proinfo-tab-tit{padding:10px 5px;font-family: STSong,"华文宋体";}
 .weui-navbar__item.proinfo-tab-tit:after{display:none;}
 .weui-navbar__item.proinfo-tab-tit.weui-bar__item--on:before{content:""; width:34px; height:3px; background:#e21323; position:absolute; left:50%; margin-left:-17px; bottom:-1px; z-index:10;}
-.weui-navbar__item.weui-bar__item--on{color:#e21323; font-weight:bold; background-color:inherit;}
+.weui-navbar__item.weui-bar__item--on{color:#e21323; background-color:inherit;}
 .weui-navbar + .weui-tab__bd.proinfo-tab-con{padding-top:44px;}
 .swiper-zhutu-pagination{width:40px; height:40px; border-radius:50%; background:rgba(0,0,0,.3); color:#fff; font-family:Arial, Helvetica, sans-serif; text-align:center; line-height:40px; font-size:12px;}
 .swiper-zhutu-pagination .swiper-pagination-current{font-size:14px;}
@@ -371,4 +371,3 @@ header,.weui-navbar{
 .wy-news-info{color:#333;}
 .commg{margin:0; font-size:14px;}
 .weui-cells.commg:before{display:none;}
-

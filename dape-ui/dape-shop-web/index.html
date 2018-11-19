@@ -14,7 +14,7 @@
 <body ontouchstart>
 <!--顶部搜索-->
 <header class='weui-header'>
-  <div class="weui-search-bar" id="searchBar">
+  <div class="weui-search-bar" id="searchBar"  style="position:fixed; top:0; left:0; right:0; height:44px;z-index: 999;">
     <form class="weui-search-bar__form">
       <div class="weui-search-bar__box">
         <i class="weui-icon-search"></i>
@@ -30,139 +30,22 @@
   </div>
 </header>
 <!--主体-->
-<div class='weui-content'>
-  <!--顶部轮播-->
-  <div class="swiper-container swiper-banner">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/ban1.jpg'}" /></a></div>
-      <div class="swiper-slide"><a href="pro_list.html"><img th:src="@{${uiPath} + ${appName} + '/upload/ban2.jpg'}" /></a></div>
-      <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/ban3.jpg'}" /></a></div>
-      <div class="swiper-slide"><a href="pro_list.html"><img th:src="@{${uiPath} + ${appName} + '/upload/ban4.jpg'}" /></a></div>
+<div class='weui-content' id="listwrap" style="padding-top: 44px;">
+    <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;">
+      <a th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" style="-webkit-flex:none;flex:none;padding:11px 5px 9px 5px;" class="weui-navbar__item proinfo-tab-tit font-14" th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}"></a>
     </div>
-    <div class="swiper-pagination"></div>
-  </div>
-  <!--图标分类-->
-  <div class="weui-flex wy-iconlist-box">
-    <div class="weui-flex__item"><a href="pro_list.html" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + '/images/icon-link1.png'}"></div><p>精选推荐</p></a></div>
-    <div class="weui-flex__item"><a href="pro_list.html" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + '/images/icon-link2.png'}"></div><p>酒水专场</p></a></div>
-    <div class="weui-flex__item"><a href="all_orders.html" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + '/images/icon-link3.png'}"></div><p>订单管理</p></a></div>
-    <div class="weui-flex__item"><a href="Settled_in.html" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + '/images/icon-link4.png'}"></div><p>商家入驻</p></a></div>
-  </div>
-  <!--新闻切换-->
-  <div class="wy-ind-news">
-    <i class="news-icon-laba"></i>
-    <div class="swiper-container swiper-news">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><a href="news_info.html">热烈祝贺伟义商城成功热烈祝贺伟义商城成功上线热烈祝贺伟义商城成功上线上线</a></div>
-        <div class="swiper-slide"><a href="news_info.html">蓝之蓝股份成公司上市</a></div>
-      </div>
-      <div class="swiper-pagination"></div>
+    <!--图标分类-->
+    <div class="weui-flex wy-iconlist-box" style="padding-bottom: 5px;">
+      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 1 20%;"><a th:href="${module.url}" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + ${module.icon}}"></div><p th:text="${module.name}"></p></a></div>
     </div>
-    <a href="news_list.html" class="newsmore"><i class="news-icon-more"></i></a>
-  </div>
-  <!--精选推荐-->
-  <div class="wy-Module">
-    <div class="wy-Module-tit"><span>精选推荐</span></div>
-    <div class="wy-Module-con">
-      <div class="swiper-container swiper-jingxuan" style="padding-top:34px;">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan2.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan3.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan4.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan5.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-        </div>
-        <div class="swiper-pagination jingxuan-pagination"></div>
+  <!--优惠抢购-->
+    <div class="wy-Module">
+      <div class="wy-Module-tit-line"><span>优惠抢购</span></div>
+      <div class="wy-Module-con">
+        <ul id="goodsUL" class="wy-pro-list clear"></ul>
+        <div class="morelinks">查看更多</div>
       </div>
     </div>
-  </div>
-  <!--酒水专场-->
-  <div class="wy-Module">
-    <div class="wy-Module-tit"><span>酒水推荐</span></div>
-    <div class="wy-Module-con">
-      <div class="swiper-container swiper-jiushui" style="padding-top:34px;">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan2.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan3.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan4.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan5.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan2.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan3.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan4.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan5.jpg'}" /></a></div>
-          <div class="swiper-slide"><a href="pro_info.html"><img th:src="@{${uiPath} + ${appName} + '/upload/jingxuan1.jpg'}" /></a></div>
-        </div>
-        <div class="swiper-pagination jingxuan-pagination"></div>
-      </div>
-    </div>
-  </div>
-  <!--猜你喜欢-->
-  <div class="wy-Module">
-    <div class="wy-Module-tit-line"><span>猜你喜欢</span></div>
-    <div class="wy-Module-con">
-      <ul class="wy-pro-list clear">
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro1.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro2.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro3.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro4.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro5.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="pro_info.html">
-            <div class="proimg"><img th:src="@{${uiPath} + ${appName} + '/upload/pro1.jpg'}"></div>
-            <div class="protxt">
-              <div class="name">洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮</div>
-              <div class="wy-pro-pri">¥<span>296.00</span></div>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <div class="morelinks"><a href="pro_list.html">查看更多 >></a></div>
-    </div>
-  </div>
 </div>
 
 <!--底部导航-->
@@ -170,16 +53,16 @@
 <div class="weui-tabbar wy-foot-menu">
   <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
     <div class="weui-tabbar__icon foot-menu-home"></div>
-    <p class="weui-tabbar__label">首页</p>
+    <p class="weui-tabbar__label">全网优惠</p>
   </a>
   <a href="classify.html" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-list"></div>
-    <p class="weui-tabbar__label">分类</p>
+    <p class="weui-tabbar__label">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
     <div class="weui-tabbar__icon foot-menu-cart"></div>
-    <p class="weui-tabbar__label">购物车</p>
+    <p class="weui-tabbar__label">一键发圈</p>
   </a>
   <a href="mine.html" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-member"></div>
@@ -192,38 +75,48 @@
 <script>
   $(function() {
     FastClick.attach(document.body);
+    loadGoods();
   });
-</script> 
+</script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script>
-	$(".swiper-banner").swiper({
-        loop: true,
-        autoplay: 3000
-      });
-	$(".swiper-news").swiper({
-		loop: true,
-		direction: 'vertical',
-		paginationHide :true,
-        autoplay: 30000
-      });
-	 $(".swiper-jingxuan").swiper({
-		pagination: '.swiper-pagination',
-		loop: true,
-		paginationType:'fraction',
-        slidesPerView:3,
-        paginationClickable: true,
-        spaceBetween: 2
-      });
-	 $(".swiper-jiushui").swiper({
-		pagination: '.swiper-pagination',
-		paginationType:'fraction',
-		loop: true,
-        slidesPerView:3,
-		slidesPerColumn: 2,
-        paginationClickable: true,
-        spaceBetween:2
-      });
+	function loadGoods(){
+	    $.post('/goods/loadGoods',{pageNum:1,pageSize:20},function(data){
+          //console.log(data);
+          if(data.length > 0){
+              $(data).each(function(){
+                  $this = this;
+                  $('#goodsUL').append('<li><a href="/goods/goodsInfo?id='+$this.id+'"><div class="proimg"><img src="'+$this.pictUrl+'"></div><div class="protxt"><div class="name">'+$this.title+'</div><div class="wy-pro-pri">¥<span>'+$this.reservePrice+'</span></div></div></a></li>');
+              });
+          }else{
+              loading = true;
+          }
+
+        });
+    }
+    $("#listwrap").pullToRefresh().on("pull-to-refresh", function () {
+        setTimeout(function () {
+            pages = 1;
+            $("#Tolist").html("");
+            loadlist();
+            if (loading) loading = false;
+            $("#listwrap").pullToRefreshDone(); // 重置下拉刷新
+        }, 1500);   //模拟延迟
+    });
+    var pageNum = 1;
+    var pageSize = 20;
+    var loading = false;
+    $("#listwrap").infinite().on("infinite", function () {
+        if (loading) return;
+        loading = true;
+        pages++; //页数
+        //$('.weui-loadmore').show();
+        setTimeout(function () {
+            loadGoods();
+            loading = false;
+        }, 2500);   //模拟延迟
+    });
 </script>
 </body>
 </html>
