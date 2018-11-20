@@ -36,17 +36,21 @@ public class GoodsController extends BaseController {
     public List<ShopGoods> loadGoods(HttpServletRequest req) {
         String pageNum = req.getParameter("pageNum");
         String pageSize = req.getParameter("pageSize");
+        System.out.println("pageNum: " + pageNum + " ,pageSize: " + pageSize);
 
         List<ShopGoods> goods = new ArrayList<ShopGoods>();
         String appName = PropertiesFileUtil.getInstance().get("app.name");
         String uiPath = PropertiesFileUtil.getInstance().get("dape.ui.path");
-        ShopGoods item = new ShopGoods();
-        item.setId(1L);
-        item.setPictUrl(uiPath + appName + "/upload/pro2.jpg");
-        item.setTitle("洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮");
-        item.setReservePrice("99.84");
+        ShopGoods item = null;
+        for(int i = 1;i <= 10; i++){
+            item = new ShopGoods();
+            item.setId(1L + i);
+            item.setPictUrl(uiPath + appName + "/upload/pro"+ (i%5+1)+".jpg");
+            item.setTitle("洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮");
+            item.setReservePrice("99.84");
 
-        goods.add(item);
+            goods.add(item);
+        }
 
         return goods;
     }

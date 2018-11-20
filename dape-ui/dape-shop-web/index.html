@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html style="height: 100%;" lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title>商城首页</title>
 <meta charset="utf-8">
@@ -11,39 +11,34 @@
 <link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
 <link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
 </head>
-<body ontouchstart>
+<body ontouchstart style="height: 100%;">
 <!--顶部搜索-->
 <header class='weui-header'>
-  <div class="weui-search-bar" id="searchBar"  style="position:fixed; top:0; left:0; right:0; height:44px;z-index: 999;">
-    <form class="weui-search-bar__form">
-      <div class="weui-search-bar__box">
-        <i class="weui-icon-search"></i>
-        <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索您想要的商品" required>
-        <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-      </div>
-      <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-        <i class="weui-icon-search"></i>
-        <span>搜索您想要的商品</span>
-      </label>
-    </form>
-    <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+  <div class="weui-search-bar" style="display: flex; top:0; left:0; right:0; height:44px;z-index: 999;padding: 7px 0 7px 10px;">
+    <div class="weui-search-bar__box" style="flex: 0 0 80%;;height: 30px;border-radius: 15px 0 0 15px;color: #9b9b9b;background: #fff;">
+      <i class="weui-icon-search"></i>
+      <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索您想要的商品" style="width:98%;" />
+    </div>
+    <div style="height: 30px;flex: 0 0 20%;"><a href="javascript:;" style="border-radius: 0 15px 15px 0;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
   </div>
 </header>
 <!--主体-->
-<div class='weui-content' id="listwrap" style="padding-top: 44px;">
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
     <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;">
       <a th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" style="-webkit-flex:none;flex:none;padding:11px 5px 9px 5px;" class="weui-navbar__item proinfo-tab-tit font-14" th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}"></a>
     </div>
     <!--图标分类-->
-    <div class="weui-flex wy-iconlist-box" style="padding-bottom: 5px;">
-      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 1 20%;"><a th:href="${module.url}" class="wy-links-iconlist"><div class="img"><img th:src="@{${uiPath} + ${appName} + ${module.icon}}"></div><p th:text="${module.name}"></p></a></div>
+    <div class="wy-iconlist-box" style="display: flex;flex-flow: row wrap;padding:0 5px 5px 5px;">
+      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;"><a th:href="${module.url}" class="wy-links-iconlist" style="margin: 10px 0 0 0;"><div class="img" style="width:50%;margin:0 auto;"><img th:src="@{${uiPath} + ${appName} + ${module.icon}}"></div><p th:text="${module.name}"></p></a></div>
     </div>
   <!--优惠抢购-->
     <div class="wy-Module">
       <div class="wy-Module-tit-line"><span>优惠抢购</span></div>
       <div class="wy-Module-con">
         <ul id="goodsUL" class="wy-pro-list clear"></ul>
-        <div class="morelinks">查看更多</div>
+        <div class="weui-loadmore" style="padding-bottom:20px;height:20px">
+          <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+        </div>
       </div>
     </div>
 </div>
@@ -75,47 +70,41 @@
 <script>
   $(function() {
     FastClick.attach(document.body);
+
+    // 第一次加载数据
+    $(".weui-loadmore").show();
     loadGoods();
+    $('#listwrap').height($('body').height() - 44);
   });
 </script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script>
+    var pageNum = 1;
+    var pageSize = 20;
 	function loadGoods(){
-	    $.post('/goods/loadGoods',{pageNum:1,pageSize:20},function(data){
-          //console.log(data);
+	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize},function(data){
+          loading = false;
           if(data.length > 0){
               $(data).each(function(){
                   $this = this;
                   $('#goodsUL').append('<li><a href="/goods/goodsInfo?id='+$this.id+'"><div class="proimg"><img src="'+$this.pictUrl+'"></div><div class="protxt"><div class="name">'+$this.title+'</div><div class="wy-pro-pri">¥<span>'+$this.reservePrice+'</span></div></div></a></li>');
               });
           }else{
+              html += "<li class=\"weui-cells__title\" >已无更多数据</li>";
+              $("#goodsUL").append(html);
               loading = true;
           }
-
+          $(".weui-loadmore").hide();
         });
     }
-    $("#listwrap").pullToRefresh().on("pull-to-refresh", function () {
-        setTimeout(function () {
-            pages = 1;
-            $("#Tolist").html("");
-            loadlist();
-            if (loading) loading = false;
-            $("#listwrap").pullToRefreshDone(); // 重置下拉刷新
-        }, 1500);   //模拟延迟
-    });
-    var pageNum = 1;
-    var pageSize = 20;
     var loading = false;
     $("#listwrap").infinite().on("infinite", function () {
         if (loading) return;
         loading = true;
-        pages++; //页数
-        //$('.weui-loadmore').show();
-        setTimeout(function () {
-            loadGoods();
-            loading = false;
-        }, 2500);   //模拟延迟
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        loadGoods();
     });
 </script>
 </body>
