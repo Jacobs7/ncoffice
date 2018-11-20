@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -62,9 +63,10 @@ public class IndexController extends BaseController {
         return thymeleaf("/index");
     }
 
-    @RequestMapping(value = "/proInfo", method = RequestMethod.GET)
-    public String proInfo(Model model) {
-        return thymeleaf("/pro_info");
+    @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
+    public String proInfo(HttpServletRequest req, Model model) {
+        String id = req.getParameter("id");
+        return thymeleaf("/goodsInfo");
     }
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)

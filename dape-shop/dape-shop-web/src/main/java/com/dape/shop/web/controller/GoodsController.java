@@ -54,4 +54,5 @@ public class GoodsController extends BaseController {
 
         return goods;
     }
+
 }
