@@ -32,36 +32,36 @@
 
 <!--顶部搜索-->
 <header class='weui-header' style="top: 0;width: 100%;position: absolute;height: 44px;">
-  <div class="weui-search-bar" style="display: flex; top:0; left:0; right:0; height:44px;z-index: 999;padding: 7px 0 7px 10px;">
-    <div class="weui-search-bar__box" style="flex: 0 0 80%;;height: 30px;border-radius: 15px 0 0 15px;color: #9b9b9b;background: #fff;">
-      <form action="/goods/toSearch" method="post" id="searchForm">
-        <input type="hidden" name="pageNum" value="1" />
-        <input type="hidden" name="pageSize" value="20" />
-        <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
-        <i class="weui-icon-search"></i>
-        <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;" />
-      </form>
+    <div class="weui-search-bar" style="display: flex; top:0; left:0; right:0; height:44px;z-index: 999;padding: 7px 0 7px 10px;">
+      <div class="weui-search-bar__box" style="flex: 0 0 80%;height:1.5rem;border-radius: 15px 0 0 15px;color: #9b9b9b;background: #fff;">
+        <form action="/goods/toSearch" method="post" id="searchForm">
+          <input type="hidden" name="pageNum" value="1" />
+          <input type="hidden" name="pageSize" value="20" />
+          <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
+          <i class="weui-icon-search"></i>
+          <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.65rem;" />
+        </form>
+      </div>
+      <div style="flex: 0 0 20%;height:1.5rem;"><a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="height:1.5rem;border-radius: 0 15px 15px 0;background-color:#d02c37;font-size: 0.65rem;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
     </div>
-    <div style="height: 30px;flex: 0 0 20%;"><a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="border-radius: 0 15px 15px 0;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
-  </div>
 </header>
 <div class="weui-tabbar wy-foot-menu">
-  <a href="/" class="weui-tabbar__item">
+  <a href="/" class="weui-tabbar__item weui-bar__item--on">
     <div class="weui-tabbar__icon foot-menu-home"></div>
-    <p class="weui-tabbar__label">全网优惠</p>
+    <p class="weui-tabbar__label" style="font-size: 0.65rem;">全网优惠</p>
   </a>
   <a href="classify.html" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-list"></div>
-    <p class="weui-tabbar__label">团长推荐</p>
+    <p class="weui-tabbar__label" style="font-size: 0.65rem;">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
     <div class="weui-tabbar__icon foot-menu-cart"></div>
-    <p class="weui-tabbar__label">一键发圈</p>
+    <p class="weui-tabbar__label" style="font-size: 0.65rem;">一键发圈</p>
   </a>
-  <a href="mine.html" class="weui-tabbar__item">
+  <a href="mine" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-member"></div>
-    <p class="weui-tabbar__label">我的</p>
+    <p class="weui-tabbar__label" style="font-size: 0.65rem;">我的</p>
   </a>
 </div>
 
@@ -93,23 +93,23 @@
                       '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
                       '<div style="position: absolute;top: 0;right: 10px;width: 18%;z-index: 499;">' +
                       '<img style="width: 100%;" src="'+ appURL + '/images/img_quan.png"/>' +
-                      '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size: 12px;">'+$this.couponInfo+'</span>' +
+                      '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size:0.6rem;">'+$this.couponInfo+'</span>' +
                       '</div>' +
                       '<div class="proimg">' +
                       '<img src="'+appURL+$this.pictUrl+'">' +
                       '</div>' +
                       '<div class="protxt">' +
-                      '<div class="name">'+$this.title+'</div>' +
+                      '<div class="name" style="font-size: 0.65rem;">'+$this.title+'</div>' +
                       '<div class="wy-pro-pri" style="display: flex;">' +
                       '<div style="flex:0 0 65%;">' +
-                      '<span style="font-size: 14px;color: #FF0000;">¥'+$this.zkFinalPrice+'</span>' +
-                      '<span style="text-decoration:line-through;font-size: 11px;">¥'+$this.reservePrice+'</span>' +
+                      '<span style="color: #d02c37;font-size: 0.85rem;">¥'+$this.zkFinalPrice+'</span>' +
+                      '<span style="text-decoration:line-through;font-size:0.55rem;">¥'+$this.reservePrice+'</span>' +
                       '</div>' +
                       '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
                       '</div>' +
-                      '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #FF0000;font-size: 10px;text-align: center;border-radius:5px;">' +
-                      '<div style="flex:0 0 50%;background-color: #FF0000;color: #fff">标佣¥4.32</div>' +
-                      '<div style="flex:0 0 50%;color: #FF0000;">特佣¥6.32</div>' +
+                      '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #d02c37;font-size:0.55rem;text-align: center;border-radius:5px;">' +
+                      '<div style="flex:0 0 50%;background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
+                      '<div style="flex:0 0 50%;color: #d02c37;">特佣¥6.32</div>' +
                       '</div>' +
                       '</div>' +
                       '</a>' +
