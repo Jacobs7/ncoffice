@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>产品详情</title>
+<title>宝贝详情</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -16,28 +16,21 @@
 <div class="weui-content">
   <!--产品详情-->
   <div class="weui-tab">
-    <div class="weui-navbar" style="position:fixed; top:0; left:0; right:0; height:44px;">
-      <a class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">商品</a>
-      <a class="weui-navbar__item proinfo-tab-tit" href="#tab2">详情</a>
-      <a class="weui-navbar__item proinfo-tab-tit" href="#tab3">评价</a>
-    </div>
     <div class="weui-tab__bd proinfo-tab-con">
       <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
         <!--主图轮播-->
         <div class="swiper-container swiper-zhutu">
           <div class="swiper-wrapper">
-            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu01.jpg'}" /></div>
-            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu02.jpg'}" /></div>
-            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu03.jpg'}" /></div>
-            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu04.jpg'}" /></div>
-            <div class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + '/upload/zhutu05.jpg'}" /></div>
+            <div class="swiper-slide"><img th:src="${uiPath} + ${appName} + ${shopGoods.pictUrl}" /></div>
+            <div th:each="smallImg,smallImgStat:${#strings.arraySplit(shopGoods.smallImages,',')}" class="swiper-slide"><img th:src="@{${uiPath} + ${appName} + ${smallImg}}" /></div>
           </div>
           <div class="swiper-pagination swiper-zhutu-pagination"></div>
         </div>
-        <div class="wy-media-box-nomg weui-media-box_text">
-          <h4 class="wy-media-box__title">俞兆林卫衣 男2017春新款运动休闲印花大码潮人卫衣卫裤加厚外套套装男</h4>
-          <div class="wy-pro-pri mg-tb-5">¥<em class="num font-20">296.00</em></div>
-          <p class="weui-media-box__desc">【2017春季全场2件8】春款薄绒休闲套头纯色印花连帽大码卫衣套装新款上新！！</p>
+        <div class="wy-media-box-nomg weui-media-box_text" style="display: flex;flex-flow: row wrap;">
+          <div style="flex:0 0 100%;" th:utext="${shopStore.shopType == 'B'} ? '<img style=\'width:20px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tianmao.png\'>' + ${shopGoods.title}"></div>
+          <div style="flex:0 0 100%;" th:utext="${shopStore.shopType == 'C'} ? '<img style=\'width:20px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tiaobao.png\'>' + ${shopGoods.title}"></div>
+          <div class="wy-pro-pri mg-tb-5">¥<em class="num font-20" th:text="${shopGoods.zkFinalPrice}"></em></div>
+          <p class="weui-media-box__desc"></p>
         </div>
         <div class="wy-media-box2 weui-media-box_text">
           <div class="weui-media-box_appmsg">
@@ -52,74 +45,6 @@
                 <span class="promotion-item-text">满197.00减40.00</span>
               </div>
               <div class="yhq-btn clear"><a href="yhq_list.html">去领券</a></div>
-            </div>
-          </div>
-        </div>
-        <div class="wy-media-box2 weui-media-box_text">
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">尺码</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-sku clear">
-                <ul>
-                  <li><a href="javascript:;">25</a></li>
-                  <li><a href="javascript:;">30</a></li>
-                  <li><a href="javascript:;">34</a></li>
-                  <li><a href="javascript:;">40</a></li>
-                  <li><a href="javascript:;">45</a></li>
-                  <li><a href="javascript:;">50</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">颜色</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-sku clear">
-                <ul>
-                  <li><a href="javascript:;">黑色</a></li>
-                  <li><a href="javascript:;">红色</a></li>
-                  <li><a href="javascript:;">白色</a></li>
-                  <li><a href="javascript:;">蓝色</a></li>
-                  <li><a href="javascript:;">橘黄色</a></li>
-                  <li><a href="javascript:;">绿色</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="wy-media-box2 txtpd weui-media-box_text">
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">送至</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-message clear">
-                <span class="promotion-item-text">江苏</span>
-                <span class="promotion-item-text">宿迁</span>
-                <span class="promotion-item-text">洋河新区</span>
-              </div>
-            </div>
-          </div>
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">运费</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-message clear">
-                <span class="promotion-item-text">免运费<!--<div class="wy-pro-pri">¥<span class="num">11.00</span></div>--></span>
-              </div>
-            </div>
-          </div>
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">商家</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-message clear">
-                <span class="promotion-item-text">蓝之蓝股份有限公司</span>
-              </div>
-            </div>
-          </div>
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">提示</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-message clear">
-                <span class="promotion-item-text"><p class="txt-color-ml">支持7天无理由退换货</p></span>
-              </div>
             </div>
           </div>
         </div>

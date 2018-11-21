@@ -14,27 +14,21 @@
 <body ontouchstart style="height: 100%;">
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-    <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;margin-top: 44px;">
-      <a th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" style="-webkit-flex:none;flex:none;padding:11px 5px 9px 5px;" class="weui-navbar__item proinfo-tab-tit font-14" th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}"></a>
-    </div>
-    <!--图标分类-->
-    <div class="wy-iconlist-box" style="display: flex;flex-flow: row wrap;padding:0 5px 5px 5px;">
-      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;"><a th:href="${module.url}" class="wy-links-iconlist" style="margin: 10px 0 0 0;"><div class="img" style="width:50%;margin:0 auto;"><img th:src="@{${uiPath} + ${appName} + ${module.icon}}"></div><p th:text="${module.name}"></p></a></div>
-    </div>
+  <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;margin-top: 44px;display: flex;">
+    <a th:classappend="${sort == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(1)">综合</a>
+    <a th:classappend="${sort == 2}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(2)">销量</a>
+    <a th:classappend="${sort == 3}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(3)">价格</a>
+  </div>
   <!--优惠抢购-->
-    <div class="wy-Module">
-      <div class="wy-Module-tit-line"><span>领券抢购</span></div>
-      <div class="wy-Module-con">
-        <ul id="goodsUL" class="wy-pro-list clear"></ul>
-        <div class="weui-loadmore" style="padding-bottom:20px;height:20px">
-          <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
-        </div>
+  <div class="wy-Module">
+    <div class="wy-Module-con">
+      <ul id="goodsUL" class="wy-pro-list clear"></ul>
+      <div class="weui-loadmore" style="padding-bottom:20px;height:20px">
+        <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
       </div>
     </div>
+  </div>
 </div>
-
-<!--底部导航-->
-<div style="position: absolute;"><a href="">TOP</a></div>
 
 <!--顶部搜索-->
 <header class='weui-header' style="top: 0;width: 100%;position: absolute;height: 44px;">
@@ -43,16 +37,16 @@
       <form action="/goods/toSearch" method="post" id="searchForm">
         <input type="hidden" name="pageNum" value="1" />
         <input type="hidden" name="pageSize" value="20" />
-        <input type="hidden" name="isSearch" value="true" />
+        <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
         <i class="weui-icon-search"></i>
-        <input type="search" name="title" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;" />
+        <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;" />
       </form>
     </div>
     <div style="height: 30px;flex: 0 0 20%;"><a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="border-radius: 0 15px 15px 0;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
   </div>
 </header>
 <div class="weui-tabbar wy-foot-menu">
-  <a href="/" class="weui-tabbar__item weui-bar__item--on">
+  <a href="/" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-home"></div>
     <p class="weui-tabbar__label">全网优惠</p>
   </a>
@@ -90,36 +84,35 @@
     var pageNum = 1;
     var pageSize = 20;
 	function loadGoods(){
-	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize},function(data){
+	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,title:$('titleQuery').val()},function(data){
           loading = false;
           if(data.length > 0){
               $(data).each(function(){
                   $this = this;
-                  console.log($this);
                   $('#goodsUL').append('<li>' +
-                        '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
-                          '<div style="position: absolute;top: 0;right: 10px;width: 18%;z-index: 499;">' +
-                            '<img style="width: 100%;" src="'+ appURL + '/images/img_quan.png"/>' +
-                            '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size: 12px;">'+$this.couponInfo+'</span>' +
-                          '</div>' +
-                          '<div class="proimg">' +
-                            '<img src="'+appURL+$this.pictUrl+'">' +
-                          '</div>' +
-                          '<div class="protxt">' +
-                            '<div class="name">'+$this.title+'</div>' +
-                            '<div class="wy-pro-pri" style="display: flex;">' +
-                              '<div style="flex:0 0 65%;">' +
-                                '<span style="font-size: 14px;color: #FF0000;">¥'+$this.zkFinalPrice+'</span>' +
-                                '<span style="text-decoration:line-through;font-size: 11px;">¥'+$this.reservePrice+'</span>' +
-                              '</div>' +
-                            '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
-                          '</div>' +
-                          '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #FF0000;font-size: 10px;text-align: center;border-radius:5px;">' +
-                            '<div style="flex:0 0 50%;background-color: #FF0000;color: #fff">标佣¥4.32</div>' +
-                            '<div style="flex:0 0 50%;color: #FF0000;">特佣¥6.32</div>' +
-                            '</div>' +
-                          '</div>' +
-                        '</a>' +
+                      '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
+                      '<div style="position: absolute;top: 0;right: 10px;width: 18%;z-index: 499;">' +
+                      '<img style="width: 100%;" src="'+ appURL + '/images/img_quan.png"/>' +
+                      '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size: 12px;">'+$this.couponInfo+'</span>' +
+                      '</div>' +
+                      '<div class="proimg">' +
+                      '<img src="'+appURL+$this.pictUrl+'">' +
+                      '</div>' +
+                      '<div class="protxt">' +
+                      '<div class="name">'+$this.title+'</div>' +
+                      '<div class="wy-pro-pri" style="display: flex;">' +
+                      '<div style="flex:0 0 65%;">' +
+                      '<span style="font-size: 14px;color: #FF0000;">¥'+$this.zkFinalPrice+'</span>' +
+                      '<span style="text-decoration:line-through;font-size: 11px;">¥'+$this.reservePrice+'</span>' +
+                      '</div>' +
+                      '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
+                      '</div>' +
+                      '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #FF0000;font-size: 10px;text-align: center;border-radius:5px;">' +
+                      '<div style="flex:0 0 50%;background-color: #FF0000;color: #fff">标佣¥4.32</div>' +
+                      '<div style="flex:0 0 50%;color: #FF0000;">特佣¥6.32</div>' +
+                      '</div>' +
+                      '</div>' +
+                      '</a>' +
                       '</li>');
               });
           }else{
@@ -136,10 +129,12 @@
         loading = true;
         pageNum++; //页数
         $('.weui-loadmore').show();
-        setTimeout(function () {
-            loadGoods();
-        }, 100);
+        loadGoods();
     });
+    function sortFnc(sort) {
+        $('#sortQuery').val(sort);
+        $('#searchForm').submit();
+    }
 </script>
 </body>
 </html>

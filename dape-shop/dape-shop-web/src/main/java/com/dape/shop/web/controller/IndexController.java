@@ -41,10 +41,8 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model, Long showId) {
-        ShopGoodsExample example = new ShopGoodsExample();
-        List<ShopGoods> list = shopGoodsService.selectByExample(example);
-        model.addAttribute("list", list);
 
+        /** 后面要放到缓存中 start */
         // 查询导航栏列表: 首页、男装、女装等
         ShopMenuExample shopMenuE = new ShopMenuExample();
         shopMenuE.or().andIsEnabledEqualTo(true);
@@ -59,14 +57,9 @@ public class IndexController extends BaseController {
         shopModuleE.setOrderByClause("sort ASC");
         List<ShopModule> modules = shopModuleService.selectByExample(shopModuleE);
         model.addAttribute("modules", modules);
+        /** 后面要放到缓存中 end */
 
         return thymeleaf("/index");
-    }
-
-    @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String proInfo(HttpServletRequest req, Model model) {
-        String id = req.getParameter("id");
-        return thymeleaf("/goodsInfo");
     }
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)

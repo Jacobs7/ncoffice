@@ -25,6 +25,20 @@
     <result column="h_pay_rate30" jdbcType="BIT" property="hPayRate30" />
     <result column="free_shipment" jdbcType="BIT" property="freeShipment" />
     <result column="material_lib_type" jdbcType="VARCHAR" property="materialLibType" />
+    <result column="tk_rate" jdbcType="VARCHAR" property="tkRate" />
+    <result column="zk_final_price_wap" jdbcType="VARCHAR" property="zkFinalPriceWap" />
+    <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
+    <result column="event_start_time" jdbcType="TIMESTAMP" property="eventStartTime" />
+    <result column="event_end_time" jdbcType="TIMESTAMP" property="eventEndTime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="coupon_click_url" jdbcType="VARCHAR" property="couponClickUrl" />
+    <result column="coupon_end_time" jdbcType="TIMESTAMP" property="couponEndTime" />
+    <result column="coupon_info" jdbcType="VARCHAR" property="couponInfo" />
+    <result column="coupon_start_time" jdbcType="TIMESTAMP" property="couponStartTime" />
+    <result column="coupon_total_count" jdbcType="INTEGER" property="couponTotalCount" />
+    <result column="coupon_remain_count" jdbcType="INTEGER" property="couponRemainCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,7 +101,10 @@
   <sql id="Base_Column_List">
     id, create_date, num_iid, title, pict_url, small_images, reserve_price, zk_final_price, 
     user_type, provcity, item_url, nick, seller_id, volume, cat_leaf_name, is_prepay, 
-    shop_dsr, ratesum, i_rfd_rate, h_good_rate, h_pay_rate30, free_shipment, material_lib_type
+    shop_dsr, ratesum, i_rfd_rate, h_good_rate, h_pay_rate30, free_shipment, material_lib_type, 
+    tk_rate, zk_final_price_wap, shop_title, event_start_time, event_end_time, type, 
+    status, category, coupon_click_url, coupon_end_time, coupon_info, coupon_start_time, 
+    coupon_total_count, coupon_remain_count
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
     select
@@ -127,7 +144,12 @@
       seller_id, volume, cat_leaf_name, 
       is_prepay, shop_dsr, ratesum, 
       i_rfd_rate, h_good_rate, h_pay_rate30, 
-      free_shipment, material_lib_type)
+      free_shipment, material_lib_type, tk_rate, 
+      zk_final_price_wap, shop_title, event_start_time, 
+      event_end_time, type, status, 
+      category, coupon_click_url, coupon_end_time, 
+      coupon_info, coupon_start_time, coupon_total_count, 
+      coupon_remain_count)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{numIid,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
       #{reservePrice,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
@@ -135,7 +157,12 @@
       #{sellerId,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, #{catLeafName,jdbcType=VARCHAR}, 
       #{isPrepay,jdbcType=BIT}, #{shopDsr,jdbcType=INTEGER}, #{ratesum,jdbcType=INTEGER}, 
       #{iRfdRate,jdbcType=BIT}, #{hGoodRate,jdbcType=BIT}, #{hPayRate30,jdbcType=BIT}, 
-      #{freeShipment,jdbcType=BIT}, #{materialLibType,jdbcType=VARCHAR})
+      #{freeShipment,jdbcType=BIT}, #{materialLibType,jdbcType=VARCHAR}, #{tkRate,jdbcType=VARCHAR}, 
+      #{zkFinalPriceWap,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, #{eventStartTime,jdbcType=TIMESTAMP}, 
+      #{eventEndTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{category,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, #{couponEndTime,jdbcType=TIMESTAMP}, 
+      #{couponInfo,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponTotalCount,jdbcType=INTEGER}, 
+      #{couponRemainCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods
@@ -209,6 +236,48 @@
       <if test="materialLibType != null">
         material_lib_type,
       </if>
+      <if test="tkRate != null">
+        tk_rate,
+      </if>
+      <if test="zkFinalPriceWap != null">
+        zk_final_price_wap,
+      </if>
+      <if test="shopTitle != null">
+        shop_title,
+      </if>
+      <if test="eventStartTime != null">
+        event_start_time,
+      </if>
+      <if test="eventEndTime != null">
+        event_end_time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="couponClickUrl != null">
+        coupon_click_url,
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time,
+      </if>
+      <if test="couponInfo != null">
+        coupon_info,
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time,
+      </if>
+      <if test="couponTotalCount != null">
+        coupon_total_count,
+      </if>
+      <if test="couponRemainCount != null">
+        coupon_remain_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -279,6 +348,48 @@
       </if>
       <if test="materialLibType != null">
         #{materialLibType,jdbcType=VARCHAR},
+      </if>
+      <if test="tkRate != null">
+        #{tkRate,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPriceWap != null">
+        #{zkFinalPriceWap,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eventStartTime != null">
+        #{eventStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventEndTime != null">
+        #{eventEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="couponClickUrl != null">
+        #{couponClickUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEndTime != null">
+        #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponInfo != null">
+        #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponTotalCount != null">
+        #{couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponRemainCount != null">
+        #{couponRemainCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -360,6 +471,48 @@
       <if test="record.materialLibType != null">
         material_lib_type = #{record.materialLibType,jdbcType=VARCHAR},
       </if>
+      <if test="record.tkRate != null">
+        tk_rate = #{record.tkRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zkFinalPriceWap != null">
+        zk_final_price_wap = #{record.zkFinalPriceWap,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopTitle != null">
+        shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventStartTime != null">
+        event_start_time = #{record.eventStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eventEndTime != null">
+        event_end_time = #{record.eventEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponClickUrl != null">
+        coupon_click_url = #{record.couponClickUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponEndTime != null">
+        coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponInfo != null">
+        coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponStartTime != null">
+        coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponTotalCount != null">
+        coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponRemainCount != null">
+        coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -389,7 +542,21 @@
       h_good_rate = #{record.hGoodRate,jdbcType=BIT},
       h_pay_rate30 = #{record.hPayRate30,jdbcType=BIT},
       free_shipment = #{record.freeShipment,jdbcType=BIT},
-      material_lib_type = #{record.materialLibType,jdbcType=VARCHAR}
+      material_lib_type = #{record.materialLibType,jdbcType=VARCHAR},
+      tk_rate = #{record.tkRate,jdbcType=VARCHAR},
+      zk_final_price_wap = #{record.zkFinalPriceWap,jdbcType=VARCHAR},
+      shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      event_start_time = #{record.eventStartTime,jdbcType=TIMESTAMP},
+      event_end_time = #{record.eventEndTime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=INTEGER},
+      coupon_click_url = #{record.couponClickUrl,jdbcType=VARCHAR},
+      coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
+      coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -463,6 +630,48 @@
       <if test="materialLibType != null">
         material_lib_type = #{materialLibType,jdbcType=VARCHAR},
       </if>
+      <if test="tkRate != null">
+        tk_rate = #{tkRate,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPriceWap != null">
+        zk_final_price_wap = #{zkFinalPriceWap,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        shop_title = #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="eventStartTime != null">
+        event_start_time = #{eventStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventEndTime != null">
+        event_end_time = #{eventEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="couponClickUrl != null">
+        coupon_click_url = #{couponClickUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponInfo != null">
+        coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponTotalCount != null">
+        coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponRemainCount != null">
+        coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -489,7 +698,21 @@
       h_good_rate = #{hGoodRate,jdbcType=BIT},
       h_pay_rate30 = #{hPayRate30,jdbcType=BIT},
       free_shipment = #{freeShipment,jdbcType=BIT},
-      material_lib_type = #{materialLibType,jdbcType=VARCHAR}
+      material_lib_type = #{materialLibType,jdbcType=VARCHAR},
+      tk_rate = #{tkRate,jdbcType=VARCHAR},
+      zk_final_price_wap = #{zkFinalPriceWap,jdbcType=VARCHAR},
+      shop_title = #{shopTitle,jdbcType=VARCHAR},
+      event_start_time = #{eventStartTime,jdbcType=TIMESTAMP},
+      event_end_time = #{eventEndTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      category = #{category,jdbcType=INTEGER},
+      coupon_click_url = #{couponClickUrl,jdbcType=VARCHAR},
+      coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
+      coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

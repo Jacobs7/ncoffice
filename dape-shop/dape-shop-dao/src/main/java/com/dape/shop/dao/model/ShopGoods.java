@@ -155,6 +155,99 @@ public class ShopGoods implements Serializable {
      */
     private String materialLibType;
 
+    /**
+     * 收入比例，举例，取值为20.00，表示比例20.00%
+     *
+     * @mbg.generated
+     */
+    private String tkRate;
+
+    /**
+     * 无线折扣价，即宝贝在无线上的实际售卖价格。
+     *
+     * @mbg.generated
+     */
+    private String zkFinalPriceWap;
+
+    private String shopTitle;
+
+    /**
+     * 招商活动开始时间；如果该宝贝取自普通选品组，则取值为1970-01-01 00:00:00；
+     *
+     * @mbg.generated
+     */
+    private Date eventStartTime;
+
+    /**
+     * 招行活动的结束时间；如果该宝贝取自普通的选品组，则取值为1970-01-01 00:00:00
+     *
+     * @mbg.generated
+     */
+    private Date eventEndTime;
+
+    /**
+     * 宝贝类型：1 普通商品； 2 鹊桥高佣金商品；3 定向招商商品；4 营销计划商品;
+     *
+     * @mbg.generated
+     */
+    private Integer type;
+
+    /**
+     * 宝贝状态，0失效，1有效；注：失效可能是宝贝已经下线或者是被处罚不能在进行推广
+     *
+     * @mbg.generated
+     */
+    private Integer status;
+
+    /**
+     * 后台一级类目
+     *
+     * @mbg.generated
+     */
+    private Integer category;
+
+    /**
+     * 商品优惠券推广链接
+     *
+     * @mbg.generated
+     */
+    private String couponClickUrl;
+
+    /**
+     * 优惠券结束时间
+     *
+     * @mbg.generated
+     */
+    private Date couponEndTime;
+
+    /**
+     * 优惠券面额
+     *
+     * @mbg.generated
+     */
+    private String couponInfo;
+
+    /**
+     * 优惠券开始时间
+     *
+     * @mbg.generated
+     */
+    private Date couponStartTime;
+
+    /**
+     * 优惠券总量
+     *
+     * @mbg.generated
+     */
+    private Integer couponTotalCount;
+
+    /**
+     * 优惠券剩余量
+     *
+     * @mbg.generated
+     */
+    private Integer couponRemainCount;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -341,6 +434,118 @@ public class ShopGoods implements Serializable {
         this.materialLibType = materialLibType;
     }
 
+    public String getTkRate() {
+        return tkRate;
+    }
+
+    public void setTkRate(String tkRate) {
+        this.tkRate = tkRate;
+    }
+
+    public String getZkFinalPriceWap() {
+        return zkFinalPriceWap;
+    }
+
+    public void setZkFinalPriceWap(String zkFinalPriceWap) {
+        this.zkFinalPriceWap = zkFinalPriceWap;
+    }
+
+    public String getShopTitle() {
+        return shopTitle;
+    }
+
+    public void setShopTitle(String shopTitle) {
+        this.shopTitle = shopTitle;
+    }
+
+    public Date getEventStartTime() {
+        return eventStartTime;
+    }
+
+    public void setEventStartTime(Date eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public Date getEventEndTime() {
+        return eventEndTime;
+    }
+
+    public void setEventEndTime(Date eventEndTime) {
+        this.eventEndTime = eventEndTime;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    public String getCouponClickUrl() {
+        return couponClickUrl;
+    }
+
+    public void setCouponClickUrl(String couponClickUrl) {
+        this.couponClickUrl = couponClickUrl;
+    }
+
+    public Date getCouponEndTime() {
+        return couponEndTime;
+    }
+
+    public void setCouponEndTime(Date couponEndTime) {
+        this.couponEndTime = couponEndTime;
+    }
+
+    public String getCouponInfo() {
+        return couponInfo;
+    }
+
+    public void setCouponInfo(String couponInfo) {
+        this.couponInfo = couponInfo;
+    }
+
+    public Date getCouponStartTime() {
+        return couponStartTime;
+    }
+
+    public void setCouponStartTime(Date couponStartTime) {
+        this.couponStartTime = couponStartTime;
+    }
+
+    public Integer getCouponTotalCount() {
+        return couponTotalCount;
+    }
+
+    public void setCouponTotalCount(Integer couponTotalCount) {
+        this.couponTotalCount = couponTotalCount;
+    }
+
+    public Integer getCouponRemainCount() {
+        return couponRemainCount;
+    }
+
+    public void setCouponRemainCount(Integer couponRemainCount) {
+        this.couponRemainCount = couponRemainCount;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -370,6 +575,20 @@ public class ShopGoods implements Serializable {
         sb.append(", hPayRate30=").append(hPayRate30);
         sb.append(", freeShipment=").append(freeShipment);
         sb.append(", materialLibType=").append(materialLibType);
+        sb.append(", tkRate=").append(tkRate);
+        sb.append(", zkFinalPriceWap=").append(zkFinalPriceWap);
+        sb.append(", shopTitle=").append(shopTitle);
+        sb.append(", eventStartTime=").append(eventStartTime);
+        sb.append(", eventEndTime=").append(eventEndTime);
+        sb.append(", type=").append(type);
+        sb.append(", status=").append(status);
+        sb.append(", category=").append(category);
+        sb.append(", couponClickUrl=").append(couponClickUrl);
+        sb.append(", couponEndTime=").append(couponEndTime);
+        sb.append(", couponInfo=").append(couponInfo);
+        sb.append(", couponStartTime=").append(couponStartTime);
+        sb.append(", couponTotalCount=").append(couponTotalCount);
+        sb.append(", couponRemainCount=").append(couponRemainCount);
         sb.append("]");
         return sb.toString();
     }
@@ -408,7 +627,21 @@ public class ShopGoods implements Serializable {
             && (this.gethGoodRate() == null ? other.gethGoodRate() == null : this.gethGoodRate().equals(other.gethGoodRate()))
             && (this.gethPayRate30() == null ? other.gethPayRate30() == null : this.gethPayRate30().equals(other.gethPayRate30()))
             && (this.getFreeShipment() == null ? other.getFreeShipment() == null : this.getFreeShipment().equals(other.getFreeShipment()))
-            && (this.getMaterialLibType() == null ? other.getMaterialLibType() == null : this.getMaterialLibType().equals(other.getMaterialLibType()));
+            && (this.getMaterialLibType() == null ? other.getMaterialLibType() == null : this.getMaterialLibType().equals(other.getMaterialLibType()))
+            && (this.getTkRate() == null ? other.getTkRate() == null : this.getTkRate().equals(other.getTkRate()))
+            && (this.getZkFinalPriceWap() == null ? other.getZkFinalPriceWap() == null : this.getZkFinalPriceWap().equals(other.getZkFinalPriceWap()))
+            && (this.getShopTitle() == null ? other.getShopTitle() == null : this.getShopTitle().equals(other.getShopTitle()))
+            && (this.getEventStartTime() == null ? other.getEventStartTime() == null : this.getEventStartTime().equals(other.getEventStartTime()))
+            && (this.getEventEndTime() == null ? other.getEventEndTime() == null : this.getEventEndTime().equals(other.getEventEndTime()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getCategory() == null ? other.getCategory() == null : this.getCategory().equals(other.getCategory()))
+            && (this.getCouponClickUrl() == null ? other.getCouponClickUrl() == null : this.getCouponClickUrl().equals(other.getCouponClickUrl()))
+            && (this.getCouponEndTime() == null ? other.getCouponEndTime() == null : this.getCouponEndTime().equals(other.getCouponEndTime()))
+            && (this.getCouponInfo() == null ? other.getCouponInfo() == null : this.getCouponInfo().equals(other.getCouponInfo()))
+            && (this.getCouponStartTime() == null ? other.getCouponStartTime() == null : this.getCouponStartTime().equals(other.getCouponStartTime()))
+            && (this.getCouponTotalCount() == null ? other.getCouponTotalCount() == null : this.getCouponTotalCount().equals(other.getCouponTotalCount()))
+            && (this.getCouponRemainCount() == null ? other.getCouponRemainCount() == null : this.getCouponRemainCount().equals(other.getCouponRemainCount()));
     }
 
     @Override
@@ -438,6 +671,20 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((gethPayRate30() == null) ? 0 : gethPayRate30().hashCode());
         result = prime * result + ((getFreeShipment() == null) ? 0 : getFreeShipment().hashCode());
         result = prime * result + ((getMaterialLibType() == null) ? 0 : getMaterialLibType().hashCode());
+        result = prime * result + ((getTkRate() == null) ? 0 : getTkRate().hashCode());
+        result = prime * result + ((getZkFinalPriceWap() == null) ? 0 : getZkFinalPriceWap().hashCode());
+        result = prime * result + ((getShopTitle() == null) ? 0 : getShopTitle().hashCode());
+        result = prime * result + ((getEventStartTime() == null) ? 0 : getEventStartTime().hashCode());
+        result = prime * result + ((getEventEndTime() == null) ? 0 : getEventEndTime().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getCategory() == null) ? 0 : getCategory().hashCode());
+        result = prime * result + ((getCouponClickUrl() == null) ? 0 : getCouponClickUrl().hashCode());
+        result = prime * result + ((getCouponEndTime() == null) ? 0 : getCouponEndTime().hashCode());
+        result = prime * result + ((getCouponInfo() == null) ? 0 : getCouponInfo().hashCode());
+        result = prime * result + ((getCouponStartTime() == null) ? 0 : getCouponStartTime().hashCode());
+        result = prime * result + ((getCouponTotalCount() == null) ? 0 : getCouponTotalCount().hashCode());
+        result = prime * result + ((getCouponRemainCount() == null) ? 0 : getCouponRemainCount().hashCode());
         return result;
     }
 }

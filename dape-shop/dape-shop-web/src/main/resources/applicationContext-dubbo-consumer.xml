@@ -20,4 +20,6 @@
 
     <dubbo:reference id="shopModuleService" interface="com.dape.shop.rpc.api.ShopModuleService" mock="true"/>
 
+    <dubbo:reference id="shopStoreService" interface="com.dape.shop.rpc.api.ShopStoreService" mock="true"/>
+
 </beans>
