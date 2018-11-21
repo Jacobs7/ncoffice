@@ -26,151 +26,39 @@
           </div>
           <div class="swiper-pagination swiper-zhutu-pagination"></div>
         </div>
-        <div class="wy-media-box-nomg weui-media-box_text" style="display: flex;flex-flow: row wrap;color:#363636;">
-          <div style="flex:0 0 100%;" th:utext="${shopStore.shopType == 'B'} ? '<img style=\'width:20px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tianmao.png\'>' + ${shopGoods.title}"></div>
-          <div style="flex:0 0 100%;" th:utext="${shopStore.shopType == 'C'} ? '<img style=\'width:20px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tiaobao.png\'>' + ${shopGoods.title}"></div>
+        <div class="wy-media-box-nomg weui-media-box_text" style="position:relative;display: flex;flex-flow: row wrap;color:#363636;">
+          <div style="position: absolute;bottom: 45px;right: 10px;z-index: 999;width:2rem;"><img style="width:100%;" th:src="${uiPath} + ${appName} +'/images/img_quan_1.png'"><em style="color: #f8e038;position: absolute;text-align:center;bottom:2px;left: 0;width: 100%;font-size: 0.65rem;" th:text="'¥60'"></em></div>
+          <div style="flex:0 0 100%;font-size:0.7rem;" th:utext="${shopStore.shopType == 'B'} ? '<img style=\'width:18px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tianmao.png\'>' + ${shopGoods.title}"></div>
+          <div style="flex:0 0 100%;font-size:0.7rem;" th:utext="${shopStore.shopType == 'C'} ? '<img style=\'width:20px;margin:-3px 5px 0 1px;\' src=\''+${uiPath}+${appName}+'/images/icon_tiaobao.png\'>' + ${shopGoods.title}"></div>
           <div style="flex:0 0 100%;color: #d02c37;" class="wy-pro-pri mg-tb-5">
-            <em th:text="'¥'+${shopGoods.zkFinalPrice}" class="num font-20"></em>
-            <em th:text="'原价'+${shopGoods.reservePrice}" style="color: #bbb;font-weight: normal;text-decoration:line-through;font-size: 12px;"></em>
-            <em th:text="'月销量'+${shopGoods.volume}" style="color: #bbb;font-weight: normal;font-size: 12px;"></em>
+            <em th:text="'¥'+${shopGoods.zkFinalPrice}" class="num" style="font-size: 0.95rem;"></em>
+            <em th:text="'原价'+${shopGoods.reservePrice}" style="color: #bbb;font-weight: normal;text-decoration:line-through;font-size:0.55rem;"></em>
+            <em th:text="'月销量'+${shopGoods.volume}+'件'" style="color: #bbb;font-weight: normal;font-size:0.65rem;"></em>
           </div>
-          <p class="weui-media-box__desc"></p>
-        </div>
-        <div class="wy-media-box2 weui-media-box_text">
-          <div class="weui-media-box_appmsg">
-            <div class="weui-media-box__hd proinfo-txt-l"><span class="promotion-label-tit">优惠</span></div>
-            <div class="weui-media-box__bd">
-              <div class="promotion-message clear">
-                <i class="yhq"><span class="label-text">优惠券</span></i>
-                <span class="promotion-item-text">满197.00减40.00</span>
-              </div>
-              <div class="promotion-message clear">
-                <i class="yhq"><span class="label-text">优惠券</span></i>
-                <span class="promotion-item-text">满197.00减40.00</span>
-              </div>
-              <div class="yhq-btn clear"><a href="yhq_list.html">去领券</a></div>
-            </div>
+          <div style="flex:0 0 100%;;font-size: 0.65rem;color: #d56712;">
+            标准佣金&nbsp;¥<em>4.35</em> ｜ 特权佣金&nbsp;¥<em>7.62</em><a style="text-decoration: underline;margin-left:0.5rem;color:#366ea1;" href="">如何升特权?</a>
+          </div>
+          <div style="flex:0 0 100%;font-size: 0.65rem;color: #A4A4A4;margin-top: 5px;">
+            以实际佣金为准，卖家修改佣金24小时内同步到平台
           </div>
         </div>
-      </div>
-      <div id="tab2" class="weui-tab__bd-item ">
-        <div class="pro-detail">
-          <img th:src="@{${uiPath} + ${appName} + '/upload/xq1.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq2.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq3.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq4.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq5.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq6.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq7.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq8.jpg'}" /><img th:src="@{${uiPath} + ${appName} + '/upload/xq9.jpg'}" />
-        </div>
-      </div>
-      <div id="tab3" class="weui-tab__bd-item">
-        <!--评价-->
-        <div class="weui-panel__bd">
-          <div class="wy-media-box weui-media-box_text">
-            <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
-              <div class="weui-cell__bd weui-cell_primary"><p>飞翔的小土豆</p></div>
-              <span class="weui-cell__time">2017-02-06</span>
-            </div>
-            <div class="comment-item-star"><span class="real-star comment-stars-width5"></span></div>
-            <p class="weui-media-box__desc">面料不错，码数也正常  男朋友穿的很合适。</p>
-            <ul class="weui-uploader__files clear mg-com-img">
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="weui-panel__bd">
-          <div class="wy-media-box weui-media-box_text">
-            <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
-              <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
-              <span class="weui-cell__time">2017-02-06</span>
-            </div>
-            <div class="comment-item-star"><span class="real-star comment-stars-width3"></span></div>
-            <p class="weui-media-box__desc">面料不错，码数也正常  男朋友面料不错，码数也正常  男朋友穿的面料不错，码数也正常  男朋友穿的穿的很合适。</p>
-            <ul class="weui-uploader__files clear mg-com-img">
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="weui-panel__bd">
-          <div class="wy-media-box weui-media-box_text">
-            <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
-              <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
-              <span class="weui-cell__time">2017-02-06</span>
-            </div>
-            <div class="comment-item-star"><span class="real-star comment-stars-width3"></span></div>
-            <p class="weui-media-box__desc">面料不错，码数也正常  男朋友面料不错，码数也正常  男朋友穿的面料不错，码数也正常  男朋友穿的穿的很合适。</p>
-            <ul class="weui-uploader__files clear mg-com-img">
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="weui-panel__bd">
-          <div class="wy-media-box weui-media-box_text">
-            <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
-              <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
-              <span class="weui-cell__time">2017-02-06</span>
-            </div>
-            <div class="comment-item-star"><span class="real-star comment-stars-width3"></span></div>
-            <p class="weui-media-box__desc">面料不错，码数也正常  男朋友面料不错，码数也正常  男朋友穿的面料不错，码数也正常  男朋友穿的穿的很合适。</p>
-            <ul class="weui-uploader__files clear mg-com-img">
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)" onclick="window.location.reload('gallery.html')"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/ban2.jpg)" onclick="window.location.reload('gallery.html')"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)" onclick="window.location.reload('gallery.html')"></li>
-            </ul>
-          </div>
-        </div>
-        <div class="weui-panel__bd">
-          <div class="wy-media-box weui-media-box_text">
-            <div class="weui-cell nopd weui-cell_access">
-              <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/upload/headimg.jpg'}" alt="" style="width:20px;margin-right:5px;display:block"></div>
-              <div class="weui-cell__bd weui-cell_primary"><p>爱情海的事故</p></div>
-              <span class="weui-cell__time">2017-02-06</span>
-            </div>
-            <div class="comment-item-star"><span class="real-star comment-stars-width3"></span></div>
-            <p class="weui-media-box__desc">面料不错，码数也正常  男朋友面料不错，码数也正常  男朋友穿的面料不错，码数也正常  男朋友穿的穿的很合适。</p>
-            <ul class="weui-uploader__files clear mg-com-img">
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-                <li class="weui-uploader__file" style="background-image:url(./upload/pro3.jpg)"></li>
-            </ul>
-          </div>
-        </div>
-        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link list-more">
-            <div class="weui-cell__bd">查看更多</div>
-            <span class="weui-cell__ft"></span>
-          </a>
-        
       </div>
     </div>
   </div>  
 </div>
-<span id="tophovertree" title="返回顶部"></span>
 <!--底部导航-->
 <div class="foot-black"></div>
 <div class="weui-tabbar wy-foot-menu">
-  <a href="javascript:;" class="promotion-foot-menu-items">
-    <div class="weui-tabbar__icon promotion-foot-menu-kefu"></div>
-    <p class="weui-tabbar__label">客服</p>
+  <a href="/" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label" style="font-size: 0.65rem;">商城首页</p>
   </a>
-  <a href="javascript:;" id='show-toast' class="promotion-foot-menu-items">
-    <div class="weui-tabbar__icon promotion-foot-menu-collection"></div>
-    <p class="weui-tabbar__label">收藏</p>
-  </a>
-  <a href="shopcart.html" class="promotion-foot-menu-items">
-    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
-    <div class="weui-tabbar__icon promotion-foot-menu-cart"></div>
-    <p class="weui-tabbar__label">购物车</p>
-  </a>
+
   <a href="javascript:;" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
-    <p class="promotion-foot-menu-label">加入购物车</p>
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">去抢券</p>
   </a>
   <a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
-    <p class="promotion-foot-menu-label">立即购买</p>
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">生成推广海报</p>
   </a>
 </div>
 <div id="join_cart" class='weui-popup__container popup-bottom' style="z-index:600;">
