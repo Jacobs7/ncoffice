@@ -36,6 +36,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="dape-pay" target="1.8" />
       <module name="dape-ui" target="1.7" />
       <module name="dape-upms-serverall" target="1.7" />
     </bytecodeTargetLevel>

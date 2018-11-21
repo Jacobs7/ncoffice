@@ -9,7 +9,7 @@
 
     <dubbo:application name="dape-shop-rpc-service"/>
 
-    <dubbo:registry address="zookeeper://zkserver:2181"/>
+    <dubbo:registry address="zookeeper://119.3.38.190:2181"/>
 
     <dubbo:protocol name="dubbo" port="20882"/>
 
