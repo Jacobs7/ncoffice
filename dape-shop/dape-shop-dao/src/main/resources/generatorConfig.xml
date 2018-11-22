@@ -49,7 +49,7 @@
         <jdbcConnection driverClass="${generator.jdbc.driver}"
                         connectionURL="${generator.jdbc.url}"
                         userId="${generator.jdbc.username}"
-                        password="root" />
+                        password="tyXyp_2233!" />
 
         <!-- model生成 -->
         <javaModelGenerator targetPackage="com.dape.shop.dao.model" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-dao/src/main/java" />
@@ -61,10 +61,12 @@
         <javaClientGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
-                                    <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
+                                    <table tableName="shop_cash_flow" domainObjectName="ShopCashFlow"></table>
+                                                <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
                                                 <table tableName="shop_menu" domainObjectName="ShopMenu"></table>
                                                 <table tableName="shop_module" domainObjectName="ShopModule"></table>
                                                 <table tableName="shop_order" domainObjectName="ShopOrder"></table>
+                                                <table tableName="shop_order_flow" domainObjectName="ShopOrderFlow"></table>
                                                 <table tableName="shop_store" domainObjectName="ShopStore"></table>
                                                 <table tableName="shop_user" domainObjectName="ShopUser">
                     <generatedKey column="id" sqlStatement="MySql" identity="true"/>

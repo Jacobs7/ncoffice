@@ -28,6 +28,13 @@ public class ShopUser implements Serializable {
     private String weiNickName;
 
     /**
+     * 头像
+     *
+     * @mbg.generated
+     */
+    private String headUrl;
+
+    /**
      * 邀请码
      *
      * @mbg.generated
@@ -40,6 +47,20 @@ public class ShopUser implements Serializable {
      * @mbg.generated
      */
     private String sCode;
+
+    /**
+     * 累计提现，单位：分
+     *
+     * @mbg.generated
+     */
+    private Integer outCash;
+
+    /**
+     * 余额，单位：分
+     *
+     * @mbg.generated
+     */
+    private Integer money;
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +96,14 @@ public class ShopUser implements Serializable {
         this.weiNickName = weiNickName;
     }
 
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
+    }
+
     public String getrCode() {
         return rCode;
     }
@@ -91,6 +120,22 @@ public class ShopUser implements Serializable {
         this.sCode = sCode;
     }
 
+    public Integer getOutCash() {
+        return outCash;
+    }
+
+    public void setOutCash(Integer outCash) {
+        this.outCash = outCash;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -101,8 +146,11 @@ public class ShopUser implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", openId=").append(openId);
         sb.append(", weiNickName=").append(weiNickName);
+        sb.append(", headUrl=").append(headUrl);
         sb.append(", rCode=").append(rCode);
         sb.append(", sCode=").append(sCode);
+        sb.append(", outCash=").append(outCash);
+        sb.append(", money=").append(money);
         sb.append("]");
         return sb.toString();
     }
@@ -123,8 +171,11 @@ public class ShopUser implements Serializable {
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
             && (this.getOpenId() == null ? other.getOpenId() == null : this.getOpenId().equals(other.getOpenId()))
             && (this.getWeiNickName() == null ? other.getWeiNickName() == null : this.getWeiNickName().equals(other.getWeiNickName()))
+            && (this.getHeadUrl() == null ? other.getHeadUrl() == null : this.getHeadUrl().equals(other.getHeadUrl()))
             && (this.getrCode() == null ? other.getrCode() == null : this.getrCode().equals(other.getrCode()))
-            && (this.getsCode() == null ? other.getsCode() == null : this.getsCode().equals(other.getsCode()));
+            && (this.getsCode() == null ? other.getsCode() == null : this.getsCode().equals(other.getsCode()))
+            && (this.getOutCash() == null ? other.getOutCash() == null : this.getOutCash().equals(other.getOutCash()))
+            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()));
     }
 
     @Override
@@ -135,8 +186,11 @@ public class ShopUser implements Serializable {
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getOpenId() == null) ? 0 : getOpenId().hashCode());
         result = prime * result + ((getWeiNickName() == null) ? 0 : getWeiNickName().hashCode());
+        result = prime * result + ((getHeadUrl() == null) ? 0 : getHeadUrl().hashCode());
         result = prime * result + ((getrCode() == null) ? 0 : getrCode().hashCode());
         result = prime * result + ((getsCode() == null) ? 0 : getsCode().hashCode());
+        result = prime * result + ((getOutCash() == null) ? 0 : getOutCash().hashCode());
+        result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
         return result;
     }
 }

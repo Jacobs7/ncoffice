@@ -108,12 +108,13 @@
     $(function() {
         FastClick.attach(document.body);
         $("#listwrap").height($(document.body).height()-44);
-        backScroll('listwrap');
         $(".swiper-zhutu").swiper({
             loop: true,
             paginationType:'fraction',
             autoplay:5000
         });
+        // 返回顶部
+        backScroll('listwrap');
     });
 </script>
 </body>
