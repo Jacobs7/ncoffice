@@ -5,6 +5,7 @@ import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopMenuService;
 import com.dape.shop.rpc.api.ShopModuleService;
+import com.dape.shop.rpc.api.ShopUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class IndexController extends BaseController {
     private ShopMenuService shopMenuService;
     @Autowired
     private ShopModuleService shopModuleService;
+//    @Autowired
+//    public ShopUserService shopUserService;
 
     @RequestMapping(value = "demo", method = RequestMethod.GET)
     public String demo(Model model) {
@@ -40,7 +43,14 @@ public class IndexController extends BaseController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model, Long showId) {
+    public String index(Model model, Long showId, HttpServletRequest request) {
+
+//        String openId = request.getAttribute("openId").toString();
+//        if(openId == null){
+//            ShopUserExample userExample = new ShopUserExample();
+//            userExample.or().andOpenIdEqualTo(openId);
+//            ShopUser user = shopUserService.selectFirstByExample(userExample);
+//        }
 
         /** 后面要放到缓存中 start */
         // 查询导航栏列表: 首页、男装、女装等
