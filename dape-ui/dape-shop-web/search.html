@@ -48,6 +48,11 @@
   </div>
 </header>
 
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
 <div class="weui-tabbar wy-foot-menu">
   <a href="/" class="weui-tabbar__item weui-bar__item--on">
     <div class="weui-tabbar__icon foot-menu-home"></div>
@@ -70,14 +75,16 @@
 
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script>
   $(function() {
     FastClick.attach(document.body);
-
     // 第一次加载数据
     $(".weui-loadmore").show();
     loadGoods();
     $('#listwrap').height($('body').height() - 44);
+      // 返回顶部
+      backScroll('listwrap');
   });
 </script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
