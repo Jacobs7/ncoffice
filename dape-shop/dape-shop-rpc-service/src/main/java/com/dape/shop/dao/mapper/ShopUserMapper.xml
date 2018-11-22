@@ -6,8 +6,11 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="wei_nick_name" jdbcType="VARCHAR" property="weiNickName" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
     <result column="r_code" jdbcType="VARCHAR" property="rCode" />
     <result column="s_code" jdbcType="VARCHAR" property="sCode" />
+    <result column="out_cash" jdbcType="INTEGER" property="outCash" />
+    <result column="money" jdbcType="INTEGER" property="money" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, open_id, wei_nick_name, r_code, s_code
+    id, create_date, open_id, wei_nick_name, head_url, r_code, s_code, out_cash, money
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopUserExample" resultMap="BaseResultMap">
     select
@@ -105,9 +108,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into shop_user (create_date, open_id, wei_nick_name, 
-      r_code, s_code)
+      head_url, r_code, s_code, 
+      out_cash, money)
     values (#{createDate,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}, #{weiNickName,jdbcType=VARCHAR}, 
-      #{rCode,jdbcType=VARCHAR}, #{sCode,jdbcType=VARCHAR})
+      #{headUrl,jdbcType=VARCHAR}, #{rCode,jdbcType=VARCHAR}, #{sCode,jdbcType=VARCHAR}, 
+      #{outCash,jdbcType=INTEGER}, #{money,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -124,11 +129,20 @@
       <if test="weiNickName != null">
         wei_nick_name,
       </if>
+      <if test="headUrl != null">
+        head_url,
+      </if>
       <if test="rCode != null">
         r_code,
       </if>
       <if test="sCode != null">
         s_code,
+      </if>
+      <if test="outCash != null">
+        out_cash,
+      </if>
+      <if test="money != null">
+        money,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -141,11 +155,20 @@
       <if test="weiNickName != null">
         #{weiNickName,jdbcType=VARCHAR},
       </if>
+      <if test="headUrl != null">
+        #{headUrl,jdbcType=VARCHAR},
+      </if>
       <if test="rCode != null">
         #{rCode,jdbcType=VARCHAR},
       </if>
       <if test="sCode != null">
         #{sCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outCash != null">
+        #{outCash,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -170,11 +193,20 @@
       <if test="record.weiNickName != null">
         wei_nick_name = #{record.weiNickName,jdbcType=VARCHAR},
       </if>
+      <if test="record.headUrl != null">
+        head_url = #{record.headUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.rCode != null">
         r_code = #{record.rCode,jdbcType=VARCHAR},
       </if>
       <if test="record.sCode != null">
         s_code = #{record.sCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outCash != null">
+        out_cash = #{record.outCash,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -187,8 +219,11 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       open_id = #{record.openId,jdbcType=VARCHAR},
       wei_nick_name = #{record.weiNickName,jdbcType=VARCHAR},
+      head_url = #{record.headUrl,jdbcType=VARCHAR},
       r_code = #{record.rCode,jdbcType=VARCHAR},
-      s_code = #{record.sCode,jdbcType=VARCHAR}
+      s_code = #{record.sCode,jdbcType=VARCHAR},
+      out_cash = #{record.outCash,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -205,11 +240,20 @@
       <if test="weiNickName != null">
         wei_nick_name = #{weiNickName,jdbcType=VARCHAR},
       </if>
+      <if test="headUrl != null">
+        head_url = #{headUrl,jdbcType=VARCHAR},
+      </if>
       <if test="rCode != null">
         r_code = #{rCode,jdbcType=VARCHAR},
       </if>
       <if test="sCode != null">
         s_code = #{sCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outCash != null">
+        out_cash = #{outCash,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -219,8 +263,11 @@
     set create_date = #{createDate,jdbcType=TIMESTAMP},
       open_id = #{openId,jdbcType=VARCHAR},
       wei_nick_name = #{weiNickName,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=VARCHAR},
       r_code = #{rCode,jdbcType=VARCHAR},
-      s_code = #{sCode,jdbcType=VARCHAR}
+      s_code = #{sCode,jdbcType=VARCHAR},
+      out_cash = #{outCash,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
