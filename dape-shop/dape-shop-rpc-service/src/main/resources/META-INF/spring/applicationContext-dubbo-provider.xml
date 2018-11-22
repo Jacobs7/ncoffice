@@ -11,7 +11,7 @@
 
     <dubbo:registry address="zookeeper://119.3.38.190:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20882"/>
+    <dubbo:protocol name="dubbo" port="20883"/>
 
     <bean id="shopGoodsServiceImpl" class="com.dape.shop.rpc.service.impl.ShopGoodsServiceImpl"/>
     <dubbo:service interface="com.dape.shop.rpc.api.ShopGoodsService" ref="shopGoodsServiceImpl" timeout="10000"/>
