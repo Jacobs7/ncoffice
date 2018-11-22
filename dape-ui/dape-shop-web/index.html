@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="height: 100%;" lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title>商城首页</title>
 <meta charset="utf-8">
@@ -11,22 +11,29 @@
 <link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
 <link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
 </head>
-<body ontouchstart style="height: 100%;">
+<body ontouchstart>
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-    <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;margin-top: 44px;">
-      <a th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" style="-webkit-flex:none;flex:none;padding:11px 5px 9px 5px;font-size:0.75rem;" class="weui-navbar__item proinfo-tab-tit" th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}"></a>
+    <div class="weui-flex wy-iconlist-box">
+      <a th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit"></a>
     </div>
     <!--图标分类-->
-    <div class="wy-iconlist-box" style="display: flex;flex-flow: row wrap;padding:0 5px 5px 5px;">
-      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;"><a th:href="${module.url}" class="wy-links-iconlist" style="margin: 10px 0 0 0;"><div class="img" style="width:50%;margin:0 auto;font-size:0.75rem;"><img th:src="@{${uiPath} + ${appName} + ${module.icon}}"></div><p style="font-size:0.65rem;" th:text="${module.name}"></p></a></div>
+    <div class="wy-iconlist-box index-module" style="margin-top: 0px;">
+      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
+        <a th:href="${module.url}" class="wy-links-iconlist">
+          <div class="img">
+            <img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />
+          </div>
+          <p style="font-size:0.65rem;" th:text="${module.name}"></p>
+        </a>
+      </div>
     </div>
   <!--优惠抢购-->
     <div class="wy-Module">
       <div class="wy-Module-tit-line"><span style="font-size:0.65rem;">领券抢购</span></div>
       <div class="wy-Module-con">
         <ul id="goodsUL" class="wy-pro-list clear"></ul>
-        <div class="weui-loadmore" style="padding-bottom:20px;height:20px">
+        <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
           <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
         </div>
       </div>
@@ -34,58 +41,55 @@
 </div>
 
 <!--底部导航-->
-<div style="position: absolute;"><a href="">TOP</a></div>
 
 <!--顶部搜索-->
-<header class='weui-header' style="top: 0;width: 100%;position: absolute;height: 44px;">
-  <div class="weui-search-bar" style="display: flex; top:0; left:0; right:0; height:44px;z-index: 999;padding: 7px 0 7px 10px;">
-    <div class="weui-search-bar__box" style="flex: 0 0 80%;height:1.5rem;border-radius: 15px 0 0 15px;color: #9b9b9b;background: #fff;">
+<header class="weui-header index-header">
+  <div class="weui-search-bar index-search-bar">
+    <div class="weui-search-bar__box index-search-box">
       <form action="/goods/toSearch" method="post" id="searchForm">
         <input type="hidden" name="pageNum" value="1" />
         <input type="hidden" name="pageSize" value="20" />
-        <input type="hidden" name="isSearch" value="true" />
         <i class="weui-icon-search"></i>
-        <input type="search" name="title" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.65rem;" />
+        <input type="search" name="title" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
       </form>
     </div>
-    <div style="flex: 0 0 20%;height:1.5rem;"><a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="height:1.5rem;border-radius: 0 15px 15px 0;background-color:#d02c37;font-size: 0.65rem;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
+    <div class="index-search-c">
+      <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+    </div>
   </div>
 </header>
 <div class="weui-tabbar wy-foot-menu">
   <a href="/" class="weui-tabbar__item weui-bar__item--on">
     <div class="weui-tabbar__icon foot-menu-home"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">全网优惠</p>
+    <p class="weui-tabbar__label">全网优惠</p>
   </a>
   <a href="classify.html" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-list"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">团长推荐</p>
+    <p class="weui-tabbar__label">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
     <div class="weui-tabbar__icon foot-menu-cart"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">一键发圈</p>
+    <p class="weui-tabbar__label">一键发圈</p>
   </a>
   <a href="mine" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-member"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">我的</p>
+    <p class="weui-tabbar__label">我的</p>
   </a>
 </div>
 
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
-<script>
-  $(function() {
-    FastClick.attach(document.body);
-
-    // 第一次加载数据
-    $(".weui-loadmore").show();
-    loadGoods();
-    $('#listwrap').height($('body').height() - 44);
-  });
-</script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script th:inline="javascript">
+    $(function() {
+        FastClick.attach(document.body);
+        // 第一次加载数据
+        $(".weui-loadmore").show();
+        loadGoods();
+        $('#listwrap').height($('body').height() - 44);
+    });
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
@@ -95,28 +99,27 @@
           if(data.length > 0){
               $(data).each(function(){
                   $this = this;
-                  console.log($this);
                   $('#goodsUL').append('<li>' +
                         '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
-                          '<div style="position: absolute;top: 0;right: 10px;width: 18%;z-index: 499;">' +
-                            '<img style="width: 100%;" src="'+ appURL + '/images/img_quan.png"/>' +
-                            '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size:0.6rem;">'+$this.couponInfo+'</span>' +
+                          '<div class="quan">' +
+                            '<img src="'+ appURL + '/images/img_quan.png"/>' +
+                            '<span>'+$this.couponInfo+'</span>' +
                           '</div>' +
                           '<div class="proimg">' +
                             '<img src="'+appURL+$this.pictUrl+'">' +
                           '</div>' +
                           '<div class="protxt">' +
-                            '<div class="name" style="font-size: 0.65rem;">'+$this.title+'</div>' +
-                            '<div class="wy-pro-pri" style="display: flex;">' +
-                              '<div style="flex:0 0 65%;">' +
+                            '<div class="name">'+$this.title+'</div>' +
+                            '<div class="wy-pro-pri">' +
+                              '<div>' +
                                 '<span style="color: #d02c37;font-size: 0.85rem;">¥'+$this.zkFinalPrice+'</span>' +
-                                '<span style="text-decoration:line-through;font-size:0.55rem;">¥'+$this.reservePrice+'</span>' +
+                                '<span style="text-decoration:line-through;">¥'+$this.reservePrice+'</span>' +
                               '</div>' +
                             '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
                           '</div>' +
-                          '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #d02c37;font-size:0.55rem;text-align: center;border-radius:5px;">' +
-                            '<div style="flex:0 0 50%;background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
-                            '<div style="flex:0 0 50%;color: #d02c37;">特佣¥6.32</div>' +
+                          '<div class="return">' +
+                            '<div style="background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
+                            '<div style="color: #d02c37;">特佣¥6.32</div>' +
                             '</div>' +
                           '</div>' +
                         '</a>' +

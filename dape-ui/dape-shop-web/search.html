@@ -14,16 +14,16 @@
 <body ontouchstart style="height: 100%;">
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-  <div class="weui-flex wy-iconlist-box" style="margin-bottom: 10px;margin-top: 44px;display: flex;">
-    <a th:classappend="${sort == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(1)">综合</a>
-    <a th:classappend="${sort == 2}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(2)">销量</a>
-    <a th:classappend="${sort == 3}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit font-14" href="javascript:" onclick="sortFnc(3)">价格</a>
+  <div class="weui-flex wy-iconlist-box" style="display: flex;">
+    <a onclick="sortFnc(1)" th:classappend="${sort == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
+    <a onclick="sortFnc(2)" th:classappend="${sort == 2}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
+    <a onclick="sortFnc(3)" th:classappend="${sort == 3}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
   </div>
   <!--优惠抢购-->
   <div class="wy-Module">
     <div class="wy-Module-con">
       <ul id="goodsUL" class="wy-pro-list clear"></ul>
-      <div class="weui-loadmore" style="padding-bottom:20px;height:20px">
+      <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
         <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
       </div>
     </div>
@@ -31,37 +31,40 @@
 </div>
 
 <!--顶部搜索-->
-<header class='weui-header' style="top: 0;width: 100%;position: absolute;height: 44px;">
-    <div class="weui-search-bar" style="display: flex; top:0; left:0; right:0; height:44px;z-index: 999;padding: 7px 0 7px 10px;">
-      <div class="weui-search-bar__box" style="flex: 0 0 80%;height:1.5rem;border-radius: 15px 0 0 15px;color: #9b9b9b;background: #fff;">
-        <form action="/goods/toSearch" method="post" id="searchForm">
-          <input type="hidden" name="pageNum" value="1" />
-          <input type="hidden" name="pageSize" value="20" />
-          <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
-          <i class="weui-icon-search"></i>
-          <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.65rem;" />
-        </form>
-      </div>
-      <div style="flex: 0 0 20%;height:1.5rem;"><a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="height:1.5rem;border-radius: 0 15px 15px 0;background-color:#d02c37;font-size: 0.65rem;" class="weui-btn weui-btn_mini weui-btn_warn">搜索</a></div>
+<header class="weui-header index-header">
+  <div class="weui-search-bar index-search-bar">
+    <div class="weui-search-bar__box index-search-box">
+      <form action="/goods/toSearch" method="post" id="searchForm">
+        <input type="hidden" name="pageNum" value="1" />
+        <input type="hidden" name="pageSize" value="20" />
+        <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
+        <i class="weui-icon-search"></i>
+        <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
+      </form>
     </div>
+    <div class="index-search-c">
+      <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+    </div>
+  </div>
 </header>
+
 <div class="weui-tabbar wy-foot-menu">
   <a href="/" class="weui-tabbar__item weui-bar__item--on">
     <div class="weui-tabbar__icon foot-menu-home"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">全网优惠</p>
+    <p class="weui-tabbar__label">全网优惠</p>
   </a>
   <a href="classify.html" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-list"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">团长推荐</p>
+    <p class="weui-tabbar__label">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
     <div class="weui-tabbar__icon foot-menu-cart"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">一键发圈</p>
+    <p class="weui-tabbar__label">一键发圈</p>
   </a>
   <a href="mine" class="weui-tabbar__item">
     <div class="weui-tabbar__icon foot-menu-member"></div>
-    <p class="weui-tabbar__label" style="font-size: 0.65rem;">我的</p>
+    <p class="weui-tabbar__label">我的</p>
   </a>
 </div>
 
@@ -91,25 +94,25 @@
                   $this = this;
                   $('#goodsUL').append('<li>' +
                       '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
-                      '<div style="position: absolute;top: 0;right: 10px;width: 18%;z-index: 499;">' +
-                      '<img style="width: 100%;" src="'+ appURL + '/images/img_quan.png"/>' +
-                      '<span style="position: absolute;top: 0;left: 35%;width: 65%;text-align:center;color: #fff;font-size:0.6rem;">'+$this.couponInfo+'</span>' +
+                      '<div class="quan">' +
+                      '<img src="'+ appURL + '/images/img_quan.png"/>' +
+                      '<span>'+$this.couponInfo+'</span>' +
                       '</div>' +
                       '<div class="proimg">' +
                       '<img src="'+appURL+$this.pictUrl+'">' +
                       '</div>' +
                       '<div class="protxt">' +
-                      '<div class="name" style="font-size: 0.65rem;">'+$this.title+'</div>' +
-                      '<div class="wy-pro-pri" style="display: flex;">' +
-                      '<div style="flex:0 0 65%;">' +
+                      '<div class="name">'+$this.title+'</div>' +
+                      '<div class="wy-pro-pri">' +
+                      '<div>' +
                       '<span style="color: #d02c37;font-size: 0.85rem;">¥'+$this.zkFinalPrice+'</span>' +
-                      '<span style="text-decoration:line-through;font-size:0.55rem;">¥'+$this.reservePrice+'</span>' +
+                      '<span style="text-decoration:line-through;">¥'+$this.reservePrice+'</span>' +
                       '</div>' +
                       '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
                       '</div>' +
-                      '<div style="display: flex;width: 80%;margin:0 auto;border: 1px solid #d02c37;font-size:0.55rem;text-align: center;border-radius:5px;">' +
-                      '<div style="flex:0 0 50%;background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
-                      '<div style="flex:0 0 50%;color: #d02c37;">特佣¥6.32</div>' +
+                      '<div class="return">' +
+                      '<div style="background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
+                      '<div style="color: #d02c37;">特佣¥6.32</div>' +
                       '</div>' +
                       '</div>' +
                       '</a>' +
