@@ -15,8 +15,9 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--产品详情-->
-  <div class="wy-Module">
-    <!--主图轮播-->
+
+  <!--主图轮播-->
+  <div class="weui-panel">
     <div class="swiper-container swiper-zhutu">
       <div class="swiper-wrapper">
         <div class="swiper-slide"><img th:src="${uiPath} + ${appName} + ${shopGoods.pictUrl}" /></div>
@@ -24,14 +25,15 @@
       </div>
       <div class="swiper-pagination swiper-zhutu-pagination"></div>
     </div>
-    <div class="wy-media-box-nomg weui-media-box_text detail-container">
+
+    <div class="weui-media-box_text detail-container">
       <div class="detail-quan"><img th:src="${uiPath} + ${appName} +'/images/img_quan_1.png'"><em th:text="'¥'+${shopGoods.couponInfo}"></em></div>
       <div class="detail-title" th:switch="${shopStore.shopType}">
         <img th:case="B" style="width:18px;margin:-3px 5px 0 1px;" th:src="${uiPath}+${appName}+'/images/icon_tianmao.png'" />
         <img th:case="C" style="width:18px;margin:-3px 5px 0 1px;" th:src="${uiPath}+${appName}+'/images/icon_tiaobao.png'" />
         <em th:text="${shopGoods.title}"></em>
       </div>
-      <div class="wy-pro-pri mg-tb-5 detail-price-c">
+      <div class="detail-price-c">
         <em th:text="'¥'+${shopGoods.zkFinalPrice}" class="num" style="font-size: 0.95rem;font-weight: bold;"></em>
         <em th:text="'原价'+${shopGoods.reservePrice}" class="detail-price-s"></em>
         <em th:text="'月销量'+${shopGoods.volume}+'件'" class="detail-price-v"></em>
@@ -43,26 +45,30 @@
         以实际佣金为准，卖家修改佣金24小时内同步到平台
       </div>
     </div>
+  </div>
+
+  <div class="weui-panel">
     <!-- 推荐理由 -->
-    <div class="wy-media-box2">
       <div class="detail-tj-title">推荐理由</div>
       <div class="detail-tj-content">智能九档控温，名贵中草药配方，天然日晒海盐，蒸腾患痛部位，加速血液循环，效果显著突出</div>
-    </div>
   </div>
-  <div class="weui-tab" style="height:auto;">
-    <div class="weui-navbar" style="height:44px;">
-      <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
-      <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>
-    </div>
-    <div class="weui-tab__bd proinfo-tab-con">
-      <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-        <div>
-          <!-- 详情内容  -->
-        </div>
-        <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
+
+  <div class="weui-panel">
+    <div class="weui-tab" style="height:auto;">
+      <div class="weui-navbar" style="height:44px;">
+        <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
+        <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>
       </div>
-      <div id="tab2" class="weui-tab__bd-item">
-        <!--<div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>-->
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+          <div>
+            <!-- 详情内容  -->
+          </div>
+          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
+        </div>
       </div>
     </div>
   </div>

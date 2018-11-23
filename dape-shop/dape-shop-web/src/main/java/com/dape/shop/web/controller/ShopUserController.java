@@ -2,6 +2,7 @@ package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
 import com.dape.shop.dao.model.*;
+import com.dape.shop.rpc.api.ShopUserInfoService;
 import com.dape.shop.rpc.api.ShopUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,22 +24,30 @@ public class ShopUserController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShopUserController.class);
 
     @Autowired
-    ShopUserService shopUserService;
+    public ShopUserService shopUserService;
+    @Autowired
+    public ShopUserInfoService shopUserInfoService;
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public String mine(Model model, HttpServletRequest request) {
         ShopUser user = new ShopUser();
+        ShopUserInfo userInfo = new ShopUserInfo();
 
         Object o = request.getSession().getAttribute("openId");
         if(o != null){
             ShopUserExample userExample = new ShopUserExample();
             userExample.or().andOpenIdEqualTo(o.toString());
             user = shopUserService.selectFirstByExample(userExample);
+
+            if(user != null){
+                ShopUserInfoExample userInfoExample = new ShopUserInfoExample();
+                userInfoExample.or().andShopUserIdEqualTo(user.getId());
+                userInfo =shopUserInfoService.selectFirstByExample(userInfoExample);
+            }
         }
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("user", user); // 更新session
         model.addAttribute("user", user);
-
-
+        model.addAttribute("userInfo", userInfo);
 
         return thymeleaf("/mine");
     }

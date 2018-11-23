@@ -14,30 +14,29 @@
 <body ontouchstart>
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-    <div class="weui-flex wy-iconlist-box">
-      <a th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit"></a>
-    </div>
-    <!--图标分类-->
-    <div class="wy-iconlist-box index-module" style="margin-top: 0px;">
-      <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
-        <a th:href="${module.url}" class="wy-links-iconlist">
-          <div class="img">
-            <img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />
-          </div>
-          <p style="font-size:0.65rem;" th:text="${module.name}"></p>
-        </a>
-      </div>
-    </div>
-  <!--优惠抢购-->
-    <div class="wy-Module">
-      <div class="wy-Module-tit-line"><span style="font-size:0.65rem;">领券抢购</span></div>
-      <div class="wy-Module-con">
-        <ul id="goodsUL" class="wy-pro-list clear"></ul>
-        <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
-          <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+  <div class="weui-flex wy-iconlist-box">
+    <a th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit"></a>
+  </div>
+  <!--图标分类-->
+  <div class="weui-panel index-module">
+    <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
+      <a th:href="${module.url}" class="wy-links-iconlist">
+        <div class="img">
+          <img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />
         </div>
-      </div>
+        <p style="font-size:0.65rem;" th:text="${module.name}"></p>
+      </a>
     </div>
+  </div>
+  <!--优惠抢购-->
+    <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.65rem;">领券抢购</span></div>
+  <!-- 数据列表 -->
+  <div class="weui-panel">
+      <ul id="goodsUL" class="wy-pro-list clear"></ul>
+  </div>
+  <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
+    <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+  </div>
 </div>
 
 <!--底部导航-->
@@ -97,7 +96,7 @@
 	function loadGoods(){
 	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize},function(data){
           loading = false;
-          if(data.length > 0){
+          if(data && data.length > 0){
               $(data).each(function(){
                   $this = this;
                   $('#goodsUL').append('<li>' +
@@ -112,7 +111,7 @@
                           '<div class="protxt">' +
                             '<div class="name">'+$this.title+'</div>' +
                             '<div class="wy-pro-pri">' +
-                              '<div>' +
+                              '<div style="flex: 0 0 65%;">' +
                                 '<span style="color: #d02c37;font-size: 0.85rem;">¥'+$this.zkFinalPrice+'</span>' +
                                 '<span style="text-decoration:line-through;">¥'+$this.reservePrice+'</span>' +
                               '</div>' +
@@ -127,8 +126,7 @@
                       '</li>');
               });
           }else{
-              html += "<li class=\"weui-cells__title\" >已无更多数据</li>";
-              $("#goodsUL").append(html);
+              $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
               loading = true;
           }
           $(".weui-loadmore").hide();
