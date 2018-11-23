@@ -27,7 +27,7 @@
     </div>
 
     <div class="weui-media-box_text detail-container">
-      <div class="detail-quan"><img th:src="${uiPath} + ${appName} +'/images/img_quan_1.png'"><em th:text="'¥'+${shopGoods.couponInfo}"></em></div>
+      <div class="detail-quan"><span class="quanFlag" style="width: 40px;">优惠券<br><b th:text="'¥'+${shopGoods.couponInfo}">￥10</b></span></div>
       <div class="detail-title" th:switch="${shopStore.shopType}">
         <img th:case="B" style="width:18px;margin:-3px 5px 0 1px;" th:src="${uiPath}+${appName}+'/images/icon_tianmao.png'" />
         <img th:case="C" style="width:18px;margin:-3px 5px 0 1px;" th:src="${uiPath}+${appName}+'/images/icon_tiaobao.png'" />

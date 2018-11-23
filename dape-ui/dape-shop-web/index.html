@@ -63,21 +63,21 @@
 
 <!-- 底部导航 -->
 <div class="weui-tabbar wy-foot-menu">
-  <a href="/" class="weui-tabbar__item weui-bar__item--on">
-    <div class="weui-tabbar__icon foot-menu-home"></div>
+  <a href="/" class="weui-tabbar__item on">
+    <i class="icon18-zz icon-quan-18-2"></i>
     <p class="weui-tabbar__label">全网优惠</p>
   </a>
   <a href="classify.html" class="weui-tabbar__item">
-    <div class="weui-tabbar__icon foot-menu-list"></div>
+    <i class="icon18-zz icon-retui-18"></i>
     <p class="weui-tabbar__label">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
-    <div class="weui-tabbar__icon foot-menu-cart"></div>
+    <i class="icon18-zz icon-pyq-18"></i>
     <p class="weui-tabbar__label">一键发圈</p>
   </a>
   <a href="/user/mine" class="weui-tabbar__item">
-    <div class="weui-tabbar__icon foot-menu-member"></div>
+    <i class="icon18-zz icon-mine-18"></i>
     <p class="weui-tabbar__label">我的</p>
   </a>
 </div>
@@ -108,29 +108,25 @@
                   $this = this;
                   $('#goodsUL').append('<li>' +
                         '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
-                          '<div class="quan">' +
-                            '<img src="'+ appURL + '/images/img_quan.png"/>' +
-                            '<span>'+$this.couponInfo+'</span>' +
-                          '</div>' +
+                          '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
+                          '<span class="quanFlag"><b>'+$this.couponInfo+'</b><br>元券</span>' +
                           '<div class="proimg">' +
                             '<img src="'+appURL+$this.pictUrl+'">' +
                           '</div>' +
                           '<div class="protxt">' +
-                            '<div class="name">'+$this.title+'</div>' +
-                            '<div class="wy-pro-pri">' +
-                              '<div style="flex: 0 0 65%;">' +
-                                '<span style="color: #d02c37;font-size: 0.85rem;">¥'+$this.zkFinalPrice+'</span>' +
-                                '<span style="text-decoration:line-through;">¥'+$this.reservePrice+'</span>' +
+                            '<div class="name"><img style="width:18px;margin:-3px 5px 0 1px;" src="'+appURL+'/images/icon_tianmao.png"/>'+$this.title+'</div>' +
+                            '<div class="name" style="position: relative;margin-top: 5px;"><p>' +
+                              '<em class="nowPrice">￥'+$this.zkFinalPrice+'</em>' +
+                              '<span class="oldPrice">￥'+$this.reservePrice+'</span>' +
+                              '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                              '</p></div>' +
+                            '<div class="return" style="margin-bottom: 3px;">' +
+                              '<div style="background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
+                              '<div style="color: #d02c37;">特佣¥6.32</div>' +
                               '</div>' +
-                            '<div style="flex:0 0 35%;font-size:11px;text-align: right;">月销'+$this.volume+'件</div>' +
-                          '</div>' +
-                          '<div class="return">' +
-                            '<div style="background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
-                            '<div style="color: #d02c37;">特佣¥6.32</div>' +
                             '</div>' +
-                          '</div>' +
-                        '</a>' +
-                      '</li>');
+                          '</a>' +
+                        '</li>');
               });
           }else{
               $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
