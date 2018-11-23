@@ -697,6 +697,126 @@ public class ShopUserExample implements Serializable {
             addCriterion("money not between", value1, value2, "money");
             return (Criteria) this;
         }
+
+        public Criteria andRankIsNull() {
+            addCriterion("rank is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankIsNotNull() {
+            addCriterion("rank is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankEqualTo(Short value) {
+            addCriterion("rank =", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotEqualTo(Short value) {
+            addCriterion("rank <>", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankGreaterThan(Short value) {
+            addCriterion("rank >", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankGreaterThanOrEqualTo(Short value) {
+            addCriterion("rank >=", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankLessThan(Short value) {
+            addCriterion("rank <", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankLessThanOrEqualTo(Short value) {
+            addCriterion("rank <=", value, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankIn(List<Short> values) {
+            addCriterion("rank in", values, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotIn(List<Short> values) {
+            addCriterion("rank not in", values, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankBetween(Short value1, Short value2) {
+            addCriterion("rank between", value1, value2, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andRankNotBetween(Short value1, Short value2) {
+            addCriterion("rank not between", value1, value2, "rank");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralIsNull() {
+            addCriterion("integral is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralIsNotNull() {
+            addCriterion("integral is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralEqualTo(Integer value) {
+            addCriterion("integral =", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralNotEqualTo(Integer value) {
+            addCriterion("integral <>", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralGreaterThan(Integer value) {
+            addCriterion("integral >", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralGreaterThanOrEqualTo(Integer value) {
+            addCriterion("integral >=", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralLessThan(Integer value) {
+            addCriterion("integral <", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralLessThanOrEqualTo(Integer value) {
+            addCriterion("integral <=", value, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralIn(List<Integer> values) {
+            addCriterion("integral in", values, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralNotIn(List<Integer> values) {
+            addCriterion("integral not in", values, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralBetween(Integer value1, Integer value2) {
+            addCriterion("integral between", value1, value2, "integral");
+            return (Criteria) this;
+        }
+
+        public Criteria andIntegralNotBetween(Integer value1, Integer value2) {
+            addCriterion("integral not between", value1, value2, "integral");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

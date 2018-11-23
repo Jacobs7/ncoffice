@@ -62,6 +62,20 @@ public class ShopUser implements Serializable {
      */
     private Integer money;
 
+    /**
+     * 1:普通返佣，2:特权返佣
+     *
+     * @mbg.generated
+     */
+    private Short rank;
+
+    /**
+     * 积分
+     *
+     * @mbg.generated
+     */
+    private Integer integral;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -136,6 +150,22 @@ public class ShopUser implements Serializable {
         this.money = money;
     }
 
+    public Short getRank() {
+        return rank;
+    }
+
+    public void setRank(Short rank) {
+        this.rank = rank;
+    }
+
+    public Integer getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -151,6 +181,8 @@ public class ShopUser implements Serializable {
         sb.append(", sCode=").append(sCode);
         sb.append(", outCash=").append(outCash);
         sb.append(", money=").append(money);
+        sb.append(", rank=").append(rank);
+        sb.append(", integral=").append(integral);
         sb.append("]");
         return sb.toString();
     }
@@ -175,7 +207,9 @@ public class ShopUser implements Serializable {
             && (this.getrCode() == null ? other.getrCode() == null : this.getrCode().equals(other.getrCode()))
             && (this.getsCode() == null ? other.getsCode() == null : this.getsCode().equals(other.getsCode()))
             && (this.getOutCash() == null ? other.getOutCash() == null : this.getOutCash().equals(other.getOutCash()))
-            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()));
+            && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
+            && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()))
+            && (this.getIntegral() == null ? other.getIntegral() == null : this.getIntegral().equals(other.getIntegral()));
     }
 
     @Override
@@ -191,6 +225,8 @@ public class ShopUser implements Serializable {
         result = prime * result + ((getsCode() == null) ? 0 : getsCode().hashCode());
         result = prime * result + ((getOutCash() == null) ? 0 : getOutCash().hashCode());
         result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
+        result = prime * result + ((getRank() == null) ? 0 : getRank().hashCode());
+        result = prime * result + ((getIntegral() == null) ? 0 : getIntegral().hashCode());
         return result;
     }
 }

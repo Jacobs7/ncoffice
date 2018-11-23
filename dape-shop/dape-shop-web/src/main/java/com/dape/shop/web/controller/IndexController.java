@@ -72,11 +72,6 @@ public class IndexController extends BaseController {
         return thymeleaf("/index");
     }
 
-    @RequestMapping(value = "/mine", method = RequestMethod.GET)
-    public String mine(Model model) {
-        return thymeleaf("/mine");
-    }
-
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model) {
         return thymeleaf("/address_edit");

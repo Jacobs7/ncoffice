@@ -2,9 +2,6 @@ package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
 import com.dape.shop.dao.model.*;
-import com.dape.shop.rpc.api.ShopGoodsService;
-import com.dape.shop.rpc.api.ShopMenuService;
-import com.dape.shop.rpc.api.ShopModuleService;
 import com.dape.shop.rpc.api.ShopUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 首页控制器
@@ -29,7 +26,19 @@ public class ShopUserController extends BaseController {
     ShopUserService shopUserService;
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
-    public String mine(Model model) {
+    public String mine(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+
+        Object o = request.getSession().getAttribute("openId");
+        if(o != null){
+            ShopUserExample userExample = new ShopUserExample();
+            userExample.or().andOpenIdEqualTo(o.toString());
+            user = shopUserService.selectFirstByExample(userExample);
+        }
+        request.getSession().setAttribute("user", user);
+        model.addAttribute("user", user);
+
+
 
         return thymeleaf("/mine");
     }

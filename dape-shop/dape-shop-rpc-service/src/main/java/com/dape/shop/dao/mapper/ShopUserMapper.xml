@@ -11,6 +11,8 @@
     <result column="s_code" jdbcType="VARCHAR" property="sCode" />
     <result column="out_cash" jdbcType="INTEGER" property="outCash" />
     <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="rank" jdbcType="SMALLINT" property="rank" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, open_id, wei_nick_name, head_url, r_code, s_code, out_cash, money
+    id, create_date, open_id, wei_nick_name, head_url, r_code, s_code, out_cash, money, 
+    rank, integral
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopUserExample" resultMap="BaseResultMap">
     select
@@ -109,10 +112,12 @@
     </selectKey>
     insert into shop_user (create_date, open_id, wei_nick_name, 
       head_url, r_code, s_code, 
-      out_cash, money)
+      out_cash, money, rank, 
+      integral)
     values (#{createDate,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}, #{weiNickName,jdbcType=VARCHAR}, 
       #{headUrl,jdbcType=VARCHAR}, #{rCode,jdbcType=VARCHAR}, #{sCode,jdbcType=VARCHAR}, 
-      #{outCash,jdbcType=INTEGER}, #{money,jdbcType=INTEGER})
+      #{outCash,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{rank,jdbcType=SMALLINT}, 
+      #{integral,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -144,6 +149,12 @@
       <if test="money != null">
         money,
       </if>
+      <if test="rank != null">
+        rank,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="createDate != null">
@@ -169,6 +180,12 @@
       </if>
       <if test="money != null">
         #{money,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null">
+        #{rank,jdbcType=SMALLINT},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -208,6 +225,12 @@
       <if test="record.money != null">
         money = #{record.money,jdbcType=INTEGER},
       </if>
+      <if test="record.rank != null">
+        rank = #{record.rank,jdbcType=SMALLINT},
+      </if>
+      <if test="record.integral != null">
+        integral = #{record.integral,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -223,7 +246,9 @@
       r_code = #{record.rCode,jdbcType=VARCHAR},
       s_code = #{record.sCode,jdbcType=VARCHAR},
       out_cash = #{record.outCash,jdbcType=INTEGER},
-      money = #{record.money,jdbcType=INTEGER}
+      money = #{record.money,jdbcType=INTEGER},
+      rank = #{record.rank,jdbcType=SMALLINT},
+      integral = #{record.integral,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -255,6 +280,12 @@
       <if test="money != null">
         money = #{money,jdbcType=INTEGER},
       </if>
+      <if test="rank != null">
+        rank = #{rank,jdbcType=SMALLINT},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -267,7 +298,9 @@
       r_code = #{rCode,jdbcType=VARCHAR},
       s_code = #{sCode,jdbcType=VARCHAR},
       out_cash = #{outCash,jdbcType=INTEGER},
-      money = #{money,jdbcType=INTEGER}
+      money = #{money,jdbcType=INTEGER},
+      rank = #{rank,jdbcType=SMALLINT},
+      integral = #{integral,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

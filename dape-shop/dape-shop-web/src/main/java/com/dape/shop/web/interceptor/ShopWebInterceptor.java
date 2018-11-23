@@ -59,6 +59,8 @@ public class ShopWebInterceptor extends HandlerInterceptorAdapter {
                 user.setrCode(code);
                 user.setOutCash(0);
                 user.setMoney(0);
+                short rank = 1;
+                user.setRank(rank);
 
                 shopUserService.insert(user);
             }
