@@ -24,7 +24,7 @@
         <div class="img">
           <img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />
         </div>
-        <p style="font-size:0.65rem;" th:text="${module.name}"></p>
+        <p style="font-size:0.7rem;" th:text="${module.name}"></p>
       </a>
     </div>
   </div>
@@ -38,8 +38,6 @@
     <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
   </div>
 </div>
-
-<!--底部导航-->
 
 <!--顶部搜索-->
 <header class="weui-header index-header">
@@ -57,6 +55,12 @@
     </div>
   </div>
 </header>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
 <!-- 底部导航 -->
 <div class="weui-tabbar wy-foot-menu">
   <a href="/" class="weui-tabbar__item weui-bar__item--on">
@@ -82,6 +86,7 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script th:inline="javascript">
     $(function() {
         FastClick.attach(document.body);
@@ -89,6 +94,8 @@
         $(".weui-loadmore").show();
         loadGoods();
         $('#listwrap').height($('body').height() - 44);
+        // 返回顶部
+        backScroll('listwrap');
     });
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
