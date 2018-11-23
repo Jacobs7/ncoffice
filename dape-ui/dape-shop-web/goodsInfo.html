@@ -93,13 +93,14 @@
     <p class="weui-tabbar__label">商城首页</p>
   </a>
 
-  <a href="javascript:;" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
+  <a href="javascript:;qiangquan()" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
     <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">去抢券</p>
   </a>
   <a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
     <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">生成推广海报</p>
   </a>
 </div>
+
 <!-- 查询页链接提交form，隐藏 -->
 <div style="display: none;">
 <form action="/goods/toSearch" method="post" id="searchForm">
@@ -114,6 +115,22 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script>
+    function qiangquan(){
+        // <div class="weui-mask weui-mask--visible"></div>
+        // <div class="weui-dialog weui-dialog--visible"></div>
+        dialogSelf('qiangquan');
+    }
+    function dialogSelf(id){
+        if($('#'+id+'Win').length <= 0){
+            $('body').append('<div id="'+id+'Mask" style="opacity:1;visibility:visible;display: none;" class="weui-mask"></div><div style="opacity:1;visibility:visible;display: none;" id="'+id+'Win" class="weui-dialog weui-dialog--visible"><div class="weui-dialog__hd" style="background-color: #F54D23;color: #fff;font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>抢券淘口令</em><a style="position: absolute;right:0.25rem;top:0.2rem;font-size: 1.25rem;color:#E9E9E9;width:2rem;" id="'+id+'Close" href="javascript:">X</a> </div></div>');
+            $('#'+id+'Close').click(function () {
+                $('#'+id+'Mask').hide();
+                $('#'+id+'Win').hide();
+            });
+        }
+        $('#'+id+'Mask').show();
+        $('#'+id+'Win').show();
+    }
     $(function() {
         FastClick.attach(document.body);
         $("#listwrap").height($(document.body).height()-44);
