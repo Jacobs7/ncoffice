@@ -107,6 +107,9 @@ header,.weui-navbar{
 .weui-tabbar__item.weui-bar__item--on .foot-menu-cart{background:url(../images/footer003.png) no-repeat; background-size:22px;}
 .weui-tabbar__item .foot-menu-member{background:url(../images/footer04.png) no-repeat; background-size:22px;}
 .weui-tabbar__item.weui-bar__item--on .foot-menu-member{background:url(../images/footer004.png) no-repeat; background-size:22px;}
+
+.weui-navbar__item.proinfo-tab-tit.weui-bar__item--on2:before {content: "";width: 20px;height: 3px;background: #fff;position: absolute;left: 50%;margin-left: -11px;bottom: 3px;z-index: 10;
+}
 /*首页轮播*/
 .swiper-container {width: 100%;}
 .swiper-container img {display: block;width: 100%;}
@@ -228,7 +231,8 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .detail-back{position: absolute;z-index: 999;background-color:rgba(0,0,0,.3);border-radius:50%;width: 1.8rem;height: 1.8rem;top:0.5rem;}
 .detail-back img{width: 60%;}
 .detail-container{position:relative;display: flex;flex-flow: row wrap;color:#363636;padding:12px 10px; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;}
-.detail-title{flex:0 0 100%;font-size:0.7rem;}
+.detail-title{flex:0 0 100%;font-size:0.7rem;position: relative;}
+.detail-title i{position: absolute; top:1px;}
 .detail-quan{position: absolute;bottom: 5rem;right: 0;z-index: 499;}
 .detail-quan img{width:100%;}
 .detail-quan em{color: #f8e038;position: absolute;text-align:center;bottom:2px;left: 0;width: 100%;font-size: 0.7rem;}

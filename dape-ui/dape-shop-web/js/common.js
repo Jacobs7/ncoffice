@@ -18,7 +18,7 @@ function backScroll(id){
 // 创建后不显示，调用showDialog方法显示弹出
 function createDialog(id,title,content,foot){
     if($('#'+id+'Win').length <= 0){
-        var html = '<div id="'+id+'Mask" style="opacity:1;visibility:visible;display: none;" class="weui-mask"></div><div style="opacity:1;visibility:visible;display: none;" id="'+id+'Win" class="weui-dialog weui-dialog--visible">';
+        var html = '<div id="'+id+'Mask" style="opacity:1;visibility:visible;display: none;" class="weui-mask"></div><div style="opacity:1;visibility:visible;width: 75%;" id="'+id+'Win" class="weui-dialog weui-dialog--visible">';
         if(title != ''){
             html += '<div class="weui-dialog__hd" style="background-color: #F54D23;color: #fff;font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>'+title+'</em><a style="position: absolute;right:0.25rem;top:0.2rem;font-size: 1.25rem;color:#E9E9E9;width:2rem;" id="'+id+'Close" href="javascript:">X</a></div>';
         }
@@ -55,8 +55,17 @@ function closeDialog(id){
 }
 // 复制
 function cloneTxt(id){
-    document.querySelector('#'+id).select();
-    document.execCommand("Copy");
-    $('#'+id).blur();
-    $.toast("复制成功");
+    var clipboard = new ClipboardJS('#'+id);
+    clipboard.on('success', function(e) {
+        toast("复制成功");
+    });
+}
+// 自带的苹果手机会乱跳，自己实现一个
+function toast(txt){
+    var html = '<div class="weui-toast  weui-toast--visible"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">复制成功</p></div>';
+    $('body').append(html);
+    $('.weui-toast').fadeIn(100);
+    setTimeout(function () {
+        $('.weui-toast').remove();
+    },2000)
 }
