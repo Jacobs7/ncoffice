@@ -96,7 +96,7 @@
   <a href="javascript:;qiangquan()" class="weui-tabbar__item yellow-color open-popup" data-target="#join_cart">
     <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">去抢券</p>
   </a>
-  <a href="javascript:;" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
+  <a href="javascript:;haibao()" class="weui-tabbar__item red-color open-popup" data-target="#selcet_sku">
     <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">生成推广海报</p>
   </a>
 </div>
@@ -114,22 +114,22 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
-<script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+  function haibao() {
+      var dialogId = 'haibao';
+      var content = '<div class="haibaoContent"><img src="'+appURL+'/upload/haibao_1.jpg"/></div>';
+      var footer = '<div class="haibaoFoot"><a href="javascript:">复制标题</a><a href="javascript:">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+      createDialog(dialogId,'',content,footer);
+      showDialog(dialogId);
+  }
     function qiangquan(){
-        // <div class="weui-mask weui-mask--visible"></div>
-        // <div class="weui-dialog weui-dialog--visible"></div>
-        dialogSelf('qiangquan');
-    }
-    function dialogSelf(id){
-        if($('#'+id+'Win').length <= 0){
-            $('body').append('<div id="'+id+'Mask" style="opacity:1;visibility:visible;display: none;" class="weui-mask"></div><div style="opacity:1;visibility:visible;display: none;" id="'+id+'Win" class="weui-dialog weui-dialog--visible"><div class="weui-dialog__hd" style="background-color: #F54D23;color: #fff;font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>抢券淘口令</em><a style="position: absolute;right:0.25rem;top:0.2rem;font-size: 1.25rem;color:#E9E9E9;width:2rem;" id="'+id+'Close" href="javascript:">X</a> </div></div>');
-            $('#'+id+'Close').click(function () {
-                $('#'+id+'Mask').hide();
-                $('#'+id+'Win').hide();
-            });
-        }
-        $('#'+id+'Mask').show();
-        $('#'+id+'Win').show();
+        var dialogId = 'qianquan';
+        var content = '<div id="copyDiv" class="puBody"><h2><em>长按框内 <u class="p3">&gt;</u> 全选 <u class="p3">&gt;</u> 复制</em></h2><form name="puKoulingForm" id="puKoulingForm"><textarea class="inputArea inputArea-2" id="copyKeyAndroid">艾草泡脚粉女性艾叶祛湿驱寒暖宫泡脚包\n----------\n券后￥24.90【优惠券5元】\n原价￥29.90【天猫】\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券</textarea></form></div><div id="copyButton" class="imne-copy-btn" style="display: block;" onclick="cloneTxt(\'copyKeyAndroid\')">一键复制</div><div class="hasCoupon" style="display: block;" id="hasCoupon">复制淘口令，打开【手机淘宝】即可领券！</div>';
+        var footer = '';
+        createDialog(dialogId,'抢券淘口令',content,footer);
+        showDialog(dialogId);
+        // colseDialog(dialogId);
     }
     $(function() {
         FastClick.attach(document.body);

@@ -212,6 +212,18 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .nowPrice{font-size:0.75rem;color: #DD2727;font-style: normal;font-weight: normal;}
 .oldPrice {font-size: 0.6rem;padding-left: 3px;text-decoration: line-through;color: #999;}
 .monthOrderNum {display:inline-block;position: absolute;top: 4px;right: 0px;font-size:0.6rem;color: #999;}
+.icon36-zz{display: inline-block;width: 36px;height: 36px;background: url(../images/icons_all.png) no-repeat scroll 0 0;background-size: 600px 600px;position: relative;}
+.icon-jiaocheng{background-position: -240px -480px;}
+.icon-jingdong{background-position: -120px -480px;}
+.icon-pinduoduo{background-position:-180px -480px;}
+.icon-daequan{background-position:-480px 0;}
+.icon-taoqiangou{background-position:-300px 0;}
+.icon-juhuasuan{background-position:-420px 0;}
+.icon-miaosha99{background-position:-60px 0;}
+.icon-kefu{background-position:-300px -480px;}
+.icon-xinren{background-position:0px -540px;}
+.icon-baokuan{background-position:-540px 0;}
+
 /** 商品详情页样式 */
 .detail-back{position: absolute;z-index: 999;background-color:rgba(0,0,0,.3);border-radius:50%;width: 1.8rem;height: 1.8rem;top:0.5rem;}
 .detail-back img{width: 60%;}
@@ -253,6 +265,11 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .icon-mine-18 {background-position: -180px -120px;}
 .on .icon-mine-18 {background-position: -210px -120px;}
 
+.icon-tianmao-18 {background-position: -60px -270px;}
+.icon-taobao-18 {background-position: -30px -210px;}
+.icon-jingdong-18 {background-position: -60px -240px;}
+.icon-pinduoduo-18 {background-position: -90px -240px;}
+
 .icon24-zz{color:#333;display: inline-block;width: 24px;height: 24px;background: url(../images/icons_all.png?t=20180318_17:10) no-repeat scroll 0 0;background-size: 400px 400px;position: relative;}
 .icon-report-24-2 {background-position: -120px -280px;}
 
@@ -267,3 +284,53 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 
 .quanFlag {background: url(../images/flag-quan.png) no-repeat scroll 0 -8px;color: #fff;font-size: 10px;height: 27px;width: 22px;line-height: 13px;padding: 2px 0 5px;text-align: center;position: absolute;overflow: hidden;top: 0;right: 12px;z-index: 499;}
 .newFlag {position: absolute;top: 0;right: 34px;z-index: 498;}
+.puBody{background-color:#FAFAFC;position: relative;margin: 24px 3.5% 12px;border: 1px dashed #F54D23;text-align: center;padding: 12px 6px 3px;line-height: 24px;display: block;}
+.puBody h2 {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    font-size: 0.65rem;
+}
+.puBody h2 em{
+    color: #fff;
+    background-color:#F54D23;
+    padding: 0.25rem;
+}
+.puBody .inputArea-2 {
+    height: 11.5rem;
+    line-height: 0.95rem;
+    font-size: 0.65rem;
+    text-align: left;
+    overflow-y:visible;
+    display:block;
+    width: 100%;
+    background-color: #fff;
+    padding-top: 0.25rem;
+    margin-top: 0.25rem;
+    color: #86564B;
+}
+.imne-copy-btn {
+    width: 126px;
+    height: 42px;
+    line-height: 42px;
+    margin: 0 auto 12px;
+    background-color: #fb4c4c;
+    color: #FFF;
+    font-size: 16px;
+    border-radius: 21px;
+    display: none;
+    cursor: pointer;}
+.hasCoupon {
+    background-color: #F3F3F3;
+    line-height: 24px;
+    text-align: center;
+    color: #86564B;
+    font-size: 0.65rem;
+    padding: 6px 0;
+}
+.haibaoContent{margin: 0 auto;padding: 0.25rem;width: 100%;}
+.haibaoContent img{width: 70%;}
+.haibaoFoot{width: 100%;display: flex;}
+.haibaoFoot a{flex: 0 0 33%;text-align: center;border-right: 1px solid #E9E9E9;color:#80807E;font-family: '微软雅黑';font-size: 0.75rem;}

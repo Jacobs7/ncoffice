@@ -22,7 +22,8 @@
     <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
       <a th:href="${module.url}" class="wy-links-iconlist">
         <div class="img">
-          <img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />
+          <!--<img th:src="@{${uiPath} + ${appName} + ${module.icon}}" />-->
+          <i th:classappend="${module.icon}" class="icon36-zz"></i>
         </div>
         <p style="font-size:0.7rem;" th:text="${module.name}"></p>
       </a>
@@ -108,6 +109,8 @@
           if(data && data.length > 0){
               $(data).each(function(){
                   $this = this;
+                  // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
+                  var tianmaoCss = 'icon-tianmao-18';
                   $('#goodsUL').append('<li>' +
                         '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
                           '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
@@ -117,9 +120,10 @@
                           '</div>' +
                           '<div class="protxt">' +
                           // 根据店铺类型判断是天猫、淘宝
-                          //   '<div class="name"><img style="width:18px;margin:-3px 5px 0 1px;" src="'+appURL+'/images/icon_tiaobao.png"/>'+$this.title+'</div>' +
-                            '<div class="name"><img style="width:18px;margin:-3px 5px 0 1px;" src="'+appURL+'/images/icon_tianmao.png"/>'+$this.title+'</div>' +
-                            '<div class="name" style="position: relative;margin-top: 5px;"><p>' +
+                            '<div class="name" style="position: relative;">' +
+                            '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
+                            '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
+                            '<div class="name" style="position: relative;"><p>' +
                               '<em class="nowPrice">￥'+$this.zkFinalPrice+'</em>' +
                               '<span class="oldPrice">￥'+$this.reservePrice+'</span>' +
                               '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
