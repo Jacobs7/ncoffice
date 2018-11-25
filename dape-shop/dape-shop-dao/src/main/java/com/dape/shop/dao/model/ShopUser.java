@@ -76,6 +76,8 @@ public class ShopUser implements Serializable {
      */
     private Integer integral;
 
+    private String mobile;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -166,6 +168,14 @@ public class ShopUser implements Serializable {
         this.integral = integral;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -183,6 +193,7 @@ public class ShopUser implements Serializable {
         sb.append(", money=").append(money);
         sb.append(", rank=").append(rank);
         sb.append(", integral=").append(integral);
+        sb.append(", mobile=").append(mobile);
         sb.append("]");
         return sb.toString();
     }
@@ -209,7 +220,8 @@ public class ShopUser implements Serializable {
             && (this.getOutCash() == null ? other.getOutCash() == null : this.getOutCash().equals(other.getOutCash()))
             && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
             && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()))
-            && (this.getIntegral() == null ? other.getIntegral() == null : this.getIntegral().equals(other.getIntegral()));
+            && (this.getIntegral() == null ? other.getIntegral() == null : this.getIntegral().equals(other.getIntegral()))
+            && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()));
     }
 
     @Override
@@ -227,6 +239,7 @@ public class ShopUser implements Serializable {
         result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
         result = prime * result + ((getRank() == null) ? 0 : getRank().hashCode());
         result = prime * result + ((getIntegral() == null) ? 0 : getIntegral().hashCode());
+        result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         return result;
     }
 }

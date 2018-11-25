@@ -23,7 +23,7 @@
       <div class="weui-media-box__bd">
         <div class="weui-media-box__title user-name" th:text="${user.weiNickName}"></div>
         <div>
-          <span class="user-integral" th:switch="${user.rank}"><em th:if="${!#strings.isEmpty(userInfo.mobile)}" th:text="${#strings.substring(userInfo.mobile,0,3)}+'****'+${#strings.substring(userInfo.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
+          <span class="user-integral" th:switch="${user.rank}"><em th:if="${!#strings.isEmpty(user.mobile)}" th:text="${#strings.substring(user.mobile,0,3)}+'****'+${#strings.substring(user.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
           <span class="user-integral"><em class="num" th:text="'积分:'+${user.rank}+'积分'"></em></span>
         </div>
         <div class="weui-media-box__title">
@@ -69,7 +69,7 @@
 
   <div class="weui-panel" style="display: flex;padding: 0.5rem 2.5rem;">
     <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
-      <a href="/user/frends" class="weui-tabbar__item">
+      <a href="/user/toFrends" class="weui-tabbar__item">
         <div class="icon24-zz icon-friends-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">好友列表</p>
       </a>

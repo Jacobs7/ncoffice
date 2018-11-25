@@ -337,4 +337,8 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .haibaoContent{margin: 0 auto;padding: 0.25rem;width: 100%;}
 .haibaoContent img{width: 70%;}
 .haibaoFoot{width: 100%;display: flex;}
-.haibaoFoot a{flex: 0 0 33%;text-align: center;border-right: 1px solid #E9E9E9;color:#80807E;font-family: '微软雅黑';font-size: 0.75rem;}
+.haibaoFoot a{flex: 0 0 33%;text-align: center;border-right: 1px solid #E9E9E9;color:#80807E;font-family: '微软雅黑';font-size: 0.7rem;}
+
+.frendsList .frendsItem{padding:0.5rem;display: flex;border-bottom: 1px solid #EBEBEB;border-top: 1px solid #EBEBEB;}
+.frendsList .frendsHeadImg{flex: 0 0 12%;}
+.frendsList .frendsLine{flex: 0 0 44%;padding-left: 0.5rem;color:#999;font-size: 0.7rem;}
