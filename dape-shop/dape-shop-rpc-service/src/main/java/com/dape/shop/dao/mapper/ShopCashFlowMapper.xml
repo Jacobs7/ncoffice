@@ -9,6 +9,7 @@
     <result column="type" jdbcType="BIT" property="type" />
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="status" jdbcType="BIT" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, num, user_id, type, order_id, status
+    id, create_date, num, user_id, type, order_id, status, remark
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopCashFlowExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopCashFlow">
     insert into shop_cash_flow (id, create_date, num, 
-      user_id, type, order_id, status
-      )
+      user_id, type, order_id, status, 
+      remark)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{num,jdbcType=INTEGER}, 
-      #{userId,jdbcType=BIGINT}, #{type,jdbcType=BIT}, #{orderId,jdbcType=BIGINT}, #{status,jdbcType=BIT}
-      )
+      #{userId,jdbcType=BIGINT}, #{type,jdbcType=BIT}, #{orderId,jdbcType=BIGINT}, #{status,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopCashFlow">
     insert into shop_cash_flow
@@ -133,6 +134,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       user_id = #{record.userId,jdbcType=BIGINT},
       type = #{record.type,jdbcType=BIT},
       order_id = #{record.orderId,jdbcType=BIGINT},
-      status = #{record.status,jdbcType=BIT}
+      status = #{record.status,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="status != null">
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -237,7 +251,8 @@
       user_id = #{userId,jdbcType=BIGINT},
       type = #{type,jdbcType=BIT},
       order_id = #{orderId,jdbcType=BIGINT},
-      status = #{status,jdbcType=BIT}
+      status = #{status,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

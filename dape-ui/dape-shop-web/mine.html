@@ -16,14 +16,14 @@
 <div class='weui-content' style="padding-bottom: 5rem;">
   <div class="wy-center-top">
     <div class="weui-media-box" style="text-align: center;">
-      <div class="weui-media-box__hd" th:switch="${#strings.isEmpty(user.headUrl)}">
+      <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(user.headUrl)}" style="width: 30%;margin: 0 auto;">
           <img class="weui-media-box__thumb radius" th:case="true" th:src="@{${uiPath} + ${appName} + '/images/headimg.jpg'}" />
           <img class="weui-media-box__thumb radius" th:case="false" th:src="${user.headUrl}" />
       </div>
       <div class="weui-media-box__bd">
         <div class="weui-media-box__title user-name" th:text="${user.weiNickName}"></div>
         <div>
-          <span class="user-integral" th:switch="${user.rank}"><em th:if="${!#strings.isEmpty(userInfo.mobile)}" th:text="${#strings.substring(userInfo.mobile,0,3)}+'****'+${#strings.substring(userInfo.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
+          <span class="user-integral" th:switch="${user.rank}"><em th:if="${!#strings.isEmpty(user.mobile)}" th:text="${#strings.substring(user.mobile,0,3)}+'****'+${#strings.substring(user.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
           <span class="user-integral"><em class="num" th:text="'积分:'+${user.rank}+'积分'"></em></span>
         </div>
         <div class="weui-media-box__title">
@@ -69,15 +69,15 @@
 
   <div class="weui-panel" style="display: flex;padding: 0.5rem 2.5rem;">
     <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
-      <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_frend.jpg'" /> </div>
-        <p class="weui-tabbar__label" style="font-size: 0.8rem;">好友列表</p>
+      <a href="/user/toFrends" class="weui-tabbar__item">
+        <div class="icon24-zz icon-friends-24"></div>
+        <p class="weui-tabbar__label" style="font-size: 0.7rem;">好友列表</p>
       </a>
     </div>
     <div style="flex: 0 0 49%;">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_invite.jpg'" /></div>
-        <p class="weui-tabbar__label" style="font-size: 0.8rem;">邀请好友</p>
+        <div class="icon24-zz icon-invite-24"></div>
+        <p class="weui-tabbar__label" style="font-size: 0.7rem;">邀请好友</p>
       </a>
     </div>
   </div>
@@ -85,43 +85,43 @@
   <div class="weui-panel" style="display: flex;flex-flow: row wrap;">
     <div class="mine-module-i">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_orders.jpg'" /> </div>
+        <div class="icon24-zz icon-report-24-2"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">订单业绩</p>
       </a>
     </div>
     <div class="mine-module-i">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_qianbao.jpg'" /></div>
+        <div class="icon24-zz icon-wallet-24-2"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">钱包提现</p>
       </a>
     </div>
     <div class="mine-module-i" style="border-right: none;">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_kefu.jpg'" /></div>
+        <div class="icon24-zz icon-cs-24-2"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">召唤客服</p>
       </a>
     </div>
     <div class="mine-module-i">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_wenti.jpg'" /> </div>
+        <div class="icon24-zz icon-class-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">常见问题</p>
       </a>
     </div>
     <div class="mine-module-i">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_xiazai.jpg'" /></div>
+        <div class="icon24-zz icon-app-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">APP下载</p>
       </a>
     </div>
     <div class="mine-module-i" style="border-right: none;">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_setting.jpg'" /></div>
+        <div class="icon24-zz icon-set-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">设置</p>
       </a>
     </div>
     <div class="mine-module-i" style="border-bottom: none;">
       <a href="/" class="weui-tabbar__item">
-        <div class="mine-frend-d"><img th:src="${uiPath} + ${appName}+'/images/icon_jifen.jpg'" /> </div>
+        <div class="icon24-zz icon-fen-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">积分</p>
       </a>
     </div>
@@ -130,20 +130,22 @@
 <!-- 底部导航 -->
 <div class="weui-tabbar wy-foot-menu">
   <a href="/" class="weui-tabbar__item">
-    <div class="weui-tabbar__icon foot-menu-home"></div>
-    <p class="weui-tabbar__label">全网优惠</p>
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
   </a>
+  <!--
   <a href="classify.html" class="weui-tabbar__item">
-    <div class="weui-tabbar__icon foot-menu-list"></div>
+    <i class="icon18-zz icon-retui-18"></i>
     <p class="weui-tabbar__label">团长推荐</p>
   </a>
   <a href="shopcart.html" class="weui-tabbar__item">
     <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
-    <div class="weui-tabbar__icon foot-menu-cart"></div>
+    <i class="icon18-zz icon-pyq-18"></i>
     <p class="weui-tabbar__label">一键发圈</p>
   </a>
-  <a href="/user/mine" class="weui-tabbar__item weui-bar__item--on">
-    <div class="weui-tabbar__icon foot-menu-member"></div>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item on">
+    <i class="icon18-zz icon-mine-18"></i>
     <p class="weui-tabbar__label">我的</p>
   </a>
 </div>

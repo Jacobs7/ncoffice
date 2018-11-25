@@ -18,7 +18,7 @@ public class ShopCashFlow implements Serializable {
     private Long userId;
 
     /**
-     * 1:提现，2: 充值
+     * 1:提现，2: 充值，3:佣金
      *
      * @mbg.generated
      */
@@ -37,6 +37,8 @@ public class ShopCashFlow implements Serializable {
      * @mbg.generated
      */
     private Boolean status;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -96,6 +98,14 @@ public class ShopCashFlow implements Serializable {
         this.status = status;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,6 +119,7 @@ public class ShopCashFlow implements Serializable {
         sb.append(", type=").append(type);
         sb.append(", orderId=").append(orderId);
         sb.append(", status=").append(status);
+        sb.append(", remark=").append(remark);
         sb.append("]");
         return sb.toString();
     }
@@ -131,7 +142,8 @@ public class ShopCashFlow implements Serializable {
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
     }
 
     @Override
@@ -145,6 +157,7 @@ public class ShopCashFlow implements Serializable {
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         return result;
     }
 }

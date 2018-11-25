@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>会员中心</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+  <!--
+  <div class="weui-flex wy-iconlist-box" style="display: flex;">
+    <a th:href="'/user/frends?frendItem=1&frendTab='+${frendTab}" th:classappend="${frendItem == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 25%;" class="weui-navbar__item proinfo-tab-tit">已邀请(<em></em>)</a>
+    <a th:href="'/user/frends?frendItem=2&frendTab='+${frendTab}" th:classappend="${frendItem == 2}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 25%;" class="weui-navbar__item proinfo-tab-tit">已注册(<em></em>)</a>
+    <a th:href="'/user/frends?frendItem=3&frendTab='+${frendTab}" th:classappend="${frendItem == 3}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 25%;" class="weui-navbar__item proinfo-tab-tit">已出单(<em></em>)</a>
+    <a th:href="'/user/frends?frendItem=4&frendTab='+${frendTab}" th:classappend="${frendItem == 4}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 25%;" class="weui-navbar__item proinfo-tab-tit">已特权(<em></em>)</a>
+  </div>
+  -->
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 44px;">
+    <div style="padding:0.25rem 0 0.2rem 0.5rem;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;">共邀请<i id="frendsCount">0</i>名好友</div>
+    <div style="display: flex;text-align: center;line-height: 1.6rem;font-size: 0.75rem;color: #999;font-family: '微软雅黑';">
+      <div style="flex: 0 0 50%;">用户信息</div>
+      <div style="flex: 0 0 50%;">关注时间</div>
+    </div>
+    <div id="frendsList" class="frendsList" ></div>
+  </div>
+  <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
+    <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a href="/user/toFrends?frendTab=1" th:classappend="${frendTab == 1}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">好友列表</a>
+        <!--
+        <a href="/user/frends?frendTab=1" th:classappend="${frendTab == 1}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin-left: 25%;" class="weui-navbar__item proinfo-tab-tit">好友</a>
+        <a href="/user/frends?frendTab=2" th:classappend="${frendTab == 2}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;" class="weui-navbar__item proinfo-tab-tit">圈友</a>
+        -->
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+        loadFrends();
+    });
+    function loadFrends(){
+      $.post('/user/frends',{},function(data){
+          loading = false;
+          var headUrl;
+          var totalCount = data.totalCount;
+          $('#frendsCount').text(totalCount);
+          var list = data.data;
+          if(list && list.length > 0){
+              $(list).each(function(){
+                  $this = this;
+                  if($this.headUrl){
+                      appURL = $this.headUrl;
+                  }else {
+                      headUrl = appURL + '/images/headimg.jpg';
+                  }
+                  $('#frendsList').append('<div class="frendsItem"><div class="frendsHeadImg">' +
+                        '<img style="width: 100%;" src="'+headUrl+'" />' +
+                      '</div>' +
+                      '<div class="frendsLine">' +
+                        '<div style="color:#333;">'+$this.weiNickName+'</div>' +
+                        '<div>'+$this.mobile.substring(0,3)+'****'+$this.mobile.substring(7,11)+'</div>' +
+                      '</div>' +
+                      '<div class="frendsLine">' +
+                        '<div>'+new Date($this.createDate)+'</div>' +
+                      '</div></div>');
+              });
+          }else{
+              $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+              loading = true;
+          }
+          $(".weui-loadmore").hide();
+      });
+    }
+    var loading = false;
+    $("#listwrap").infinite().on("infinite", function () {
+        if (loading) return;
+        loading = true;
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        setTimeout(function () {
+            loadFrends();
+        }, 100);
+    });
+</script>
+</body>
+</html>

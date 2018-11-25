@@ -41,6 +41,13 @@ public class ShopOrder implements Serializable {
      */
     private Long shopUserId;
 
+    /**
+     * 1:已生成订单，2:已收货订单，3:已返佣订单
+     *
+     * @mbg.generated
+     */
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -91,6 +98,14 @@ public class ShopOrder implements Serializable {
         this.shopUserId = shopUserId;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -103,6 +118,7 @@ public class ShopOrder implements Serializable {
         sb.append(", googsId=").append(googsId);
         sb.append(", sellerId=").append(sellerId);
         sb.append(", shopUserId=").append(shopUserId);
+        sb.append(", status=").append(status);
         sb.append("]");
         return sb.toString();
     }
@@ -124,7 +140,8 @@ public class ShopOrder implements Serializable {
             && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getGoogsId() == null ? other.getGoogsId() == null : this.getGoogsId().equals(other.getGoogsId()))
             && (this.getSellerId() == null ? other.getSellerId() == null : this.getSellerId().equals(other.getSellerId()))
-            && (this.getShopUserId() == null ? other.getShopUserId() == null : this.getShopUserId().equals(other.getShopUserId()));
+            && (this.getShopUserId() == null ? other.getShopUserId() == null : this.getShopUserId().equals(other.getShopUserId()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()));
     }
 
     @Override
@@ -137,6 +154,7 @@ public class ShopOrder implements Serializable {
         result = prime * result + ((getGoogsId() == null) ? 0 : getGoogsId().hashCode());
         result = prime * result + ((getSellerId() == null) ? 0 : getSellerId().hashCode());
         result = prime * result + ((getShopUserId() == null) ? 0 : getShopUserId().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         return result;
     }
 }

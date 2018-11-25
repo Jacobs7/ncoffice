@@ -8,6 +8,7 @@
     <result column="googs_id" jdbcType="VARCHAR" property="googsId" />
     <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
     <result column="shop_user_id" jdbcType="BIGINT" property="shopUserId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, order_id, googs_id, seller_id, shop_user_id
+    id, create_date, order_id, googs_id, seller_id, shop_user_id, status
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopOrderExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopOrder">
     insert into shop_order (id, create_date, order_id, 
-      googs_id, seller_id, shop_user_id
-      )
+      googs_id, seller_id, shop_user_id, 
+      status)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{orderId,jdbcType=VARCHAR}, 
-      #{googsId,jdbcType=VARCHAR}, #{sellerId,jdbcType=BIGINT}, #{shopUserId,jdbcType=BIGINT}
-      )
+      #{googsId,jdbcType=VARCHAR}, #{sellerId,jdbcType=BIGINT}, #{shopUserId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopOrder">
     insert into shop_order
@@ -129,6 +130,9 @@
       <if test="shopUserId != null">
         shop_user_id,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -148,6 +152,9 @@
       </if>
       <if test="shopUserId != null">
         #{shopUserId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.shopUserId != null">
         shop_user_id = #{record.shopUserId,jdbcType=BIGINT},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       order_id = #{record.orderId,jdbcType=VARCHAR},
       googs_id = #{record.googsId,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=BIGINT},
-      shop_user_id = #{record.shopUserId,jdbcType=BIGINT}
+      shop_user_id = #{record.shopUserId,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="shopUserId != null">
         shop_user_id = #{shopUserId,jdbcType=BIGINT},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -222,7 +236,8 @@
       order_id = #{orderId,jdbcType=VARCHAR},
       googs_id = #{googsId,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=BIGINT},
-      shop_user_id = #{shopUserId,jdbcType=BIGINT}
+      shop_user_id = #{shopUserId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
