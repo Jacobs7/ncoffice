@@ -75,7 +75,7 @@
       </a>
     </div>
     <div style="flex: 0 0 49%;">
-      <a href="/" class="weui-tabbar__item">
+      <a href="javascript:showFenxiang()" class="weui-tabbar__item">
         <div class="icon24-zz icon-invite-24"></div>
         <p class="weui-tabbar__label" style="font-size: 0.7rem;">邀请好友</p>
       </a>
@@ -151,12 +151,32 @@
 </div>
 
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
-<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script> 
-<script>
-  $(function() {
-    FastClick.attach(document.body);
-  });
-</script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/clipboard.min.js'}"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+    function showFenxiang() {
+        var dialogId = 'fenxiang';
+        var len = $('#'+dialogId+'Win').length;
+
+        var content = '<div class="haibaoContent"><img src="/fenxiang" onload="imgloadComplent(\''+dialogId+'\')"/></div>';
+        var footer = '<div class="fenxiangFoot"><a href="javascript:">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+        createDialog(dialogId,'',content,footer);
+
+        if(len > 0){
+            showDialog(dialogId);
+        }else{
+            $.showLoading();
+        }
+    }
+    function imgloadComplent(id) {
+        $.hideLoading();
+        showDialog(id);
+    }
+</script>
 </body>
 </html>
