@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页控制器
@@ -90,6 +93,12 @@ public class IndexController extends BaseController {
         return thymeleaf("/all_orders");
     }
 
+    /**
+     * 分享图片
+     * @param model
+     * @param request
+     * @param response
+     */
     @RequestMapping(value = "/fenxiang", method = RequestMethod.GET)
     public void fenxiang(Model model, HttpServletRequest request, HttpServletResponse response) {
         Object o = request.getSession().getAttribute("user");
@@ -168,5 +177,24 @@ public class IndexController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 商品领券方案口令
+     * @param goodId 商品id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/quanKey", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadGoods(String goodId, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        Object o = request.getSession().getAttribute("user");
+        ShopUser user = (ShopUser)o;
+        String copyTxt = "艾草泡脚粉女性艾叶祛湿驱寒暖宫泡脚包\n----------\n券后￥24.90【优惠券5元】\n原价￥29.90【天猫】\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
+
+        result.put("copyTxt", copyTxt);
+        return result;
     }
 }

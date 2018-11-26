@@ -164,15 +164,17 @@
         var len = $('#'+dialogId+'Win').length;
 
         var content = '<div class="haibaoContent"><img src="/fenxiang" onload="imgloadComplent(\''+dialogId+'\')"/></div>';
-        var footer = '<div class="fenxiangFoot"><a href="javascript:">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+        var footer = '<div class="fenxiangFoot"><a href="javascript:" id="fenxiangCopyBtn" onclick="cloneTxt(\'fenxiangCopyBtn\')" data-clipboard-text="领券购物，分享返佣，轻松获得返佣回报!">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
         createDialog(dialogId,'',content,footer);
 
         if(len > 0){
             showDialog(dialogId);
         }else{
-            $.showLoading();
+            //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
+            showLoading('正在生成<br>分享图片','style="min-width: 7.5rem;min-height: 7.5rem;"');
         }
     }
+    // 图片加载完成后，隐藏加载杠，显示分享图片框
     function imgloadComplent(id) {
         $.hideLoading();
         showDialog(id);

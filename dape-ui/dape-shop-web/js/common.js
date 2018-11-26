@@ -69,3 +69,7 @@ function toast(txt){
         $('.weui-toast').remove();
     },2000)
 }
+function showLoading(txt,css) {
+    var html = '<div class="weui-mask_transparent"></div><div '+css+' class="weui-toast weui_loading_toast weui-toast--visible"><div class="weui_loading"><i class="weui-loading weui-icon_toast"></i></div><p class="weui-toast_content">'+txt+'</p></div>';
+    $('body').append(html);
+}
