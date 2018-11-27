@@ -4,6 +4,7 @@ import com.dape.common.base.BaseController;
 import com.dape.common.util.NewImageUtil;
 import com.dape.common.util.PropertiesFileUtil;
 import com.dape.common.util.QRCodeUtil;
+import com.dape.shop.common.constant.ShopTypeEnum;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopMenuService;
@@ -71,9 +72,19 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
     public String goodsDetail(String numIid, int platform, Model model, HttpServletRequest request) {
         String ip = getIpAddress(request); // 真实ip地址
+
+        // 商品
         ShopGoods shopGoods = shopGoodsService.findGoods(numIid,platform,ip);
         model.addAttribute("shopGoods", shopGoods);
-        model.addAttribute("shopStore", shopStoreService.findShopStore(shopGoods.getSellerId().toString()));
+
+        // 店铺
+        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
+        model.addAttribute("shopStore", shopStore);
+
+        // 分享方案  推荐理由、口令需要后续添加
+        String shopTxt = ShopTypeEnum.getMessage("B");
+        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
+        model.addAttribute("copyTxt", copyTxt);
 
         return thymeleaf("/goodsInfo");
     }
@@ -121,25 +132,6 @@ public class GoodsController extends BaseController {
     }
 
     /**
-     * 商品领券淘口令
-     * @param goodId 商品id
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/quanKey", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> loadGoods(String goodId, HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        Object o = request.getSession().getAttribute("user");
-        ShopUser user = (ShopUser)o;
-        String copyTxt = "艾草泡脚粉女性艾叶祛湿驱寒暖宫泡脚包\n----------\n券后￥24.90【优惠券5元】\n原价￥29.90【天猫】\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
-
-        result.put("copyTxt", copyTxt);
-        return result;
-    }
-
-    /**
      * 生成推广
      * @param shopGood
      * @param shopType
@@ -175,6 +167,10 @@ public class GoodsController extends BaseController {
         long start = System.currentTimeMillis();
         if(haibaoImg == null){
             String targetTemp = proPath + targetImg;
+            File temp = new File(targetTemp);
+            if(temp.exists()){
+                temp.delete();
+            }
             try {
                 // 首图保存到本地
                 URL url = new URL(shopGood.getPictUrl());
@@ -354,7 +350,7 @@ public class GoodsController extends BaseController {
                 // 底部
                 color = new Color(255, 207, 207);
                 g.setColor(color);
-                g.fillRect(0, height - 80, width,80);
+                g.fillRect(0, height - 60, width,60);
                 color = new Color(155, 55, 55);
                 g.setColor(color);
                 font = new Font("楷体", Font.BOLD, 30);
@@ -362,7 +358,7 @@ public class GoodsController extends BaseController {
                 String dbTxt = "粉丝福利优惠券，别的地方看不到哦";
                 fm = g.getFontMetrics(font);
                 int dbW = fm.stringWidth(dbTxt);
-                g.drawString(dbTxt, (width - dbW ) / 2,height - 40);
+                g.drawString(dbTxt, (width - dbW ) / 2,height - 20);
                 File outputfile = new File(targetTemp);
                 ImageIO.write(imageNew,"jpg", outputfile);
 
