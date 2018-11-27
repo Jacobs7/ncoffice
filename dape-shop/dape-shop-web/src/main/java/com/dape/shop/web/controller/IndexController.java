@@ -120,7 +120,7 @@ public class IndexController extends BaseController {
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
         Object fenxiangImg = request.getSession().getAttribute("fenxiangImg");
         if(fenxiangImg == null){
-            targetImg = proPath + "/resources/images/"+openId+".jpg";
+            targetImg = proPath + "/resources/images/fenxiang/"+openId+".jpg";
             try {
                 // 网络头像保存到本地
                 String headUrl = null;
@@ -142,7 +142,7 @@ public class IndexController extends BaseController {
                     headF.createNewFile();
                 }
                 FileOutputStream outHead = new FileOutputStream(headTemp);
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[2048];
                 int len = 0;
                 while( (len=inStream.read(buffer)) != -1 ){
                     outHead.write(buffer, 0, len);
@@ -150,7 +150,7 @@ public class IndexController extends BaseController {
                 outHead.close();
                 inStream.close();
 
-                NewImageUtil.fenxiangImg(user.getWeiNickName() , targetImg, proPath+"/resources/images/fenxiang_base.jpg",headTemp,qrCode);
+                NewImageUtil.fenxiangImg(user.getWeiNickName() , targetImg, proPath+"/resources/images/base/fenxiang_base.jpg",headTemp,qrCode);
                 headF.delete();
 
                 request.getSession().setAttribute("fenxiangImg", targetImg);
@@ -177,24 +177,5 @@ public class IndexController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 商品领券方案口令
-     * @param goodId 商品id
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/quanKey", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> loadGoods(String goodId, HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        Object o = request.getSession().getAttribute("user");
-        ShopUser user = (ShopUser)o;
-        String copyTxt = "艾草泡脚粉女性艾叶祛湿驱寒暖宫泡脚包\n----------\n券后￥24.90【优惠券5元】\n原价￥29.90【天猫】\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
-
-        result.put("copyTxt", copyTxt);
-        return result;
     }
 }
