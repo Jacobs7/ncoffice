@@ -125,7 +125,7 @@
   function haibao() {
       var dialogId = 'haibao';
       var len = $('#'+dialogId+'Win').length;
-      var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div>';
+      var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #d47b4f;">长按图片发送给朋友，或保存到手机</div><div class="haibao-c-remark" style="color: #d9d9db;">好友通过领券购买，您即可赚取佣金</div>';
       var footer = '<div class="haibaoFoot"><a href="javascript:" id="copyTitle" onclick="cloneTxt(\'copyTitle\')" data-clipboard-text="'+title+'">复制标题</a><a href="javascript:" id="copyText" onclick="cloneTxt(\'copyText\')" data-clipboard-text="'+copyTxt+'">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
       createDialog(dialogId,'',content,footer);
       $.post('/goods/haibao',{
@@ -139,7 +139,6 @@
           volume : [[${shopGoods.volume}]],
           couponInfo : [[${shopGoods.couponInfo}]]
       },function (data) {
-          console.log(data);
           $('#goodsHaibao').attr('src',data.url);
       });
       if(len > 0){

@@ -12,6 +12,11 @@ import com.dape.shop.rpc.api.ShopModuleService;
 import com.dape.shop.rpc.api.ShopStoreService;
 import com.google.zxing.BarcodeFormat;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,26 +177,40 @@ public class GoodsController extends BaseController {
                 temp.delete();
             }
             try {
-                // 首图保存到本地
-                URL url = new URL(shopGood.getPictUrl());
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setConnectTimeout(5 * 1000);
-                InputStream inStream = conn.getInputStream();
-
+                // 商品主图保存到本地
                 String mainImgTemp = proPath + "/resources/images/"+haibaoKey+".tmp";
                 File mainImgF = new File(mainImgTemp);
                 if(!mainImgF.exists()){
                     mainImgF.createNewFile();
                 }
-                FileOutputStream outMainImg = new FileOutputStream(mainImgTemp);
-                byte[] buffer = new byte[2048];
-                int len = 0;
-                while( (len=inStream.read(buffer)) != -1 ){
-                    outMainImg.write(buffer, 0, len);
+
+                // 请求商品主图并写入临时商品文件
+                HttpGet httpGet = null;
+                CloseableHttpClient httpClient = null;
+                CloseableHttpResponse httpResponse = null;
+                FileOutputStream outMainImg = null;
+                try {
+                    RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+                    httpClient = HttpClients.createDefault();
+                    httpGet = new HttpGet(shopGood.getPictUrl());
+                    httpGet.setConfig(requestConfig);
+                    httpResponse = httpClient.execute(httpGet);
+                    InputStream in = httpResponse.getEntity().getContent();
+
+                    outMainImg = new FileOutputStream(mainImgF);
+                    byte[] buffer = new byte[2048];
+                    int len = 0;
+                    while((len=in.read(buffer)) != -1 ){
+                        outMainImg.write(buffer, 0, len);
+                    }
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if(outMainImg != null){try { outMainImg.close();} catch(IOException e) { e.printStackTrace();}}
+                    if(httpGet != null){httpGet.releaseConnection();}
+                    if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+                    if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
                 }
-                outMainImg.close();
-                inStream.close();
 
                 String title = shopGood.getTitle();// 标题
                 String zkPrice = shopGood.getZkFinalPrice();// 折扣价
