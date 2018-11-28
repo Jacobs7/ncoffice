@@ -56,8 +56,10 @@ function closeDialog(id){
 // 复制
 function cloneTxt(id){
     var clipboard = new ClipboardJS('#'+id);
+    // var clipboard = new ClipboardJS('#'+id);
     clipboard.on('success', function(e) {
         toast("复制成功");
+        clipboard.destroy();
     });
 }
 // 自带的苹果手机会乱跳，自己实现一个

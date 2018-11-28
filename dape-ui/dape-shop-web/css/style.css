@@ -248,6 +248,7 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .detail-header{position: absolute;top: 0;width: 100%;z-index: 999;}
 .detail-top{position: absolute;z-index: 999;background-color:rgba(0,0,0,.3);border-radius:50%;width: 1.8rem;height: 1.8rem;right:0.5rem;bottom: 4rem;display: none;}
 .detail-top img{width: 100%;}
+.haibao-c-remark{font-size: 0.6rem;padding-bottom: 0.15rem;}
 
 .mine-module-i{flex: 0 0 33%;border-right: 1px solid #f0f0f0;border-bottom: 1px solid #f0f0f0;padding: 0.35rem 0 0.25rem 0;}
 .mine-head-d{width: 30%;margin: 0 auto;}
