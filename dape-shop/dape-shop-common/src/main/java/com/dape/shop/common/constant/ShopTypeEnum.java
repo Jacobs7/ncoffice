@@ -36,10 +36,10 @@ public enum ShopTypeEnum {
     public void setMessage(String message) {
         this.message = message;
     }
-    public static String getMessage(String value) {
+    public static String getMessage(String code) {
         ShopTypeEnum[] businessModeEnums = values();
         for (ShopTypeEnum businessModeEnum : businessModeEnums) {
-            if (businessModeEnum.getCode().equals(value)) {
+            if (businessModeEnum.getCode().equals(code)) {
                 return businessModeEnum.getMessage();
             }
         }

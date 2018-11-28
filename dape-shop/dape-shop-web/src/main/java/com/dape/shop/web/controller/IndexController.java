@@ -2,13 +2,17 @@ package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
 import com.dape.common.util.NewImageUtil;
-import com.dape.common.util.StringUtil;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopMenuService;
 import com.dape.shop.rpc.api.ShopModuleService;
-import com.dape.shop.rpc.api.ShopUserService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 首页控制器
@@ -112,7 +112,7 @@ public class IndexController extends BaseController {
         // 生成的分享图片
         String targetImg = null;
 
-        String ip = "192.168.10.205";
+        String ip = "192.168.10.234";
         int port = request.getLocalPort();
         // 分享二维码访问地址
         String qrCode = "http://" + ip + ":" + port;
@@ -121,48 +121,63 @@ public class IndexController extends BaseController {
         Object fenxiangImg = request.getSession().getAttribute("fenxiangImg");
         if(fenxiangImg == null){
             targetImg = proPath + "/resources/images/fenxiang/"+openId+".jpg";
-            try {
-                // 网络头像保存到本地
-                String headUrl = null;
-                if(StringUtils.isNotEmpty(user.getHeadUrl())){
-                    headUrl = user.getHeadUrl();
-                }else{
-                    String appName = request.getAttribute("appName").toString();
-                    String uiPath = request.getAttribute("uiPath").toString();
-                    headUrl = uiPath + appName + "/images/headimg.jpg";
-                }
-                URL url = new URL(headUrl);
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setConnectTimeout(5 * 1000);
-                InputStream inStream = conn.getInputStream();
+            File temp = new File(targetImg);
+            if(temp.exists()){
+                temp.delete();
+            }
+            // 网络头像保存到本地
+            String headUrl = null;
+            if(StringUtils.isNotEmpty(user.getHeadUrl())){
+                headUrl = user.getHeadUrl();
+            }else{
+                String appName = request.getAttribute("appName").toString();
+                String uiPath = request.getAttribute("uiPath").toString();
+                headUrl = uiPath + appName + "/images/headimg.jpg";
+            }
 
-                File headF = new File(headTemp);
-                if(!headF.exists()){
-                    headF.createNewFile();
-                }
-                FileOutputStream outHead = new FileOutputStream(headTemp);
+            // 保存下来的时头像文件
+            File headF = new File(headTemp);
+            if(!headF.exists()){
+                try { headF.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+            }
+
+            // 请求头像并写入临时头像文件
+            HttpGet httpGet = null;
+            CloseableHttpClient httpClient = null;
+            CloseableHttpResponse httpResponse = null;
+            FileOutputStream outHead = null;
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+                httpClient = HttpClients.createDefault();
+                httpGet = new HttpGet(headUrl);
+                httpGet.setConfig(requestConfig);
+                httpResponse = httpClient.execute(httpGet);
+                InputStream in = httpResponse.getEntity().getContent();
+
+                outHead = new FileOutputStream(headTemp);
                 byte[] buffer = new byte[2048];
                 int len = 0;
-                while( (len=inStream.read(buffer)) != -1 ){
+                while((len=in.read(buffer)) != -1 ){
                     outHead.write(buffer, 0, len);
                 }
-                outHead.close();
-                inStream.close();
-
-                NewImageUtil.fenxiangImg(user.getWeiNickName() , targetImg, proPath+"/resources/images/base/fenxiang_base.jpg",headTemp,qrCode);
-                headF.delete();
-
-                request.getSession().setAttribute("fenxiangImg", targetImg);
-            } catch (FileNotFoundException e) {
+            }catch (IOException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }finally {
+                if(outHead != null){try { outHead.close();} catch(IOException e) { e.printStackTrace();}}
+                if(httpGet != null){httpGet.releaseConnection();}
+                if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+                if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
             }
+
+            NewImageUtil.fenxiangImg(user.getWeiNickName() , targetImg, proPath+"/resources/images/base/fenxiang_base.jpg",headTemp,qrCode);
+            headF.delete();// 删除临时头像
+
+            request.getSession().setAttribute("fenxiangImg", targetImg);
         }else {
             targetImg = fenxiangImg.toString();
         }
 
+        OutputStream out = null;
         try {
             FileInputStream inputStream = new FileInputStream(targetImg);
             int length = inputStream.available();
@@ -170,12 +185,12 @@ public class IndexController extends BaseController {
             response.setContentLength(length);
             response.setContentType("image/jpeg");
             inputStream.read(data);
-            OutputStream out = response.getOutputStream();
+            out = response.getOutputStream();
             out.write(data);
-            out.flush();
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            if(out != null){try {out.close();} catch (IOException e) {e.printStackTrace();}}
         }
     }
 }
