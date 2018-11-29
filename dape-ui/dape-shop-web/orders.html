@@ -16,7 +16,20 @@
 <div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
   <!--数据列表-->
   <div class="weui-panel" style="margin-top: 44px;">
+    <!-- 订单搜索 -->
+    <div class="weui-search-bar index-search-bar">
+      <div class="weui-search-bar__box index-search-box">
+        <form method="post" id="searchForm">
+          <i class="weui-icon-search"></i>
+          <input type="search" name="orderId" id="orderIdQuery" class="weui-search-bar__input" placeholder="请输入订单号" style="width:98%;font-size: 0.7rem;" />
+        </form>
+      </div>
+      <div class="index-search-c">
+        <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+      </div>
+    </div>
     <div class="order-label-name"><div class="item-div">待返佣金:<em id="daifanMoney">0</em></div><div class="item-div">已返佣金:<em id="yifanMoney">0</em></div></div>
+
     <div id="ordersList" class="ordersList" ></div>
   </div>
   <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
@@ -66,10 +79,15 @@
         $('#listwrap').height($('body').height() - 44);
         loadFrends();
     });
+    function searchOrder(){
+        pageNum = 1;
+        pageSize = 20;
+        loadFrends();
+    }
     var pageNum = 1;
     var pageSize = 20;
     function loadFrends(){
-      $.post('/order/orders',{pageNum:pageNum,pageSize:pageSize,tab:tab},function(data){
+      $.post('/order/orders',{pageNum:pageNum,pageSize:pageSize,tab:tab,orderId:$('#orderIdQuery').val()},function(data){
           loading = false;
           var goodsUrl;
           var list = data.data;

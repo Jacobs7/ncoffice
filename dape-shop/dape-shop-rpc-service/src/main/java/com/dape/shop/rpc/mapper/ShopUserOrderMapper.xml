@@ -71,13 +71,16 @@
 		so.user_money
 		from shop_order so left join shop_user u on so.shop_user_id=u.id
 		where u.s_code = #{shopUser.sCode}
+		<if test="shopUser.orderId != null and shopUser.orderId != ''">
+			so.order_id like CONCAT('%',#{shopUser.orderId},'%')
+		</if>
 		<if test="limit != null and start != null">
 			limit #{start},#{limit}
 		</if>
 	</select>
 
 	<!-- 查询佣金 -->
-	<select id="getUserMoney" resultType="int" parameterType="com.dape.shop.dao.model.ShopOrder">
+	<select id="getUserMoney" resultType="java.lang.Integer" parameterType="com.dape.shop.dao.model.ShopOrder">
 		select sum(user_money) from shop_order u where shop_user_id = #{shopOrder.shopUserId} and status = #{shopOrder.status}
 	</select>
 

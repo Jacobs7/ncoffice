@@ -39,6 +39,7 @@ public class ShopOrderServiceImpl extends BaseServiceImpl<ShopOrderMapper, ShopO
 
     @Override
     public int getUserMoney(ShopOrder shopOrder) {
-        return shopUserOrderMapper.getUserMoney(shopOrder);
+        Integer userMoney = shopUserOrderMapper.getUserMoney(shopOrder);
+        return userMoney == null ? 0 : userMoney;
     }
 }
