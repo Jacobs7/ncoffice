@@ -25,7 +25,7 @@
         </form>
       </div>
       <div class="index-search-c">
-        <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+        <a href="javascript:void(0);" onclick="searchOrder()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
       </div>
     </div>
     <div class="order-label-name"><div class="item-div">待返佣金:<em id="daifanMoney">0</em></div><div class="item-div">已返佣金:<em id="yifanMoney">0</em></div></div>
@@ -82,6 +82,7 @@
     function searchOrder(){
         pageNum = 1;
         pageSize = 20;
+        $('#ordersList').html('');
         loadFrends();
     }
     var pageNum = 1;

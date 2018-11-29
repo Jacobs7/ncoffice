@@ -6,6 +6,7 @@ import com.dape.shop.dao.model.ShopUser;
 import com.dape.shop.dao.model.ShopUserExample;
 import com.dape.shop.rpc.api.ShopOrderService;
 import com.dape.shop.rpc.api.ShopUserService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +54,7 @@ public class ShopOrderController {
 
     @RequestMapping(value = "/orders", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> orders(Integer pageNum, Integer pageSize, Integer tab, Model model, HttpServletRequest request) {
+    public Map<String, Object> orders(String orderId, Integer pageNum, Integer pageSize, Integer tab, Model model, HttpServletRequest request) {
         if(tab == null){ // 1:最近订单, 2:我的推广
             tab = 1;
         }
@@ -70,11 +71,19 @@ public class ShopOrderController {
             ShopOrderExample shopOrderE = new ShopOrderExample();
 
             if(tab == 1){ // 最近订单, 分页功能还没加
-                shopOrderE.or().andShopUserIdEqualTo(user.getId());
+                ShopOrderExample.Criteria criteria = shopOrderE.createCriteria();
+                criteria.andShopUserIdEqualTo(user.getId());
+                if(StringUtils.isNotBlank(orderId)){
+                    criteria.andOrderIdLike("%" + orderId + "%");
+                }
                 shopOrderE.setOrderByClause("create_date desc");
                 orders = shopOrderService.selectByExample(shopOrderE);
             }else if(tab == 2){// 我的推广,  分页功能还没加
-                orders = shopOrderService.selectTuiGuangOrder(pageNum, pageSize, user);
+                ShopOrder shopOrder = new ShopOrder();
+                if(StringUtils.isNotBlank(orderId)) {
+                    shopOrder.setOrderId(orderId);
+                }
+                orders = shopOrderService.selectTuiGuangOrder(pageNum, pageSize, user, shopOrder);
             }
 
             ShopOrder shopOrder = new ShopOrder();

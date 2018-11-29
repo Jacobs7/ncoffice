@@ -33,8 +33,8 @@ public class ShopOrderServiceImpl extends BaseServiceImpl<ShopOrderMapper, ShopO
     ShopUserOrderMapper shopUserOrderMapper;
 
     @Override
-    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser) {
-        return shopUserOrderMapper.selectTuiGuangOrder(pageNum * pageSize, pageSize, shopUser);
+    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser, ShopOrder shopOrder) {
+        return shopUserOrderMapper.selectTuiGuangOrder(pageNum * pageSize, pageSize, shopUser, shopOrder);
     }
 
     @Override

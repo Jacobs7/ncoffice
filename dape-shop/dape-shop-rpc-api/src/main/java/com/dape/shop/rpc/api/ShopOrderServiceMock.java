@@ -15,7 +15,7 @@ import java.util.List;
 public class ShopOrderServiceMock extends BaseServiceMock<ShopOrderMapper, ShopOrder, ShopOrderExample> implements ShopOrderService {
 
     @Override
-    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser) {
+    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser, ShopOrder shopOrder) {
         return null;
     }
 

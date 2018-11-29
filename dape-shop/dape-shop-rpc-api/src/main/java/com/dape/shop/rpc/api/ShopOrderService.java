@@ -13,6 +13,6 @@ import java.util.List;
 */
 public interface ShopOrderService extends BaseService<ShopOrder, ShopOrderExample> {
 
-    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser);
+    public List<ShopOrder> selectTuiGuangOrder(Integer pageNum, Integer pageSize, ShopUser shopUser, ShopOrder shopOrder);
     public int getUserMoney(ShopOrder shopOrder);
 }

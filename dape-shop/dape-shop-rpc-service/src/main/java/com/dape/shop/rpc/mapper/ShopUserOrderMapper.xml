@@ -71,8 +71,8 @@
 		so.user_money
 		from shop_order so left join shop_user u on so.shop_user_id=u.id
 		where u.s_code = #{shopUser.sCode}
-		<if test="shopUser.orderId != null and shopUser.orderId != ''">
-			so.order_id like CONCAT('%',#{shopUser.orderId},'%')
+		<if test="shopOrder.orderId != null and shopOrder.orderId != ''">
+			and so.order_id like CONCAT('%',#{shopUser.orderId},'%')
 		</if>
 		<if test="limit != null and start != null">
 			limit #{start},#{limit}
