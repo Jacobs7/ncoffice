@@ -82,7 +82,7 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/frends", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> frends(Integer frendTab, Integer frendItem, Model model, HttpServletRequest request) {
+    public Map<String, Object> frends(Integer pageNum, Integer pageSize, Integer frendTab, Integer frendItem, Model model, HttpServletRequest request) {
         if(frendTab == null){
             model.addAttribute("frendTab", 1);
         }else{

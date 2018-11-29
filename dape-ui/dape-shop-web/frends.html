@@ -79,8 +79,10 @@
         FastClick.attach(document.body);
         loadFrends();
     });
+    var pageNum = 1;
+    var pageSize = 20;
     function loadFrends(){
-      $.post('/user/frends',{},function(data){
+      $.post('/user/frends',{pageNum:pageNum,pageSize:pageSize},function(data){
           loading = false;
           var headUrl;
           var totalCount = data.totalCount;

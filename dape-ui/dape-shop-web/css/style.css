@@ -2,7 +2,7 @@
 /* CSS Document */
 
 html { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color :rgba(0, 0, 0, 0); -moz-tap-highlight-color :rgba(0, 0, 0, 0);}
-body {font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; margin: 0; background-color: #fff; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;  margin:0 auto;}
+body {font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; margin: 0; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;  margin:0 auto;}
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
 audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
@@ -135,10 +135,10 @@ header,.weui-navbar{
 .wy-pro-list .proimg{height:47vw; position: relative;}
 .wy-pro-list .proimg img{display:block; position:absolute; top:50%; left:50%; height:100%; width:auto; transform-origin: 50% 50% 0px; transform: translate3d(-50%, -50%, 0px);}
 .wy-pro-list .protxt{margin-top:5px; padding:5px 8px;}
-.wy-pro-list .protxt .name{font-size:0.7rem; color:#454545; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
-.wy-pro-pri{font-size:0.55rem;; margin-top:3px; line-height:20px;color:#bbbbbb;display: flex;}
+.wy-pro-list .protxt .name{height:1.2rem;font-size:0.7rem; color:#454545; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
+.wy-pro-pri{font-size:0.65rem;; margin-top:3px; line-height:20px;color:#bbbbbb;display: flex;}
 .wy-pro-pri span{font-family:Arial, Helvetica, sans-serif; padding-left:3px; font-size:0.6rem;}
-.wy-pro-list .return{display: flex;width: 80%;margin:0 auto;border: 1px solid #d02c37;font-size:0.55rem;text-align: center;border-radius:5px;}
+.wy-pro-list .return{display: flex;width: 100%;margin:0 auto;border: 1px solid #d02c37;font-size:0.65rem;line-height:0.95rem;text-align: center;border-radius:5px;margin-top: 0.2rem;}
 .wy-pro-list .return div{flex:0 0 50%;}
 
 /*商品分类页*/
@@ -175,7 +175,7 @@ header,.weui-navbar{
 .center-money{font-size:15px; color:#555555; font-family:Arial, Helvetica, sans-serif;}
 .pro-amount span.font-13{line-height:24px; padding-right:10px;}
 
-.ord-status-txt-ts{font-size:13px; color:#ee7800;}
+.ord-status-txt-ts{font-size:0.65rem; color:#ee7800;}
 .weui-panel__hd{padding:10px 15px 10px 10px;}
 .weui-panel__hd:after{left:10px;}
 
@@ -212,7 +212,7 @@ html,body{height: 100%;}
 index-search-c{flex: 0 0 20%;height:1.5rem;}
 .index-search-btn{height:1.5rem;border-radius: 0 15px 15px 0;background-color:#d02c37;font-size: 0.7rem;}
 
-.nowPrice{font-size:0.75rem;color: #DD2727;font-style: normal;font-weight: normal;}
+.nowPrice{font-size:0.85rem;color: #dc2527;font-style: normal;font-weight: normal;}
 .oldPrice {font-size: 0.6rem;padding-left: 3px;text-decoration: line-through;color: #999;}
 .monthOrderNum {display:inline-block;position: absolute;top: 4px;right: 0px;font-size:0.6rem;color: #999;}
 .icon36-zz{display: inline-block;width: 36px;height: 36px;background: url(../images/icons_all.png) no-repeat scroll 0 0;background-size: 600px 600px;position: relative;}
@@ -231,15 +231,15 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .detail-back{position: absolute;z-index: 999;background-color:rgba(0,0,0,.3);border-radius:50%;width: 1.8rem;height: 1.8rem;top:0.5rem;}
 .detail-back img{width: 60%;}
 .detail-container{position:relative;display: flex;flex-flow: row wrap;color:#363636;padding:12px 10px; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;}
-.detail-title{flex:0 0 100%;font-size:0.7rem;position: relative;}
+.detail-title{flex:0 0 100%;font-size:0.75rem;position: relative;}
 .detail-title i{position: absolute; top:1px;}
 .detail-quan{position: absolute;bottom: 5rem;right: 0;z-index: 499;}
 .detail-quan img{width:100%;}
 .detail-quan em{color: #f8e038;position: absolute;text-align:center;bottom:2px;left: 0;width: 100%;font-size: 0.7rem;}
-.detail-price-c{flex:0 0 100%;color: #d02c37;font-size: 0.55rem;margin: 5px 0 !important;}
+.detail-price-c{flex:0 0 100%;color: #dc2527;font-size: 0.65rem;margin: 5px 0 !important;}
 .detail-price-c em{margin-right: 5px;}
-.detail-price-s{color: #bbb;font-weight: normal;text-decoration:line-through;font-size:0.55rem;}
-.detail-price-v{color: #bbb;font-weight: normal;font-size:0.7rem;}
+.detail-price-s{color: #bbb;font-weight: normal;text-decoration:line-through;font-size:0.65rem;}
+.detail-price-v{color: #bbb;font-weight: normal;font-size:0.65rem;}
 .detail-return{flex:0 0 100%;font-size: 0.7rem;color: #d56712;}
 .detail-return a{text-decoration: underline;margin-left:0.5rem;color:#366ea1;}
 .detail-return-txt{flex:0 0 100%;font-size: 0.7rem;color: #A4A4A4;margin-top: 5px;}
@@ -304,7 +304,7 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
     padding: 0.25rem;
 }
 .puBody .inputArea-2 {
-    height: 11.5rem;
+    height: 12.5rem;
     line-height: 0.95rem;
     font-size: 0.65rem;
     text-align: left;
@@ -346,3 +346,11 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 
 .fenxiangFoot{width: 100%;display: flex;}
 .fenxiangFoot a{flex: 0 0 50%;text-align: center;border-right: 1px solid #E9E9E9;color:#80807E;font-family: '微软雅黑';font-size: 0.7rem;}
+
+.ordersList{font-size: 0.65rem;color: #999;font-family: '微软雅黑';}
+.ordersList .orders-num-line{display: flex;padding-bottom: 0.25rem;}
+.ordersList .orders-num-line div{flex:0 0 70%;}
+.ord-pro-link{font-size:0.65rem; font-weight:normal; color:#232323;display:block;}
+.orders-line{border-top: 5px solid #f5f5f5;background-color: #fff;}
+.order-label-name{display:flex;padding:0.25rem 0 0.2rem 0.5rem;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;}
+.order-label-name .item-div{flex: 0 0 50%;}
