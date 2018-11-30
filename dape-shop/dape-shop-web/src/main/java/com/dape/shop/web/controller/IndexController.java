@@ -83,6 +83,11 @@ public class IndexController extends BaseController {
         return thymeleaf("/index");
     }
 
+    /**
+     * 赚钱教程
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/courseZhuan", method = RequestMethod.GET)
     public String edit(Model model) {
        return thymeleaf("/course-zhuan");

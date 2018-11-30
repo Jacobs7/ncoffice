@@ -89,7 +89,7 @@ function showKeFu(img){
     var dialogId = 'keFuDialog';
     var len = $('#'+dialogId+'Win').length;
     var title = '<div style="font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>联系客服</em></div>';
-    var content = '<div class="haibao-c-remark" style="color: #5c5c5e;padding-bottom:0;">长按图片－识别图中二维码－联系客服</div><div class="haibaoContent"><img id="kefuImg" src="'+appURL+img+'" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #F54D23;padding-bottom:0.5rem;">在线时间：周一到周日，9:00-17:30</div>';
+    var content = '<div style="color: #5c5c5e;padding-bottom:0;">长按图片－识别图中二维码－联系客服</div><div class="haibaoContent"><img id="kefuImg" src="'+appURL+img+'" onload="imgloadComplent(\''+dialogId+'\')"/></div><div style="color: #F54D23;padding-bottom:0.5rem;">在线时间：周一到周日，9:00-17:30</div>';
     var footer = '<div class="haibaoFoot"><a style="flex:0 0 100%;" href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
     createDialog(dialogId,title,content,footer);
     if(len > 0){

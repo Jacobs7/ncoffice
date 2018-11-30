@@ -112,4 +112,51 @@ public class ShopUserController extends BaseController {
         return result;
     }
 
+    /**
+     * 我的积分
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/integral", method = RequestMethod.GET)
+    public String integral(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/integral");
+    }
+
+    /**
+     * 帐户余额
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/cash", method = RequestMethod.GET)
+    public String cash(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/cash");
+    }
+
+    /**
+     * 提现
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/cashOut", method = RequestMethod.GET)
+    public String cashOut(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/cashOut");
+    }
 }
