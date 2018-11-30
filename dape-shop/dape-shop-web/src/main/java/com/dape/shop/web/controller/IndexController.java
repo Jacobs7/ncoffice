@@ -85,12 +85,19 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(Model model) {
-        return thymeleaf("/address_edit");
+       return thymeleaf("/address_edit");
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public String order(Model model) {
-        return thymeleaf("/all_orders");
+    /**
+     * 省钱教程页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/course", method = RequestMethod.GET)
+    public String order(Integer tab, Integer tabItem, Model model) {
+        if(tab == null){model.addAttribute("tab", 1);}else {model.addAttribute("tab", tab);}
+        if(tabItem == null){model.addAttribute("tabItem", 1);}else {model.addAttribute("tabItem", tabItem);}
+        return thymeleaf("/course");
     }
 
     /**

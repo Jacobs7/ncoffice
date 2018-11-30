@@ -354,3 +354,7 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .orders-line{border-top: 5px solid #f5f5f5;background-color: #fff;}
 .order-label-name{display:flex;padding:0.25rem 0 0.2rem 0.5rem;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;}
 .order-label-name .item-div{flex: 0 0 50%;}
+
+.class-item{width: 100%;}
+.class-item h2 {font-size: 0.95rem;line-height: 1.5rem;padding: 6px 12px 15px;color: #DD2727;font-weight: bold;text-align: center;}
+
