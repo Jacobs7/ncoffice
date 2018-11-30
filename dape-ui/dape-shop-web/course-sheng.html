@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>淘宝省钱教程</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
+  <div class="weui-flex wy-iconlist-box">
+    <a style="margin: 0 auto;" href="/courseSheng" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on">淘宝省钱</a>
+  </div>
+  <div class="weui-panel index-module">
+    <div class="class-item ">
+      <h2>
+        ▼
+        <br>简单来说就这四步
+      </h2>
+    </div>
+    <div>
+      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-02.jpg'}" />
+    </div>
+    <div>
+      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-04.jpg'}" />
+    </div>
+  </div>
+    <div class="weui-panel index-module" style="padding-bottom: 4rem;">
+        <div class="class-item "><h2>▼<br>联系专属客服</h2></div>
+        <div style="width:100%;text-align: center;color:#F54D23">长按图片－识别图中二维码－联系客服</div>
+        <div style="width: 60%;margin: 0 auto;"><img width="100%" th:src="@{${uiPath} + ${appName} + '/upload/kefu.jpg'}" /></div>
+    </div>
+</div>
+
+<!--顶部-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a href="/courseSheng" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">省钱教程</a>
+        <a href="/courseZhuan" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">赚钱教程</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:inline="javascript">
+    $(function() {
+        FastClick.attach(document.body);
+        $('#listwrap').height($('body').height() - 44);
+    });
+</script>
+</body>
+</html>

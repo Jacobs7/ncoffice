@@ -15,7 +15,7 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
   <div class="weui-flex wy-iconlist-box">
-    <a style="margin: 0 auto;" href="/course?tabItem=1" th:classappend="${tabItem== 1}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit">淘宝省钱</a>
+    <a style="margin: 0 auto;" href="/courseZhuan" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on">淘宝赚钱</a>
   </div>
   <div class="weui-panel index-module">
     <div class="class-item ">
@@ -25,19 +25,24 @@
       </h2>
     </div>
     <div>
-      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-02.jpg'}" />
+      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.2-02.jpg'}" />
     </div>
     <div>
-      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-04.jpg'}" />
+      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.2-04.jpg'}" />
     </div>
   </div>
+    <div class="weui-panel index-module" style="padding-bottom: 4rem;">
+        <div class="class-item "><h2>▼<br>联系专属客服</h2></div>
+        <div style="width:100%;text-align: center;color:#F54D23">长按图片－识别图中二维码－联系客服</div>
+        <div style="width: 60%;margin: 0 auto;"><img width="100%" th:src="@{${uiPath} + ${appName} + '/upload/kefu.jpg'}" /></div>
+    </div>
 </div>
 
 <!--顶部-->
 <header class="weui-header index-header">
       <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
-        <a href="/course?tab=1" th:classappend="${tab == 1}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">省钱教程</a>
-        <a href="/course?tab=2" th:classappend="${tab == 2}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">赚钱教程</a>
+        <a href="/courseSheng" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">省钱教程</a>
+        <a href="/courseZhuan" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">赚钱教程</a>
       </div>
 </header>
 

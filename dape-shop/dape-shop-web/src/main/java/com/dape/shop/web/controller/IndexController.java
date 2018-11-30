@@ -83,9 +83,9 @@ public class IndexController extends BaseController {
         return thymeleaf("/index");
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/courseZhuan", method = RequestMethod.GET)
     public String edit(Model model) {
-       return thymeleaf("/address_edit");
+       return thymeleaf("/course-zhuan");
     }
 
     /**
@@ -93,11 +93,9 @@ public class IndexController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/course", method = RequestMethod.GET)
-    public String order(Integer tab, Integer tabItem, Model model) {
-        if(tab == null){model.addAttribute("tab", 1);}else {model.addAttribute("tab", tab);}
-        if(tabItem == null){model.addAttribute("tabItem", 1);}else {model.addAttribute("tabItem", tabItem);}
-        return thymeleaf("/course");
+    @RequestMapping(value = "/courseSheng", method = RequestMethod.GET)
+    public String order(Model model) {
+        return thymeleaf("/course-sheng");
     }
 
     /**
