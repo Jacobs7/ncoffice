@@ -98,3 +98,27 @@ function showKeFu(img){
         showLoading('请稍候...','style="min-width: 5rem;min-height: 5rem;"');
     }
 }
+function checkInt(val) {
+    var re = new RegExp("^[0-9]*[1-9][0-9]*$");
+    if (val != "") {
+        if (re.test(val)) {
+            return true
+        }
+    }
+    return false;
+}
+function checkDecimal(val, num) {
+    if(!num){
+        num = 2;
+    }
+    if(!isNaN(val)){
+        var index = val.indexOf('.');
+        if(index > 0){
+            var len = val.substring(index + 1, val.length);
+            if(len <= num){
+                return true;
+            }
+        }
+    }
+    return false;
+}

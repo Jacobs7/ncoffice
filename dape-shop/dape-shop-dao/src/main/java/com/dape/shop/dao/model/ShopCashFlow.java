@@ -22,7 +22,7 @@ public class ShopCashFlow implements Serializable {
      *
      * @mbg.generated
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 订单ID，提现为空
@@ -36,7 +36,7 @@ public class ShopCashFlow implements Serializable {
      *
      * @mbg.generated
      */
-    private Boolean status;
+    private Integer status;
 
     private String remark;
 
@@ -74,11 +74,11 @@ public class ShopCashFlow implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -90,11 +90,11 @@ public class ShopCashFlow implements Serializable {
         this.orderId = orderId;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

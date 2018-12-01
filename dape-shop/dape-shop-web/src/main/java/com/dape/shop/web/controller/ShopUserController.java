@@ -1,7 +1,10 @@
 package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
+import com.dape.shop.common.constant.ShopCashStatusEnum;
+import com.dape.shop.common.constant.ShopCashTypeEnum;
 import com.dape.shop.dao.model.*;
+import com.dape.shop.rpc.api.ShopCashFlowService;
 import com.dape.shop.rpc.api.ShopUserInfoService;
 import com.dape.shop.rpc.api.ShopUserService;
 import org.slf4j.Logger;
@@ -14,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 首页控制器
@@ -32,6 +32,8 @@ public class ShopUserController extends BaseController {
     public ShopUserService shopUserService;
     @Autowired
     public ShopUserInfoService shopUserInfoService;
+    @Autowired
+    public ShopCashFlowService shopCashFlowService;
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public String mine(Model model, HttpServletRequest request) {
@@ -145,7 +147,7 @@ public class ShopUserController extends BaseController {
     }
 
     /**
-     * 提现
+     * 转向提现页面
      * @param model
      * @return
      */
@@ -159,4 +161,102 @@ public class ShopUserController extends BaseController {
         model.addAttribute("user", user);
         return thymeleaf("/cashOut");
     }
+
+    /**
+     * 积分兑换
+     * @param integral
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/integralPostal", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> integralPostal(Integer integral, Model model, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            int dw100 = 100; // 满100分可兑换
+
+            if(integral < dw100){
+                result.put("msg", "满1000分才可兑换");
+            }else{
+                ShopUser user = (ShopUser)o;
+                ShopUserExample shopUserE = new ShopUserExample();
+                shopUserE.or().andIdEqualTo(user.getId());
+                user = shopUserService.selectFirstByExample(shopUserE);
+                if(integral > user.getIntegral()){
+                    result.put("msg", "积分不足");
+                }else{
+                    user.setIntegral(user.getIntegral() - integral);
+                    int u = shopUserService.updateByPrimaryKey(user);
+                    if(u > 0){
+                        ShopCashFlow shopCashFlow = new ShopCashFlow();
+                        shopCashFlow.setUserId(user.getId());
+                        shopCashFlow.setCreateDate(new Date());
+                        shopCashFlow.setNum(integral);
+                        shopCashFlow.setType(ShopCashTypeEnum.DUIHUAN.getCode());
+                        shopCashFlow.setStatus(ShopCashStatusEnum.CHULIZHONG.getCode());
+                        shopCashFlow.setRemark("积分兑换");
+                        int r = shopCashFlowService.insert(shopCashFlow);
+                        if(r > 0){
+                            result.put("success", true);
+                            request.getSession().setAttribute("user", user); // 更新session
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 查询好友列表数据
+     * @param money
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/cashPostal", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> cashPostal(String money, Model model, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            float moneyT = Float.valueOf(money);
+            int cash = (int)(moneyT * 100);
+            if(cash < 1){
+                result.put("msg", "满1元才可提现");
+            }else{
+                ShopUser user = (ShopUser)o;
+                ShopUserExample shopUserE = new ShopUserExample();
+                shopUserE.or().andIdEqualTo(user.getId());
+                user = shopUserService.selectFirstByExample(shopUserE);
+                if(cash > user.getMoney()){
+                    result.put("msg", "余额不足");
+                }else{
+                    user.setMoney(user.getMoney() - cash);
+                    user.setOutCash(user.getOutCash() + cash);
+                    int u = shopUserService.updateByPrimaryKey(user);
+                    if(u > 0){
+                        ShopCashFlow shopCashFlow = new ShopCashFlow();
+                        shopCashFlow.setUserId(user.getId());
+                        shopCashFlow.setCreateDate(new Date());
+                        shopCashFlow.setNum(cash);
+                        shopCashFlow.setType(ShopCashTypeEnum.TIXIAN.getCode());
+                        shopCashFlow.setStatus(ShopCashStatusEnum.CHULIZHONG.getCode());
+                        shopCashFlow.setRemark("用户提现");
+                        int r = shopCashFlowService.insert(shopCashFlow);
+                        if(r > 0){
+                            result.put("success", true);
+                            request.getSession().setAttribute("user", user); // 更新session
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 }
