@@ -138,7 +138,7 @@ header,.weui-navbar{
 .wy-pro-list .protxt .name{height:1.2rem;font-size:0.7rem; color:#454545; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
 .wy-pro-pri{font-size:0.75rem;; margin-top:3px; line-height:20px;color:#bbbbbb;display: flex;}
 .wy-pro-pri span{font-family:Arial, Helvetica, sans-serif; padding-left:3px; font-size:0.6rem;}
-.wy-pro-list .return{display: flex;width: 100%;margin:0 auto;border: 1px solid #d02c37;font-size:0.7rem;line-height:0.95rem;text-align: center;border-radius:5px;margin-top: 0.2rem;}
+.wy-pro-list .return{display: flex;width: 100%;margin:0 auto;border: 1px solid #d02c37;font-size:0.65rem;line-height:0.95rem;text-align: center;border-radius:5px;margin-top: 0.2rem;}
 .wy-pro-list .return div{flex:0 0 50%;}
 
 /*商品分类页*/

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dape.shop.dao.mapper.ShopCashFlowMapper">
-  <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopCashFlow">
+<mapper namespace="com.dape.shop.dao.mapper.ShopSmsMapper">
+  <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopSms">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="new_mobile" jdbcType="VARCHAR" property="newMobile" />
+    <result column="old_mobile" jdbcType="VARCHAR" property="oldMobile" />
+    <result column="sms_code" jdbcType="VARCHAR" property="smsCode" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, num, user_id, type, order_id, status, remark
+    id, create_date, new_mobile, old_mobile, sms_code, user_id, status
   </sql>
-  <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopCashFlowExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopSmsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from shop_cash_flow
+    from shop_sms
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,29 +88,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from shop_cash_flow
+    from shop_sms
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from shop_cash_flow
+    delete from shop_sms
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.dape.shop.dao.model.ShopCashFlowExample">
-    delete from shop_cash_flow
+  <delete id="deleteByExample" parameterType="com.dape.shop.dao.model.ShopSmsExample">
+    delete from shop_sms
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dape.shop.dao.model.ShopCashFlow">
-    insert into shop_cash_flow (id, create_date, num, 
-      user_id, type, order_id, 
-      status, remark)
-    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{num,jdbcType=INTEGER}, 
-      #{userId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{orderId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.dape.shop.dao.model.ShopSms">
+    insert into shop_sms (id, create_date, new_mobile, 
+      old_mobile, sms_code, user_id, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{newMobile,jdbcType=VARCHAR}, 
+      #{oldMobile,jdbcType=VARCHAR}, #{smsCode,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopCashFlow">
-    insert into shop_cash_flow
+  <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopSms">
+    insert into shop_sms
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -119,23 +118,20 @@
       <if test="createDate != null">
         create_date,
       </if>
-      <if test="num != null">
-        num,
+      <if test="newMobile != null">
+        new_mobile,
+      </if>
+      <if test="oldMobile != null">
+        old_mobile,
+      </if>
+      <if test="smsCode != null">
+        sms_code,
       </if>
       <if test="userId != null">
         user_id,
       </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="orderId != null">
-        order_id,
-      </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="remark != null">
-        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -145,34 +141,31 @@
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="num != null">
-        #{num,jdbcType=INTEGER},
+      <if test="newMobile != null">
+        #{newMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="oldMobile != null">
+        #{oldMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="smsCode != null">
+        #{smsCode,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=BIGINT},
-      </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dape.shop.dao.model.ShopCashFlowExample" resultType="java.lang.Long">
-    select count(*) from shop_cash_flow
+  <select id="countByExample" parameterType="com.dape.shop.dao.model.ShopSmsExample" resultType="java.lang.Long">
+    select count(*) from shop_sms
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update shop_cash_flow
+    update shop_sms
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -180,23 +173,20 @@
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.num != null">
-        num = #{record.num,jdbcType=INTEGER},
+      <if test="record.newMobile != null">
+        new_mobile = #{record.newMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldMobile != null">
+        old_mobile = #{record.oldMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smsCode != null">
+        sms_code = #{record.smsCode,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=BIGINT},
-      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
-      </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,55 +194,50 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update shop_cash_flow
+    update shop_sms
     set id = #{record.id,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      num = #{record.num,jdbcType=INTEGER},
+      new_mobile = #{record.newMobile,jdbcType=VARCHAR},
+      old_mobile = #{record.oldMobile,jdbcType=VARCHAR},
+      sms_code = #{record.smsCode,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER},
-      order_id = #{record.orderId,jdbcType=BIGINT},
-      status = #{record.status,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dape.shop.dao.model.ShopCashFlow">
-    update shop_cash_flow
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.shop.dao.model.ShopSms">
+    update shop_sms
     <set>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="num != null">
-        num = #{num,jdbcType=INTEGER},
+      <if test="newMobile != null">
+        new_mobile = #{newMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="oldMobile != null">
+        old_mobile = #{oldMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="smsCode != null">
+        sms_code = #{smsCode,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=BIGINT},
-      </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopCashFlow">
-    update shop_cash_flow
+  <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopSms">
+    update shop_sms
     set create_date = #{createDate,jdbcType=TIMESTAMP},
-      num = #{num,jdbcType=INTEGER},
+      new_mobile = #{newMobile,jdbcType=VARCHAR},
+      old_mobile = #{oldMobile,jdbcType=VARCHAR},
+      sms_code = #{smsCode,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=BIGINT},
-      status = #{status,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

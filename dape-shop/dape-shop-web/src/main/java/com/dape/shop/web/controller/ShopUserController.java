@@ -3,8 +3,10 @@ package com.dape.shop.web.controller;
 import com.dape.common.base.BaseController;
 import com.dape.shop.common.constant.ShopCashStatusEnum;
 import com.dape.shop.common.constant.ShopCashTypeEnum;
+import com.dape.shop.common.constant.ShopSmsStatusEnum;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopCashFlowService;
+import com.dape.shop.rpc.api.ShopSmsService;
 import com.dape.shop.rpc.api.ShopUserInfoService;
 import com.dape.shop.rpc.api.ShopUserService;
 import org.slf4j.Logger;
@@ -34,6 +36,8 @@ public class ShopUserController extends BaseController {
     public ShopUserInfoService shopUserInfoService;
     @Autowired
     public ShopCashFlowService shopCashFlowService;
+    @Autowired
+    public ShopSmsService shopSmsService;
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public String mine(Model model, HttpServletRequest request) {
@@ -316,12 +320,32 @@ public class ShopUserController extends BaseController {
                 result.put("msg", "该手机号已被绑定");
             }else{
 
+                ShopSmsExample shopSmsE = new ShopSmsExample();
+                shopSmsE.or().andNewMobileEqualTo(mobile).andUserIdEqualTo(user.getId()).andStatusEqualTo(ShopSmsStatusEnum.UNUSED.getCode());
+                ShopSms shopSms = shopSmsService.selectFirstByExample(shopSmsE);
+                if(shopSms != null && shopSms.getSmsCode().equals(smsCode)){
+                    long time = System.currentTimeMillis() - shopSms.getCreateDate().getTime();
+                    shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+                    shopSmsService.updateByPrimaryKey(shopSms);// 更新验证码状态为已使用
+                    if(time > 5 * 60 * 1000){// 已超时，5分钟
+                        result.put("msg", "验证码已失效");
+                    }else{
+                        shopUserE = new ShopUserExample();
+                        shopUserE.or().andIdEqualTo(user.getId());
+                        user = shopUserService.selectFirstByExample(shopUserE);
+                        user.setMobile(mobile);
+                        int c = shopUserService.updateByPrimaryKey(user);
+                        if(c > 0){
+                            result.put("success", true);
+                            request.getSession().setAttribute("user", user); // 更新session
+                        }
+                    }
+                }else{
+                    result.put("msg", "验证码错误");
+                }
             }
         }
 
-        // 发送验证码
-
-        result.put("success", true);
         return result;
     }
 
@@ -365,12 +389,25 @@ public class ShopUserController extends BaseController {
                 result.put("msg", "该手机号已被绑定");
             }else{
                 // 发送验证码
+                String code = "111111";
+                // 待实现
 
-                // 添加验证码到数据库
 
-                user.setMobile(mobile);
-                result.put("success", true);
-                request.getSession().setAttribute("user", user); // 更新session
+
+                ShopSms shopSms = new ShopSms();
+                shopSms.setUserId(user.getId());
+                shopSms.setNewMobile(mobile);
+                shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+                shopSmsService.updateSmsCodeStatus(shopSms);// 修改之前的验证码为已使用状态
+
+                shopSms.setCreateDate(new Date());
+                shopSms.setOldMobile(user.getMobile() == null ? null : user.getMobile());
+                shopSms.setSmsCode(code);
+                shopSms.setStatus(ShopSmsStatusEnum.UNUSED.getCode());
+                int c = shopSmsService.insert(shopSms);// 添加验证码到数据库
+                if(c > 0){
+                    result.put("success", true);
+                }
             }
         }
 
