@@ -98,6 +98,7 @@ function showKeFu(img){
         showLoading('请稍候...','style="min-width: 5rem;min-height: 5rem;"');
     }
 }
+// 验证整数
 function checkInt(val) {
     var re = new RegExp("^[0-9]*[1-9][0-9]*$");
     if (val != "") {
@@ -107,6 +108,7 @@ function checkInt(val) {
     }
     return false;
 }
+// 验证小数,num是小数位
 function checkDecimal(val, num) {
     if(!num){
         num = 2;
@@ -121,4 +123,18 @@ function checkDecimal(val, num) {
         }
     }
     return false;
+}
+function isChinaName(name) {
+    var pattern = /^[\u4E00-\u9FA5]{1,6}$/;
+    return pattern.test(name);
+}
+// 验证手机号
+function isPhoneNo(phone) {
+    var pattern = /^1[34578]\d{9}$/;
+    return pattern.test(phone);
+}
+// 验证身份证
+function isCardNo(card) {
+    var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    return pattern.test(card);
 }

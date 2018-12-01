@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>我的积分</title>
+<title>设置支付宝</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -15,19 +15,38 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--数据列表-->
-  <div class="weui-panel" style="margin-top: 44px;">
-    <div style="padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户剩余<i id="integral" style="color:#F54D23;" th:text="${user.integral}">0</i>分，100分＝1元</div>
-    <div class="integral-input-div"><div class="weui-cell__bd" style="padding:0.2rem 0;"><input id="integralInput" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入兑换积分，满1000分可兑换"></div></div>
-      <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a id="integralBtn" href="javascript:;" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">兑换</a></div>
+  <div class="weui-panel" style="margin-top: 2.8rem;background-color:#f5f5f5;">
+      <div class="setList">
+        <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;">
+          <a class="core" href="taoker-agent-set-phone.jsp">
+            <span class="fl">手机号</span>
+            <span class="fr" style="color:#999;">18951856755</span>
+          </a>
+        </div>
+        <div class="docItem setItem">
+          <a class="core" href="#" id="editDefaultPayType">
+            <span class="fl">默认提现方式</span>
+            <span class="fr" id="defaultPayType" style="color:#999;">微信支付</span>
+          </a>
+        </div>
+      </div>
+  </div>
+  <div class="weui-panel" style="background-color:#f5f5f5;">
+    <div class="setList">
+      <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;">
+        <a class="core" href="taoker-agent-set-phone.jsp">
+          <span class="fl">支付宝</span>
+          <span class="fr" style="color:#999;">点击设置</span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
 <!--顶部搜索-->
 <header class="weui-header index-header">
       <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
-        <a href="/user/integral" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;margin-left: 20%;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">积分</a>
-        <a href="/user/cash" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit">钱包</a>
-        <a href="/user/cashOut" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit">提现</a>
+        <a href="/user/toSetting" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">个人设置</a>
       </div>
 </header>
 

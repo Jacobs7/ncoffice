@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>设置手机号</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 2.1rem;">
+    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color:#DD2727;text-align: center;">当前绑定手机号：<i th:text="${user.mobile}"></i></div>
+      <div class="setList">
+        <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;padding:0.2rem 0;">
+          <div class="core" href="javascripg:">
+            <span class="fl"><input id="mobileInput" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入新手机号"></span>
+            <span class="fr" style="color:#999;"><a class="getSmsCodeBtn" href="javascript:">获取验证码</a></span>
+          </div>
+        </div>
+        <div class="docItem setItem" style="padding:0.2rem 0;">
+          <div class="core" href="javascripg:" id="editDefaultPayType">
+            <span class="fl"><input id="smsCodeInput" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入验证码"></span>
+          </div>
+        </div>
+      </div>
+    <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a href="javascript:;" id="setModileBtn" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">确认</a></div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a href="/user/toSetting" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">设置手机号</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+        $('.getSmsCodeBtn').click(function (e) {
+            var mobile = $('#mobileInput').val();
+            if(mobile == '' || mobile == [[${user.mobile}]]){
+                $.toast('请输入新手机号', 'forbidden');
+            }else if(!isPhoneNo(mobile)){
+                $.toast('手机号格式错误', 'forbidden');
+            }else{
+                //$.showLoading('请稍候');
+                $.post('/user/sendSmsCode',{mobile:mobile},function (data) {
+                    //$.hideLoading();
+                    if(data.success){
+                        var num = 5;
+                        var smsCodeInter = setInterval(function(){
+                            if(num < 0){
+                                $('.getSmsCodeBtn').text('获取验证码');
+                                clearInterval(smsCodeInter);
+                            }else{
+                                $('.getSmsCodeBtn').text(num);
+                            }
+                            num--;
+                        },1000);
+                        $.toast('发送成功');
+                    }else{
+                        $.toast('发送失败', 'forbidden');
+                    }
+                });
+            }
+        });
+    });
+    $('#setModileBtn').click(function (e) {
+        var mobile = $('#mobileInput').val();
+        var smsCode = $('#smsCodeInput').val();
+        if(mobile == '' || mobile == [[${user.mobile}]]){
+            $.toast('请输入新手机号', 'forbidden');
+        }else if(!isPhoneNo(mobile)){
+            $.toast('手机号格式错误', 'forbidden');
+        }else if(smsCode == ''){
+            $.toast('请输入验证码', 'forbidden');
+        }else if(smsCode.length != 6 || !checkInt(smsCode)){
+            $.toast('验证码格式错误', 'forbidden');
+        }else {
+            $.post('/user/setMobile',{mobile:mobile,smsCode:smsCode},function (data) {
+                if(data.success){
+                    $.toast('绑定成功');
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                }else if(data.msg){
+                    $.toast(data.msg, 'forbidden');
+                }else {
+                    $.toast('绑定失败', 'forbidden');
+                }
+            });
+        }
+    })
+</script>
+</body>
+</html>

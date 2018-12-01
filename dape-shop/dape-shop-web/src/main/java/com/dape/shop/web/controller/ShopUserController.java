@@ -259,4 +259,121 @@ public class ShopUserController extends BaseController {
         return result;
     }
 
+    /**
+     * 个人设置
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/toSetting", method = RequestMethod.GET)
+    public String toSetting(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/setting");
+    }
+
+    /**
+     * 手机号修改
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/toSetMobile", method = RequestMethod.GET)
+    public String toSetMobile(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/setMobile");
+    }
+
+    /**
+     * 修改手机
+     * @param mobile
+     * @param smsCode
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/setMobile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setMobile(String mobile, String smsCode, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+
+            ShopUserExample shopUserE = new ShopUserExample();
+            shopUserE.or().andMobileEqualTo(mobile);
+            int count = shopUserService.countByExample(shopUserE);
+            if(count > 0){
+                result.put("msg", "该手机号已被绑定");
+            }else{
+
+            }
+        }
+
+        // 发送验证码
+
+        result.put("success", true);
+        return result;
+    }
+
+    /**
+     * 手机号修改
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/toSetZFB", method = RequestMethod.GET)
+    public String toSetZFB(Model model, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+        }
+        model.addAttribute("user", user);
+        return thymeleaf("/setZhifubao");
+    }
+
+    /**
+     * 获取验证码
+     * @param mobile
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/sendSmsCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> sendSmsCode(String mobile, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+
+            ShopUserExample shopUserE = new ShopUserExample();
+            shopUserE.or().andMobileEqualTo(mobile);
+            int count = shopUserService.countByExample(shopUserE);
+            if(count > 0){
+                result.put("msg", "该手机号已被绑定");
+            }else{
+                // 发送验证码
+
+                // 添加验证码到数据库
+
+                user.setMobile(mobile);
+                result.put("success", true);
+                request.getSession().setAttribute("user", user); // 更新session
+            }
+        }
+
+        return result;
+    }
 }
