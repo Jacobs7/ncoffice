@@ -10,6 +10,9 @@
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
+    <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, num, user_id, type, order_id, status, remark
+    id, create_date, num, user_id, type, order_id, status, remark, pay_type, pay_account, 
+    pay_name
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopCashFlowExample" resultMap="BaseResultMap">
     select
@@ -105,10 +109,12 @@
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopCashFlow">
     insert into shop_cash_flow (id, create_date, num, 
       user_id, type, order_id, 
-      status, remark)
+      status, remark, pay_type, 
+      pay_account, pay_name)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{num,jdbcType=INTEGER}, 
       #{userId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{orderId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, 
+      #{payAccount,jdbcType=VARCHAR}, #{payName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopCashFlow">
     insert into shop_cash_flow
@@ -137,6 +143,15 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="payAccount != null">
+        pay_account,
+      </if>
+      <if test="payName != null">
+        pay_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +177,15 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="payAccount != null">
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payName != null">
+        #{payName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +222,15 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=INTEGER},
+      </if>
+      <if test="record.payAccount != null">
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payName != null">
+        pay_name = #{record.payName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +245,10 @@
       type = #{record.type,jdbcType=INTEGER},
       order_id = #{record.orderId,jdbcType=BIGINT},
       status = #{record.status,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=INTEGER},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      pay_name = #{record.payName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +277,15 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="payAccount != null">
+        pay_account = #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payName != null">
+        pay_name = #{payName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -252,7 +297,10 @@
       type = #{type,jdbcType=INTEGER},
       order_id = #{orderId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
+      pay_name = #{payName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

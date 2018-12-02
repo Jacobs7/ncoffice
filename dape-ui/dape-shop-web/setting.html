@@ -24,9 +24,11 @@
           </a>
         </div>
         <div class="docItem setItem" style="padding:0.2rem 0;">
-          <div class="core" href="#" id="editDefaultPayType">
-            <span class="fl">默认提现方式</span>
-            <span class="fr" id="defaultPayType" style="color:#999;">微信支付</span>
+          <div class="core" style="padding:0.2rem 0;">
+              <a class="core" href="javascript:" onclick="setOutCashType()">
+                <span class="fl">默认提现方式</span>
+                <span class="fr" id="defaultPayType" style="color:#999;">微信支付</span>
+              </a>
           </div>
         </div>
       </div>
@@ -36,7 +38,7 @@
       <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;padding:0.2rem 0;">
         <a class="core" href="/user/toSetZFB">
           <span class="fl">支付宝</span>
-          <span class="fr" style="color:#999;" th:text="${userInfo.zfbAccount} ? ${userInfo.zfbAccount} : '点击设置'"></span>
+          <span id="payTypeTxt" class="fr" style="color:#999;" th:text="${#strings.isEmpty(userInfo.zfbAccount)} ? '点击设置' : ${userInfo.zfbAccount}"></span>
         </a>
       </div>
     </div>
@@ -86,6 +88,7 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script th:inline="javascript">
     var appURL = [[${uiPath}]] + [[${appName}]];
+    var zfbAccount = [[${userInfo.zfbAccount}]];
     $(function() {
         FastClick.attach(document.body);
     });
@@ -110,6 +113,35 @@
             });
         }
     })
+    function setOutCashType(){
+        $.actions({
+            actions: [{
+                text: "微信",
+                onClick: function() {
+                    setPayType(1);
+                }
+            },{
+                text: "支付宝",
+                onClick: function() {
+                    if(zfbAccount == ''){
+                        $.toast('未设置支付宝帐号', 'forbidden');
+                    }else{
+                        setPayType(2);
+                    }
+                }
+            }]
+        });
+    }
+    function setPayType(type) {
+        $.post('/user/setPayType',{payType:type},function (data) {
+            if (data.success){
+                $.toast('设置成功');
+                $('#payTypeTxt').text(type==1?'微信支付':'支付宝')
+            }else{
+                $.toast('设置失败', 'forbidden');
+            }
+        });
+    }
 </script>
 </body>
 </html>

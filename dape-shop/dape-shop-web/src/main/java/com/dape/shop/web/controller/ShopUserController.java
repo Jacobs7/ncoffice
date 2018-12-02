@@ -3,6 +3,7 @@ package com.dape.shop.web.controller;
 import com.dape.common.base.BaseController;
 import com.dape.shop.common.constant.ShopCashStatusEnum;
 import com.dape.shop.common.constant.ShopCashTypeEnum;
+import com.dape.shop.common.constant.ShopPayTypeEnum;
 import com.dape.shop.common.constant.ShopSmsStatusEnum;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopCashFlowService;
@@ -370,7 +371,6 @@ public class ShopUserController extends BaseController {
         return thymeleaf("/setZhifubao");
     }
 
-
     /**
      * 修改手机
      * @param zfbAccount
@@ -401,6 +401,41 @@ public class ShopUserController extends BaseController {
             }else{
                 info.setZfbAccount(zfbAccount);
                 info.setZfbName(zfbName);
+                shopUserInfoService.updateByExample(info,shopUserInfoE);
+            }
+            result.put("success", true);
+        }
+        return result;
+    }
+
+    /**
+     * 设置支付方式
+     * @param zfbAccount
+     * @param zfbName
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/setPayType", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setPayType(Integer payType, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+
+            ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
+            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            ShopUserInfo info = shopUserInfoService.selectFirstByExample(shopUserInfoE);
+            if(info == null){
+                info = new ShopUserInfo();
+                info.setShopUserId(user.getId());
+                info.setPayType(payType);
+                shopUserInfoService.insert(info);
+            }else{
+                info.setPayType(payType);
                 shopUserInfoService.updateByExample(info,shopUserInfoE);
             }
             result.put("success", true);
