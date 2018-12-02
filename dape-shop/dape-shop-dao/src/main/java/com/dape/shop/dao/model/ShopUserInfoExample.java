@@ -426,6 +426,146 @@ public class ShopUserInfoExample implements Serializable {
             addCriterion("address not between", value1, value2, "address");
             return (Criteria) this;
         }
+
+        public Criteria andZfbAccountIsNull() {
+            addCriterion("zfb_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountIsNotNull() {
+            addCriterion("zfb_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountEqualTo(String value) {
+            addCriterion("zfb_account =", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountNotEqualTo(String value) {
+            addCriterion("zfb_account <>", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountGreaterThan(String value) {
+            addCriterion("zfb_account >", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("zfb_account >=", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountLessThan(String value) {
+            addCriterion("zfb_account <", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountLessThanOrEqualTo(String value) {
+            addCriterion("zfb_account <=", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountLike(String value) {
+            addCriterion("zfb_account like", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountNotLike(String value) {
+            addCriterion("zfb_account not like", value, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountIn(List<String> values) {
+            addCriterion("zfb_account in", values, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountNotIn(List<String> values) {
+            addCriterion("zfb_account not in", values, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountBetween(String value1, String value2) {
+            addCriterion("zfb_account between", value1, value2, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbAccountNotBetween(String value1, String value2) {
+            addCriterion("zfb_account not between", value1, value2, "zfbAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameIsNull() {
+            addCriterion("zfb_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameIsNotNull() {
+            addCriterion("zfb_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameEqualTo(String value) {
+            addCriterion("zfb_name =", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameNotEqualTo(String value) {
+            addCriterion("zfb_name <>", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameGreaterThan(String value) {
+            addCriterion("zfb_name >", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameGreaterThanOrEqualTo(String value) {
+            addCriterion("zfb_name >=", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameLessThan(String value) {
+            addCriterion("zfb_name <", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameLessThanOrEqualTo(String value) {
+            addCriterion("zfb_name <=", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameLike(String value) {
+            addCriterion("zfb_name like", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameNotLike(String value) {
+            addCriterion("zfb_name not like", value, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameIn(List<String> values) {
+            addCriterion("zfb_name in", values, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameNotIn(List<String> values) {
+            addCriterion("zfb_name not in", values, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameBetween(String value1, String value2) {
+            addCriterion("zfb_name between", value1, value2, "zfbName");
+            return (Criteria) this;
+        }
+
+        public Criteria andZfbNameNotBetween(String value1, String value2) {
+            addCriterion("zfb_name not between", value1, value2, "zfbName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

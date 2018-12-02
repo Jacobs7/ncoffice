@@ -272,10 +272,15 @@ public class ShopUserController extends BaseController {
     public String toSetting(Model model, HttpServletRequest request) {
         ShopUser user = new ShopUser();
         Object o = request.getSession().getAttribute("user");
+        ShopUserInfo userInfo = new ShopUserInfo();
         if(o != null){
             user = (ShopUser)o;
+            ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
+            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            userInfo = shopUserInfoService.selectFirstByExample(shopUserInfoE);
         }
         model.addAttribute("user", user);
+        model.addAttribute("userInfo", userInfo);
         return thymeleaf("/setting");
     }
 
@@ -363,6 +368,44 @@ public class ShopUserController extends BaseController {
         }
         model.addAttribute("user", user);
         return thymeleaf("/setZhifubao");
+    }
+
+
+    /**
+     * 修改手机
+     * @param zfbAccount
+     * @param zfbName
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/setZhifubao", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setZhifubao(String zfbAccount, String zfbName, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        if(o != null){
+            user = (ShopUser)o;
+
+            ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
+            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            ShopUserInfo info = shopUserInfoService.selectFirstByExample(shopUserInfoE);
+            if(info == null){
+                info = new ShopUserInfo();
+                info.setShopUserId(user.getId());
+                info.setZfbAccount(zfbAccount);
+                info.setZfbName(zfbName);
+                shopUserInfoService.insert(info);
+            }else{
+                info.setZfbAccount(zfbAccount);
+                info.setZfbName(zfbName);
+                shopUserInfoService.updateByExample(info,shopUserInfoE);
+            }
+            result.put("success", true);
+        }
+        return result;
     }
 
     /**

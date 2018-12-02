@@ -28,6 +28,20 @@ public class ShopUserInfo implements Serializable {
      */
     private String address;
 
+    /**
+     * 支付宝帐号
+     *
+     * @mbg.generated
+     */
+    private String zfbAccount;
+
+    /**
+     * 支付宝姓名
+     *
+     * @mbg.generated
+     */
+    private String zfbName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -70,6 +84,22 @@ public class ShopUserInfo implements Serializable {
         this.address = address;
     }
 
+    public String getZfbAccount() {
+        return zfbAccount;
+    }
+
+    public void setZfbAccount(String zfbAccount) {
+        this.zfbAccount = zfbAccount;
+    }
+
+    public String getZfbName() {
+        return zfbName;
+    }
+
+    public void setZfbName(String zfbName) {
+        this.zfbName = zfbName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -81,6 +111,8 @@ public class ShopUserInfo implements Serializable {
         sb.append(", sex=").append(sex);
         sb.append(", mobile=").append(mobile);
         sb.append(", address=").append(address);
+        sb.append(", zfbAccount=").append(zfbAccount);
+        sb.append(", zfbName=").append(zfbName);
         sb.append("]");
         return sb.toString();
     }
@@ -101,7 +133,9 @@ public class ShopUserInfo implements Serializable {
             && (this.getShopUserId() == null ? other.getShopUserId() == null : this.getShopUserId().equals(other.getShopUserId()))
             && (this.getSex() == null ? other.getSex() == null : this.getSex().equals(other.getSex()))
             && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()))
-            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()));
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getZfbAccount() == null ? other.getZfbAccount() == null : this.getZfbAccount().equals(other.getZfbAccount()))
+            && (this.getZfbName() == null ? other.getZfbName() == null : this.getZfbName().equals(other.getZfbName()));
     }
 
     @Override
@@ -113,6 +147,8 @@ public class ShopUserInfo implements Serializable {
         result = prime * result + ((getSex() == null) ? 0 : getSex().hashCode());
         result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getZfbAccount() == null) ? 0 : getZfbAccount().hashCode());
+        result = prime * result + ((getZfbName() == null) ? 0 : getZfbName().hashCode());
         return result;
     }
 }

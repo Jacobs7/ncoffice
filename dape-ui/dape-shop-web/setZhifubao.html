@@ -15,38 +15,28 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--数据列表-->
-  <div class="weui-panel" style="margin-top: 2.8rem;background-color:#f5f5f5;">
-      <div class="setList">
-        <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;">
-          <a class="core" href="taoker-agent-set-phone.jsp">
-            <span class="fl">手机号</span>
-            <span class="fr" style="color:#999;">18951856755</span>
-          </a>
-        </div>
-        <div class="docItem setItem">
-          <a class="core" href="#" id="editDefaultPayType">
-            <span class="fl">默认提现方式</span>
-            <span class="fr" id="defaultPayType" style="color:#999;">微信支付</span>
-          </a>
-        </div>
-      </div>
-  </div>
-  <div class="weui-panel" style="background-color:#f5f5f5;">
-    <div class="setList">
-      <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;">
-        <a class="core" href="taoker-agent-set-phone.jsp">
-          <span class="fl">支付宝</span>
-          <span class="fr" style="color:#999;">点击设置</span>
-        </a>
+  <div class="weui-panel" style="margin-top: 2.8rem;">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">支付宝帐号</label></div>
+      <div class="weui-cell__bd">
+        <input id="zfbAccountInput" class="weui-input" type="text" placeholder="请输入支付宝帐号">
       </div>
     </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">支付宝姓名</label></div>
+      <div class="weui-cell__bd">
+        <input id="zfbNameInput" class="weui-input" type="text" placeholder="请输入支付宝姓名">
+      </div>
+    </div>
+    <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a id="setZhifubaoBtn" href="javascript:;" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">确定</a></div>
   </div>
 </div>
 
 <!--顶部搜索-->
 <header class="weui-header index-header">
       <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
-        <a href="/user/toSetting" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">个人设置</a>
+        <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+        <a href="/user/toSetZFB" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">支付宝设置</a>
       </div>
 </header>
 
@@ -82,23 +72,22 @@
     $(function() {
         FastClick.attach(document.body);
     });
-    $('#integralBtn').click(function (e) {
-        var integral = $('#integralInput').val();
-        if(!checkInt(integral)){
-            $.toast('必须输入整数', 'forbidden');
-        }else if(integral < 1000){
-            $.toast('满1000分可兑换', 'forbidden');
+    $('#setZhifubaoBtn').click(function (e) {
+        var zfbAccountInput = $('#zfbAccountInput').val();
+        var zfbNameInput = $('#zfbNameInput').val();
+        if(zfbAccountInput == '' || zfbNameInput == ''){
+            $.toast('请输入支付宝帐号、姓名', 'forbidden');
         }else{
-            $.post('/user/integralPostal',{integral:integral},function (data) {
+            $.post('/user/setZhifubao',{zfbAccount:zfbAccountInput,zfbName:zfbNameInput},function (data) {
                 if(data.success){
-                    $.toast('兑换成功');
+                    $.toast('设置成功');
                     setTimeout(function () {
                         window.location.reload();
                     },2000)
                 }else if(data.msg){
                     $.toast(data.msg, 'forbidden');
                 }else {
-                    $.toast('兑换失败', 'forbidden');
+                    $.toast('设置失败', 'forbidden');
                 }
             });
         }
