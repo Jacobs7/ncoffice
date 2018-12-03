@@ -108,6 +108,8 @@ public class ShopUserController extends BaseController {
             ShopUser user = (ShopUser)o;
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("sCode", user.getrCode());
+            params.put("start", (pageNum - 1) * pageSize);
+            params.put("limit", pageSize);
             frends = shopUserService.listUserOrder(params);
             count = shopUserService.listUserOrderCount(params);
         }
@@ -520,7 +522,7 @@ public class ShopUserController extends BaseController {
                 criteria.andTypeEqualTo(type);
             }
             shopCashFlowE.setOrderByClause("create_date desc");
-            cashFlowList = shopCashFlowService.selectByExample(shopCashFlowE);
+            cashFlowList = shopCashFlowService.selectByExampleForStartPage(shopCashFlowE, pageNum, pageSize);
         }
         return cashFlowList;
     }

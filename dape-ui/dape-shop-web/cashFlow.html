@@ -25,19 +25,6 @@
     </div>
     -->
     <div id="flowList" class="flowList" >
-      <div th:each="flow,flowStat:${cashFlow}" class="flowItemList">
-        <div class="folw-data-status">
-          <div style="flex: 0 0 100%;"><em class="title">操作时间：</em><em th:text="${#dates.format(flow.createDate,'yyyy-MM-dd HH:mm:ss')}"></em></div>
-        </div>
-        <div class="folw-line">
-          <div style="flex: 0 0 50%;"><em class="title">金额：</em><em th:text="${flow.num} / 100"></em></div>
-          <div style="flex: 0 0 50%;"><em class="title">方式：</em><em th:text="${flow.payType}==1?'微信':'支付宝'"></em></div>
-        </div>
-        <div class="folw-line">
-          <div style="flex: 0 0 50%;"><em class="title">结果：</em><em th:text="${flow.status}==1?'成功':'失败'"></em></div>
-          <div style="flex: 0 0 50%;"><em class="title">备注：</em><em th:text="${flow.remark}"></em></div>
-        </div>
-      </div>
     </div>
     <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
       <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>

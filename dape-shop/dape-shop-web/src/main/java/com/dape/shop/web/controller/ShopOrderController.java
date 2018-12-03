@@ -77,7 +77,7 @@ public class ShopOrderController {
                     criteria.andOrderIdLike("%" + orderId + "%");
                 }
                 shopOrderE.setOrderByClause("create_date desc");
-                orders = shopOrderService.selectByExample(shopOrderE);
+                orders = shopOrderService.selectByExampleForStartPage(shopOrderE, pageNum, pageSize);
             }else if(tab == 2){// 我的推广,  分页功能还没加
                 ShopOrder shopOrder = new ShopOrder();
                 if(StringUtils.isNotBlank(orderId)) {
