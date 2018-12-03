@@ -3,7 +3,6 @@ package com.dape.shop.web.controller;
 import com.dape.common.base.BaseController;
 import com.dape.shop.common.constant.ShopCashStatusEnum;
 import com.dape.shop.common.constant.ShopCashTypeEnum;
-import com.dape.shop.common.constant.ShopPayTypeEnum;
 import com.dape.shop.common.constant.ShopSmsStatusEnum;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopCashFlowService;
@@ -410,8 +409,7 @@ public class ShopUserController extends BaseController {
 
     /**
      * 设置支付方式
-     * @param zfbAccount
-     * @param zfbName
+     * @param payType
      * @param request
      * @return
      */
@@ -490,5 +488,40 @@ public class ShopUserController extends BaseController {
         }
 
         return result;
+    }
+
+    /**
+     * 转向提现记录
+     * @return
+     */
+    @RequestMapping(value = "/toCashFlow", method = RequestMethod.GET)
+    public String toCashFlow() {
+        return thymeleaf("/cashFlow");
+    }
+
+    /**
+     * 获取资金流水
+     * @param type
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/cashFlow", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ShopCashFlow> cashFlow(Integer pageNum, Integer pageSize, Integer type, HttpServletRequest request) {
+        ShopUser user = new ShopUser();
+        Object o = request.getSession().getAttribute("user");
+        List<ShopCashFlow> cashFlowList = new ArrayList<ShopCashFlow>();
+        if(o != null){
+            user = (ShopUser)o;
+            ShopCashFlowExample shopCashFlowE = new ShopCashFlowExample();
+            ShopCashFlowExample.Criteria criteria = shopCashFlowE.createCriteria();
+            criteria.andUserIdEqualTo(user.getId());
+            if(type != null){
+                criteria.andTypeEqualTo(type);
+            }
+            shopCashFlowE.setOrderByClause("create_date desc");
+            cashFlowList = shopCashFlowService.selectByExample(shopCashFlowE);
+        }
+        return cashFlowList;
     }
 }

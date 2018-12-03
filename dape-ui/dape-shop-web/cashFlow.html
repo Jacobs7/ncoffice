@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>提现记录</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 2.1rem;background-color:#f5f5f5;">
+    <!--
+    <div style="display: flex;text-align: center;line-height: 1.6rem;font-size: 0.75rem;color: #999;font-family: '微软雅黑';">
+      <div style="flex: 0 0 25%;">金额</div>
+      <div style="flex: 0 0 25%;">操作时间</div>
+      <div style="flex: 0 0 25%;">转帐帐号</div>
+      <div style="flex: 0 0 25%;">状态</div>
+    </div>
+    -->
+    <div id="flowList" class="flowList" >
+      <div th:each="flow,flowStat:${cashFlow}" class="flowItemList">
+        <div class="folw-data-status">
+          <div style="flex: 0 0 100%;"><em class="title">操作时间：</em><em th:text="${#dates.format(flow.createDate,'yyyy-MM-dd HH:mm:ss')}"></em></div>
+        </div>
+        <div class="folw-line">
+          <div style="flex: 0 0 50%;"><em class="title">金额：</em><em th:text="${flow.num} / 100"></em></div>
+          <div style="flex: 0 0 50%;"><em class="title">方式：</em><em th:text="${flow.payType}==1?'微信':'支付宝'"></em></div>
+        </div>
+        <div class="folw-line">
+          <div style="flex: 0 0 50%;"><em class="title">结果：</em><em th:text="${flow.status}==1?'成功':'失败'"></em></div>
+          <div style="flex: 0 0 50%;"><em class="title">备注：</em><em th:text="${flow.remark}"></em></div>
+        </div>
+      </div>
+    </div>
+    <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
+      <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+    </div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+        <a href="/user/toSetting" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">提现记录</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
+<script th:inline="javascript">
+    $(function() {
+        FastClick.attach(document.body);
+        loadGoods();
+    });
+
+    var pageNum = 1;
+    var pageSize = 20;
+    function loadGoods(){
+        $.post('/user/cashFlow',{pageNum:pageNum,pageSize:pageSize,type:1},function(data){
+            loading = false;
+
+            if(data && data.length > 0){
+                $(data).each(function(){
+                    $this = this;
+                    var tianmaoCss = 'icon-tianmao-18';
+                    $('#flowList').append('<div th:each="flow,flowStat:${cashFlow}" class="flowItemList">'+
+                        '<div class="folw-data-status">'+
+                    '<div style="flex: 0 0 100%;"><em class="title">操作时间：</em><em>'+$this.createDate+'</em></div>'+
+                    '</div>'+
+                    '<div class="folw-line">'+
+                    '<div style="flex: 0 0 50%;"><em class="title">金额：</em><em>'+($this.num / 100)+'</em></div>'+
+                    '<div style="flex: 0 0 50%;"><em class="title">方式：</em><em>'+($this.payType==1?'微信':'支付宝')+'</em></div>'+
+                    '</div>'+
+                    '<div class="folw-line">'+
+                        '<div style="flex: 0 0 50%;"><em class="title">结果：</em><em>'+($this.status==1?'成功':'失败')+'</em></div>'+
+                    '<div style="flex: 0 0 50%;"><em class="title">备注：</em><em>'+$this.remark+'</em></div>'+
+                    '</div>'+
+                    '</div>');
+                });
+            }else{
+                $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+                loading = true;
+            }
+
+            $(".weui-loadmore").hide();
+        });
+    }
+    var loading = false;
+    $("#listwrap").infinite().on("infinite", function () {
+        if (loading) return;
+        loading = true;
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        setTimeout(function () {
+            loadGoods();
+        }, 100);
+    });
+</script>
+</body>
+</html>
