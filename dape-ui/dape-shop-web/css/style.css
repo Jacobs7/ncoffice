@@ -376,10 +376,10 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .back-btn-a{display: inline-block;width: 24px;height:2.1rem;position: absolute;top: 0;}
 
 .question-div{border-bottom: 1px solid #E9E9E9;padding-bottom: 0.5rem;}
-.question-div .title{color: #DD2727;font-size: 0.7rem;padding:0.5rem;}
+.question-div .title{color: #DD2727;font-size: 0.75rem;padding:0.5rem;}
 .question-div .title i{font-weight: bold;margin-right: 0.5rem;}
-.question-div .content{font-size: 0.7rem;padding:0 0.5rem;}
-.question-div .notes{font-size: 0.7rem;padding:0.5rem 0.5rem 0 0.5rem;color:#FF6600;}
+.question-div .content{font-size: 0.75rem;padding:0 0.5rem;}
+.question-div .notes{font-size: 0.75rem;padding:0.5rem 0.5rem 0 0.5rem;color:#FF6600;}
 .question-div .question-img{margin-top: 0.5rem;}
 
 .flowList{}
