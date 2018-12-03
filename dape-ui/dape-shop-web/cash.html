@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>我的钱包</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 44px;">
+    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${user.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${user.outCash}/100">0</i>元</div>
+    <div style="color:#FF6600;line-height:1.25rem;padding: 0.5rem;font-size: 0.75rem;">
+      <div>1.本月22号结算上月1号-31号期间确认收货的订单;</div>
+      <div>2.本月确认收货的订单，下月22号结算。结算后可提现。</div>
+    </div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a href="/user/integral" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;margin-left: 20%;" class="weui-navbar__item proinfo-tab-tit">积分</a>
+        <a href="/user/cash" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">钱包</a>
+        <a href="/user/cashOut" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit">提现</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+</body>
+</html>

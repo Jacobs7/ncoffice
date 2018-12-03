@@ -45,14 +45,6 @@ public class IndexController extends BaseController {
 //    @Autowired
 //    public ShopUserService shopUserService;
 
-    @RequestMapping(value = "demo", method = RequestMethod.GET)
-    public String demo(Model model) {
-        ShopGoodsExample example = new ShopGoodsExample();
-        List<ShopGoods> list = shopGoodsService.selectByExample(example);
-        model.addAttribute("list", list);
-        return thymeleaf("/demo");
-    }
-
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model, Long showId, HttpServletRequest request) {
 
@@ -83,14 +75,24 @@ public class IndexController extends BaseController {
         return thymeleaf("/index");
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    /**
+     * 赚钱教程
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/courseZhuan", method = RequestMethod.GET)
     public String edit(Model model) {
-        return thymeleaf("/address_edit");
+       return thymeleaf("/course-zhuan");
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    /**
+     * 省钱教程页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/courseSheng", method = RequestMethod.GET)
     public String order(Model model) {
-        return thymeleaf("/all_orders");
+        return thymeleaf("/course-sheng");
     }
 
     /**
@@ -192,5 +194,15 @@ public class IndexController extends BaseController {
         }finally {
             if(out != null){try {out.close();} catch (IOException e) {e.printStackTrace();}}
         }
+    }
+
+    /**
+     * 常见问题
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "question", method = RequestMethod.GET)
+    public String question(Model model) {
+        return thymeleaf("/question");
     }
 }

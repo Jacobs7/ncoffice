@@ -52,19 +52,19 @@
     <div class="weui-panel__bd">
       <div class="weui-flex">
         <div class="weui-flex__item">
-          <a href="myburse.html" class="center-ordersModule">
+          <a href="/user/cash" class="center-ordersModule">
             <div class="center-money"><em th:text="${user.money + user.outCash} / 100"></em></div>
             <div class="name">佣金总额</div>
           </a>
         </div>
         <div class="weui-flex__item">
-          <a href="myburse.html" class="center-ordersModule">
+          <a href="/user/cash" class="center-ordersModule">
             <div class="center-money"><em th:text="${user.money} / 100"></em></div>
             <div class="name">账户余额</div>
           </a>
         </div>
         <div class="weui-flex__item">
-          <a href="myburse.html" class="center-ordersModule">
+          <a href="/user/cash" class="center-ordersModule">
             <div class="center-money"><em th:text="${user.outCash} / 100"></em></div>
             <div class="name">累计提现</div>
           </a>
@@ -77,58 +77,52 @@
     <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
       <a href="/user/toFrends" class="weui-tabbar__item">
         <div class="icon24-zz icon-friends-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">好友列表</p>
+        <p class="weui-tabbar__label">好友列表</p>
       </a>
     </div>
     <div style="flex: 0 0 49%;">
       <a href="javascript:showFenxiang()" class="weui-tabbar__item">
         <div class="icon24-zz icon-invite-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">邀请好友</p>
+        <p class="weui-tabbar__label">邀请好友</p>
       </a>
     </div>
   </div>
 
   <div class="weui-panel" style="display: flex;flex-flow: row wrap;">
     <div class="mine-module-i">
-      <a href="/" class="weui-tabbar__item">
+      <a href="/order/toOrders" class="weui-tabbar__item">
         <div class="icon24-zz icon-report-24-2"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">订单业绩</p>
+        <p class="weui-tabbar__label">订单业绩</p>
       </a>
     </div>
     <div class="mine-module-i">
-      <a href="/" class="weui-tabbar__item">
+      <a href="/user/cash" class="weui-tabbar__item">
         <div class="icon24-zz icon-wallet-24-2"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">钱包提现</p>
+        <p class="weui-tabbar__label">钱包提现</p>
       </a>
     </div>
     <div class="mine-module-i" style="border-right: none;">
-      <a href="/" class="weui-tabbar__item">
+      <a href="javascript:showKeFu('/upload/kefu.jpg')" class="weui-tabbar__item">
         <div class="icon24-zz icon-cs-24-2"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">召唤客服</p>
+        <p class="weui-tabbar__label">召唤客服</p>
       </a>
     </div>
     <div class="mine-module-i">
-      <a href="/" class="weui-tabbar__item">
+      <a href="/question" class="weui-tabbar__item">
         <div class="icon24-zz icon-class-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">常见问题</p>
+        <p class="weui-tabbar__label">常见问题</p>
       </a>
     </div>
     <div class="mine-module-i">
-      <a href="/" class="weui-tabbar__item">
-        <div class="icon24-zz icon-app-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">APP下载</p>
+      <a href="/user/toSetting" class="weui-tabbar__item">
+        <div class="icon24-zz icon-set-24"></div>
+        <p class="weui-tabbar__label">设置</p>
       </a>
     </div>
     <div class="mine-module-i" style="border-right: none;">
-      <a href="/" class="weui-tabbar__item">
-        <div class="icon24-zz icon-set-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">设置</p>
-      </a>
-    </div>
-    <div class="mine-module-i" style="border-bottom: none;">
-      <a href="/" class="weui-tabbar__item">
+      <a href="/user/integral" class="weui-tabbar__item">
         <div class="icon24-zz icon-fen-24"></div>
-        <p class="weui-tabbar__label" style="font-size: 0.7rem;">积分</p>
+        <p class="weui-tabbar__label">积分</p>
       </a>
     </div>
   </div>
@@ -160,7 +154,8 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script th:src="@{${uiPath} + ${appName} + '/js/clipboard.min.js'}"></script>
-<script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
     $(function() {
         FastClick.attach(document.body);
     });

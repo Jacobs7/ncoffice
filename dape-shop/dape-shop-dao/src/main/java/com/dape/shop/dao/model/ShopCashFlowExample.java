@@ -358,52 +358,52 @@ public class ShopCashFlowExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andTypeEqualTo(Boolean value) {
+        public Criteria andTypeEqualTo(Integer value) {
             addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotEqualTo(Boolean value) {
+        public Criteria andTypeNotEqualTo(Integer value) {
             addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThan(Boolean value) {
+        public Criteria andTypeGreaterThan(Integer value) {
             addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThan(Boolean value) {
+        public Criteria andTypeLessThan(Integer value) {
             addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeLessThanOrEqualTo(Boolean value) {
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
             addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeIn(List<Boolean> values) {
+        public Criteria andTypeIn(List<Integer> values) {
             addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotIn(List<Boolean> values) {
+        public Criteria andTypeNotIn(List<Integer> values) {
             addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeBetween(Boolean value1, Boolean value2) {
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
             addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andTypeNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
@@ -478,52 +478,52 @@ public class ShopCashFlowExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Boolean value) {
+        public Criteria andStatusEqualTo(Integer value) {
             addCriterion("status =", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Boolean value) {
+        public Criteria andStatusNotEqualTo(Integer value) {
             addCriterion("status <>", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Boolean value) {
+        public Criteria andStatusGreaterThan(Integer value) {
             addCriterion("status >", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("status >=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Boolean value) {
+        public Criteria andStatusLessThan(Integer value) {
             addCriterion("status <", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Boolean value) {
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
             addCriterion("status <=", value, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Boolean> values) {
+        public Criteria andStatusIn(List<Integer> values) {
             addCriterion("status in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Boolean> values) {
+        public Criteria andStatusNotIn(List<Integer> values) {
             addCriterion("status not in", values, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Boolean value1, Boolean value2) {
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
             addCriterion("status between", value1, value2, "status");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
@@ -595,6 +595,206 @@ public class ShopCashFlowExample implements Serializable {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeIsNull() {
+            addCriterion("pay_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeIsNotNull() {
+            addCriterion("pay_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeEqualTo(Integer value) {
+            addCriterion("pay_type =", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeNotEqualTo(Integer value) {
+            addCriterion("pay_type <>", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeGreaterThan(Integer value) {
+            addCriterion("pay_type >", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_type >=", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeLessThan(Integer value) {
+            addCriterion("pay_type <", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_type <=", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeIn(List<Integer> values) {
+            addCriterion("pay_type in", values, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeNotIn(List<Integer> values) {
+            addCriterion("pay_type not in", values, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeBetween(Integer value1, Integer value2) {
+            addCriterion("pay_type between", value1, value2, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_type not between", value1, value2, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountIsNull() {
+            addCriterion("pay_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountIsNotNull() {
+            addCriterion("pay_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountEqualTo(String value) {
+            addCriterion("pay_account =", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotEqualTo(String value) {
+            addCriterion("pay_account <>", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountGreaterThan(String value) {
+            addCriterion("pay_account >", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_account >=", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLessThan(String value) {
+            addCriterion("pay_account <", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLessThanOrEqualTo(String value) {
+            addCriterion("pay_account <=", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLike(String value) {
+            addCriterion("pay_account like", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotLike(String value) {
+            addCriterion("pay_account not like", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountIn(List<String> values) {
+            addCriterion("pay_account in", values, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotIn(List<String> values) {
+            addCriterion("pay_account not in", values, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountBetween(String value1, String value2) {
+            addCriterion("pay_account between", value1, value2, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotBetween(String value1, String value2) {
+            addCriterion("pay_account not between", value1, value2, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameIsNull() {
+            addCriterion("pay_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameIsNotNull() {
+            addCriterion("pay_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameEqualTo(String value) {
+            addCriterion("pay_name =", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameNotEqualTo(String value) {
+            addCriterion("pay_name <>", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameGreaterThan(String value) {
+            addCriterion("pay_name >", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_name >=", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameLessThan(String value) {
+            addCriterion("pay_name <", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameLessThanOrEqualTo(String value) {
+            addCriterion("pay_name <=", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameLike(String value) {
+            addCriterion("pay_name like", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameNotLike(String value) {
+            addCriterion("pay_name not like", value, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameIn(List<String> values) {
+            addCriterion("pay_name in", values, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameNotIn(List<String> values) {
+            addCriterion("pay_name not in", values, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameBetween(String value1, String value2) {
+            addCriterion("pay_name between", value1, value2, "payName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayNameNotBetween(String value1, String value2) {
+            addCriterion("pay_name not between", value1, value2, "payName");
             return (Criteria) this;
         }
     }

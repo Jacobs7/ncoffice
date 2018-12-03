@@ -13,26 +13,35 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
   <!--数据列表-->
-  <div class="weui-panel" style="margin-top: 44px;">
-    <div style="padding:0.25rem 0 0.2rem 0.5rem;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;">共邀请<i id="frendsCount">0</i>名好友</div>
-    <div style="display: flex;text-align: center;line-height: 1.6rem;font-size: 0.75rem;color: #999;font-family: '微软雅黑';">
-      <div style="flex: 0 0 50%;">订单号</div>
-      <div style="flex: 0 0 50%;">商品名称</div>
+  <div class="weui-panel" style="margin-top: 2.1rem;">
+    <!-- 订单搜索 -->
+    <div class="weui-search-bar index-search-bar">
+      <div class="weui-search-bar__box index-search-box">
+        <form method="post" id="searchForm">
+          <i class="weui-icon-search"></i>
+          <input type="search" name="orderId" id="orderIdQuery" class="weui-search-bar__input" placeholder="请输入订单号" style="width:98%;font-size: 0.7rem;" />
+        </form>
+      </div>
+      <div class="index-search-c">
+        <a href="javascript:void(0);" onclick="searchOrder()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+      </div>
     </div>
-    <div id="frendsList" class="frendsList" ></div>
+    <div class="order-label-name"><div class="item-div">待返佣金:<em id="daifanMoney">0</em></div><div class="item-div">已返佣金:<em id="yifanMoney">0</em></div></div>
+
+    <div id="ordersList" class="ordersList" ></div>
   </div>
   <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
     <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
   </div>
 </div>
 
-<!--顶部搜索-->
+<!--顶部-->
 <header class="weui-header index-header">
       <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
-        <a href="/order/toOrders?tab=1" th:classappend="${frendTab == 1}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">最近订单</a>
-        <a href="/order/toOrders?tab=2" th:classappend="${frendTab == 2}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">个人推广</a>
+        <a href="/order/toOrders?tab=1" th:classappend="${tab == 1}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">最近订单</a>
+        <a href="/order/toOrders?tab=2" th:classappend="${tab == 2}? 'weui-bar__item--on2'" style="padding:11px 0 9px 0;flex: 0 0 25%;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit">个人推广</a>
       </div>
 </header>
 
@@ -64,38 +73,51 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
 <script th:inline="javascript">
     var appURL = [[${uiPath}]] + [[${appName}]];
+    var tab = [[${tab}]];
     $(function() {
         FastClick.attach(document.body);
+        $('#listwrap').height($('body').height() - 44);
         loadFrends();
     });
+    function searchOrder(){
+        pageNum = 1;
+        pageSize = 20;
+        $('#ordersList').html('');
+        loadFrends();
+    }
+    var pageNum = 1;
+    var pageSize = 20;
     function loadFrends(){
-      $.post('/user/frends',{},function(data){
+      $.post('/order/orders',{pageNum:pageNum,pageSize:pageSize,tab:tab,orderId:$('#orderIdQuery').val()},function(data){
           loading = false;
-          var headUrl;
-          var totalCount = data.totalCount;
-          $('#frendsCount').text(totalCount);
+          var goodsUrl;
           var list = data.data;
+          console.log(data);
+          var daifanMoney = data.daifanMoney;
+          $('#daifanMoney').text(daifanMoney / 100);
+          var yifanMoney = data.yifanMoney;
+          $('#yifanMoney').text(yifanMoney / 100);
           if(list && list.length > 0){
               $(list).each(function(){
                   $this = this;
-                  if($this.headUrl){
-                      appURL = $this.headUrl;
-                  }else {
-                      headUrl = appURL + '/images/headimg.jpg';
-                  }
-                  $('#frendsList').append('<div class="frendsItem"><div class="frendsHeadImg">' +
-                        '<img style="width: 100%;" src="'+headUrl+'" />' +
-                      '</div>' +
-                      '<div class="frendsLine">' +
-                        '<div style="color:#333;">'+$this.weiNickName+'</div>' +
-                        '<div>'+$this.mobile.substring(0,3)+'****'+$this.mobile.substring(7,11)+'</div>' +
-                      '</div>' +
-                      '<div class="frendsLine">' +
-                        '<div>'+$this.createDate+'</div>' +
-                      '</div></div>');
+                  $('#ordersList').append('<div class="orders-line">' +
+                      '        <div class="weui-panel__hd" style="padding: 6px 15px 6px 15px;"><span style="font-size: 0.75rem;">单号：'+$this.orderId+'</span><span class="ord-status-txt-ts fr">佣金:'+($this.userMoney/100)+'</span></div>' +
+                      '        <div class="weui-media-box__bd  pd-10">' +
+                      '          <div class="weui-media-box_appmsg ord-pro-list">' +
+                      '            <div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="'+$this.goodsPic+'" alt=""></div>' +
+                      '            <div class="weui-media-box__bd">' +
+                      '              <h1 class="weui-media-box__desc"><span class="ord-pro-link">'+$this.goodsTitle+'</span></h1>' +
+                      '              <div class="clear mg-t-10">' +
+                      '                <div class="wy-pro-pri fl">¥<em>'+$this.amount/100+'</em></div>' +
+                      '                <div class="pro-amount fr"><span>数量×<em class="name">'+$this.num+'</em></span></div>' +
+                      '              </div>' +
+                      '            </div>' +
+                      '          </div>' +
+                      '        </div>' +
+                      '      </div>');
               });
           }else{
-              $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+              $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>没有更多的数据</div>");
               loading = true;
           }
           $(".weui-loadmore").hide();

@@ -30,6 +30,60 @@
 		from shop_user u where s_code = #{sCode}
 	</select>
 
+
+	<resultMap id="TuiGuangOrderMap" type="com.dape.shop.dao.model.ShopOrder">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="order_id" jdbcType="VARCHAR" property="orderId" />
+		<result column="googs_id" jdbcType="VARCHAR" property="googsId" />
+		<result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
+		<result column="goods_pic" jdbcType="VARCHAR" property="goodsPic" />
+		<result column="amount" jdbcType="INTEGER" property="amount" />
+		<result column="pay" jdbcType="INTEGER" property="pay" />
+		<result column="coupon" jdbcType="INTEGER" property="coupon" />
+		<result column="num" jdbcType="INTEGER" property="num" />
+		<result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+		<result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
+		<result column="shop_user_id" jdbcType="BIGINT" property="shopUserId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="money" jdbcType="INTEGER" property="money" />
+		<result column="user_money" jdbcType="INTEGER" property="userMoney" />
+	</resultMap>
+
+	<!-- 获取推广订单 -->
+	<select id="selectTuiGuangOrder" resultMap="TuiGuangOrderMap" parameterType="map">
+		select
+		so.id,
+		so.create_date,
+		so.order_id,
+		so.googs_id,
+		so.goods_title,
+		so.goods_pic,
+		so.amount,
+		so.pay,
+		so.coupon,
+		so.num,
+		so.seller_id,
+		so.seller_name,
+		so.shop_user_id,
+		so.status,
+		so.money,
+		so.user_money
+		from shop_order so left join shop_user u on so.shop_user_id=u.id
+		where u.s_code = #{shopUser.sCode}
+		<if test="shopOrder.orderId != null and shopOrder.orderId != ''">
+			and so.order_id like CONCAT('%',#{shopUser.orderId},'%')
+		</if>
+		<if test="limit != null and start != null">
+			limit #{start},#{limit}
+		</if>
+	</select>
+
+	<!-- 查询佣金 -->
+	<select id="getUserMoney" resultType="java.lang.Integer" parameterType="com.dape.shop.dao.model.ShopOrder">
+		select sum(user_money) from shop_order u where shop_user_id = #{shopOrder.shopUserId} and status = #{shopOrder.status}
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

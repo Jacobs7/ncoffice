@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>设置支付宝</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 2.8rem;">
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">支付宝帐号</label></div>
+      <div class="weui-cell__bd">
+        <input id="zfbAccountInput" class="weui-input" type="text" placeholder="请输入支付宝帐号">
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__hd"><label class="weui-label">支付宝姓名</label></div>
+      <div class="weui-cell__bd">
+        <input id="zfbNameInput" class="weui-input" type="text" placeholder="请输入支付宝姓名">
+      </div>
+    </div>
+    <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a id="setZhifubaoBtn" href="javascript:;" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">确定</a></div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+        <a href="/user/toSetZFB" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">支付宝设置</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+    });
+    $('#setZhifubaoBtn').click(function (e) {
+        var zfbAccountInput = $('#zfbAccountInput').val();
+        var zfbNameInput = $('#zfbNameInput').val();
+        if(zfbAccountInput == '' || zfbNameInput == ''){
+            $.toast('请输入支付宝帐号、姓名', 'forbidden');
+        }else{
+            $.post('/user/setZhifubao',{zfbAccount:zfbAccountInput,zfbName:zfbNameInput},function (data) {
+                if(data.success){
+                    $.toast('设置成功');
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                }else if(data.msg){
+                    $.toast(data.msg, 'forbidden');
+                }else {
+                    $.toast('设置失败', 'forbidden');
+                }
+            });
+        }
+    })
+</script>
+</body>
+</html>

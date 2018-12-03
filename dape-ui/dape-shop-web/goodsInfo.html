@@ -39,7 +39,7 @@
         <em th:text="'月销量'+${shopGoods.volume}+'件'" class="detail-price-v"></em>
       </div>
       <div class="detail-return">
-        标准佣金&nbsp;¥<em>4.35</em> ｜ 特权佣金&nbsp;¥<em>7.62</em><a style="" href="">如何升特权?</a>
+        标准佣金&nbsp;¥<em>4.35</em> ｜ 特权佣金&nbsp;¥<em>7.62</em><a href="javascript:showKeFu('/upload/kefu.jpg')">如何升特权?</a>
       </div>
       <div class="detail-return-txt">
         以实际佣金为准，卖家修改佣金24小时内同步到平台
@@ -55,7 +55,7 @@
 
   <div class="weui-panel">
     <div class="weui-tab" style="height:auto;">
-      <div class="weui-navbar" style="height:44px;">
+      <div class="weui-navbar" style="height:2.1rem;">
         <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
         <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>
       </div>
@@ -149,15 +149,11 @@
       }
 
   }
-  // 图片加载完成后，隐藏加载杠，显示分享图片框
-  function imgloadComplent(id) {
-      $.hideLoading();
-      showDialog(id);
-  }
 
   // 抢券淘口令
   function qiangquan(){
       var dialogId = 'qianquan';
+      var title = '<div style="background-color: #F54D23;color: #fff;font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>抢券淘口令</em><a style="position: absolute;right:0.25rem;top:0.2rem;font-size: 1.25rem;color:#E9E9E9;width:2rem;" id="'+dialogId+'Close" href="javascript:">X</a></div>';
       var content = '<div id="copyDiv" class="puBody">' +
             '<h2><em>长按框内 <u class="p3">&gt;</u> 全选 <u class="p3">&gt;</u> 复制</em></h2>' +
             '<form name="puKoulingForm" id="puKoulingForm">' +
@@ -167,7 +163,7 @@
           '<div id="copyButton" class="imne-copy-btn" style="display: block;" onclick="cloneTxt(\'copyButton\')" data-clipboard-text="'+copyTxt+'">一键复制</div>' +
           '<div class="hasCoupon" style="display: block;" id="hasCoupon">复制淘口令，打开【手机淘宝】即可领券！</div>';
       var footer = '';
-      createDialog(dialogId,'抢券淘口令',content,footer);
+      createDialog(dialogId,title,content,footer);
       showDialog(dialogId);
       // showLoading('正在获取淘口令','style="min-width: 6.5rem;min-height: 6.5rem;"');
       // $.post('/goods/quanKey',{goodId:[[${shopGoods.id}]]},function (data){

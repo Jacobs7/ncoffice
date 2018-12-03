@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>提现</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
+<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top: 44px;">
+    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${user.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${user.outCash}/100">0</i>元</div>
+    <div class="integral-input-div"><div class="weui-cell__bd" style="padding:0.2rem 0;"><input class="weui-input" type="number" id="moneyInput" pattern="[0-9]*" placeholder="请输入提现金额，满1元可提现"></div></div>
+    <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a href="javascript:;" id="cashOutBtn" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">申请提现</a></div>
+  </div>
+  <div class="weui-panel">
+    <div style="color:#555;line-height:1.25rem;padding:0 0.5rem 0.5rem 0.5rem ;font-size: 0.75rem;">
+      <div class="guize-title">提现规则</div>
+      <div>1.满1元可提现；</div>
+      <div>2.只能提整数部分，小数部分可累积到下次提现；</div>
+    </div>
+  </div>
+  <div class="weui-panel" style="background-color:#f5f5f5;">
+    <div class="setList">
+      <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;padding:0.2rem 0;">
+        <a style="text-align: center;color:#999;" class="core" href="/user/toCashFlow?type=1">提现记录</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+      <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;background-color: #DD2727;">
+        <a href="/user/integral" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;margin-left: 20%;" class="weui-navbar__item proinfo-tab-tit">积分</a>
+        <a href="/user/cash" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit">钱包</a>
+        <a href="/user/cashOut" style="padding:11px 0 9px 0;flex: 0 0 20%;color:#fff;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">提现</a>
+      </div>
+</header>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
+<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+        $('#cashOutBtn').click(function (e) {
+            var money = $('#moneyInput').val();
+            if(!checkDecimal(money)){
+                $.toast('请输入2位小数', 'forbidden');
+            }else if(money < 1){
+                $.toast('满1元才可提现', 'forbidden');
+            }else{
+                $.post('/user/cashPostal',{money:money},function (data) {
+                    if(data.success){
+                        $.toast('提现成功');
+                        setTimeout(function () {
+                            window.location.reload();
+                        },2000)
+                    }else if(data.msg){
+                        $.toast(data.msg, 'forbidden');
+                    }else {
+                        $.toast('提现失败', 'forbidden');
+                    }
+                });
+            }
+        })
+    });
+</script>
+</body>
+</html>

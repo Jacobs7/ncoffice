@@ -7,6 +7,12 @@
     <result column="sex" jdbcType="BIT" property="sex" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="zfb_account" jdbcType="VARCHAR" property="zfbAccount" />
+    <result column="zfb_name" jdbcType="VARCHAR" property="zfbName" />
+    <result column="pay_type" jdbcType="INTEGER" property="payType" />
+    <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, shop_user_id, sex, mobile, address
+    id, shop_user_id, sex, mobile, address, zfb_account, zfb_name, pay_type, pay_account, 
+    pay_name, company
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopUserInfoExample" resultMap="BaseResultMap">
     select
@@ -101,9 +108,13 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopUserInfo">
     insert into shop_user_info (id, shop_user_id, sex, 
-      mobile, address)
+      mobile, address, zfb_account, 
+      zfb_name, pay_type, pay_account, 
+      pay_name, company)
     values (#{id,jdbcType=BIGINT}, #{shopUserId,jdbcType=BIGINT}, #{sex,jdbcType=BIT}, 
-      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{zfbAccount,jdbcType=VARCHAR}, 
+      #{zfbName,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{payAccount,jdbcType=VARCHAR}, 
+      #{payName,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopUserInfo">
     insert into shop_user_info
@@ -123,6 +134,24 @@
       <if test="address != null">
         address,
       </if>
+      <if test="zfbAccount != null">
+        zfb_account,
+      </if>
+      <if test="zfbName != null">
+        zfb_name,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="payAccount != null">
+        pay_account,
+      </if>
+      <if test="payName != null">
+        pay_name,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +168,24 @@
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="zfbAccount != null">
+        #{zfbAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="zfbName != null">
+        #{zfbName,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="payAccount != null">
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payName != null">
+        #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +213,24 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
+      <if test="record.zfbAccount != null">
+        zfb_account = #{record.zfbAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zfbName != null">
+        zfb_name = #{record.zfbName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=INTEGER},
+      </if>
+      <if test="record.payAccount != null">
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payName != null">
+        pay_name = #{record.payName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +242,13 @@
       shop_user_id = #{record.shopUserId,jdbcType=BIGINT},
       sex = #{record.sex,jdbcType=BIT},
       mobile = #{record.mobile,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR}
+      address = #{record.address,jdbcType=VARCHAR},
+      zfb_account = #{record.zfbAccount,jdbcType=VARCHAR},
+      zfb_name = #{record.zfbName,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=INTEGER},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      pay_name = #{record.payName,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +268,24 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="zfbAccount != null">
+        zfb_account = #{zfbAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="zfbName != null">
+        zfb_name = #{zfbName,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="payAccount != null">
+        pay_account = #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payName != null">
+        pay_name = #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -205,7 +294,13 @@
     set shop_user_id = #{shopUserId,jdbcType=BIGINT},
       sex = #{sex,jdbcType=BIT},
       mobile = #{mobile,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      zfb_account = #{zfbAccount,jdbcType=VARCHAR},
+      zfb_name = #{zfbName,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
+      pay_name = #{payName,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

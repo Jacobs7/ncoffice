@@ -22,7 +22,7 @@ public class ShopCashFlow implements Serializable {
      *
      * @mbg.generated
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 订单ID，提现为空
@@ -36,9 +36,30 @@ public class ShopCashFlow implements Serializable {
      *
      * @mbg.generated
      */
-    private Boolean status;
+    private Integer status;
 
     private String remark;
+
+    /**
+     * 支付方式，1：微信，2：支付宝
+     *
+     * @mbg.generated
+     */
+    private Integer payType;
+
+    /**
+     * 支付帐号
+     *
+     * @mbg.generated
+     */
+    private String payAccount;
+
+    /**
+     * 支付帐号姓名
+     *
+     * @mbg.generated
+     */
+    private String payName;
 
     private static final long serialVersionUID = 1L;
 
@@ -74,11 +95,11 @@ public class ShopCashFlow implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -90,11 +111,11 @@ public class ShopCashFlow implements Serializable {
         this.orderId = orderId;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -104,6 +125,30 @@ public class ShopCashFlow implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getPayType() {
+        return payType;
+    }
+
+    public void setPayType(Integer payType) {
+        this.payType = payType;
+    }
+
+    public String getPayAccount() {
+        return payAccount;
+    }
+
+    public void setPayAccount(String payAccount) {
+        this.payAccount = payAccount;
+    }
+
+    public String getPayName() {
+        return payName;
+    }
+
+    public void setPayName(String payName) {
+        this.payName = payName;
     }
 
     @Override
@@ -120,6 +165,9 @@ public class ShopCashFlow implements Serializable {
         sb.append(", orderId=").append(orderId);
         sb.append(", status=").append(status);
         sb.append(", remark=").append(remark);
+        sb.append(", payType=").append(payType);
+        sb.append(", payAccount=").append(payAccount);
+        sb.append(", payName=").append(payName);
         sb.append("]");
         return sb.toString();
     }
@@ -143,7 +191,10 @@ public class ShopCashFlow implements Serializable {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
+            && (this.getPayType() == null ? other.getPayType() == null : this.getPayType().equals(other.getPayType()))
+            && (this.getPayAccount() == null ? other.getPayAccount() == null : this.getPayAccount().equals(other.getPayAccount()))
+            && (this.getPayName() == null ? other.getPayName() == null : this.getPayName().equals(other.getPayName()));
     }
 
     @Override
@@ -158,6 +209,9 @@ public class ShopCashFlow implements Serializable {
         result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
+        result = prime * result + ((getPayType() == null) ? 0 : getPayType().hashCode());
+        result = prime * result + ((getPayAccount() == null) ? 0 : getPayAccount().hashCode());
+        result = prime * result + ((getPayName() == null) ? 0 : getPayName().hashCode());
         return result;
     }
 }
