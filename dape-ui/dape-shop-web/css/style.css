@@ -171,7 +171,7 @@ header,.weui-navbar{
 .center-ordersModule{text-align:center; display:block; padding:10px 0; position:relative;}
 .center-ordersModule .imgicon{display:inline-block; height:24px; text-align:center; margin-bottom:5px;}
 .center-ordersModule .imgicon img{height:24px; width:auto;}
-.center-ordersModule .name{font-size:0.7rem; color:#555555;}
+.center-ordersModule .name{font-size:0.75rem; color:#555555;}
 .center-money{font-size:15px; color:#555555; font-family:Arial, Helvetica, sans-serif;}
 .pro-amount span.font-13{line-height:24px; padding-right:10px;}
 
@@ -276,9 +276,9 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .icon-pinduoduo-18 {background-position: -90px -240px;}
 
 .icon24-zz{color:#333;display: inline-block;width: 24px;height: 24px;background: url(../images/icons_all.png?t=20180318_17:10) no-repeat scroll 0 0;background-size: 400px 400px;position: relative;}
-.icon-report-24-2 {background-position: -120px -280px;}
+.icon-report-24-2 {background-position: -118px -280px;}
 
-.icon-wallet-24-2{background-position: -160px -280px;}
+.icon-wallet-24-2{background-position: -158px -280px;}
 .icon-cs-24-2 {background-position: -200px -280px;}
 .icon-class-24 {background-position: -120px -200px;}
 .icon-app-24 {background-position: 0 -240px;}
@@ -374,3 +374,10 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .getSmsCodeBtn{border:1px solid #F54D23;color:#F54D23;border-radius:10px;text-align: center;display: block;width: 4.25rem;height: 1.4rem;line-height: 1.4rem;margin-top: 0.25rem;}
 
 .back-btn-a{display: inline-block;width: 24px;height:2.1rem;position: absolute;top: 0;}
+
+.question-div{border-bottom: 1px solid #E9E9E9;padding-bottom: 0.5rem;}
+.question-div .title{color: #DD2727;font-size: 0.7rem;padding:0.5rem;}
+.question-div .title i{font-weight: bold;margin-right: 0.5rem;}
+.question-div .content{font-size: 0.7rem;padding:0 0.5rem;}
+.question-div .notes{font-size: 0.7rem;padding:0.5rem 0.5rem 0 0.5rem;color:#FF6600;}
+.question-div .question-img{margin-top: 0.5rem;}
