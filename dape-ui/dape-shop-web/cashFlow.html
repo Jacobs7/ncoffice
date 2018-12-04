@@ -85,7 +85,7 @@
                     var tianmaoCss = 'icon-tianmao-18';
                     $('#flowList').append('<div th:each="flow,flowStat:${cashFlow}" class="flowItemList">'+
                         '<div class="folw-data-status">'+
-                    '<div style="flex: 0 0 100%;"><em class="title">操作时间：</em><em>'+$this.createDate+'</em></div>'+
+                    '<div style="flex: 0 0 100%;"><em class="title">时间：</em><em>'+timeFormat($this.createDate,'yyyy-MM-dd HH:mm:ss')+'</em></div>'+
                     '</div>'+
                     '<div class="folw-line">'+
                     '<div style="flex: 0 0 50%;"><em class="title">金额：</em><em>'+($this.num / 100)+'</em></div>'+
