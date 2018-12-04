@@ -52,8 +52,8 @@ public class ShopWebInterceptor extends HandlerInterceptorAdapter {
                     code = RamdonUtil.getSixCode();
                     userExample = new ShopUserExample();
                     userExample.or().andRCodeEqualTo(code);
-                    List<ShopUser> list = shopUserService.selectByExample(userExample);
-                    if(list == null || list.size() <= 0){
+                    int count = shopUserService.countByExample(userExample);
+                    if(count <= 0){
                         break;
                     }
                 }
