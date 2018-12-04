@@ -102,17 +102,15 @@
                   $this = this;
                   $('#ordersList').append('<div class="orders-line">' +
                       '        <div class="weui-panel__hd" style="padding: 6px 15px 6px 15px;"><span style="font-size: 0.75rem;">单号：'+$this.orderId+'</span><span class="ord-status-txt-ts fr">佣金:'+($this.userMoney/100)+'</span></div>' +
-                      '        <div class="weui-media-box__bd  pd-10">' +
-                      '          <div class="weui-media-box_appmsg ord-pro-list">' +
-                      '            <div class="weui-media-box__hd"><img class="weui-media-box__thumb" src="'+$this.goodsPic+'" alt=""></div>' +
-                      '            <div class="weui-media-box__bd">' +
-                      '              <h1 class="weui-media-box__desc"><span class="ord-pro-link">'+$this.goodsTitle+'</span></h1>' +
-                      '              <div class="clear mg-t-10">' +
-                      '                <div class="wy-pro-pri fl">¥<em>'+$this.amount/100+'</em></div>' +
-                      '                <div class="pro-amount fr"><span>数量×<em class="name">'+$this.num+'</em></span></div>' +
+                      '          <div style="display:flex;">' +
+                      '            <div style="flex: 0 0 30%;"><div style="margin:0.5rem;"><img width="100%" class="weui-media-box__thumb" src="'+$this.goodsPic+'" alt="" /></div></div>' +
+                      '            <div class="order-content">' +
+                      '              <div class="order-title"><span class="ord-pro-link">'+$this.goodsTitle+'</span></div>' +
+                      '              <div class="order-amount">' +
+                      '                <div class="wy-pro-pri">¥<em>'+$this.amount/100+'</em></div>' +
                       '              </div>' +
+                      '              <div class="order-num"><span>数量×<em class="name">'+$this.num+'</em></span></div>' +
                       '            </div>' +
-                      '          </div>' +
                       '        </div>' +
                       '      </div>');
               });
