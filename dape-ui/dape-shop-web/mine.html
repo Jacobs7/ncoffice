@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script>
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
 <script type="text/javascript">
   function headLoaded(obj) {
     $(obj).height($(obj).width());
@@ -23,7 +23,7 @@
   <div class="wy-center-top">
     <div class="weui-media-box" style="text-align: center;">
       <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(user.headUrl)}" style="width: 30%;margin: 0 auto;">
-          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="true" th:src="@{${uiPath} + ${appName} + '/images/headimg.jpg'}" />
+          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="true" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
           <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${user.headUrl}" />
       </div>
       <div class="weui-media-box__bd">
@@ -44,7 +44,7 @@
   <div class="weui-panel" style="margin-top:0;">
     <div class="weui-panel__hd">
         <div class="weui-cell__bd wy-cell">
-          <div class="weui-cell__hd"><img th:src="@{${uiPath} + ${appName} + '/images/center-icon-jk.png'}" alt="" class="center-list-icon"></div>
+          <div class="weui-cell__hd"><img th:src="${uiPath + appName} + '/images/center-icon-jk.png'" alt="" class="center-list-icon"></div>
           <div class="weui-cell__bd weui-cell_primary"><p class="center-list-txt">我的小金库</p></div>
         </div>
         <span class="weui-cell__ft"></span>
@@ -150,10 +150,10 @@
   </a>
 </div>
 
-<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/clipboard.min.js'}"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
 <script th:inline="javascript">
     var appURL = [[${uiPath}]] + [[${appName}]];
     $(function() {

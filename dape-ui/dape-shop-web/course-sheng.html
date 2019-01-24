@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
 </head>
 <body ontouchstart>
 <!--主体-->
@@ -25,16 +25,16 @@
       </h2>
     </div>
     <div>
-      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-02.jpg'}" />
+      <img width="100%" th:src="${uiPath + appName} + '/images/class-1.1-02.jpg'" />
     </div>
     <div>
-      <img width="100%" th:src="@{${uiPath} + ${appName} + '/images/class-1.1-04.jpg'}" />
+      <img width="100%" th:src="${uiPath + appName} + '/images/class-1.1-04.jpg'" />
     </div>
   </div>
     <div class="weui-panel index-module" style="padding-bottom: 4rem;">
         <div class="class-item "><h2>▼<br>联系专属客服</h2></div>
         <div style="width:100%;text-align: center;color:#F54D23">长按图片－识别图中二维码－联系客服</div>
-        <div style="width: 60%;margin: 0 auto;"><img width="100%" th:src="@{${uiPath} + ${appName} + '/upload/kefu.jpg'}" /></div>
+        <div style="width: 60%;margin: 0 auto;"><img width="100%" th:src="${uiPath + appName} + '/upload/kefu.jpg'" /></div>
     </div>
 </div>
 
@@ -58,9 +58,9 @@
   </a>
 </div>
 
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script> 
-<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
 <script th:inline="javascript">
     $(function() {
         FastClick.attach(document.body);
