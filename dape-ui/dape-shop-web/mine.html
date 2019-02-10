@@ -22,15 +22,15 @@
 <div class='weui-content' style="padding-bottom: 5rem;">
   <div class="wy-center-top">
     <div class="weui-media-box" style="text-align: center;">
-      <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(user.headUrl)}" style="width: 30%;margin: 0 auto;">
+      <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(shopuser.headUrl)}" style="width: 30%;margin: 0 auto;">
           <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="true" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
-          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${user.headUrl}" />
+          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${shopuser.headUrl}" />
       </div>
       <div class="weui-media-box__bd">
-        <div class="weui-media-box__title user-name" th:text="${user.weiNickName}"></div>
+        <div class="weui-media-box__title user-name" th:text="${shopuser.weiNickName}"></div>
         <div>
-          <span class="user-integral" th:switch="${user.rank}"><em th:if="${!#strings.isEmpty(user.mobile)}" th:text="${#strings.substring(user.mobile,0,3)}+'****'+${#strings.substring(user.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
-          <span class="user-integral"><em class="num" th:text="'积分:'+${user.rank}+'积分'"></em></span>
+          <span class="user-integral" th:switch="${shopuser.rank}"><em th:if="${!#strings.isEmpty(user.mobile)}" th:text="${#strings.substring(user.mobile,0,3)}+'****'+${#strings.substring(user.mobile,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
+          <span class="user-integral"><em class="num" th:text="'积分:'+${shopuser.rank}+'积分'"></em></span>
         </div>
         <div class="weui-media-box__title">
         <span class="user-integral">
@@ -53,19 +53,19 @@
       <div class="weui-flex">
         <div class="weui-flex__item">
           <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${user.money + user.outCash} / 100"></em></div>
+            <div class="center-money"><em th:text="${shopuser.money + shopuser.outCash} / 100"></em></div>
             <div class="name">佣金总额</div>
           </a>
         </div>
         <div class="weui-flex__item">
           <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${user.money} / 100"></em></div>
+            <div class="center-money"><em th:text="${shopuser.money} / 100"></em></div>
             <div class="name">账户余额</div>
           </a>
         </div>
         <div class="weui-flex__item">
           <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${user.outCash} / 100"></em></div>
+            <div class="center-money"><em th:text="${shopuser.outCash} / 100"></em></div>
             <div class="name">累计提现</div>
           </a>
         </div>
