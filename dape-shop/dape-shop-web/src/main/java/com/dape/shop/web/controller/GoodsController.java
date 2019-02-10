@@ -1,17 +1,15 @@
 package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
-import com.dape.common.util.NewImageUtil;
-import com.dape.common.util.PropertiesFileUtil;
 import com.dape.common.util.QRCodeUtil;
 import com.dape.shop.common.constant.ShopTypeEnum;
-import com.dape.shop.dao.model.*;
+import com.dape.shop.dao.model.ShopGoods;
+import com.dape.shop.dao.model.ShopStore;
+import com.dape.shop.dao.model.ShopUser;
+import com.dape.shop.dao.model.UpmsUser;
 import com.dape.shop.rpc.api.ShopGoodsService;
-import com.dape.shop.rpc.api.ShopMenuService;
-import com.dape.shop.rpc.api.ShopModuleService;
 import com.dape.shop.rpc.api.ShopStoreService;
 import com.google.zxing.BarcodeFormat;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,9 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,9 +146,9 @@ public class GoodsController extends BaseController {
         result.put("success", false);
 
         Object o = request.getSession().getAttribute("user");
-        ShopUser user = (ShopUser)o;
+        UpmsUser user = (UpmsUser)o;
 
-        String openId = user.getOpenId();
+        String openId = user.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 

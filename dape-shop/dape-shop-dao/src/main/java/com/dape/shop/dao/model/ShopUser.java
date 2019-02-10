@@ -14,11 +14,11 @@ public class ShopUser implements Serializable {
     private Date createDate;
 
     /**
-     * openId
+     * upms_user的user_id
      *
      * @mbg.generated
      */
-    private String openId;
+    private Integer userId;
 
     /**
      * 微信昵称
@@ -76,8 +76,6 @@ public class ShopUser implements Serializable {
      */
     private Integer integral;
 
-    private String mobile;
-
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -96,12 +94,12 @@ public class ShopUser implements Serializable {
         this.createDate = createDate;
     }
 
-    public String getOpenId() {
-        return openId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getWeiNickName() {
@@ -168,14 +166,6 @@ public class ShopUser implements Serializable {
         this.integral = integral;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -184,7 +174,7 @@ public class ShopUser implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", createDate=").append(createDate);
-        sb.append(", openId=").append(openId);
+        sb.append(", userId=").append(userId);
         sb.append(", weiNickName=").append(weiNickName);
         sb.append(", headUrl=").append(headUrl);
         sb.append(", rCode=").append(rCode);
@@ -193,7 +183,6 @@ public class ShopUser implements Serializable {
         sb.append(", money=").append(money);
         sb.append(", rank=").append(rank);
         sb.append(", integral=").append(integral);
-        sb.append(", mobile=").append(mobile);
         sb.append("]");
         return sb.toString();
     }
@@ -212,7 +201,7 @@ public class ShopUser implements Serializable {
         ShopUser other = (ShopUser) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
-            && (this.getOpenId() == null ? other.getOpenId() == null : this.getOpenId().equals(other.getOpenId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getWeiNickName() == null ? other.getWeiNickName() == null : this.getWeiNickName().equals(other.getWeiNickName()))
             && (this.getHeadUrl() == null ? other.getHeadUrl() == null : this.getHeadUrl().equals(other.getHeadUrl()))
             && (this.getrCode() == null ? other.getrCode() == null : this.getrCode().equals(other.getrCode()))
@@ -220,8 +209,7 @@ public class ShopUser implements Serializable {
             && (this.getOutCash() == null ? other.getOutCash() == null : this.getOutCash().equals(other.getOutCash()))
             && (this.getMoney() == null ? other.getMoney() == null : this.getMoney().equals(other.getMoney()))
             && (this.getRank() == null ? other.getRank() == null : this.getRank().equals(other.getRank()))
-            && (this.getIntegral() == null ? other.getIntegral() == null : this.getIntegral().equals(other.getIntegral()))
-            && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()));
+            && (this.getIntegral() == null ? other.getIntegral() == null : this.getIntegral().equals(other.getIntegral()));
     }
 
     @Override
@@ -230,7 +218,7 @@ public class ShopUser implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
-        result = prime * result + ((getOpenId() == null) ? 0 : getOpenId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getWeiNickName() == null) ? 0 : getWeiNickName().hashCode());
         result = prime * result + ((getHeadUrl() == null) ? 0 : getHeadUrl().hashCode());
         result = prime * result + ((getrCode() == null) ? 0 : getrCode().hashCode());
@@ -239,7 +227,6 @@ public class ShopUser implements Serializable {
         result = prime * result + ((getMoney() == null) ? 0 : getMoney().hashCode());
         result = prime * result + ((getRank() == null) ? 0 : getRank().hashCode());
         result = prime * result + ((getIntegral() == null) ? 0 : getIntegral().hashCode());
-        result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         return result;
     }
 }

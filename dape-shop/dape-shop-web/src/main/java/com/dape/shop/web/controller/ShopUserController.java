@@ -41,16 +41,21 @@ public class ShopUserController extends BaseController {
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public String mine(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
+        ShopUser shopuser = new ShopUser();
 
-        Object o = request.getSession().getAttribute("openId");
+        Object o = request.getSession().getAttribute("user");
+        UpmsUser upmsUser = null;
         if(o != null){
+            upmsUser = (UpmsUser)o;
+            upmsUser = shopUserService.selectUpmsUserByUsername(upmsUser.getUsername());
             ShopUserExample userExample = new ShopUserExample();
-            userExample.or().andOpenIdEqualTo(o.toString());
-            user = shopUserService.selectFirstByExample(userExample);
+            userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+            shopuser = shopUserService.selectFirstByExample(userExample);
         }
-        request.getSession().setAttribute("user", user); // 更新session
-        model.addAttribute("user", user);
+        request.getSession().setAttribute("user", upmsUser); // 更新session
+        request.getSession().setAttribute("shopuser", shopuser);
+        model.addAttribute("user", upmsUser);
+        model.addAttribute("shopuser", shopuser);
 
         return thymeleaf("/mine");
     }
@@ -315,32 +320,27 @@ public class ShopUserController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
+        UpmsUser user = new UpmsUser();
         Object o = request.getSession().getAttribute("user");
         if(o != null){
-            user = (ShopUser)o;
+            user = (UpmsUser)o;
 
-            ShopUserExample shopUserE = new ShopUserExample();
-            shopUserE.or().andMobileEqualTo(mobile);
-            int count = shopUserService.countByExample(shopUserE);
+            int count = shopUserService.countUpmsUser(mobile);
+
             if(count > 0){
                 result.put("msg", "该手机号已被绑定");
             }else{
 
                 ShopSmsExample shopSmsE = new ShopSmsExample();
-                shopSmsE.or().andNewMobileEqualTo(mobile).andUserIdEqualTo(user.getId()).andStatusEqualTo(ShopSmsStatusEnum.UNUSED.getCode());
+                shopSmsE.or().andNewMobileEqualTo(mobile).andStatusEqualTo(ShopSmsStatusEnum.UNUSED.getCode());
                 ShopSms shopSms = shopSmsService.selectFirstByExample(shopSmsE);
                 if(shopSms != null && shopSms.getSmsCode().equals(smsCode)){
                     long time = System.currentTimeMillis() - shopSms.getCreateDate().getTime();
-                    shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
-                    shopSmsService.updateByPrimaryKey(shopSms);// 更新验证码状态为已使用
                     if(time > 5 * 60 * 1000){// 已超时，5分钟
                         result.put("msg", "验证码已失效");
                     }else{
-                        shopUserE = new ShopUserExample();
-                        shopUserE.or().andIdEqualTo(user.getId());
-                        user = shopUserService.selectFirstByExample(shopUserE);
-                        user.setMobile(mobile);
+                        user.setUsername(mobile);
+                        user.setPhone(mobile);
                         int c = shopUserService.updateByPrimaryKey(user);
                         if(c > 0){
                             result.put("success", true);
@@ -350,6 +350,8 @@ public class ShopUserController extends BaseController {
                 }else{
                     result.put("msg", "验证码错误");
                 }
+                shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+                shopSmsService.updateByPrimaryKey(shopSms);// 更新验证码状态为已使用
             }
         }
 
@@ -449,47 +451,70 @@ public class ShopUserController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/sendSmsCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendSmsCodeUpdateMobile", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> sendSmsCode(String mobile, HttpServletRequest request) {
+    public Map<String, Object> sendSmsCodeUpdateMobile(String mobile, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
+        UpmsUser user = new UpmsUser();
         Object o = request.getSession().getAttribute("user");
         if(o != null){
-            user = (ShopUser)o;
+            user = (UpmsUser)o;
 
-            ShopUserExample shopUserE = new ShopUserExample();
-            shopUserE.or().andMobileEqualTo(mobile);
-            int count = shopUserService.countByExample(shopUserE);
+            int count = shopUserService.countUpmsUser(mobile);
             if(count > 0){
                 result.put("msg", "该手机号已被绑定");
             }else{
                 // 发送验证码
-                String code = "111111";
-                // 待实现
-
-
-
-                ShopSms shopSms = new ShopSms();
-                shopSms.setUserId(user.getId());
-                shopSms.setNewMobile(mobile);
-                shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
-                shopSmsService.updateSmsCodeStatus(shopSms);// 修改之前的验证码为已使用状态
-
-                shopSms.setCreateDate(new Date());
-                shopSms.setOldMobile(user.getMobile() == null ? null : user.getMobile());
-                shopSms.setSmsCode(code);
-                shopSms.setStatus(ShopSmsStatusEnum.UNUSED.getCode());
-                int c = shopSmsService.insert(shopSms);// 添加验证码到数据库
-                if(c > 0){
+                if(createSmsCode(mobile, user.getUserId(), user.getPhone())){
                     result.put("success", true);
                 }
             }
         }
 
         return result;
+    }
+
+    /**
+     * 获取验证码
+     * @param mobile
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/sendSmsCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> sendSmsCode(String mobile, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        // 发送验证码
+        if(createSmsCode(mobile, null, null)){
+            result.put("success", true);
+        }
+
+        return result;
+    }
+
+    public boolean createSmsCode(String mobile, Integer userId, String oldMobile){
+
+        String smsCode = "111111"; // 使用sms发送验证码
+
+        ShopSms shopSms = new ShopSms();
+        shopSms.setNewMobile(mobile);
+        shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+        shopSmsService.updateSmsCodeStatus(shopSms);// 修改之前的验证码为已使用状态
+
+        shopSms.setCreateDate(new Date());
+        shopSms.setOldMobile(oldMobile == null ? null : oldMobile);
+        shopSms.setSmsCode(smsCode);
+        shopSms.setStatus(ShopSmsStatusEnum.UNUSED.getCode());
+        int c = shopSmsService.insert(shopSms);// 添加验证码到数据库
+        if(c > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

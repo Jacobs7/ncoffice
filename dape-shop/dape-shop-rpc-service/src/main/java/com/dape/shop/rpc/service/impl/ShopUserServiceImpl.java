@@ -3,9 +3,8 @@ package com.dape.shop.rpc.service.impl;
 import com.dape.common.annotation.BaseService;
 import com.dape.common.base.BaseServiceImpl;
 import com.dape.shop.dao.mapper.ShopUserMapper;
-import com.dape.shop.dao.model.ShopUser;
-import com.dape.shop.dao.model.ShopUserExample;
-import com.dape.shop.dao.model.ShopUserOrder;
+import com.dape.shop.dao.mapper.UpmsUserMapper;
+import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopUserService;
 import com.dape.shop.rpc.mapper.ShopUserOrderMapper;
 import org.slf4j.Logger;
@@ -32,6 +31,8 @@ public class ShopUserServiceImpl extends BaseServiceImpl<ShopUserMapper, ShopUse
     ShopUserMapper shopUserMapper;
     @Autowired
     ShopUserOrderMapper shopUserOrderMapper;
+    @Autowired
+    UpmsUserMapper upmsUserMapper;
 
     @Override
     public int listUserOrderCount(Map<String, Object> params) {
@@ -41,5 +42,55 @@ public class ShopUserServiceImpl extends BaseServiceImpl<ShopUserMapper, ShopUse
     @Override
     public List<ShopUserOrder> listUserOrder(Map<String, Object> params) {
         return shopUserOrderMapper.listUserOrder(params);
+    }
+
+    @Override
+    public UpmsUser selectUpmsUserByUsername(String username) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria()
+                .andUsernameEqualTo(username);
+        List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
+        if (null != upmsUsers && upmsUsers.size() > 0) {
+            return upmsUsers.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public UpmsUser selectUpmsUserByOpenid(String openid) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria()
+                .andOpenidEqualTo(openid);
+        List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
+        if (null != upmsUsers && upmsUsers.size() > 0) {
+            return upmsUsers.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public UpmsUser createUser(UpmsUser upmsUser) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria()
+                .andUsernameEqualTo(upmsUser.getUsername());
+        long count = upmsUserMapper.countByExample(upmsUserExample);
+        if (count > 0) {
+            return null;
+        }
+        upmsUserMapper.insert(upmsUser);
+        return upmsUser;
+    }
+
+    @Override
+    public int countUpmsUser(String username){
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria()
+                .andUsernameEqualTo(username);
+        return (int)upmsUserMapper.countByExample(upmsUserExample);
+    }
+
+    @Override
+    public int updateByPrimaryKey(UpmsUser upmsUser){
+        return upmsUserMapper.updateByPrimaryKey(upmsUser);
     }
 }

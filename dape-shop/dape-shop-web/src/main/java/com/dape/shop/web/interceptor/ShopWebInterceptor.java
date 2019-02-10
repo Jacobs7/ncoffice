@@ -1,10 +1,13 @@
 package com.dape.shop.web.interceptor;
 
+import com.dape.common.util.MD5Util;
 import com.dape.common.util.PropertiesFileUtil;
 import com.dape.common.util.RamdonUtil;
 import com.dape.shop.dao.model.ShopUser;
 import com.dape.shop.dao.model.ShopUserExample;
+import com.dape.shop.dao.model.UpmsUser;
 import com.dape.shop.rpc.api.ShopUserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -14,65 +17,79 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.util.UUID;
 
 public class ShopWebInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ShopWebInterceptor.class);
 
-    public ShopUserService shopUserService;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        Object o = request.getSession().getAttribute("openId");
-        if(o == null){
-            String openId = "test_open_id";// 上线后要改为从微信获取
-            if(openId == null){
+        // 过滤ajax
+        if (null != request.getHeader("X-Requested-With") && "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
+            return true;
+        }
+
+        String url = request.getRequestURI();
+        Object u = request.getSession().getAttribute("user");
+        if(url.equals("/login/")){
+
+        }else if(u == null){
+            String openId = "open_id_test";// 要改为从微信获取
+            String nickName = "滕勇";// 上线后要改为从微信获取
+            String headUrl = "";// 上线后要改为从微信获取
+
+            if(StringUtils.isBlank(openId)){
+                response.sendRedirect("/login/");
                 return false;
             }
-            if(shopUserService == null){// 解决拦截器不能注入service问题
-                BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
-                shopUserService = (ShopUserService) factory.getBean("shopUserService");
-            }
-            ShopUserExample userExample = new ShopUserExample();
-            userExample.or().andOpenIdEqualTo(openId);
-            ShopUser user = shopUserService.selectFirstByExample(userExample);
-            if(user == null){ // 创建关注用户
-                String nickName = "滕勇";// 上线后要改为从微信获取
-                String headUrl = "";// 上线后要改为从微信获取
-                user = new ShopUser();
-                user.setOpenId(openId);
-                user.setWeiNickName(nickName);
-                user.setHeadUrl(headUrl);
+            BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+            ShopUserService shopUserService = (ShopUserService) factory.getBean("shopUserService");
+            UpmsUser upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
+            ShopUser shopUser = null;
+            if(upmsUser == null){// 未查到，新增微信用户
+                UpmsUser newUser = new UpmsUser();
+                String salt = UUID.randomUUID().toString().replaceAll("-", "");
+                newUser.setUsername(openId);
+                newUser.setSalt(salt);
+                newUser.setPassword(MD5Util.md5("" + salt));
+                newUser.setCtime(System.currentTimeMillis());
+                newUser.setLocked((byte)0);
+                newUser.setPhone("");
+                newUser.setOpenid(openId);
+                upmsUser = shopUserService.createUser(newUser);
 
+                shopUser = new ShopUser();
+                shopUser.setUserId(upmsUser.getUserId());
+                shopUser.setWeiNickName(nickName);
+                shopUser.setHeadUrl(headUrl);
                 // 获取6位推荐码，查询数据库，推荐码存在，就重新获取
                 String code = null;
                 while(true){
                     code = RamdonUtil.getSixCode();
-                    userExample = new ShopUserExample();
+                    ShopUserExample userExample = new ShopUserExample();
                     userExample.or().andRCodeEqualTo(code);
                     int count = shopUserService.countByExample(userExample);
                     if(count <= 0){
                         break;
                     }
                 }
-                user.setrCode(code);
-                user.setOutCash(0);
-                user.setMoney(0);
+                shopUser.setrCode(code);
+                shopUser.setOutCash(0);
+                shopUser.setMoney(0);
                 short rank = 1;
-                user.setRank(rank);
-
-                shopUserService.insert(user);
+                shopUser.setRank(rank);
+                shopUserService.insert(shopUser);
+            }else{
+                ShopUserExample shopUserExample = new ShopUserExample();
+                shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                shopUser = shopUserService.selectFirstByExample(shopUserExample);
             }
-            request.getSession().setAttribute("user", user);
-            request.getSession().setAttribute("openId", openId);
+            request.getSession().setAttribute("user", upmsUser);
+            request.getSession().setAttribute("shopUser", shopUser);
         }
 
-        // 过滤ajax
-        if (null != request.getHeader("X-Requested-With") && "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"))) {
-            return true;
-        }
         // zheng-ui静态资源配置信息
         String appName = PropertiesFileUtil.getInstance().get("app.name");
         String uiPath = PropertiesFileUtil.getInstance().get("dape.ui.path");
