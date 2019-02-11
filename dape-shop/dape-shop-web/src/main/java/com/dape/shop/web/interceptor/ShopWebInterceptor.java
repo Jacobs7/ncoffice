@@ -33,69 +33,74 @@ public class ShopWebInterceptor extends HandlerInterceptorAdapter {
         }
 
         String url = request.getRequestURI();
-        Object u = request.getSession().getAttribute("user");
+        Object u = request.getSession().getAttribute("upmsuser");
         if(url.equals("/login/")){
 
         }else if(u == null){
-            String openId = "open_id_test";// 要改为从微信获取
+            String openId = "";// 要改为从微信获取
             String nickName = "滕勇";// 上线后要改为从微信获取
             String headUrl = "";// 上线后要改为从微信获取
 
             if(StringUtils.isBlank(openId)){
-                response.sendRedirect("/login/");
-                return false;
-            }
-            BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
-            ShopUserService shopUserService = (ShopUserService) factory.getBean("shopUserService");
-            UpmsUser upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
-            ShopUser shopUser = null;
-            if(upmsUser == null){// 未查到，新增微信用户
-                UpmsUser newUser = new UpmsUser();
-                String salt = UUID.randomUUID().toString().replaceAll("-", "");
-                newUser.setUsername(openId);
-                newUser.setSalt(salt);
-                newUser.setPassword(MD5Util.md5("" + salt));
-                newUser.setCtime(System.currentTimeMillis());
-                newUser.setLocked((byte)0);
-                newUser.setPhone("");
-                newUser.setOpenid(openId);
-                shopUserService.createUser(newUser);
-                upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
+                if(url.equals("/") || url.startsWith("/goods") || url.startsWith("/module") || url.startsWith("/resources")){// 不登录也可访问的地址
 
-                shopUser = new ShopUser();
-                shopUser.setUserId(upmsUser.getUserId());
-                shopUser.setWeiNickName(nickName);
-                shopUser.setHeadUrl(headUrl);
-                // 获取6位推荐码，查询数据库，推荐码存在，就重新获取
-                String code = null;
-                while(true){
-                    code = RamdonUtil.getSixCode();
-                    ShopUserExample userExample = new ShopUserExample();
-                    userExample.or().andRCodeEqualTo(code);
-                    int count = shopUserService.countByExample(userExample);
-                    if(count <= 0){
-                        break;
-                    }
+                }else{
+                    response.sendRedirect("/login/");
+                    return false;
                 }
-                shopUser.setrCode(code);
-                shopUser.setOutCash(0);
-                shopUser.setMoney(0);
-                short rank = 1;
-                shopUser.setRank(rank);
-                shopUser.setCreateDate(new Date());
-                shopUser.setIntegral(0);
-                shopUserService.insert(shopUser);
-
-                ShopUserExample userExample = new ShopUserExample();
-                userExample.or().andUserIdEqualTo(upmsUser.getUserId());
-                shopUser = shopUserService.selectFirstByExample(userExample);
             }else{
-                ShopUserExample shopUserExample = new ShopUserExample();
-                shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
-                shopUser = shopUserService.selectFirstByExample(shopUserExample);
+                BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+                ShopUserService shopUserService = (ShopUserService) factory.getBean("shopUserService");
+                UpmsUser upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
+                ShopUser shopUser = null;
+                if(upmsUser == null){// 未查到，新增微信用户
+                    UpmsUser newUser = new UpmsUser();
+                    String salt = UUID.randomUUID().toString().replaceAll("-", "");
+                    newUser.setUsername(openId);
+                    newUser.setSalt(salt);
+                    newUser.setPassword(MD5Util.md5("" + salt));
+                    newUser.setCtime(System.currentTimeMillis());
+                    newUser.setLocked((byte)0);
+                    newUser.setPhone("");
+                    newUser.setOpenid(openId);
+                    shopUserService.createUser(newUser);
+                    upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
+
+                    shopUser = new ShopUser();
+                    shopUser.setUserId(upmsUser.getUserId());
+                    shopUser.setWeiNickName(nickName);
+                    shopUser.setHeadUrl(headUrl);
+                    // 获取6位推荐码，查询数据库，推荐码存在，就重新获取
+                    String code = null;
+                    while(true){
+                        code = RamdonUtil.getSixCode();
+                        ShopUserExample userExample = new ShopUserExample();
+                        userExample.or().andRCodeEqualTo(code);
+                        int count = shopUserService.countByExample(userExample);
+                        if(count <= 0){
+                            break;
+                        }
+                    }
+                    shopUser.setrCode(code);
+                    shopUser.setOutCash(0);
+                    shopUser.setMoney(0);
+                    short rank = 1;
+                    shopUser.setRank(rank);
+                    shopUser.setCreateDate(new Date());
+                    shopUser.setIntegral(0);
+                    shopUserService.insert(shopUser);
+
+                    ShopUserExample userExample = new ShopUserExample();
+                    userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                    shopUser = shopUserService.selectFirstByExample(userExample);
+                }else{
+                    ShopUserExample shopUserExample = new ShopUserExample();
+                    shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                    shopUser = shopUserService.selectFirstByExample(shopUserExample);
+                }
+                request.getSession().setAttribute("upmsuser", upmsUser);
+                request.getSession().setAttribute("shopuser", shopUser);
             }
-            request.getSession().setAttribute("upmsuser", upmsUser);
-            request.getSession().setAttribute("shopUser", shopUser);
         }
 
         // zheng-ui静态资源配置信息

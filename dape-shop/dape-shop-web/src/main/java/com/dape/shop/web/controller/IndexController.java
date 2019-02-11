@@ -76,26 +76,6 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 赚钱教程
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/courseZhuan", method = RequestMethod.GET)
-    public String edit(Model model) {
-       return thymeleaf("/course-zhuan");
-    }
-
-    /**
-     * 省钱教程页面
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/courseSheng", method = RequestMethod.GET)
-    public String order(Model model) {
-        return thymeleaf("/course-sheng");
-    }
-
-    /**
      * 分享图片
      * @param model
      * @param request
@@ -198,13 +178,4 @@ public class IndexController extends BaseController {
         }
     }
 
-    /**
-     * 常见问题
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "question", method = RequestMethod.GET)
-    public String question(Model model) {
-        return thymeleaf("/question");
-    }
 }

@@ -70,7 +70,7 @@ public class GoodsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String goodsDetail(String numIid, int platform, Model model, HttpServletRequest request) {
+    public String goodsDetail(String numIid, Integer platform, Integer userid, Model model, HttpServletRequest request) {
         String ip = getIpAddress(request); // 真实ip地址
 
         // 商品
@@ -85,6 +85,7 @@ public class GoodsController extends BaseController {
         String shopTxt = ShopTypeEnum.getMessage("B");
         String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
         model.addAttribute("copyTxt", copyTxt);
+        model.addAttribute("platform", platform);
 
         return thymeleaf("/goodsInfo");
     }
@@ -141,22 +142,29 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping(value = "/haibao", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> haibao(ShopGoods shopGood, String shopType, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> haibao(ShopGoods shopGood, String shopType, Integer platform, Model model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
         Object o = request.getSession().getAttribute("upmsuser");
-        UpmsUser upmsuser = (UpmsUser)o;
+        String openId = "open_id_test";
+        UpmsUser upmsuser = null;
+        if(o != null){
+            upmsuser = (UpmsUser)o;
+            openId = upmsuser.getOpenid();
+        }
 
-        String openId = upmsuser.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 
 
-        String ip = "192.168.10.205";
+        String ip = "192.168.0.100";
         int port = request.getLocalPort();
         // 商品推广二维码
-        String qrCode = "http://" + ip + ":" + port;
+        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
+        if (upmsuser != null){
+            qrCode += "&userid=" + upmsuser.getUserId();
+        }
 
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
         String haibaoKey = "haibao_" + openId + "_" + shopGood.getNumIid();
