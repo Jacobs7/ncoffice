@@ -20,7 +20,7 @@
         <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;padding:0.2rem 0;">
           <a class="core" href="/user/toSetMobile">
             <span class="fl">手机号</span>
-            <span class="fr" style="color:#999;" th:text="${user.mobile}">18951856755</span>
+            <span class="fr" style="color:#999;" th:text="${upmsuser.phone}">&nbsp;</span>
           </a>
         </div>
         <div class="docItem setItem" style="padding:0.2rem 0;">
@@ -38,7 +38,7 @@
       <div class="docItem setItem" style="border-bottom:1px solid #e5e5e5;padding:0.2rem 0;">
         <a class="core" href="/user/toSetZFB">
           <span class="fl">支付宝</span>
-          <span id="payTypeTxt" class="fr" style="color:#999;" th:text="${#strings.isEmpty(userInfo.zfbAccount)} ? '点击设置' : ${userInfo.zfbAccount}"></span>
+          <span id="payTypeTxt" class="fr" style="color:#999;" th:text="${#strings.isEmpty(userInfo?.zfbAccount)} ? '点击设置' : ${userInfo?.zfbAccount}"></span>
         </a>
       </div>
     </div>
@@ -88,7 +88,7 @@
 <script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
 <script th:inline="javascript">
     var appURL = [[${uiPath}]] + [[${appName}]];
-    var zfbAccount = [[${userInfo.zfbAccount}]];
+    var zfbAccount = [[${userInfo?.zfbAccount}]];
     $(function() {
         FastClick.attach(document.body);
     });

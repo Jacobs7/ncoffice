@@ -16,7 +16,7 @@
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--数据列表-->
   <div class="weui-panel" style="margin-top: 44px;">
-    <div style="padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户剩余<i id="integral" style="color:#F54D23;" th:text="${user.integral}">0</i>分，100分＝1元</div>
+    <div style="padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户剩余<i id="integral" style="color:#F54D23;" th:text="${shopuser.integral}">0</i>分，100分＝1元</div>
     <div class="integral-input-div"><div class="weui-cell__bd" style="padding:0.2rem 0;"><input id="integralInput" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入兑换积分，满1000分可兑换"></div></div>
       <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a id="integralBtn" href="javascript:;" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">兑换</a></div>
   </div>

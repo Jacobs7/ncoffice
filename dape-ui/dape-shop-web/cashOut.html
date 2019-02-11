@@ -16,7 +16,7 @@
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--数据列表-->
   <div class="weui-panel" style="margin-top: 44px;">
-    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${user.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${user.outCash}/100">0</i>元</div>
+    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${shopuser.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${shopuser.outCash}/100">0</i>元</div>
     <div class="integral-input-div"><div class="weui-cell__bd" style="padding:0.2rem 0;"><input class="weui-input" type="number" id="moneyInput" pattern="[0-9]*" placeholder="请输入提现金额，满1元可提现"></div></div>
     <div style="padding:0.5rem 1rem;border-top: 1px solid #e5e5e5;"><a href="javascript:;" id="cashOutBtn" class="weui-btn weui-btn_primary" style="line-height: 1.8rem;background-color:#DD2727;">申请提现</a></div>
   </div>

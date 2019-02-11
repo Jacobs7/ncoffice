@@ -16,7 +16,7 @@
 <div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
   <!--数据列表-->
   <div class="weui-panel" style="margin-top: 44px;">
-    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${user.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${user.outCash}/100">0</i>元</div>
+    <div style="background-color:#f5f5f5;padding:0.6rem 0 0.55rem 0;border-bottom:1px solid #E9E9E9;font-family: '微软雅黑';font-size: 0.75rem;color: #999;text-align: center;">帐户余额<i id="cash" style="color:#F54D23;" th:text="${shopuser.money}/100">0</i>元，累计提现<i id="cashOut" style="color:#00B86B;" th:text="${shopuser.outCash}/100">0</i>元</div>
     <div style="color:#FF6600;line-height:1.25rem;padding: 0.5rem;font-size: 0.75rem;">
       <div>1.本月22号结算上月1号-31号期间确认收货的订单;</div>
       <div>2.本月确认收货的订单，下月22号结算。结算后可提现。</div>

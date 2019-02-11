@@ -29,8 +29,8 @@
       <div class="weui-media-box__bd">
         <div class="weui-media-box__title user-name" th:text="${shopuser.weiNickName}"></div>
         <div>
-          <span class="user-integral" th:switch="${shopuser.rank}"><em th:if="${!#strings.isEmpty(user.phone)}" th:text="${#strings.substring(user.phone,0,3)}+'****'+${#strings.substring(user.phone,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
-          <span class="user-integral"><em class="num" th:text="'积分:'+${shopuser.rank}+'积分'"></em></span>
+          <span class="user-integral" th:switch="${shopuser.rank}"><em th:if="${!#strings.isEmpty(upmsuser.phone)}" th:text="${#strings.substring(upmsuser.phone,0,3)}+'****'+${#strings.substring(upmsuser.phone,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
+          <span class="user-integral"><em class="num" th:text="'积分:'+${shopuser.integral}+'积分'"></em></span>
         </div>
         <div class="weui-media-box__title">
         <span class="user-integral">
