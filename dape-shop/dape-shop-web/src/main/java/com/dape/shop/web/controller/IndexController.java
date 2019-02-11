@@ -96,7 +96,7 @@ public class IndexController extends BaseController {
         // 生成的分享图片
         String targetImg = null;
 
-        String ip = "192.168.10.234";
+        String ip = GoodsController.getLocalIp();
         int port = request.getLocalPort();
         // 分享二维码访问地址
         String qrCode = "http://" + ip + ":" + port;

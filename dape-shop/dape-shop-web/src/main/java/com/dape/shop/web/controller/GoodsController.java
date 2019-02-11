@@ -30,6 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,6 +137,43 @@ public class GoodsController extends BaseController {
     }
 
     /**
+     * 获取内网ip
+     */
+    public static String getLocalIp() {
+        String localip = null;// 本地IP，如果没有配置外网IP则返回它
+        String netip = null;// 外网IP
+        try {
+            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            boolean finded = false;// 是否找到外网IP
+            while (netInterfaces.hasMoreElements() && !finded) {
+                NetworkInterface ni = netInterfaces.nextElement();
+                Enumeration<InetAddress> address = ni.getInetAddresses();
+                while (address.hasMoreElements()) {
+                    ip = address.nextElement();
+                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
+                        netip = ip.getHostAddress();
+                        System.out.println("外网IP：" + netip);
+                        finded = true;
+                        break;
+                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
+                        localip = ip.getHostAddress();
+                        System.out.println("内网IP：" + localip);
+                    }
+
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        if (netip != null && !"".equals(netip)) {
+            return netip;
+        } else {
+            return localip;
+        }
+    }
+
+    /**
      * 生成推广
      * @param shopGood
      * @param shopType
@@ -158,7 +199,7 @@ public class GoodsController extends BaseController {
         String proPath = request.getSession().getServletContext().getRealPath("");
 
 
-        String ip = "192.168.0.100";
+        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
