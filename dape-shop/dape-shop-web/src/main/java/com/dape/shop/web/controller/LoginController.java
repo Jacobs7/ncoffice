@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 首页控制器
@@ -98,7 +96,10 @@ public class LoginController extends BaseController {
             if(MD5Util.md5(password + upmsUser.getSalt()).equals(upmsUser.getPassword())){// 验证密码
                 ShopUserExample shopUserExample = new ShopUserExample();
                 shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
-                shopUser = shopUserService.selectFirstByExample(shopUserExample);
+                List<ShopUser> shopUsers = shopUserService.selectByExample(shopUserExample);
+                if(shopUsers != null && shopUsers.size() > 0){
+                    shopUser = shopUsers.get(0);
+                }
             }else{
                 result.put("msg", "密码错误");
                 return result;
@@ -151,6 +152,8 @@ public class LoginController extends BaseController {
                         shopUser.setMoney(0);
                         short rank = 1;
                         shopUser.setRank(rank);
+                        shopUser.setCreateDate(new Date());
+                        shopUser.setIntegral(0);
                         shopUserService.insert(shopUser);
 
                         ShopUserExample userExample = new ShopUserExample();
@@ -167,7 +170,7 @@ public class LoginController extends BaseController {
         }
 
         request.getSession().setAttribute("upmsuser", upmsUser);
-        request.getSession().setAttribute("shopUser", shopUser);
+        request.getSession().setAttribute("shopuser", shopUser);
         result.put("success", true);
         return result;
     }

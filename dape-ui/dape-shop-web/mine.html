@@ -23,7 +23,7 @@
   <div class="wy-center-top">
     <div class="weui-media-box" style="text-align: center;">
       <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(shopuser.headUrl)}" style="width: 30%;margin: 0 auto;">
-          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="true" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
+          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
           <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${shopuser.headUrl}" />
       </div>
       <div class="weui-media-box__bd">

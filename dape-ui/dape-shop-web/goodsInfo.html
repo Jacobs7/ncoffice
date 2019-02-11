@@ -120,6 +120,7 @@
   var appURL = [[${uiPath}]] + [[${appName}]];
   var copyTxt = [[${copyTxt}]];
   var title = [[${shopGoods.title}]];
+  var platform = [[${platform}]];
 
   // 生成推广海报
   function haibao() {
@@ -130,6 +131,7 @@
       createDialog(dialogId,'',content,footer);
       $.post('/goods/haibao',{
           shopType : [[${shopStore.shopType}]],
+          platform : platform,
           numIid : [[${shopGoods.numIid}]],
           pictUrl : [[${uiPath}]] + [[${appName}]] + [[${shopGoods.pictUrl}]],
           title : title,
