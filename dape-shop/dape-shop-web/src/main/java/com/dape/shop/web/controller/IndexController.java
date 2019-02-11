@@ -103,10 +103,12 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value = "/fenxiang", method = RequestMethod.GET)
     public void fenxiang(Model model, HttpServletRequest request, HttpServletResponse response) {
-        Object o = request.getSession().getAttribute("user");
-        ShopUser user = (ShopUser)o;
+        Object o = request.getSession().getAttribute("upmsuser");
+        Object so = request.getSession().getAttribute("shopuser");
+        UpmsUser upmsuser = (UpmsUser)o;
+        ShopUser shopUser = (ShopUser)so;
 
-        String openId = user.getOpenId();
+        String openId = upmsuser.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
         // 保存到本地的临时头像文件
@@ -129,8 +131,8 @@ public class IndexController extends BaseController {
             }
             // 网络头像保存到本地
             String headUrl = null;
-            if(StringUtils.isNotEmpty(user.getHeadUrl())){
-                headUrl = user.getHeadUrl();
+            if(StringUtils.isNotEmpty(shopUser.getHeadUrl())){
+                headUrl = shopUser.getHeadUrl();
             }else{
                 String appName = request.getAttribute("appName").toString();
                 String uiPath = request.getAttribute("uiPath").toString();
@@ -171,7 +173,7 @@ public class IndexController extends BaseController {
                 if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
             }
 
-            NewImageUtil.fenxiangImg(user.getWeiNickName() , targetImg, proPath+"/resources/images/base/fenxiang_base.jpg",headTemp,qrCode);
+            NewImageUtil.fenxiangImg(shopUser.getWeiNickName() , targetImg, proPath+"/resources/images/base/fenxiang_base.jpg",headTemp,qrCode);
             headF.delete();// 删除临时头像
 
             request.getSession().setAttribute("fenxiangImg", targetImg);

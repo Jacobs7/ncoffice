@@ -59,7 +59,7 @@ public class ShopOrderController {
             tab = 1;
         }
 
-        Object o = request.getSession().getAttribute("user");
+        Object o = request.getSession().getAttribute("shopuser");
 
         List<ShopOrder> orders = new ArrayList<ShopOrder>();
 
@@ -67,12 +67,12 @@ public class ShopOrderController {
         int yifanMoney = 0;
 
         if(o != null){
-            ShopUser user = (ShopUser)o;
+            ShopUser shopuser = (ShopUser)o;
             ShopOrderExample shopOrderE = new ShopOrderExample();
 
             if(tab == 1){ // 最近订单, 分页功能还没加
                 ShopOrderExample.Criteria criteria = shopOrderE.createCriteria();
-                criteria.andShopUserIdEqualTo(user.getId());
+                criteria.andShopUserIdEqualTo(shopuser.getId());
                 if(StringUtils.isNotBlank(orderId)){
                     criteria.andOrderIdLike("%" + orderId + "%");
                 }
@@ -83,11 +83,11 @@ public class ShopOrderController {
                 if(StringUtils.isNotBlank(orderId)) {
                     shopOrder.setOrderId(orderId);
                 }
-                orders = shopOrderService.selectTuiGuangOrder(pageNum, pageSize, user, shopOrder);
+                orders = shopOrderService.selectTuiGuangOrder(pageNum, pageSize, shopuser, shopOrder);
             }
 
             ShopOrder shopOrder = new ShopOrder();
-            shopOrder.setShopUserId(user.getId());
+            shopOrder.setShopUserId(shopuser.getId());
 
             // 待返佣金
             shopOrder.setStatus(2); // 订单状态 1:已生成订单，2:已收货订单，3:已返佣订单

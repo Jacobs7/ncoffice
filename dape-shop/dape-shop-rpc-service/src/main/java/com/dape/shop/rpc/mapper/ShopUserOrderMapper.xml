@@ -14,20 +14,21 @@
 	</resultMap>
 
 	<select id="listUserOrderCount" resultType="int" parameterType="map">
-		select count(0) from shop_user u where s_code = #{sCode}
+		select count(0) from shop_user u LEFT JOIN upms_user uu ON uu.user_id = u.user_id where s_code = #{sCode}
 	</select>
 	<!-- 获取用户列表及订单数量 -->
 	<select id="listUserOrder" resultMap="BaseResultMap" parameterType="map">
 		select
 		id,
 		create_date,
-		open_id,
+		uu.openid,
+		uu.user_id,
 		wei_nick_name,
 		head_url,
-		mobile,
+		uu.phone,
 		(select count(0) from shop_order o where o.shop_user_id = u.id) orderCount,
 		(select count(0) from shop_order o where o.shop_user_id = u.id and o.status = 2) orderGet
-		from shop_user u where s_code = #{sCode} order by u.create_date desc
+		from shop_user u  LEFT JOIN upms_user uu ON uu.user_id = u.user_id where s_code = #{sCode} order by u.create_date desc
 		<if test="limit != null and start != null">
 			limit #{start},#{limit}
 		</if>

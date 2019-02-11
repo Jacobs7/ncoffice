@@ -41,16 +41,21 @@ public class ShopUserController extends BaseController {
 
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public String mine(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
+        ShopUser shopuser = new ShopUser();
 
-        Object o = request.getSession().getAttribute("openId");
+        Object o = request.getSession().getAttribute("upmsuser");
+        UpmsUser upmsUser = null;
         if(o != null){
+            upmsUser = (UpmsUser)o;
+            upmsUser = shopUserService.selectUpmsUserByUsername(upmsUser.getUsername());
             ShopUserExample userExample = new ShopUserExample();
-            userExample.or().andOpenIdEqualTo(o.toString());
-            user = shopUserService.selectFirstByExample(userExample);
+            userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+            shopuser = shopUserService.selectFirstByExample(userExample);
         }
-        request.getSession().setAttribute("user", user); // 更新session
-        model.addAttribute("user", user);
+        request.getSession().setAttribute("upmsuser", upmsUser); // 更新session
+        request.getSession().setAttribute("shopuser", shopuser);
+        model.addAttribute("upmsuser", upmsUser);
+        model.addAttribute("shopuser", shopuser);
 
         return thymeleaf("/mine");
     }
@@ -100,14 +105,14 @@ public class ShopUserController extends BaseController {
             model.addAttribute("frendItem", frendItem);
         }
 
-        Object o = request.getSession().getAttribute("user");
+        Object o = request.getSession().getAttribute("shopuser");
 
         List<ShopUserOrder> frends = new ArrayList<ShopUserOrder>();
         int count = 0;
         if(o != null){
-            ShopUser user = (ShopUser)o;
+            ShopUser shopuser = (ShopUser)o;
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("sCode", user.getrCode());
+            params.put("sCode", shopuser.getrCode());
             params.put("start", (pageNum - 1) * pageSize);
             params.put("limit", pageSize);
             frends = shopUserService.listUserOrder(params);
@@ -127,12 +132,12 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/integral", method = RequestMethod.GET)
     public String integral(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
         }
-        model.addAttribute("user", user);
+        model.addAttribute("shopuser", shopuser);
         return thymeleaf("/integral");
     }
 
@@ -143,12 +148,12 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/cash", method = RequestMethod.GET)
     public String cash(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
         }
-        model.addAttribute("user", user);
+        model.addAttribute("shopuser", shopuser);
         return thymeleaf("/cash");
     }
 
@@ -159,12 +164,12 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/cashOut", method = RequestMethod.GET)
     public String cashOut(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
         }
-        model.addAttribute("user", user);
+        model.addAttribute("shopuser", shopuser);
         return thymeleaf("/cashOut");
     }
 
@@ -180,25 +185,25 @@ public class ShopUserController extends BaseController {
     public Map<String, Object> integralPostal(Integer integral, Model model, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
-        Object o = request.getSession().getAttribute("user");
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
             int dw100 = 100; // 满100分可兑换
 
             if(integral < dw100){
                 result.put("msg", "满1000分才可兑换");
             }else{
-                ShopUser user = (ShopUser)o;
+                ShopUser shopuser = (ShopUser)o;
                 ShopUserExample shopUserE = new ShopUserExample();
-                shopUserE.or().andIdEqualTo(user.getId());
-                user = shopUserService.selectFirstByExample(shopUserE);
-                if(integral > user.getIntegral()){
+                shopUserE.or().andIdEqualTo(shopuser.getId());
+                shopuser = shopUserService.selectFirstByExample(shopUserE);
+                if(integral > shopuser.getIntegral()){
                     result.put("msg", "积分不足");
                 }else{
-                    user.setIntegral(user.getIntegral() - integral);
-                    int u = shopUserService.updateByPrimaryKey(user);
+                    shopuser.setIntegral(shopuser.getIntegral() - integral);
+                    int u = shopUserService.updateByPrimaryKey(shopuser);
                     if(u > 0){
                         ShopCashFlow shopCashFlow = new ShopCashFlow();
-                        shopCashFlow.setUserId(user.getId());
+                        shopCashFlow.setUserId(shopuser.getId());
                         shopCashFlow.setCreateDate(new Date());
                         shopCashFlow.setNum(integral);
                         shopCashFlow.setType(ShopCashTypeEnum.DUIHUAN.getCode());
@@ -207,7 +212,7 @@ public class ShopUserController extends BaseController {
                         int r = shopCashFlowService.insert(shopCashFlow);
                         if(r > 0){
                             result.put("success", true);
-                            request.getSession().setAttribute("user", user); // 更新session
+                            request.getSession().setAttribute("shopuser", shopuser); // 更新session
                         }
                     }
                 }
@@ -228,26 +233,26 @@ public class ShopUserController extends BaseController {
     public Map<String, Object> cashPostal(String money, Model model, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
-        Object o = request.getSession().getAttribute("user");
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
             float moneyT = Float.valueOf(money);
             int cash = (int)(moneyT * 100);
             if(cash < 1){
                 result.put("msg", "满1元才可提现");
             }else{
-                ShopUser user = (ShopUser)o;
+                ShopUser shopuser = (ShopUser)o;
                 ShopUserExample shopUserE = new ShopUserExample();
-                shopUserE.or().andIdEqualTo(user.getId());
-                user = shopUserService.selectFirstByExample(shopUserE);
-                if(cash > user.getMoney()){
+                shopUserE.or().andIdEqualTo(shopuser.getId());
+                shopuser = shopUserService.selectFirstByExample(shopUserE);
+                if(cash > shopuser.getMoney()){
                     result.put("msg", "余额不足");
                 }else{
-                    user.setMoney(user.getMoney() - cash);
-                    user.setOutCash(user.getOutCash() + cash);
-                    int u = shopUserService.updateByPrimaryKey(user);
+                    shopuser.setMoney(shopuser.getMoney() - cash);
+                    shopuser.setOutCash(shopuser.getOutCash() + cash);
+                    int u = shopUserService.updateByPrimaryKey(shopuser);
                     if(u > 0){
                         ShopCashFlow shopCashFlow = new ShopCashFlow();
-                        shopCashFlow.setUserId(user.getId());
+                        shopCashFlow.setUserId(shopuser.getId());
                         shopCashFlow.setCreateDate(new Date());
                         shopCashFlow.setNum(cash);
                         shopCashFlow.setType(ShopCashTypeEnum.TIXIAN.getCode());
@@ -256,7 +261,7 @@ public class ShopUserController extends BaseController {
                         int r = shopCashFlowService.insert(shopCashFlow);
                         if(r > 0){
                             result.put("success", true);
-                            request.getSession().setAttribute("user", user); // 更新session
+                            request.getSession().setAttribute("shopuser", shopuser); // 更新session
                         }
                     }
                 }
@@ -272,16 +277,23 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/toSetting", method = RequestMethod.GET)
     public String toSetting(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("upmsuser");
+        UpmsUser upmsuser = new UpmsUser();
         ShopUserInfo userInfo = new ShopUserInfo();
         if(o != null){
-            user = (ShopUser)o;
+            upmsuser = (UpmsUser)o;
+            upmsuser = shopUserService.selectUpmsUserByUsername(upmsuser.getUsername());
+            ShopUserExample userExample = new ShopUserExample();
+            userExample.or().andUserIdEqualTo(upmsuser.getUserId());
+            shopuser = shopUserService.selectFirstByExample(userExample);
             ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
-            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            shopUserInfoE.or().andShopUserIdEqualTo(shopuser.getId());
             userInfo = shopUserInfoService.selectFirstByExample(shopUserInfoE);
         }
-        model.addAttribute("user", user);
+
+        model.addAttribute("upmsuser", upmsuser);
+        model.addAttribute("shopuser", shopuser);
         model.addAttribute("userInfo", userInfo);
         return thymeleaf("/setting");
     }
@@ -293,12 +305,12 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/toSetMobile", method = RequestMethod.GET)
     public String toSetMobile(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        UpmsUser upmsUser = new UpmsUser();
+        Object o = request.getSession().getAttribute("upmsuser");
         if(o != null){
-            user = (ShopUser)o;
+            upmsUser = (UpmsUser)o;
         }
-        model.addAttribute("user", user);
+        model.addAttribute("upmsuser", upmsUser);
         return thymeleaf("/setMobile");
     }
 
@@ -315,41 +327,38 @@ public class ShopUserController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        UpmsUser upmsuser = new UpmsUser();
+        Object o = request.getSession().getAttribute("upmsuser");
         if(o != null){
-            user = (ShopUser)o;
+            upmsuser = (UpmsUser)o;
 
-            ShopUserExample shopUserE = new ShopUserExample();
-            shopUserE.or().andMobileEqualTo(mobile);
-            int count = shopUserService.countByExample(shopUserE);
+            int count = shopUserService.countUpmsUser(mobile);
+
             if(count > 0){
                 result.put("msg", "该手机号已被绑定");
             }else{
 
                 ShopSmsExample shopSmsE = new ShopSmsExample();
-                shopSmsE.or().andNewMobileEqualTo(mobile).andUserIdEqualTo(user.getId()).andStatusEqualTo(ShopSmsStatusEnum.UNUSED.getCode());
+                shopSmsE.or().andNewMobileEqualTo(mobile).andStatusEqualTo(ShopSmsStatusEnum.UNUSED.getCode());
                 ShopSms shopSms = shopSmsService.selectFirstByExample(shopSmsE);
                 if(shopSms != null && shopSms.getSmsCode().equals(smsCode)){
                     long time = System.currentTimeMillis() - shopSms.getCreateDate().getTime();
-                    shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
-                    shopSmsService.updateByPrimaryKey(shopSms);// 更新验证码状态为已使用
                     if(time > 5 * 60 * 1000){// 已超时，5分钟
                         result.put("msg", "验证码已失效");
                     }else{
-                        shopUserE = new ShopUserExample();
-                        shopUserE.or().andIdEqualTo(user.getId());
-                        user = shopUserService.selectFirstByExample(shopUserE);
-                        user.setMobile(mobile);
-                        int c = shopUserService.updateByPrimaryKey(user);
+                        upmsuser.setUsername(mobile);
+                        upmsuser.setPhone(mobile);
+                        int c = shopUserService.updateByPrimaryKey(upmsuser);
                         if(c > 0){
                             result.put("success", true);
-                            request.getSession().setAttribute("user", user); // 更新session
+                            request.getSession().setAttribute("upmsuser", upmsuser); // 更新session
                         }
                     }
                 }else{
                     result.put("msg", "验证码错误");
                 }
+                shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+                shopSmsService.updateByPrimaryKey(shopSms);// 更新验证码状态为已使用
             }
         }
 
@@ -363,12 +372,12 @@ public class ShopUserController extends BaseController {
      */
     @RequestMapping(value = "/toSetZFB", method = RequestMethod.GET)
     public String toSetZFB(Model model, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
         }
-        model.addAttribute("user", user);
+        model.addAttribute("shopuser", shopuser);
         return thymeleaf("/setZhifubao");
     }
 
@@ -385,17 +394,17 @@ public class ShopUserController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
 
             ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
-            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            shopUserInfoE.or().andShopUserIdEqualTo(shopuser.getId());
             ShopUserInfo info = shopUserInfoService.selectFirstByExample(shopUserInfoE);
             if(info == null){
                 info = new ShopUserInfo();
-                info.setShopUserId(user.getId());
+                info.setShopUserId(shopuser.getId());
                 info.setZfbAccount(zfbAccount);
                 info.setZfbName(zfbName);
                 shopUserInfoService.insert(info);
@@ -421,17 +430,17 @@ public class ShopUserController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
 
             ShopUserInfoExample shopUserInfoE = new ShopUserInfoExample();
-            shopUserInfoE.or().andShopUserIdEqualTo(user.getId());
+            shopUserInfoE.or().andShopUserIdEqualTo(shopuser.getId());
             ShopUserInfo info = shopUserInfoService.selectFirstByExample(shopUserInfoE);
             if(info == null){
                 info = new ShopUserInfo();
-                info.setShopUserId(user.getId());
+                info.setShopUserId(shopuser.getId());
                 info.setPayType(payType);
                 shopUserInfoService.insert(info);
             }else{
@@ -449,47 +458,70 @@ public class ShopUserController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/sendSmsCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendSmsCodeUpdateMobile", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> sendSmsCode(String mobile, HttpServletRequest request) {
+    public Map<String, Object> sendSmsCodeUpdateMobile(String mobile, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        UpmsUser upmsuser = new UpmsUser();
+        Object o = request.getSession().getAttribute("upmsuser");
         if(o != null){
-            user = (ShopUser)o;
+            upmsuser = (UpmsUser)o;
 
-            ShopUserExample shopUserE = new ShopUserExample();
-            shopUserE.or().andMobileEqualTo(mobile);
-            int count = shopUserService.countByExample(shopUserE);
+            int count = shopUserService.countUpmsUser(mobile);
             if(count > 0){
                 result.put("msg", "该手机号已被绑定");
             }else{
                 // 发送验证码
-                String code = "111111";
-                // 待实现
-
-
-
-                ShopSms shopSms = new ShopSms();
-                shopSms.setUserId(user.getId());
-                shopSms.setNewMobile(mobile);
-                shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
-                shopSmsService.updateSmsCodeStatus(shopSms);// 修改之前的验证码为已使用状态
-
-                shopSms.setCreateDate(new Date());
-                shopSms.setOldMobile(user.getMobile() == null ? null : user.getMobile());
-                shopSms.setSmsCode(code);
-                shopSms.setStatus(ShopSmsStatusEnum.UNUSED.getCode());
-                int c = shopSmsService.insert(shopSms);// 添加验证码到数据库
-                if(c > 0){
+                if(createSmsCode(mobile, upmsuser.getUserId(), upmsuser.getPhone())){
                     result.put("success", true);
                 }
             }
         }
 
         return result;
+    }
+
+    /**
+     * 获取验证码
+     * @param mobile
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/sendSmsCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> sendSmsCode(String mobile, HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        // 发送验证码
+        if(createSmsCode(mobile, null, null)){
+            result.put("success", true);
+        }
+
+        return result;
+    }
+
+    public boolean createSmsCode(String mobile, Integer userId, String oldMobile){
+
+        String smsCode = "111111"; // 使用sms发送验证码
+
+        ShopSms shopSms = new ShopSms();
+        shopSms.setNewMobile(mobile);
+        shopSms.setStatus(ShopSmsStatusEnum.ISUSED.getCode());
+        shopSmsService.updateSmsCodeStatus(shopSms);// 修改之前的验证码为已使用状态
+
+        shopSms.setCreateDate(new Date());
+        shopSms.setOldMobile(oldMobile == null ? null : oldMobile);
+        shopSms.setSmsCode(smsCode);
+        shopSms.setStatus(ShopSmsStatusEnum.UNUSED.getCode());
+        int c = shopSmsService.insert(shopSms);// 添加验证码到数据库
+        if(c > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -510,14 +542,14 @@ public class ShopUserController extends BaseController {
     @RequestMapping(value = "/cashFlow", method = RequestMethod.POST)
     @ResponseBody
     public List<ShopCashFlow> cashFlow(Integer pageNum, Integer pageSize, Integer type, HttpServletRequest request) {
-        ShopUser user = new ShopUser();
-        Object o = request.getSession().getAttribute("user");
+        ShopUser shopuser = new ShopUser();
+        Object o = request.getSession().getAttribute("shopuser");
         List<ShopCashFlow> cashFlowList = new ArrayList<ShopCashFlow>();
         if(o != null){
-            user = (ShopUser)o;
+            shopuser = (ShopUser)o;
             ShopCashFlowExample shopCashFlowE = new ShopCashFlowExample();
             ShopCashFlowExample.Criteria criteria = shopCashFlowE.createCriteria();
-            criteria.andUserIdEqualTo(user.getId());
+            criteria.andUserIdEqualTo(shopuser.getId());
             if(type != null){
                 criteria.andTypeEqualTo(type);
             }

@@ -16,7 +16,7 @@
 	<update id="updateSmsCodeStatus" parameterType="com.dape.shop.dao.model.ShopSms">
 		update shop_sms
 		set status = #{shopSms.status}
-		where  new_mobile = #{shopSms.newMobile} and user_id = #{shopSms.userId} and status != #{shopSms.status}
+		where  new_mobile = #{shopSms.newMobile} and status != #{shopSms.status}
 	</update>
 
 	<!-- 缓存 -->
