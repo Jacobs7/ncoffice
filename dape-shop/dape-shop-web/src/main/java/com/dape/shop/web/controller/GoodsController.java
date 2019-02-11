@@ -200,7 +200,7 @@ public class GoodsController extends BaseController {
 
 
 //        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
-        String ip = "http://www.16office.com";
+        String ip = "www.16office.com";
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;

@@ -97,7 +97,7 @@ public class IndexController extends BaseController {
         String targetImg = null;
 
 //        String ip = GoodsController.getLocalIp();
-        String ip = "http://www.16office.com";
+        String ip = "www.16office.com";
         int port = request.getLocalPort();
         // 分享二维码访问地址
         String qrCode = "http://" + ip + ":" + port;
