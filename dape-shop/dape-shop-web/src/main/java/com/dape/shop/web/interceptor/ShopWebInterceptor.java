@@ -17,6 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.UUID;
 
 public class ShopWebInterceptor extends HandlerInterceptorAdapter {
@@ -58,7 +59,8 @@ public class ShopWebInterceptor extends HandlerInterceptorAdapter {
                 newUser.setLocked((byte)0);
                 newUser.setPhone("");
                 newUser.setOpenid(openId);
-                upmsUser = shopUserService.createUser(newUser);
+                shopUserService.createUser(newUser);
+                upmsUser = shopUserService.selectUpmsUserByOpenid(openId);
 
                 shopUser = new ShopUser();
                 shopUser.setUserId(upmsUser.getUserId());
@@ -80,13 +82,19 @@ public class ShopWebInterceptor extends HandlerInterceptorAdapter {
                 shopUser.setMoney(0);
                 short rank = 1;
                 shopUser.setRank(rank);
+                shopUser.setCreateDate(new Date());
+                shopUser.setIntegral(0);
                 shopUserService.insert(shopUser);
+
+                ShopUserExample userExample = new ShopUserExample();
+                userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                shopUser = shopUserService.selectFirstByExample(userExample);
             }else{
                 ShopUserExample shopUserExample = new ShopUserExample();
                 shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
                 shopUser = shopUserService.selectFirstByExample(shopUserExample);
             }
-            request.getSession().setAttribute("user", upmsUser);
+            request.getSession().setAttribute("upmsuser", upmsUser);
             request.getSession().setAttribute("shopUser", shopUser);
         }
 

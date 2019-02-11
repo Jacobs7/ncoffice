@@ -145,10 +145,10 @@ public class GoodsController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        Object o = request.getSession().getAttribute("user");
-        UpmsUser user = (UpmsUser)o;
+        Object o = request.getSession().getAttribute("upmsuser");
+        UpmsUser upmsuser = (UpmsUser)o;
 
-        String openId = user.getOpenid();
+        String openId = upmsuser.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 

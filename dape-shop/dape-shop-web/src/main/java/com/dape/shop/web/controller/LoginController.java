@@ -127,7 +127,9 @@ public class LoginController extends BaseController {
                         newUser.setCtime(System.currentTimeMillis());
                         newUser.setLocked((byte)0);
                         newUser.setPhone(username);
-                        upmsUser = shopUserService.createUser(newUser);
+                        shopUserService.createUser(newUser);
+
+                        upmsUser = shopUserService.selectUpmsUserByUsername(username);
 
                         shopUser = new ShopUser();
                         shopUser.setUserId(upmsUser.getUserId());
@@ -150,6 +152,10 @@ public class LoginController extends BaseController {
                         short rank = 1;
                         shopUser.setRank(rank);
                         shopUserService.insert(shopUser);
+
+                        ShopUserExample userExample = new ShopUserExample();
+                        userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                        shopUser = shopUserService.selectFirstByExample(userExample);
                     }
                 }
             }else{
@@ -160,7 +166,7 @@ public class LoginController extends BaseController {
             }
         }
 
-        request.getSession().setAttribute("user", upmsUser);
+        request.getSession().setAttribute("upmsuser", upmsUser);
         request.getSession().setAttribute("shopUser", shopUser);
         result.put("success", true);
         return result;

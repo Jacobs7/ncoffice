@@ -103,12 +103,12 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value = "/fenxiang", method = RequestMethod.GET)
     public void fenxiang(Model model, HttpServletRequest request, HttpServletResponse response) {
-        Object o = request.getSession().getAttribute("user");
+        Object o = request.getSession().getAttribute("upmsuser");
         Object so = request.getSession().getAttribute("shopuser");
-        UpmsUser user = (UpmsUser)o;
-        ShopUser shopUser = (ShopUser)o;
+        UpmsUser upmsuser = (UpmsUser)o;
+        ShopUser shopUser = (ShopUser)so;
 
-        String openId = user.getOpenid();
+        String openId = upmsuser.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
         // 保存到本地的临时头像文件
