@@ -111,7 +111,11 @@
                         },1000);
                         $.toast('发送成功');
                     }else{
-                        $.toast('发送失败', 'forbidden');
+                        if(data.msg){
+                          $.toast(data.msg, 'forbidden');
+                        }else{
+                          $.toast('发送失败', 'forbidden');
+                        }
                     }
                 });
             }
