@@ -93,7 +93,10 @@ public class LoginController extends BaseController {
 
         if(type.equals("pwd")){
             upmsUser = shopUserService.selectUpmsUserByUsername(username);
-            if(MD5Util.md5(password + upmsUser.getSalt()).equals(upmsUser.getPassword())){// 验证密码
+            if(upmsUser == null){
+                result.put("msg", "用户不存在");
+                return result;
+            }else if(MD5Util.md5(password + upmsUser.getSalt()).equals(upmsUser.getPassword())){// 验证密码
                 ShopUserExample shopUserExample = new ShopUserExample();
                 shopUserExample.or().andUserIdEqualTo(upmsUser.getUserId());
                 List<ShopUser> shopUsers = shopUserService.selectByExample(shopUserExample);
@@ -156,6 +159,10 @@ public class LoginController extends BaseController {
                         shopUser.setIntegral(0);
                         shopUserService.insert(shopUser);
 
+                        ShopUserExample userExample = new ShopUserExample();
+                        userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                        shopUser = shopUserService.selectFirstByExample(userExample);
+                    }else{
                         ShopUserExample userExample = new ShopUserExample();
                         userExample.or().andUserIdEqualTo(upmsUser.getUserId());
                         shopUser = shopUserService.selectFirstByExample(userExample);
