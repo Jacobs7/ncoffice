@@ -162,6 +162,10 @@ public class LoginController extends BaseController {
                         ShopUserExample userExample = new ShopUserExample();
                         userExample.or().andUserIdEqualTo(upmsUser.getUserId());
                         shopUser = shopUserService.selectFirstByExample(userExample);
+                    }else{
+                        ShopUserExample userExample = new ShopUserExample();
+                        userExample.or().andUserIdEqualTo(upmsUser.getUserId());
+                        shopUser = shopUserService.selectFirstByExample(userExample);
                     }
                 }
             }else{
