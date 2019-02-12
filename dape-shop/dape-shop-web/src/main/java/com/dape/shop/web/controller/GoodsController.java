@@ -33,10 +33,9 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 首页控制器
@@ -187,6 +186,9 @@ public class GoodsController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String date = format.format(new Date());
+
         Object o = request.getSession().getAttribute("upmsuser");
         String openId = "open_id_test";
         UpmsUser upmsuser = null;
@@ -204,23 +206,26 @@ public class GoodsController extends BaseController {
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
-        if (upmsuser != null){
-            qrCode += "&userid=" + upmsuser.getUserId();
-        }
 
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
-        String haibaoKey = "haibao_" + openId + "_" + shopGood.getNumIid();
-        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
+        String haibaoKey = "goods_" + date + "_" + openId + "_" + shopGood.getNumIid();
+        if (upmsuser != null){
+            qrCode += "&userid=" + upmsuser.getUserId();
+            haibaoKey = "goods_" + date + "_" + upmsuser.getUserId() + "_" + shopGood.getNumIid();
+        }
+
+//        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
         // 生成的分享图片
         String targetImg = "/resources/images/tuiguang/"+haibaoKey+".jpg";
 
         long start = System.currentTimeMillis();
-        if(haibaoImg == null){
-            String targetTemp = proPath + targetImg;
-            File temp = new File(targetTemp);
-            if(temp.exists()){
-                temp.delete();
-            }
+        String targetTemp = proPath + targetImg;
+        File temp = new File(targetTemp);
+        if(!temp.exists()){
+//            temp.delete();
+//        }
+//        if(haibaoImg == null){
+
             try {
                 // 商品主图保存到本地
                 String mainImgTemp = proPath + "/resources/images/"+haibaoKey+".tmp";
@@ -311,7 +316,7 @@ public class GoodsController extends BaseController {
                 }
 
                 // 长按识别二维码，免费领券
-                Font font = new Font("微软雅黑", Font.PLAIN, 24);
+                Font font = new Font("黑体 常规", Font.PLAIN, 24);
                 color = Color.black;
                 g.setColor(color);
                 g.setFont(font);
@@ -321,7 +326,7 @@ public class GoodsController extends BaseController {
                 g.drawString("免费领券", 485,tempH +240);
 
                 // 标题
-                font = new Font("微软雅黑", Font.PLAIN, 26);
+                font = new Font("黑体 常规", Font.PLAIN, 26);
                 g.setFont(font);
                 color = new Color(55,55,55);
                 g.setColor(color);
@@ -355,10 +360,10 @@ public class GoodsController extends BaseController {
                 // 折扣价
                 color = new Color(255, 68, 0);
                 g.setColor(color);
-                font = new Font("微软雅黑", Font.PLAIN, 25);
+                font = new Font("黑体 常规", Font.PLAIN, 25);
                 g.setFont(font);
                 g.drawString("券后", 20,(tempH + 60) + (35 * line) + 60);
-                font = new Font("微软雅黑", Font.PLAIN, 30);
+                font = new Font("黑体 常规", Font.PLAIN, 30);
                 g.setFont(font);
                 String zkPriceStr = "¥ "+zkPrice;
                 g.drawString(zkPriceStr, 80,(tempH + 60) + (35 * line) + 63);
@@ -368,7 +373,7 @@ public class GoodsController extends BaseController {
                     fm = g.getFontMetrics(font);
                     int baoyouW = fm.stringWidth(zkPriceStr);
                     g.fillRect(80 + baoyouW + 20, (tempH + 60) + (35 * line) + 40,46, 26);
-                    font = new Font("微软雅黑", Font.BOLD, 18);
+                    font = new Font("黑体 常规", Font.BOLD, 18);
                     g.setFont(font);
                     color = Color.white;
                     g.setColor(color);
@@ -378,7 +383,7 @@ public class GoodsController extends BaseController {
                 // 原价
                 color = new Color(95, 95, 95);
                 g.setColor(color);
-                font = new Font("微软雅黑", Font.PLAIN, 22);
+                font = new Font("黑体 常规", Font.PLAIN, 22);
                 g.setFont(font);
                 g.drawString("原价", 20,(tempH + 60) + (35 * line) + 105);
                 String yjPriceStr = "¥ "+yjPrice;
@@ -389,7 +394,7 @@ public class GoodsController extends BaseController {
                 g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 95);
 
                 // 月销量
-                font = new Font("微软雅黑", Font.PLAIN, 20);
+                font = new Font("黑体 常规", Font.PLAIN, 20);
                 g.setFont(font);
                 g.drawString("月销" + volume + "件", 75 + delLineW + 115,(tempH + 60) + (35 * line) + 105);
 
@@ -398,12 +403,12 @@ public class GoodsController extends BaseController {
                 g.setColor(color);
                 g.fillRoundRect(75 + delLineW + 10, (tempH + 60) + (35 * line) + 85, 30,26, 5, 5);
                 g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,72,25,5,5);
-                font = new Font("微软雅黑", Font.BOLD, 18);
+                font = new Font("黑体 常规", Font.BOLD, 18);
                 g.setFont(font);
                 color = Color.white;
                 g.setColor(color);
                 g.drawString("券", 75 + delLineW + 16,(tempH + 60) + (35 * line) + 105);
-                font = new Font("微软雅黑", Font.PLAIN, 18);
+                font = new Font("黑体 常规", Font.PLAIN, 18);
                 g.setFont(font);
                 color = new Color(255, 68, 0);
                 g.setColor(color);
@@ -417,7 +422,7 @@ public class GoodsController extends BaseController {
                 g.fillRect(0, height - 60, width,60);
                 color = new Color(155, 55, 55);
                 g.setColor(color);
-                font = new Font("楷体", Font.BOLD, 30);
+                font = new Font("楷体 常规", Font.BOLD, 30);
                 g.setFont(font);
                 String dbTxt = "粉丝福利优惠券，别的地方看不到哦";
                 fm = g.getFontMetrics(font);
@@ -426,15 +431,16 @@ public class GoodsController extends BaseController {
                 File outputfile = new File(targetTemp);
                 ImageIO.write(imageNew,"jpg", outputfile);
 
-                request.getSession().setAttribute(haibaoKey, targetImg);
+//                request.getSession().setAttribute(haibaoKey, targetImg);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
-            targetImg = haibaoImg.toString();
         }
+//        else {
+//            targetImg = haibaoImg.toString();
+//        }
         System.out.println("生成海报共耗时：[" + (System.currentTimeMillis() - start) + "]毫秒");
         result.put("url", targetImg);
         result.put("success", true);

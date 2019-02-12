@@ -85,14 +85,18 @@ public class IndexController extends BaseController {
     public void fenxiang(Model model, HttpServletRequest request, HttpServletResponse response) {
         Object o = request.getSession().getAttribute("upmsuser");
         Object so = request.getSession().getAttribute("shopuser");
-        UpmsUser upmsuser = (UpmsUser)o;
-        ShopUser shopUser = (ShopUser)so;
+        UpmsUser upmsuser = null;
+        ShopUser shopUser = null;
+        if(o == null){
+            return;
+        }
+        upmsuser = (UpmsUser)o;
+        shopUser = (ShopUser)so;
 
-        String openId = upmsuser.getOpenid();
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
         // 保存到本地的临时头像文件
-        String headTemp = proPath + "/resources/images/"+openId+".tmp";
+        String headTemp = proPath + "/resources/images/"+upmsuser.getUserId()+".tmp";
         // 生成的分享图片
         String targetImg = null;
 
@@ -105,7 +109,7 @@ public class IndexController extends BaseController {
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
         Object fenxiangImg = request.getSession().getAttribute("fenxiangImg");
         if(fenxiangImg == null){
-            targetImg = proPath + "/resources/images/fenxiang/"+openId+".jpg";
+            targetImg = proPath + "/resources/images/fenxiang/"+upmsuser.getUserId()+".jpg";
             File temp = new File(targetImg);
             if(temp.exists()){
                 temp.delete();
@@ -120,11 +124,13 @@ public class IndexController extends BaseController {
                 headUrl = uiPath + appName + "/images/headimg.jpg";
             }
 
-            // 保存下来的时头像文件
+            // 保存下来的头像文件
             File headF = new File(headTemp);
-            if(!headF.exists()){
-                try { headF.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+            if(headF.exists()){
+                headF.delete();
+
             }
+            try { headF.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
 
             // 请求头像并写入临时头像文件
             HttpGet httpGet = null;
