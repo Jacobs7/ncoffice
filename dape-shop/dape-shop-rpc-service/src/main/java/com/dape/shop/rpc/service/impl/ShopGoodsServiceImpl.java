@@ -53,12 +53,19 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         try {
             TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
 
-            TbkItemGetRequest req = new TbkItemGetRequest();
-            req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
-            req.setCat("50010788");
-            req.setPageNo(1L);
-            req.setPageSize(20L);
-            TbkItemGetResponse rsp = client.execute(req);
+//            TbkItemRecommendGetRequest req = new TbkItemRecommendGetRequest();
+//            req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url");
+//            req.setNumIid(584574208203L);
+//            req.setPlatform(2L);
+//            req.setCount(40L);
+//            TbkItemRecommendGetResponse rsp = client.execute(req);
+
+            TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
+            req.setNumIids("584574208203");
+            req.setPlatform(2L);
+//            req.setIp("11.22.33.43");
+            TbkItemInfoGetResponse rsp = client.execute(req);
+
 
             System.out.println("*********************");
             System.out.println(rsp.getBody());
@@ -196,11 +203,47 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     }
 
     @Override
-    public Map<String, Object> findGoods(String numIids, int platform, String ip) {
+    public Map<String, Object> findGoods(Long numIids, Map<String, Object> params) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
+        // 设置参数
+        TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
+        req.setNumIids(numIids.toString());
+        if(params != null) {
+            if (params.containsKey("ip")) {//查询词，例：女装
+                req.setIp(params.get("ip").toString());
+            }
+            if (params.containsKey("platform")) {//链接形式：1：PC，2：无线，默认：１
+                req.setPlatform(Long.valueOf(params.get("platform").toString()));
+            }
+        }
 
+        try {
+            // 调用接口
+            TbkItemInfoGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkItemInfoGetResponse = jsonObject.getJSONObject("tbk_item_info_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkItemInfoGetResponse != null){//查询成功
+                String request_id = tbkItemInfoGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkItemInfoGetResponse.getJSONObject("results");
+                JSONArray nTbkItem = results.getJSONArray("n_tbk_item");
+                result.put("nTbkItem", nTbkItem);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
 
         return  result;
     }

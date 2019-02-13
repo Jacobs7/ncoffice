@@ -89,28 +89,40 @@ public class GoodsController extends BaseController {
             params.put("is_overseas", is_overseas);
         }
         String platform = request.getParameter("platform");
-        if(StringUtils.isNotBlank(is_tmall)){
+        if(StringUtils.isNotBlank(platform)){
             params.put("platform", platform);
         }
 
-        return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
+        return shopGoodsService.loadGoods(pageNum, pageSize, params);
     }
 
     /**
      * 商品详情
      * @param numIid id
-     * @param platform 1:pc端,2:无线端
      * @param model
      * @param request
      * @return
      */
     @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String goodsDetail(String numIid, Integer platform, Integer userid, Model model, HttpServletRequest request) {
-        String ip = getIpAddress(request); // 真实ip地址
+    public String goodsDetail(Long numIid, Integer userid, Model model, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String count = request.getParameter("count");
+        if(StringUtils.isNotBlank(count)){
+            params.put("count", count);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
 
         // 商品
-        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid,platform,ip);
-        model.addAttribute("shopGoods", goodsDetail);
+        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid, params);
+        if(Boolean.valueOf(goodsDetail.get("success").toString())){
+            model.addAttribute("goodsDetail", goodsDetail.get("nTbkItem"));
+        }else{
+            model.addAttribute("goodsDetail", "");
+        }
 
         // 店铺
 //        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
@@ -136,7 +148,7 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
     public String toSearch(Long pageNum, Long pageSize, HttpServletRequest request, Model model) {
         Map<String, Object> params = new HashMap<String, Object>();
-        model.addAttribute("goodsList", shopGoodsService.loadCouponGoods(pageNum, pageSize, params));
+        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, params));
         model.addAttribute("query", params);
         return thymeleaf("/search");
     }

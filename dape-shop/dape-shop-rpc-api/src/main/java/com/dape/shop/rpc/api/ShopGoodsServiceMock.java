@@ -22,7 +22,7 @@ public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopG
     public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params) { return null; }
 
     @Override
-    public Map<String, Object> findGoods(String numIids, int platform, String ip) {
+    public Map<String, Object> findGoods(Long numIids, Map<String, Object> params) {
         return null;
     }
 }

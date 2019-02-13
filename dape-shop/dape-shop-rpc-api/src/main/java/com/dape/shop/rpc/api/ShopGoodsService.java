@@ -30,5 +30,11 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      */
     public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params);
 
-    public Map<String, Object> findGoods(String numIids, int platform, String ip);
+    /**
+     * 查询商品详情
+     * @param numIids
+     * @param params
+     * @return
+     */
+    public Map<String, Object> findGoods(Long numIids, Map<String, Object> params);
 }
