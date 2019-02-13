@@ -110,9 +110,9 @@
 	      console.log(data);
           loading = false;
 	      if(data.success){
-	        var tbkCoupon = data.tbkCoupon;
-            if(tbkCoupon && tbkCoupon.length > 0){
-                $(tbkCoupon).each(function(){
+	        var nTbkItem = data.nTbkItem;
+            if(nTbkItem && nTbkItem.length > 0){
+                $(nTbkItem).each(function(){
                     $this = this;
                     // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                     var tianmaoCss = 'icon-tianmao-18';
