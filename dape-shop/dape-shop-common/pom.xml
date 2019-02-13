@@ -26,6 +26,12 @@
             <version>1.0.0</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>fentao</groupId>
+            <artifactId>fentao-ali-sdk</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>

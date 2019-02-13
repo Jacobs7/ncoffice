@@ -1,5 +1,8 @@
 package com.dape.shop.rpc.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dape.common.annotation.BaseService;
 import com.dape.common.base.BaseServiceImpl;
 import com.dape.common.util.PropertiesFileUtil;
@@ -7,6 +10,11 @@ import com.dape.shop.dao.mapper.ShopGoodsMapper;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 import com.dape.shop.rpc.api.ShopGoodsService;
+import com.taobao.api.ApiException;
+import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.*;
+import com.taobao.api.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
 * ShopGoodsService实现
@@ -33,86 +39,169 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     @Autowired
     ShopGoodsMapper shopGoodsMapper;
 
+    private static TaobaoClient tobaoClient = null;
 
-    @Override
-    public List<ShopGoods> loadGoods(int pageNum, int pageSize, ShopGoods shopGoods) {
-        System.out.println("pageNum: " + pageNum + " ,pageSize: " + pageSize);
-
-        List<ShopGoods> goods = new ArrayList<ShopGoods>();
-        ShopGoods item = null;
-
-        Random random =new Random();
-        for(int i = 1;i <= 10; i++){
-            item = new ShopGoods();
-            item.setId(1L + i);
-            item.setPictUrl("/upload/pro"+ (i%5+1)+".jpg");
-            item.setTitle("洋河蓝色瓶装经典Q7浓香型白酒500ml52度高端纯粮食白酒2瓶装包邮");
-            item.setReservePrice("99.84");
-            item.setZkFinalPrice("88.00"); // 折扣价
-            item.setVolume(187); // 30销量
-            item.setCouponInfo(String.valueOf(random.nextInt(100))); // 优惠券面额
-            item.setCouponTotalCount(999); // 优惠券总量
-            item.setCouponRemainCount(758); // 优惠券剩余量
-
-            goods.add(item);
+    static {
+        if(tobaoClient == null){
+            // 正式环境
+            tobaoClient = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
         }
+    }
 
-        return goods;
+    public static void main(String[] args){
+
+        try {
+            TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
+
+            TbkItemGetRequest req = new TbkItemGetRequest();
+            req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
+            req.setCat("50010788");
+            req.setPageNo(1L);
+            req.setPageSize(20L);
+            TbkItemGetResponse rsp = client.execute(req);
+
+            System.out.println("*********************");
+            System.out.println(rsp.getBody());
+            System.out.println("*********************");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public ShopGoods findGoods(String numIids, int platform, String ip) {
-        ShopGoods shopGoods = new ShopGoods();
-        shopGoods.setNumIid("123"); // 商品id
-        shopGoods.setTitle("俞兆林卫衣 男2017春新款运动休闲印花大码潮人卫衣卫裤加厚外套套装男");
-        shopGoods.setPictUrl("/upload/zhutu01.jpg"); // 主图
-        shopGoods.setSmallImages("/upload/zhutu02.jpg,/upload/zhutu03.jpg,/upload/zhutu04.jpg,/upload/zhutu05.jpg,"); // 小图列表
-        shopGoods.setReservePrice("185.25"); // 一口价
-        shopGoods.setZkFinalPrice("88.00"); // 折扣价
-        shopGoods.setUserType(1); // 卖家类型，0：集市，1：商城
-        shopGoods.setProvcity("江苏南京"); // 商品所在地
-        shopGoods.setItemUrl("https://chaoshi.detail.tmall.com/item.htm?spm=a3204.7408093.7.4.vcbZx2&id=541168065917"); // 商品链接
-        shopGoods.setNick("小宝的商铺"); // 卖家昵称
-        shopGoods.setSellerId(193827192); // 卖家id
-        shopGoods.setVolume(187); // 30销量
-        shopGoods.setCatLeafName("男装"); // 叶子类目名称
-        shopGoods.setIsPrepay(true); // 是否加入消费者保障
-        shopGoods.setShopDsr(55); // 商铺评分
-        shopGoods.setRatesum(21); // 卖家等级
-        shopGoods.setiRfdRate(false); // 退款率是否低于行业均值
-        shopGoods.sethGoodRate(true); // 好评率是否高于行业均值
-        shopGoods.sethPayRate30(true); // 成交转化是否高于行业均值
-        shopGoods.setFreeShipment(true); // 是否包邮
-        shopGoods.setMaterialLibType(""); // 商品库类型，支持多库类型输出，以“，”区分，1:营销商品主推库
-        shopGoods.setTkRate("20.00"); // 收入比例，举例，取值为20.00，表示比例20.00%
-        shopGoods.setZkFinalPriceWap("55.99"); // 无线折扣价，即宝贝在无线上的实际售卖价格
-        shopGoods.setShopTitle(""); //
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public Map<String, Object> loadGoods(Long pageNum, Long pageSize, Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        // 商品接口参数对象，设置参数
+        TbkItemGetRequest req = new TbkItemGetRequest();
+        req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
+
+        if(params != null) {
+            if (params.containsKey("q")) {//查询词，例：女装
+                req.setQ(params.get("q").toString());
+            }
+            if (params.containsKey("cat")) {//例：16,18(后台类目ID，用,分割，最大10个，该ID可以通过taobao.itemcats.get接口获取到)
+                req.setCat(params.get("cat").toString());
+            }
+            if (params.containsKey("itemloc")) {//杭州(所在地)
+                req.setItemloc(params.get("itemloc").toString());
+            }
+            if (params.containsKey("sort")) {//tk_rate_des(排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi）)
+                req.setSort(params.get("sort").toString());
+            }
+            if (params.containsKey("is_tmall")) {//是否商城商品
+                req.setIsTmall(Boolean.valueOf(params.get("is_tmall").toString()));
+            }
+            if (params.containsKey("is_overseas")) {//是否海外商品
+                req.setIsOverseas(Boolean.valueOf(params.get("is_overseas").toString()));
+            }
+            if (params.containsKey("platform")) {//链接形式：1：PC，2：无线，默认：１
+                req.setPlatform(Long.valueOf(params.get("platform").toString()));
+            }
+        }
+
+        // 设置pageNum、pageSize
+        req.setPageNo(pageNum);
+        req.setPageSize(pageSize);
+
         try {
-            shopGoods.setEventStartTime(format.parse("2018-11-15")); // 招商活动开始时间；如果该宝贝取自普通选品组，则取值为1970-01-01 00:00:00
-            shopGoods.setEventEndTime(format.parse("2018-12-15")); // 招行活动的结束时间；如果该宝贝取自普通的选品组，则取值为1970-01-01 00:00:00
-        } catch (ParseException e) {
+
+            // 调用接口
+            TbkItemGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkItemGetResponse = jsonObject.getJSONObject("tbk_item_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkItemGetResponse != null){//查询成功
+                Long total_results = tbkItemGetResponse.getLong("total_results");
+                result.put("total", total_results);
+                String request_id = tbkItemGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkItemGetResponse.getJSONObject("results");
+                JSONArray n_tbk_item = results.getJSONArray("n_tbk_item");
+                result.put("nTbkItem", n_tbk_item);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+            result.put("msg", "调用接口异常");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+
+        req.setAdzoneId(96030450186L);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
+
+        if(params != null) {
+            if (params.containsKey("q")) {//查询词，例：女装
+                req.setQ(params.get("q").toString());
+            }
+            if (params.containsKey("cat")) {//16,18	后台类目ID，用,分割，最大10个，该ID可以通过taobao.itemcats.get接口获取到
+                req.setCat(params.get("cat").toString());
+            }
+            if (params.containsKey("platform")) {//链接形式：1：PC，2：无线，默认：１
+                req.setPlatform(Long.valueOf(params.get("platform").toString()));
+            }
+        }
+
+        // 设置pageNum、pageSize
+        req.setPageNo(pageNum);
+        req.setPageSize(pageSize);
+        try {
+
+            // 调用接口
+            TbkDgItemCouponGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkDgItemCouponGetResponse = jsonObject.getJSONObject("tbk_dg_item_coupon_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkDgItemCouponGetResponse != null){//查询成功
+                Long total_results = tbkDgItemCouponGetResponse.getLong("total_results");
+                result.put("total", total_results);
+                String request_id = tbkDgItemCouponGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkDgItemCouponGetResponse.getJSONObject("results");
+                JSONArray tbkCoupon = results.getJSONArray("tbk_coupon");
+                result.put("tbkCoupon", tbkCoupon);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
             e.printStackTrace();
         }
-        shopGoods.setType(1); // 宝贝类型：1 普通商品； 2 鹊桥高佣金商品；3 定向招商商品；4 营销计划商品;
-        shopGoods.setStatus(1); // 宝贝状态，0失效，1有效；注：失效可能是宝贝已经下线或者是被处罚不能在进行推广
-        shopGoods.setCategory(11); // 后台一级类目
-        shopGoods.setCouponClickUrl("http://www.taobao.com/fjjffj"); // 商品优惠券推广链接
-        try {
-            shopGoods.setCouponStartTime(format.parse("2018-11-15")); // coupon_start_time
-            shopGoods.setCouponEndTime(format.parse("2018-12-15")); // 优惠券结束时间
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        shopGoods.setCouponInfo("15"); // 优惠券面额
-        shopGoods.setCouponTotalCount(999); // 优惠券总量
-        shopGoods.setCouponRemainCount(758); // 优惠券剩余量
 
-        // taobao.tbk.coupon.get 推广券查询接口,
-        // me:带券ID与商品ID的加密串
-        // item_id:商品ID
-        // activity_id:券ID
+        return result;
+    }
 
-        return shopGoods;
+    @Override
+    public Map<String, Object> findGoods(String numIids, int platform, String ip) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+
+
+        return  result;
     }
 }

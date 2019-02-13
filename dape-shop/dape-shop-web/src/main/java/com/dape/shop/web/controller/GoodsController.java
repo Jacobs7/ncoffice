@@ -10,6 +10,7 @@ import com.dape.shop.dao.model.UpmsUser;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopStoreService;
 import com.google.zxing.BarcodeFormat;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -55,13 +56,44 @@ public class GoodsController extends BaseController {
      * 加载商品列表, ajax请求
      * @param pageNum 第几页
      * @param pageSize 每页多少条
-     * @param query 查询条件
+     * @param request 查询条件
      * @return
      */
     @RequestMapping(value = "/loadGoods", method = RequestMethod.POST)
     @ResponseBody
-    public List<ShopGoods> loadGoods(Integer pageNum, Integer pageSize, ShopGoods query) {
-        return shopGoodsService.loadGoods(pageNum, pageSize, query);
+    public Map<String, Object> loadGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String cat = request.getParameter("cat");
+        if(StringUtils.isNotBlank(cat)){
+            params.put("cat", cat);
+        }
+        String itemloc = request.getParameter("itemloc");
+        if(StringUtils.isNotBlank(itemloc)){
+            params.put("itemloc", itemloc);
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            params.put("sort", sort);
+        }
+        String is_tmall = request.getParameter("is_tmall");
+        if(StringUtils.isNotBlank(is_tmall)){
+            params.put("is_tmall", is_tmall);
+        }
+        String is_overseas = request.getParameter("is_overseas");
+        if(StringUtils.isNotBlank(is_overseas)){
+            params.put("is_overseas", is_overseas);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(is_tmall)){
+            params.put("platform", platform);
+        }
+
+        return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
     }
 
     /**
@@ -77,17 +109,17 @@ public class GoodsController extends BaseController {
         String ip = getIpAddress(request); // 真实ip地址
 
         // 商品
-        ShopGoods shopGoods = shopGoodsService.findGoods(numIid,platform,ip);
-        model.addAttribute("shopGoods", shopGoods);
+        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid,platform,ip);
+        model.addAttribute("shopGoods", goodsDetail);
 
         // 店铺
-        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
-        model.addAttribute("shopStore", shopStore);
+//        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
+//        model.addAttribute("shopStore", shopStore);
 
         // 分享方案  推荐理由、口令需要后续添加
         String shopTxt = ShopTypeEnum.getMessage("B");
-        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
-        model.addAttribute("copyTxt", copyTxt);
+//        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
+//        model.addAttribute("copyTxt", copyTxt);
         model.addAttribute("platform", platform);
 
         return thymeleaf("/goodsInfo");
@@ -97,16 +129,15 @@ public class GoodsController extends BaseController {
      * 转向查询页,get请求
      * @param pageNum 第几页
      * @param pageSize 每页多少条
-     * @param sort 排序
-     * @param query 查询条件
+     * @param request 查询条件
      * @param model
      * @return
      */
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
-    public String toSearch(Integer pageNum, Integer pageSize, Integer sort, ShopGoods query, Model model) {
-        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, query));
-        model.addAttribute("query", query);
-        model.addAttribute("sort", sort == null ? 1 : sort);
+    public String toSearch(Long pageNum, Long pageSize, HttpServletRequest request, Model model) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        model.addAttribute("goodsList", shopGoodsService.loadCouponGoods(pageNum, pageSize, params));
+        model.addAttribute("query", params);
         return thymeleaf("/search");
     }
 
