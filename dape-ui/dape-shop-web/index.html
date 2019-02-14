@@ -143,13 +143,15 @@
                            couponNum = tmp;
                         }
                     }
-                    var newIcon = '';
-                    if(typeof($this.coupon_start_time) != 'undefined'){
-                      var coupon_start_time = $this.coupon_start_time;
-                      if(coupon_start_time == timeFormat($this.createDate,'yyyy-MM-dd')){
-                        newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
-                      }
-                    }
+                    var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
+                    //if(typeof($this.coupon_start_time) != 'undefined'){
+                    //  var coupon_start_time = $this.coupon_start_time;
+                    //  if(coupon_start_time == timeFormat($this.createDate,'yyyy-MM-dd')){
+                    //   newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
+                    //  }
+                    //}else{
+                    //  newIcon = '';
+                    //}
                     $('#goodsUL').append('<li>' +
                           '<a href="/goods/goodsDetail?numIid='+$this.num_iid+'&platform='+platform+'">' +
                             newIcon +
