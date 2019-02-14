@@ -120,8 +120,6 @@ public class GoodsController extends BaseController {
         Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid, params);
         if(Boolean.valueOf(goodsDetail.get("success").toString())){
             model.addAttribute("goodsDetail", goodsDetail.get("nTbkItem"));
-        }else{
-            model.addAttribute("goodsDetail", "");
         }
 
         // 店铺
