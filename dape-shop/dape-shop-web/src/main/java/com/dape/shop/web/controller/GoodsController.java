@@ -10,6 +10,7 @@ import com.dape.shop.dao.model.UpmsUser;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopStoreService;
 import com.google.zxing.BarcodeFormat;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -33,10 +34,9 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 首页控制器
@@ -56,39 +56,80 @@ public class GoodsController extends BaseController {
      * 加载商品列表, ajax请求
      * @param pageNum 第几页
      * @param pageSize 每页多少条
-     * @param query 查询条件
+     * @param request 查询条件
      * @return
      */
     @RequestMapping(value = "/loadGoods", method = RequestMethod.POST)
     @ResponseBody
-    public List<ShopGoods> loadGoods(Integer pageNum, Integer pageSize, ShopGoods query) {
-        return shopGoodsService.loadGoods(pageNum, pageSize, query);
+    public Map<String, Object> loadGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String cat = request.getParameter("cat");
+        if(StringUtils.isNotBlank(cat)){
+            params.put("cat", cat);
+        }
+        String itemloc = request.getParameter("itemloc");
+        if(StringUtils.isNotBlank(itemloc)){
+            params.put("itemloc", itemloc);
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            params.put("sort", sort);
+        }
+        String is_tmall = request.getParameter("is_tmall");
+        if(StringUtils.isNotBlank(is_tmall)){
+            params.put("is_tmall", is_tmall);
+        }
+        String is_overseas = request.getParameter("is_overseas");
+        if(StringUtils.isNotBlank(is_overseas)){
+            params.put("is_overseas", is_overseas);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
+
+        return shopGoodsService.loadGoods(pageNum, pageSize, params);
     }
 
     /**
      * 商品详情
      * @param numIid id
-     * @param platform 1:pc端,2:无线端
      * @param model
      * @param request
      * @return
      */
     @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String goodsDetail(String numIid, Integer platform, Integer userid, Model model, HttpServletRequest request) {
-        String ip = getIpAddress(request); // 真实ip地址
+    public String goodsDetail(Long numIid, Integer userid, Model model, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String count = request.getParameter("count");
+        if(StringUtils.isNotBlank(count)){
+            params.put("count", count);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
 
         // 商品
-        ShopGoods shopGoods = shopGoodsService.findGoods(numIid,platform,ip);
-        model.addAttribute("shopGoods", shopGoods);
+        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid, params);
+        if(Boolean.valueOf(goodsDetail.get("success").toString())){
+            model.addAttribute("goodsDetail", goodsDetail.get("nTbkItem"));
+        }
 
         // 店铺
-        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
-        model.addAttribute("shopStore", shopStore);
+//        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
+//        model.addAttribute("shopStore", shopStore);
 
         // 分享方案  推荐理由、口令需要后续添加
         String shopTxt = ShopTypeEnum.getMessage("B");
-        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
-        model.addAttribute("copyTxt", copyTxt);
+//        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
+//        model.addAttribute("copyTxt", copyTxt);
         model.addAttribute("platform", platform);
 
         return thymeleaf("/goodsInfo");
@@ -98,16 +139,15 @@ public class GoodsController extends BaseController {
      * 转向查询页,get请求
      * @param pageNum 第几页
      * @param pageSize 每页多少条
-     * @param sort 排序
-     * @param query 查询条件
+     * @param request 查询条件
      * @param model
      * @return
      */
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
-    public String toSearch(Integer pageNum, Integer pageSize, Integer sort, ShopGoods query, Model model) {
-        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, query));
-        model.addAttribute("query", query);
-        model.addAttribute("sort", sort == null ? 1 : sort);
+    public String toSearch(Long pageNum, Long pageSize, HttpServletRequest request, Model model) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, params));
+        model.addAttribute("query", params);
         return thymeleaf("/search");
     }
 
@@ -187,6 +227,9 @@ public class GoodsController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String date = format.format(new Date());
+
         Object o = request.getSession().getAttribute("upmsuser");
         String openId = "open_id_test";
         UpmsUser upmsuser = null;
@@ -204,23 +247,26 @@ public class GoodsController extends BaseController {
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
-        if (upmsuser != null){
-            qrCode += "&userid=" + upmsuser.getUserId();
-        }
 
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
-        String haibaoKey = "haibao_" + openId + "_" + shopGood.getNumIid();
-        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
+        String haibaoKey = "goods_" + date + "_" + openId + "_" + shopGood.getNumIid();
+        if (upmsuser != null){
+            qrCode += "&userid=" + upmsuser.getUserId();
+            haibaoKey = "goods_" + date + "_" + upmsuser.getUserId() + "_" + shopGood.getNumIid();
+        }
+
+//        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
         // 生成的分享图片
         String targetImg = "/resources/images/tuiguang/"+haibaoKey+".jpg";
 
         long start = System.currentTimeMillis();
-        if(haibaoImg == null){
-            String targetTemp = proPath + targetImg;
-            File temp = new File(targetTemp);
-            if(temp.exists()){
-                temp.delete();
-            }
+        String targetTemp = proPath + targetImg;
+        File temp = new File(targetTemp);
+        if(!temp.exists()){
+//            temp.delete();
+//        }
+//        if(haibaoImg == null){
+
             try {
                 // 商品主图保存到本地
                 String mainImgTemp = proPath + "/resources/images/"+haibaoKey+".tmp";
@@ -311,7 +357,7 @@ public class GoodsController extends BaseController {
                 }
 
                 // 长按识别二维码，免费领券
-                Font font = new Font("微软雅黑", Font.PLAIN, 24);
+                Font font = new Font("黑体 常规", Font.PLAIN, 24);
                 color = Color.black;
                 g.setColor(color);
                 g.setFont(font);
@@ -321,7 +367,7 @@ public class GoodsController extends BaseController {
                 g.drawString("免费领券", 485,tempH +240);
 
                 // 标题
-                font = new Font("微软雅黑", Font.PLAIN, 26);
+                font = new Font("黑体 常规", Font.PLAIN, 26);
                 g.setFont(font);
                 color = new Color(55,55,55);
                 g.setColor(color);
@@ -355,10 +401,10 @@ public class GoodsController extends BaseController {
                 // 折扣价
                 color = new Color(255, 68, 0);
                 g.setColor(color);
-                font = new Font("微软雅黑", Font.PLAIN, 25);
+                font = new Font("黑体 常规", Font.PLAIN, 25);
                 g.setFont(font);
                 g.drawString("券后", 20,(tempH + 60) + (35 * line) + 60);
-                font = new Font("微软雅黑", Font.PLAIN, 30);
+                font = new Font("黑体 常规", Font.PLAIN, 30);
                 g.setFont(font);
                 String zkPriceStr = "¥ "+zkPrice;
                 g.drawString(zkPriceStr, 80,(tempH + 60) + (35 * line) + 63);
@@ -368,7 +414,7 @@ public class GoodsController extends BaseController {
                     fm = g.getFontMetrics(font);
                     int baoyouW = fm.stringWidth(zkPriceStr);
                     g.fillRect(80 + baoyouW + 20, (tempH + 60) + (35 * line) + 40,46, 26);
-                    font = new Font("微软雅黑", Font.BOLD, 18);
+                    font = new Font("黑体 常规", Font.BOLD, 18);
                     g.setFont(font);
                     color = Color.white;
                     g.setColor(color);
@@ -378,7 +424,7 @@ public class GoodsController extends BaseController {
                 // 原价
                 color = new Color(95, 95, 95);
                 g.setColor(color);
-                font = new Font("微软雅黑", Font.PLAIN, 22);
+                font = new Font("黑体 常规", Font.PLAIN, 22);
                 g.setFont(font);
                 g.drawString("原价", 20,(tempH + 60) + (35 * line) + 105);
                 String yjPriceStr = "¥ "+yjPrice;
@@ -389,7 +435,7 @@ public class GoodsController extends BaseController {
                 g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 95);
 
                 // 月销量
-                font = new Font("微软雅黑", Font.PLAIN, 20);
+                font = new Font("黑体 常规", Font.PLAIN, 20);
                 g.setFont(font);
                 g.drawString("月销" + volume + "件", 75 + delLineW + 115,(tempH + 60) + (35 * line) + 105);
 
@@ -398,12 +444,12 @@ public class GoodsController extends BaseController {
                 g.setColor(color);
                 g.fillRoundRect(75 + delLineW + 10, (tempH + 60) + (35 * line) + 85, 30,26, 5, 5);
                 g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,72,25,5,5);
-                font = new Font("微软雅黑", Font.BOLD, 18);
+                font = new Font("黑体 常规", Font.BOLD, 18);
                 g.setFont(font);
                 color = Color.white;
                 g.setColor(color);
                 g.drawString("券", 75 + delLineW + 16,(tempH + 60) + (35 * line) + 105);
-                font = new Font("微软雅黑", Font.PLAIN, 18);
+                font = new Font("黑体 常规", Font.PLAIN, 18);
                 g.setFont(font);
                 color = new Color(255, 68, 0);
                 g.setColor(color);
@@ -417,7 +463,7 @@ public class GoodsController extends BaseController {
                 g.fillRect(0, height - 60, width,60);
                 color = new Color(155, 55, 55);
                 g.setColor(color);
-                font = new Font("楷体", Font.BOLD, 30);
+                font = new Font("楷体 常规", Font.BOLD, 30);
                 g.setFont(font);
                 String dbTxt = "粉丝福利优惠券，别的地方看不到哦";
                 fm = g.getFontMetrics(font);
@@ -426,15 +472,16 @@ public class GoodsController extends BaseController {
                 File outputfile = new File(targetTemp);
                 ImageIO.write(imageNew,"jpg", outputfile);
 
-                request.getSession().setAttribute(haibaoKey, targetImg);
+//                request.getSession().setAttribute(haibaoKey, targetImg);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
-            targetImg = haibaoImg.toString();
         }
+//        else {
+//            targetImg = haibaoImg.toString();
+//        }
         System.out.println("生成海报共耗时：[" + (System.currentTimeMillis() - start) + "]毫秒");
         result.put("url", targetImg);
         result.put("success", true);

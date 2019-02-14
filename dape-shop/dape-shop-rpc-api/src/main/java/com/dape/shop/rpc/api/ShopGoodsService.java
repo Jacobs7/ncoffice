@@ -4,7 +4,7 @@ import com.dape.common.base.BaseService;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 
-import java.util.List;
+import java.util.Map;
 
 /**
 * ShopGoodsService接口
@@ -12,7 +12,29 @@ import java.util.List;
 */
 public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExample> {
 
-    public List<ShopGoods> loadGoods(int pageNum, int pageSize, ShopGoods shopGoods);
+    /**
+     * 淘宝客商品查询(只有商品列表，没有券信息)
+     * @param pageNum
+     * @param pageSize
+     * @param params
+     * @return
+     */
+    public Map<String, Object> loadGoods(Long pageNum, Long pageSize, Map<String, Object> params);
 
-    public ShopGoods findGoods(String numIids, int platform, String ip);
+    /**
+     * 好券清单API【导购】
+     * @param pageNum
+     * @param pageSize
+     * @param params
+     * @return
+     */
+    public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params);
+
+    /**
+     * 查询商品详情
+     * @param numIids
+     * @param params
+     * @return
+     */
+    public Map<String, Object> findGoods(Long numIids, Map<String, Object> params);
 }

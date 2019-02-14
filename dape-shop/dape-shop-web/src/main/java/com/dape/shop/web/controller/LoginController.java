@@ -137,7 +137,7 @@ public class LoginController extends BaseController {
 
                         shopUser = new ShopUser();
                         shopUser.setUserId(upmsUser.getUserId());
-                        shopUser.setWeiNickName(username);
+                        shopUser.setWeiNickName("NO." + System.currentTimeMillis());
 //                        shopUser.setHeadUrl(headUrl);
                         // 获取6位推荐码，查询数据库，推荐码存在，就重新获取
                         String code = null;
