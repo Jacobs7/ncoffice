@@ -335,11 +335,11 @@ public class GoodsController extends BaseController {
 
                 // 店铺类型
                 if(shopType != null){
-                    if(shopType.equals("B")){ // 天猫
+                    if(shopType.equals("1")){ // 天猫
                         String tianmaoTmp = proPath + "/resources/images/base/icon_tianmao.png";
                         BufferedImage tianmaoIcon = ImageIO.read(new File(tianmaoTmp));
                         g.drawImage(tianmaoIcon, 20, tempH + 25, 40, 40, null);
-                    }else if(shopType.equals("C")){ // 淘宝
+                    }else if(shopType.equals("0")){ // 淘宝
                         String tiaobaoTmp = proPath + "/resources/images/base/icon_taobao.png";
                         BufferedImage tiaobaoTmpIcon = ImageIO.read(new File(tiaobaoTmp));
                         g.drawImage(tiaobaoTmpIcon, 20, tempH + 25, 40, 40, null);
