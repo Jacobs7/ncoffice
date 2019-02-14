@@ -72,28 +72,40 @@ public class GoodsController extends BaseController {
         if(StringUtils.isNotBlank(cat)){
             params.put("cat", cat);
         }
-        String itemloc = request.getParameter("itemloc");
-        if(StringUtils.isNotBlank(itemloc)){
-            params.put("itemloc", itemloc);
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            params.put("has_coupon", has_coupon);
         }
         String sort = request.getParameter("sort");
         if(StringUtils.isNotBlank(sort)){
             params.put("sort", sort);
         }
-        String is_tmall = request.getParameter("is_tmall");
-        if(StringUtils.isNotBlank(is_tmall)){
-            params.put("is_tmall", is_tmall);
+        String need_free_shipment = request.getParameter("need_free_shipment");
+        if(StringUtils.isNotBlank(need_free_shipment)){
+            params.put("need_free_shipment", need_free_shipment);
         }
-        String is_overseas = request.getParameter("is_overseas");
-        if(StringUtils.isNotBlank(is_overseas)){
-            params.put("is_overseas", is_overseas);
+        String need_prepay = request.getParameter("need_prepay");
+        if(StringUtils.isNotBlank(need_prepay)){
+            params.put("need_prepay", need_prepay);
         }
-        String platform = request.getParameter("platform");
-        if(StringUtils.isNotBlank(platform)){
-            params.put("platform", platform);
+        String itemloc = request.getParameter("itemloc");
+        if(StringUtils.isNotBlank(itemloc)){
+            params.put("itemloc", itemloc);
         }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            params.put("material_id", material_id);
+        }
+//        String ip = request.getParameter("ip");
+//        if(StringUtils.isNotBlank(ip)){
+//            params.put("ip", ip);
+//        }
 
-        return shopGoodsService.loadGoods(pageNum, pageSize, params);
+        return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
     }
 
     /**
@@ -244,6 +256,7 @@ public class GoodsController extends BaseController {
 
 //        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
         String ip = "www.16office.com";
+//        String ip = "192.168.0.103";
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
