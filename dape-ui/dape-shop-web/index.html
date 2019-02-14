@@ -105,12 +105,14 @@
     var pageSize = 20;
     var platform = 2;
 	function loadGoods(){
-	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'50010788',platform:platform},function(data){
+	    // cat:类目，material_id:默认值:2836(官方的物料Id)
+	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'16,18',platform:platform,has_coupon:true,need_free_shipment:true,need_prepay:true,material_id:2836,sort:'tk_rate'},function(data){
           loading = false;
 	      if(data.success){
-	        var nTbkItem = data.nTbkItem;
-            if(nTbkItem && nTbkItem.length > 0){
-                $(nTbkItem).each(function(){
+	        var mapData = data.mapData;
+	        console.log(mapData);
+            if(mapData && mapData.length > 0){
+                $(mapData).each(function(){
                     $this = this;
                     // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                     var tianmaoCss = 'icon-tianmao-18';
@@ -119,10 +121,39 @@
                     }else if($this.user_type == 1){
                       tianmaoCss = 'icon-tianmao-18';
                     }
+                    var tmp1,tmp2;
+                    if(typeof($this.commission_rate) != 'undefined'){
+                        tmp = $this.zk_final_price * $this.commission_rate / 100;
+                        tmp1 = Math.floor(tmp * 0.35) / 100;
+                        tmp1 = tmp1.toString();
+                        var index = tmp1.indexOf('.');
+                        if(index == -1){ tmp1 += '.00'; }else if(tmp1.length <= index + 2){ tmp1 += '0'; }
+                        tmp2 = Math.floor(tmp * 0.5) / 100;
+                        tmp2 = tmp2.toString();
+                        index = tmp2.indexOf('.');
+                        if(index == -1){ tmp2 += '.00'; }else if(tmp2.length <= index + 2){ tmp2 += '0'; }
+                    }else{
+                        tmp1 = '0.00';tmp2 = '0.00';
+                    }
+                    var couponNum = 0;
+                    if(typeof($this.coupon_info) != 'undefined'){
+                        var tmp = $this.coupon_info.split('减');
+                        tmp = tmp[1].replace(/元/, '');
+                        if(!isNaN(tmp)){
+                           couponNum = tmp;
+                        }
+                    }
+                    var newIcon = '';
+                    if(typeof($this.coupon_start_time) != 'undefined'){
+                      var coupon_start_time = $this.coupon_start_time;
+                      if(coupon_start_time == timeFormat($this.createDate,'yyyy-MM-dd')){
+                        newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
+                      }
+                    }
                     $('#goodsUL').append('<li>' +
                           '<a href="/goods/goodsDetail?numIid='+$this.num_iid+'&platform='+platform+'">' +
-                            '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
-                            '<span class="quanFlag"><b>'+0+'</b><br>元券</span>' +
+                            newIcon +
+                            '<span class="quanFlag"><div><b>'+couponNum+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                             '<div class="proimg">' +
                               '<img src="'+$this.pict_url+'">' +
                             '</div>' +
@@ -133,12 +164,12 @@
                               '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
                               '<div class="name" style="position: relative;"><p>' +
                                 '<em class="nowPrice">￥'+$this.zk_final_price+'</em>' +
-                                '<span class="oldPrice">￥'+$this.reserve_price+'</span>' +
+                                '<span class="oldPrice">￥'+(typeof($this.reserve_price) != 'undefined' ? $this.reserve_price : $this.zk_final_price)+'</span>' +
                                 '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
                                 '</p></div>' +
                               '<div class="return" style="margin-bottom: 3px;">' +
-                                '<div style="background-color: #dc2527;color: #fff;">标佣¥0.00</div>' +
-                                '<div style="color: #dc2527;">特佣¥0.00</div>' +
+                                '<div style="background-color: #dc2527;color: #fff;">标佣¥'+tmp1+'</div>' +
+                                '<div style="color: #dc2527;">特佣¥'+tmp2+'</div>' +
                                 '</div>' +
                               '</div>' +
                             '</a>' +
