@@ -19,27 +19,16 @@
   <!--主图轮播-->
   <div class="weui-panel">
     <div class="swiper-container swiper-zhutu">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><img th:src="${uiPath} + ${appName} + ${shopGoods.pictUrl}" /></div>
-        <div th:each="smallImg,smallImgStat:${#strings.arraySplit(shopGoods.smallImages,',')}" class="swiper-slide"><img th:src="${uiPath + appName} + ${smallImg}" /></div>
-      </div>
+      <div class="swiper-wrapper" id="picList"></div>
       <div class="swiper-pagination swiper-zhutu-pagination"></div>
     </div>
 
     <div class="weui-media-box_text detail-container">
-      <div class="detail-quan"><span class="quanFlag" style="width: 40px;">优惠券<br><b th:text="'¥'+${shopGoods.couponInfo}">￥10</b></span></div>
-      <div class="detail-title" th:switch="${shopStore.shopType}">
-        <i th:case="B" class="icon18-zz icon-tianmao-18"></i>
-        <i th:case="C" class="icon18-zz icon-taobao-18"></i>
-        <em style="padding:1.1rem;" th:text="${shopGoods.title}"></em>
-      </div>
-      <div class="detail-price-c">
-        <em th:text="'¥'+${shopGoods.zkFinalPrice}" class="num" style="font-size: 0.95rem;font-weight: bold;"></em>
-        <em th:text="'原价'+${shopGoods.reservePrice}" class="detail-price-s"></em>
-        <em th:text="'月销量'+${shopGoods.volume}+'件'" class="detail-price-v"></em>
-      </div>
+      <div class="detail-quan"><span class="quanFlag" style="width: 40px;" id="quanFlag">优惠券<br></span></div>
+      <div class="detail-title" id="itemTitle"></div>
+      <div class="detail-price-c" id="itemPrice"></div>
       <div class="detail-return">
-        标准佣金&nbsp;¥<em>4.35</em> ｜ 特权佣金&nbsp;¥<em>7.62</em><a href="javascript:showKeFu('/upload/kefu.jpg')">如何升特权?</a>
+        标准佣金&nbsp;¥<em id="biaoYong">0.00</em> ｜ 特权佣金&nbsp;¥<em id="teYong">0.00</em><a href="javascript:showKeFu('/upload/kefu.jpg')">如何升特权?</a>
       </div>
       <div class="detail-return-txt">
         以实际佣金为准，卖家修改佣金24小时内同步到平台
@@ -119,39 +108,81 @@
 <script th:inline="javascript">
 
   var goodsDetail = [[${goodsDetail}]];
-  var appURL = [[${uiPath}]] + [[${appName}]];
+  var numIid,title,userType,pictUrl,zkFinalPrice,reservePrice,volume,freeShipment=false;
+  if(!!goodsDetail && goodsDetail.length > 0){
+    var item = goodsDetail[0];
+    numIid = item['num_iid'];
+    // 商品图片
+    pictUrl = item['pict_url'];
+    $('#picList').append('<div class="swiper-slide"><img src="'+pictUrl+'" /></div>');
+    var small_images = item['small_images'];
+    if(!!small_images && small_images['string'].length > 0){
+      for(var i = 0; i < small_images['string'].length; i++){
+        $('#picList').append('<div class="swiper-slide"><img src="'+small_images['string'][i]+'" /></div>');
+      }
+    }
+    // 券
+    $('#quanFlag').append('<b>￥'+'缺'+'</b>');
+    userType = item['user_type'];
+    if(userType == 0){// 淘宝图标
+      $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
+    }else if(userType == 1){// 天猫图标
+      $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
+    }
+    title = item['title'];
+    $('#itemTitle').append('<em style="padding:1.1rem;">'+title+'</em>');
+    // 原价、折扣价
+    zkFinalPrice = item['zk_final_price'];
+    $('#itemPrice').append('<em class="num" style="font-size: 0.95rem;font-weight: bold;">¥'+zkFinalPrice+'</em>');
+    reservePrice = item['reserve_price'];
+    $('#itemPrice').append('<em class="detail-price-s">原价'+reservePrice+'</em>');
+    volume = item['volume'];
+    $('#itemPrice').append('<em class="detail-price-v">月销量'+volume+'</em>');
+    // 包邮
+    if(!!item['free_shipment']){
+      freeShipment = item['free_shipment'];
+    }
+    // 佣金
+    $('#biaoYong').text('0.00');
+    $('#teYong').text('0.00');
+    // 详情
+
+    // 评价
+
+  }
+
   var copyTxt = [[${copyTxt}]];
-  var title = [[${shopGoods.title}]];
   var platform = [[${platform}]];
 
   // 生成推广海报
   function haibao() {
-      var dialogId = 'haibao';
-      var len = $('#'+dialogId+'Win').length;
-      var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #d47b4f;">长按图片发送给朋友，或保存到手机</div><div class="haibao-c-remark" style="color: #d9d9db;">好友通过领券购买，您即可赚取佣金</div>';
-      var footer = '<div class="haibaoFoot"><a href="javascript:" id="copyTitle" onclick="cloneTxt(\'copyTitle\')" data-clipboard-text="'+title+'">复制标题</a><a href="javascript:" id="copyText" onclick="cloneTxt(\'copyText\')" data-clipboard-text="'+copyTxt+'">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
-      createDialog(dialogId,'',content,footer);
-      $.post('/goods/haibao',{
-          shopType : [[${shopStore.shopType}]],
-          platform : platform,
-          numIid : [[${shopGoods.numIid}]],
-          pictUrl : [[${uiPath}]] + [[${appName}]] + [[${shopGoods.pictUrl}]],
-          title : title,
-          zkFinalPrice : [[${shopGoods.zkFinalPrice}]],
-          reservePrice : [[${shopGoods.reservePrice}]],
-          freeShipment : [[${shopGoods.freeShipment}]],
-          volume : [[${shopGoods.volume}]],
-          couponInfo : [[${shopGoods.couponInfo}]]
-      },function (data) {
-          $('#goodsHaibao').attr('src',data.url);
-      });
-      if(len > 0){
-          showDialog(dialogId);
-      }else{
-          //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
-          showLoading('正在生成海报','style="min-width: 7.5rem;min-height: 7.5rem;"');
+      if(!!goodsDetail && goodsDetail.length > 0){
+          var dialogId = 'haibao';
+          var len = $('#'+dialogId+'Win').length;
+          var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #d47b4f;">长按图片发送给朋友，或保存到手机</div><div class="haibao-c-remark" style="color: #d9d9db;">好友通过领券购买，您即可赚取佣金</div>';
+          var footer = '<div class="haibaoFoot"><a href="javascript:" id="copyTitle" onclick="cloneTxt(\'copyTitle\')" data-clipboard-text="'+title+'">复制标题</a><a href="javascript:" id="copyText" onclick="cloneTxt(\'copyText\')" data-clipboard-text="'+copyTxt+'">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+          createDialog(dialogId,'',content,footer);
+          $.post('/goods/haibao',{
+              shopType : userType,
+              platform : platform,
+              numIid : numIid,
+              pictUrl : pictUrl,
+              title : title,
+              zkFinalPrice : zkFinalPrice,
+              reservePrice : reservePrice,
+              freeShipment : freeShipment,
+              volume : volume,
+              couponInfo : '0.00'//未确定
+          },function (data) {
+              $('#goodsHaibao').attr('src',data.url);
+          });
+          if(len > 0){
+              showDialog(dialogId);
+          }else{
+              //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
+              showLoading('正在生成海报','style="min-width: 7.5rem;min-height: 7.5rem;"');
+          }
       }
-
   }
 
   // 抢券淘口令
@@ -170,7 +201,7 @@
       createDialog(dialogId,title,content,footer);
       showDialog(dialogId);
       // showLoading('正在获取淘口令','style="min-width: 6.5rem;min-height: 6.5rem;"');
-      // $.post('/goods/quanKey',{goodId:[[${shopGoods.id}]]},function (data){
+      // $.post('/goods/quanKey',{goodId:''},function (data){
       //     $.hideLoading();
       //     if(data && data.copyTxt){
       //         $('#copyButton').attr('data-clipboard-text', data.copyTxt);

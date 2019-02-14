@@ -105,9 +105,7 @@
     var pageSize = 20;
     var platform = 2;
 	function loadGoods(){
-	    console.log("页码：" + pageNum + "," + pageSize);
 	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'50010788',platform:platform},function(data){
-	      console.log(data);
           loading = false;
 	      if(data.success){
 	        var nTbkItem = data.nTbkItem;
@@ -139,8 +137,8 @@
                                 '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
                                 '</p></div>' +
                               '<div class="return" style="margin-bottom: 3px;">' +
-                                '<div style="background-color: #dc2527;color: #fff;">标佣¥4.32</div>' +
-                                '<div style="color: #dc2527;">特佣¥6.32</div>' +
+                                '<div style="background-color: #dc2527;color: #fff;">标佣¥0.00</div>' +
+                                '<div style="color: #dc2527;">特佣¥0.00</div>' +
                                 '</div>' +
                               '</div>' +
                             '</a>' +
