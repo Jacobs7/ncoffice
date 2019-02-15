@@ -110,41 +110,98 @@ public class GoodsController extends BaseController {
 
     /**
      * 商品详情
-     * @param numIid id
      * @param model
      * @param request
      * @return
      */
-    @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String goodsDetail(Long numIid, Integer userid, Model model, HttpServletRequest request) {
+    @RequestMapping(value = "/goodsDetail", method = RequestMethod.POST)
+    public String goodsDetail(Long item_id, Integer userid, Model model, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
 
-        String count = request.getParameter("count");
-        if(StringUtils.isNotBlank(count)){
-            params.put("count", count);
-        }
         String platform = request.getParameter("platform");
-        if(StringUtils.isNotBlank(platform)){
+        if(platform != null){
             params.put("platform", platform);
         }
 
         // 商品
-        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid, params);
+        Map<String, Object> goodsDetail = shopGoodsService.findGoods(item_id, params);
         if(Boolean.valueOf(goodsDetail.get("success").toString())){
             model.addAttribute("goodsDetail", goodsDetail.get("nTbkItem"));
+        }else{
+            model.addAttribute("goodsDetail", "");
         }
 
-        // 店铺
-//        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
-//        model.addAttribute("shopStore", shopStore);
+        // 佣金率
+        String commission_rate = request.getParameter("commission_rate");
+        if(commission_rate != null){
+            model.addAttribute("commission_rate", commission_rate);
+        }else{
+            model.addAttribute("commission_rate", 0);
+        }
+        // 券额
+        String coupon_amount = request.getParameter("coupon_amount");
+        if(StringUtils.isNotBlank(coupon_amount)){
+            model.addAttribute("coupon_amount", coupon_amount);
+        }else{
+            model.addAttribute("coupon_amount", "0");
+        }
+        // 券链接
+        String coupon_click_url = request.getParameter("coupon_click_url");
+        if(coupon_click_url != null){
+            model.addAttribute("coupon_click_url", coupon_click_url);
+        }else {
+            model.addAttribute("coupon_click_url", "");
+        }
+        // 淘客链接
+        String click_url = request.getParameter("click_url");
+        if(click_url != null){
+            model.addAttribute("click_url", click_url);
+        }else {
+            model.addAttribute("click_url", "");
+        }
+        // 推荐理由
+        String item_description = request.getParameter("item_description");
+        if(item_description != null){
+            model.addAttribute("item_description", item_description);
+        }else {
+            model.addAttribute("item_description", "");
+        }
 
         // 分享方案  推荐理由、口令需要后续添加
-        String shopTxt = ShopTypeEnum.getMessage("B");
 //        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
 //        model.addAttribute("copyTxt", copyTxt);
         model.addAttribute("platform", platform);
 
         return thymeleaf("/goodsInfo");
+    }
+
+    @RequestMapping(value = "/goodsTPwd", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> haibao(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String url = request.getParameter("url");
+        if(StringUtils.isNotBlank(url)){
+            params.put("url", url);
+        }
+        String text = request.getParameter("text");
+        if(StringUtils.isNotBlank(text)){
+            params.put("text", text);
+        }
+        String user_id = request.getParameter("user_id");
+        if(StringUtils.isNotBlank(user_id)){
+            params.put("user_id", user_id);
+        }
+        String logo = request.getParameter("logo");
+        if(StringUtils.isNotBlank(logo)){
+            params.put("logo", logo);
+        }
+        String ext = request.getParameter("ext");
+        if(StringUtils.isNotBlank(ext)){
+            params.put("ext", ext);
+        }
+
+        return shopGoodsService.getTKL(params);
     }
 
     /**

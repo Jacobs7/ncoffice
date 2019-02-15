@@ -19,10 +19,16 @@ public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopG
     }
 
     @Override
+    public Map<String, Object> loadCouponGoodsBySeach(Long pageNum, Long pageSize, Map<String, Object> params) { return null; }
+
+    @Override
     public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params) { return null; }
 
     @Override
     public Map<String, Object> findGoods(Long numIids, Map<String, Object> params) {
         return null;
     }
+
+    @Override
+    public Map<String, Object> getTKL(Map<String, Object> params) { return null; }
 }

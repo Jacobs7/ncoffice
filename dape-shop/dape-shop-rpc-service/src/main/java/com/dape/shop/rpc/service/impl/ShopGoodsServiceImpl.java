@@ -39,6 +39,8 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     @Autowired
     ShopGoodsMapper shopGoodsMapper;
 
+    private final static Long ADZONE_ID = 96030450186L;
+
     private static TaobaoClient tobaoClient = null;
 
     static {
@@ -55,20 +57,13 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             // mm_323040055_331400082_96030450186
             TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
 
-            TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
 
-            req.setQ("");
-            req.setCat("16,18");
-
-            req.setAdzoneId(96030450186L);
-            req.setHasCoupon(true);//是否有优惠券
-            req.setNeedFreeShipment(true);//是否包邮
-            req.setNeedPrepay(true);//是否加入消费者保障
-//            req.setIp("");//客户端IP
-
-            req.setPageNo(1L);
-            req.setPageSize(5L);
-            TbkDgMaterialOptionalResponse rsp = client.execute(req);
+            TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
+//            req.setUserId("123");
+            req.setText("长度大于5个字符");
+            req.setUrl("https://uland.taobao.com/coupon/edetail?e=BQR0fgQyyAgNfLV8niU3R%2FYRDMKMeGICjDppvlX%2Bob%2BBtHA6T8TZnVBPfopb7LXvLGbJes29FQrJb3ExMzcsfUB6C%2BxEUwyFm4VLH9mslwz2cdoyd9dVa2kuCri1Q9l5IGgGvlpEmMrYGUfvDRkpmYPKQRyZ88zo09bBz561wuBXXJGMgA0nMuW%2FLfVtrUGmxfIoB7ojYT28HzXEgh689Qk%2FwPX6CUItJTNWSR3CwiY%3D&&app_pvid=59590_11.186.136.22_70964_1550207925066&ptl=floorId:13367;app_pvid:59590_11.186.136.22_70964_1550207925066;tpp_pvid:642d7a4d-17df-417c-8e7a-4a9171ba0dc6&union_lens=lensId:0bba8816_0c53_168ef97bbd0_7759");
+            req.setExt("{}");
+            TbkTpwdCreateResponse rsp = client.execute(req);
 
 //            req.setNumIids("584574208203");
 
@@ -152,14 +147,14 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     }
 
     @Override
-    public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params) {
+    public Map<String, Object> loadCouponGoodsBySeach(Long pageNum, Long pageSize, Map<String, Object> params) {
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
         TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
 
-        req.setAdzoneId(96030450186L);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
+        req.setAdzoneId(ADZONE_ID);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
 
         if(params != null) {
             if (params.containsKey("q")) {//查询词，例：女装
@@ -230,6 +225,74 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     }
 
     @Override
+    public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
+
+        req.setAdzoneId(ADZONE_ID);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
+
+        if(params != null) {
+            if (params.containsKey("item_id")) {//链接形式：1：PC，2：无线，默认：１
+                req.setItemId(Long.valueOf(params.get("item_id").toString()));
+            }
+            if (params.containsKey("content_source")) {//是否包邮
+                req.setContentSource(params.get("content_source").toString());
+            }
+            if (params.containsKey("content_id")) {//是否加入消费者保障
+                req.setContentId(Long.valueOf(params.get("content_id").toString()));
+            }
+            if (params.containsKey("device_type")) {//客户端IP
+                req.setDeviceType(params.get("device_type").toString());
+            }
+            if (params.containsKey("device_encrypt")) {//设备号加密类型：MD5
+                req.setDeviceEncrypt(params.get("device_encrypt").toString());
+            }
+            if (params.containsKey("device_value")) {//设备号加密后的值
+                req.setDeviceValue(params.get("device_value").toString());
+            }
+            if (params.containsKey("material_id")) {//官方的物料Id，详细物料id见：https://tbk.bbs.taobao.com/detail.html?appId=45301&postId=8576096)，不传时默认为2836
+                req.setMaterialId(Long.valueOf(params.get("material_id").toString()));
+            }
+        }
+
+        // 设置pageNum、pageSize
+        req.setPageNo(pageNum);
+        req.setPageSize(pageSize);
+        try {
+
+            // 调用接口
+            TbkDgOptimusMaterialResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkDgOptimusMaterialResponse = jsonObject.getJSONObject("tbk_dg_optimus_material_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkDgOptimusMaterialResponse != null){//查询成功
+                Long total_results = tbkDgOptimusMaterialResponse.getLong("total_results");
+                result.put("total", total_results);
+                String request_id = tbkDgOptimusMaterialResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
+                JSONArray mapData = results.getJSONArray("map_data");
+                result.put("mapData", mapData);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
     public Map<String, Object> findGoods(Long numIids, Map<String, Object> params) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
@@ -265,6 +328,67 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
                 JSONObject results = tbkItemInfoGetResponse.getJSONObject("results");
                 JSONArray nTbkItem = results.getJSONArray("n_tbk_item");
                 result.put("nTbkItem", nTbkItem);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
+        return  result;
+    }
+
+    @Override
+    public Map<String, Object> getTKL(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
+        if(params == null) {
+            result.put("msg","参数不能空");
+            return result;
+        }
+        if (params.containsKey("url")) {//口令跳转目标页
+            req.setUrl(params.get("url").toString());
+        }else{
+            result.put("msg","链接不能为空");
+            return result;
+        }
+        if (params.containsKey("text")) {//口令弹框内容
+            req.setText(params.get("text").toString());
+        }else{
+            result.put("msg","口令内容不能为空");
+            return result;
+        }
+        if (params.containsKey("user_id")) {//生成口令的淘宝用户ID
+            req.setUserId(params.get("user_id").toString());
+        }
+        if (params.containsKey("logo")) {//口令弹框logoURL
+            req.setLogo(params.get("logo").toString());
+        }
+        if (params.containsKey("ext")) {//扩展字段JSON格式
+            req.setExt(params.get("ext").toString());
+        }
+
+        try {
+
+            TbkTpwdCreateResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkTpwdCreateResponse = jsonObject.getJSONObject("tbk_tpwd_create_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkTpwdCreateResponse != null){//查询成功
+                String request_id = tbkTpwdCreateResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject data = tbkTpwdCreateResponse.getJSONObject("data");
+                JSONArray model = data.getJSONArray("model");
+                result.put("model", model);
                 result.put("success", true);
             }
 
