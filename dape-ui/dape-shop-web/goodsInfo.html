@@ -39,7 +39,7 @@
   <div class="weui-panel">
     <!-- 推荐理由 -->
       <div class="detail-tj-title">推荐理由</div>
-      <div class="detail-tj-content">智能九档控温，名贵中草药配方，天然日晒海盐，蒸腾患痛部位，加速血液循环，效果显著突出</div>
+      <div class="detail-tj-content" id="itemDescription">------</div>
   </div>
 
   <div class="weui-panel">
@@ -53,7 +53,7 @@
           <div>
             <!-- 详情内容  -->
           </div>
-          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
+          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;">------已经到底了------</div>
         </div>
         <div id="tab2" class="weui-tab__bd-item">
           <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
@@ -106,8 +106,13 @@
 <script th:src="${uiPath + appName} + '/js/common.js'"></script>
 <script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
 <script th:inline="javascript">
-
+  var appURL = [[${uiPath}]] + [[${appName}]];
   var goodsDetail = [[${goodsDetail}]];
+  var commission_rate = [[${commission_rate}]];
+  var coupon_amount = [[${coupon_amount}]];
+  var coupon_click_url = [[${coupon_click_url}]];
+  var click_url = [[${click_url}]];
+  var item_description = [[${item_description}]];
   var numIid,title,userType,pictUrl,zkFinalPrice,reservePrice,volume,freeShipment=false;
   if(!!goodsDetail && goodsDetail.length > 0){
     var item = goodsDetail[0];
@@ -122,7 +127,7 @@
       }
     }
     // 券
-    $('#quanFlag').append('<b>￥'+'缺'+'</b>');
+    $('#quanFlag').append('<b>￥'+coupon_amount+'</b>');
     userType = item['user_type'];
     if(userType == 0){// 淘宝图标
       $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
@@ -133,9 +138,9 @@
     $('#itemTitle').append('<em style="padding:1.1rem;">'+title+'</em>');
     // 原价、折扣价
     zkFinalPrice = item['zk_final_price'];
-    $('#itemPrice').append('<em class="num" style="font-size: 0.95rem;font-weight: bold;">¥'+zkFinalPrice+'</em>');
-    reservePrice = item['reserve_price'];
-    $('#itemPrice').append('<em class="detail-price-s">原价'+reservePrice+'</em>');
+    var zkPrice = jsSubtr(zkFinalPrice,coupon_amount);
+    $('#itemPrice').append('<em class="num" style="font-size: 0.95rem;font-weight: bold;">¥'+zkPrice+'</em>');
+    $('#itemPrice').append('<em class="detail-price-s">原价'+zkFinalPrice+'</em>');
     volume = item['volume'];
     $('#itemPrice').append('<em class="detail-price-v">月销量'+volume+'</em>');
     // 包邮
@@ -143,8 +148,13 @@
       freeShipment = item['free_shipment'];
     }
     // 佣金
-    $('#biaoYong').text('0.00');
-    $('#teYong').text('0.00');
+    $('#biaoYong').text(byFnc(zkPrice,commission_rate));
+    $('#teYong').text(tyFnc(zkPrice,commission_rate));
+    if(item_description != ''){
+      $('#itemDescription').text(item_description);
+    }else{
+      $('#itemDescription').css('text-align','center');
+    }
     // 详情
 
     // 评价
@@ -224,6 +234,7 @@
       });
       // 返回顶部
       backScroll('listwrap');
+
   });
 </script>
 </body>

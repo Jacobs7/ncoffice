@@ -191,3 +191,59 @@ function dateFormat(now,mask)
         }
     });
 };
+
+// js减法运算失精度问题
+function jsSubtr(arg1,arg2){
+    var r1,r2,m,n;
+    try{
+        r1=arg1.toString().split('.')[1].length;
+    }catch(e){r1=0}
+    try{
+        r2=arg2.toString().split('.')[1].length
+    }catch(e){r2=0}
+    m=Math.pow(10,Math.max(r1,r2));
+    //动态控制精度长度
+    n=(r1>=r2)?r1:r2;
+    return ((arg1*m-arg2*m)/m).toFixed(n);
+}
+function byFnc(zkPrice, commission_rate){
+    var tmp1;
+    if(typeof(commission_rate) != 'undefined'){
+        var tmp = zkPrice * commission_rate;
+        tmp1 = Math.floor(tmp * 0.35) / 100;
+        tmp1 = tmp1.toString();
+        var index = tmp1.indexOf('.');
+        if(index == -1){ tmp1 += '.00'; }else if(tmp1.length <= index + 2){ tmp1 += '0'; }
+    }else{
+        tmp1 = '0.00';
+    }
+    return tmp1;
+}
+function tyFnc(zkPrice, commission_rate){
+    var tmp2;
+    if(typeof(commission_rate) != 'undefined'){
+        var tmp = zkPrice * commission_rate;
+        tmp2 = Math.floor(tmp * 0.5) / 100;
+        tmp2 = tmp2.toString();
+        index = tmp2.indexOf('.');
+        if(index == -1){ tmp2 += '.00'; }else if(tmp2.length <= index + 2){ tmp2 += '0'; }
+    }else{
+        tmp2 = '0.00';
+    }
+    return tmp2;
+}
+// item_id:商品id,zk_final_price:折扣价,coupon_amount:券面额,coupon_click_url:券领取链接,click_url:淘客链接,item_description:推荐理由
+function postGoodsDetail(item_id,platform,commission_rate,coupon_amount,coupon_click_url,click_url,item_description){
+    var form = $('#goodsDetailForm');
+    if(form.length <= 0){
+        $('body').append('<form id="goodsDetailForm" action="/goods/goodsDetail" method="post" style="display:none;"><input type="text" name="item_id"/><input type="text" name="platform"/><input type="text" name="commission_rate"/><input type="text" name="coupon_amount"/><input type="text" name="coupon_click_url"/><input type="text" name="click_url"/><input type="text" name="item_description"/></from>');
+    }
+    $('#goodsDetailForm').find("input[name='item_id']").val(item_id);
+    $('#goodsDetailForm').find("input[name='platform']").val(platform);
+    $('#goodsDetailForm').find("input[name='commission_rate']").val(commission_rate);
+    $('#goodsDetailForm').find("input[name='coupon_amount']").val(coupon_amount);
+    $('#goodsDetailForm').find("input[name='coupon_click_url']").val(coupon_click_url);
+    $('#goodsDetailForm').find("input[name='click_url']").val(click_url);
+    $('#goodsDetailForm').find("input[name='item_description']").val(item_description);
+    $('#goodsDetailForm').submit();
+}
