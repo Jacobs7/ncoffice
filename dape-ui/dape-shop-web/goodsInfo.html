@@ -13,7 +13,7 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+<div class="weui-content" id="listwrap">
   <!--产品详情-->
 
   <!--主图轮播-->
@@ -100,9 +100,9 @@
 </div>
 <div id="toastContainer"></div>
 <script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
-<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
-<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
 <script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
 <script th:src="${uiPath + appName} + '/js/common.js'"></script>
 <script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
 <script th:inline="javascript">
@@ -114,51 +114,54 @@
   var click_url = [[${click_url}]];
   var item_description = [[${item_description}]];
   var numIid,title,userType,pictUrl,zkFinalPrice,reservePrice,volume,freeShipment=false;
-  if(!!goodsDetail && goodsDetail.length > 0){
-    var item = goodsDetail[0];
-    numIid = item['num_iid'];
-    // 商品图片
-    pictUrl = item['pict_url'];
-    $('#picList').append('<div class="swiper-slide"><img src="'+pictUrl+'" /></div>');
-    var small_images = item['small_images'];
-    if(!!small_images && small_images['string'].length > 0){
-      for(var i = 0; i < small_images['string'].length; i++){
-        $('#picList').append('<div class="swiper-slide"><img src="'+small_images['string'][i]+'" /></div>');
+
+  function loadInfo(){
+    if(!!goodsDetail && goodsDetail.length > 0){
+      var item = goodsDetail[0];
+      numIid = item['num_iid'];
+      // 商品图片
+      pictUrl = item['pict_url'];
+      $('#picList').append('<div class="swiper-slide"><img src="'+pictUrl+'" /></div>');
+      var small_images = item['small_images'];
+      if(!!small_images && small_images['string'].length > 0){
+        for(var i = 0; i < small_images['string'].length; i++){
+          $('#picList').append('<div class="swiper-slide"><img src="'+small_images['string'][i]+'" /></div>');
+        }
       }
-    }
-    // 券
-    $('#quanFlag').append('<b>￥'+coupon_amount+'</b>');
-    userType = item['user_type'];
-    if(userType == 0){// 淘宝图标
-      $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
-    }else if(userType == 1){// 天猫图标
-      $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
-    }
-    title = item['title'];
-    $('#itemTitle').append('<em style="padding:1.1rem;">'+title+'</em>');
-    // 原价、折扣价
-    zkFinalPrice = item['zk_final_price'];
-    var zkPrice = jsSubtr(zkFinalPrice,coupon_amount);
-    $('#itemPrice').append('<em class="num" style="font-size: 0.95rem;font-weight: bold;">¥'+zkPrice+'</em>');
-    $('#itemPrice').append('<em class="detail-price-s">原价'+zkFinalPrice+'</em>');
-    volume = item['volume'];
-    $('#itemPrice').append('<em class="detail-price-v">月销量'+volume+'</em>');
-    // 包邮
-    if(!!item['free_shipment']){
-      freeShipment = item['free_shipment'];
-    }
-    // 佣金
-    $('#biaoYong').text(byFnc(zkPrice,commission_rate));
-    $('#teYong').text(tyFnc(zkPrice,commission_rate));
-    if(item_description != ''){
-      $('#itemDescription').text(item_description);
-    }else{
-      $('#itemDescription').css('text-align','center');
-    }
-    // 详情
+      // 券
+      $('#quanFlag').append('<b>￥'+coupon_amount+'</b>');
+      userType = item['user_type'];
+      if(userType == 0){// 淘宝图标
+        $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
+      }else if(userType == 1){// 天猫图标
+        $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
+      }
+      title = item['title'];
+      $('#itemTitle').append('<em style="padding:1.1rem;">'+title+'</em>');
+      // 原价、折扣价
+      zkFinalPrice = item['zk_final_price'];
+      var zkPrice = jsSubtr(zkFinalPrice,coupon_amount);
+      $('#itemPrice').append('<em class="num" style="font-size: 0.95rem;font-weight: bold;">¥'+zkPrice+'</em>');
+      $('#itemPrice').append('<em class="detail-price-s">原价'+zkFinalPrice+'</em>');
+      volume = item['volume'];
+      $('#itemPrice').append('<em class="detail-price-v">月销量'+volume+'</em>');
+      // 包邮
+      if(!!item['free_shipment']){
+        freeShipment = item['free_shipment'];
+      }
+      // 佣金
+      $('#biaoYong').text(byFnc(zkPrice,commission_rate));
+      $('#teYong').text(tyFnc(zkPrice,commission_rate));
+      if(item_description != ''){
+        $('#itemDescription').text(item_description);
+      }else{
+        $('#itemDescription').css('text-align','center');
+      }
+      // 详情
 
-    // 评价
+      // 评价
 
+    }
   }
 
   var copyTxt = [[${copyTxt}]];
@@ -226,6 +229,7 @@
   }
   $(function() {
       FastClick.attach(document.body);
+      loadInfo();
       $("#listwrap").height($(document.body).height()-44);
       $(".swiper-zhutu").swiper({
           loop: true,
@@ -233,7 +237,7 @@
           autoplay:5000
       });
       // 返回顶部
-      backScroll('listwrap');
+      //backScroll('listwrap');
 
   });
 </script>
