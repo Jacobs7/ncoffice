@@ -177,7 +177,7 @@ public class GoodsController extends BaseController {
 
     @RequestMapping(value = "/goodsTPwd", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> haibao(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> goodsTPwd(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> params = new HashMap<String, Object>();
 
         String url = request.getParameter("url");

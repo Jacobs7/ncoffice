@@ -387,7 +387,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
                 String request_id = tbkTpwdCreateResponse.getString("request_id");
                 result.put("requestId", request_id);
                 JSONObject data = tbkTpwdCreateResponse.getJSONObject("data");
-                JSONArray model = data.getJSONArray("model");
+                String model = data.getString("model");
                 result.put("model", model);
                 result.put("success", true);
             }
