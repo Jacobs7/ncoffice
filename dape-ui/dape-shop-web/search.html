@@ -17,7 +17,7 @@
   <div class="weui-flex wy-iconlist-box" style="display: flex;">
     <a id="tk_total_sales" onclick="sortTTSFnc()" th:classappend="${sort == 'tk_total_sales_des' || sort == 'tk_total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
     <a id="total_sales" onclick="sortTSFnc()" th:classappend="${sort == 'total_sales_des' || sort == 'total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
-    <a id="price_asc" onclick="sortPFnc()" th:classappend="${sort == 'price_asc' || sort == 'price_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
+    <a id="price_asc" onclick="sortPFnc()" th:classappend="${sort == 'price_des' || sort == 'price_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
   </div>
   <!--数据列表-->
   <div class="weui-panel">
