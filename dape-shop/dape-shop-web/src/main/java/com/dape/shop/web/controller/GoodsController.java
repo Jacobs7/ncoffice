@@ -151,6 +151,8 @@ public class GoodsController extends BaseController {
         String sort = request.getParameter("sort");
         if(StringUtils.isNotBlank(sort)){
             params.put("sort", sort);
+        }else{
+            params.put("sort", "tk_total_sales_des");
         }
         String material_id = request.getParameter("material_id");
         if(StringUtils.isNotBlank(material_id)){
@@ -160,11 +162,14 @@ public class GoodsController extends BaseController {
 //            params.put("ip", ip);
 //        }
 
-        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
-            return shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
-        }else{
-            return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
-        }
+//        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
+            Map<String, Object> m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+            m.put("material_id", material_id);
+            return m;
+//        }else{
+//            Map<String, Object> m = shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
+//            return m;
+//        }
     }
 
     /**
@@ -271,17 +276,10 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
     public String toSearch(HttpServletRequest request, Model model) {
+
         String q = request.getParameter("q");
         if(StringUtils.isNotBlank(q)){
             model.addAttribute("q", q);
-        }else{
-            model.addAttribute("q", "");
-        }
-        String sort = request.getParameter("sort");
-        if(StringUtils.isNotBlank(sort)){
-            model.addAttribute("sort", sort);
-        }else{
-            model.addAttribute("sort", "tk_rate_des");//默认降序
         }
         String platform = request.getParameter("platform");
         if(StringUtils.isNotBlank(platform)){
@@ -290,10 +288,6 @@ public class GoodsController extends BaseController {
         String material_id = request.getParameter("material_id");
         if(StringUtils.isNotBlank(material_id)){
             model.addAttribute("material_id", material_id);
-        }
-        String has_coupon = request.getParameter("has_coupon");
-        if(StringUtils.isNotBlank(has_coupon)){
-            model.addAttribute("has_coupon", has_coupon);
         }
 
         return thymeleaf("/search");
