@@ -109,6 +109,65 @@ public class GoodsController extends BaseController {
     }
 
     /**
+     * 加载商品列表, ajax请求
+     * @param pageNum 第几页
+     * @param pageSize 每页多少条
+     * @param request 查询条件
+     * @return
+     */
+    @RequestMapping(value = "/loadSearchGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadSearchGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String cat = request.getParameter("cat");
+        if(StringUtils.isNotBlank(cat)){
+            params.put("cat", cat);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            params.put("has_coupon", has_coupon);
+        }
+        String need_free_shipment = request.getParameter("need_free_shipment");
+        if(StringUtils.isNotBlank(need_free_shipment)){
+            params.put("need_free_shipment", need_free_shipment);
+        }
+        String need_prepay = request.getParameter("need_prepay");
+        if(StringUtils.isNotBlank(need_prepay)){
+            params.put("need_prepay", need_prepay);
+        }
+        String itemloc = request.getParameter("itemloc");
+        if(StringUtils.isNotBlank(itemloc)){
+            params.put("itemloc", itemloc);
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            params.put("sort", sort);
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            params.put("material_id", material_id);
+        }
+//        if(StringUtils.isNotBlank(ip)){
+//            params.put("ip", ip);
+//        }
+
+        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
+            return shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+        }else{
+            return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
+        }
+    }
+
+    /**
      * 商品详情
      * @param model
      * @param request
@@ -119,7 +178,7 @@ public class GoodsController extends BaseController {
         Map<String, Object> params = new HashMap<String, Object>();
 
         String platform = request.getParameter("platform");
-        if(platform != null){
+        if(StringUtils.isNotBlank(platform)){
             params.put("platform", platform);
         }
 
@@ -133,7 +192,7 @@ public class GoodsController extends BaseController {
 
         // 佣金率
         String commission_rate = request.getParameter("commission_rate");
-        if(commission_rate != null){
+        if(StringUtils.isNotBlank(commission_rate)){
             model.addAttribute("commission_rate", commission_rate);
         }else{
             model.addAttribute("commission_rate", 0);
@@ -147,21 +206,21 @@ public class GoodsController extends BaseController {
         }
         // 券链接
         String coupon_click_url = request.getParameter("coupon_click_url");
-        if(coupon_click_url != null){
+        if(StringUtils.isNotBlank(coupon_click_url)){
             model.addAttribute("coupon_click_url", coupon_click_url);
         }else {
             model.addAttribute("coupon_click_url", "");
         }
         // 淘客链接
         String click_url = request.getParameter("click_url");
-        if(click_url != null){
+        if(StringUtils.isNotBlank(click_url)){
             model.addAttribute("click_url", click_url);
         }else {
             model.addAttribute("click_url", "");
         }
         // 推荐理由
         String item_description = request.getParameter("item_description");
-        if(item_description != null){
+        if(StringUtils.isNotBlank(item_description)){
             model.addAttribute("item_description", item_description);
         }else {
             model.addAttribute("item_description", "");
@@ -206,17 +265,37 @@ public class GoodsController extends BaseController {
 
     /**
      * 转向查询页,get请求
-     * @param pageNum 第几页
-     * @param pageSize 每页多少条
      * @param request 查询条件
      * @param model
      * @return
      */
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
-    public String toSearch(Long pageNum, Long pageSize, HttpServletRequest request, Model model) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, params));
-        model.addAttribute("query", params);
+    public String toSearch(HttpServletRequest request, Model model) {
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            model.addAttribute("q", q);
+        }else{
+            model.addAttribute("q", "");
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "tk_rate_des");//默认降序
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", material_id);
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            model.addAttribute("has_coupon", has_coupon);
+        }
+
         return thymeleaf("/search");
     }
 

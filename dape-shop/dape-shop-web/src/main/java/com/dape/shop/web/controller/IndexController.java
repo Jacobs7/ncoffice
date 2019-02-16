@@ -72,6 +72,22 @@ public class IndexController extends BaseController {
         model.addAttribute("modules", modules);
         /** 后面要放到缓存中 end */
 
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", Long.valueOf(material_id));
+        }else{
+//          高佣榜：综合:13366
+            // id网址：https://tbk.bbs.taobao.com/detail.html?appId=45301&postId=8576096
+            model.addAttribute("material_id", 13366L);
+        }
+
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", 2);
+        }
+
         return thymeleaf("/index");
     }
 
