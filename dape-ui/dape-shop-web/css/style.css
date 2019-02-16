@@ -255,12 +255,15 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .mine-head-d{width: 30%;margin: 0 auto;}
 .mine-head-d img{width: 100%;}
 
-.icon18-zz{display: inline-block;width: 18px;height: 18px;background: url(../images/icons_all.png?t=20180618_11:50) no-repeat scroll 0 0;background-size: 300px 300px;position: relative;}
+.icon18-zz{display: inline-block;width: 18px;height: 18px;background: url(../images/icons_all.png) no-repeat scroll 0 0;background-size: 300px 300px;position: relative;}
 .on .weui-tabbar__label{color: #FF6600;}
 .weui-tabbar__label{color: #333;}
 
 .icon-quan-18-2 {background-position: -60px -120px;}
 .on .icon-quan-18-2 {background-position: -90px -120px;}
+
+.icon-jian-18-2 {background-position: -120px -270px;}
+.on .icon-jian-18-2 {background-position: -150px -270px;}
 
 .icon-retui-18 {background-position: -180px -150px;}
 .on .icon-retui-18 {background-position: -210px -150px;}
@@ -276,7 +279,10 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .icon-jingdong-18 {background-position: -60px -240px;}
 .icon-pinduoduo-18 {background-position: -90px -240px;}
 
-.icon24-zz{color:#333;display: inline-block;width: 24px;height: 24px;background: url(../images/icons_all.png?t=20180318_17:10) no-repeat scroll 0 0;background-size: 400px 400px;position: relative;}
+.icon-jingdong-18 {background-position: -60px -240px;}
+.icon-pinduoduo-18 {background-position: -90px -240px;}
+
+.icon24-zz{color:#333;display: inline-block;width: 24px;height: 24px;background: url(../images/icons_all.png) no-repeat scroll 0 0;background-size: 400px 400px;position: relative;}
 .icon-report-24-2 {background-position: -120px -280px;}
 
 .icon-wallet-24-2{background-position: -160px -280px;}

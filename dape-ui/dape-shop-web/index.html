@@ -54,7 +54,6 @@
     <div class="weui-search-bar__box index-search-box">
       <form action="/goods/toSearch" method="post" id="searchForm">
         <input type="hidden" name="platform" id="platform" th:value="${platform}" />
-        <input type="hidden" name="has_coupon" value="true" />
         <i class="weui-icon-search"></i>
         <input type="search" name="q" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
       </form>
@@ -105,7 +104,7 @@
         FastClick.attach(document.body);
         // 第一次加载数据
         $(".weui-loadmore").show();
-        loadGoods();
+        loadGoodsForMain();
         $('#listwrap').height($('body').height() - 44);
         // 返回顶部
         backScroll('listwrap');
@@ -113,87 +112,15 @@
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
-	function loadGoods(){
-	    var platform = $('#platform').val();
-	    //$.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'16,18',platform:platform,has_coupon:true,need_free_shipment:true,need_prepay:true,material_id:2836,sort:'tk_rate'},function(data){
-	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,material_id:material_id},function(data){
-          loading = false;
-	      if(data.success){
-	        var mapData = data.mapData;
-            if(mapData && mapData.length > 0){
-                $(mapData).each(function(){
-                    $this = this;
-                    // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
-                    var tianmaoCss = 'icon-tianmao-18';
-                    if($this.user_type == 0){
-                      tianmaoCss = 'icon-taobao-18';
-                    }else if($this.user_type == 1){
-                      tianmaoCss = 'icon-tianmao-18';
-                    }
-                    var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
-
-                    // new图标是否显示，如果券开始时间为当天：显示，反之：隐藏
-                    var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
-                    //if(typeof($this.coupon_start_time) != 'undefined'){
-                    //  var coupon_start_time = $this.coupon_start_time;
-                    //  if(coupon_start_time == timeFormat($this.createDate,'yyyy-MM-dd')){
-                    //   newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
-                    //  }
-                    //}else{
-                    //  newIcon = '';
-                    //}
-
-                    $('#goodsUL').append('<li>' +
-                          //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
-                          '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_click_url+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
-                            newIcon +
-                            '<span class="quanFlag"><div><b>'+$this.coupon_amount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
-                            '<div class="proimg">' +
-                              '<img src="http:'+$this.pict_url+'">' +
-                            '</div>' +
-                            '<div class="protxt">' +
-                            // 根据店铺类型判断是天猫、淘宝
-                              '<div class="name" style="position: relative;">' +
-                              '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
-                              '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
-                              '<div class="name" style="position: relative;"><p>' +
-                                '<em class="nowPrice">￥'+zkPrice+'</em>' +
-                                '<span class="oldPrice">￥'+$this.zk_final_price+'</span>' +
-                                '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
-                                '</p></div>' +
-                              '<div class="return" style="margin-bottom: 3px;">' +
-                                '<div style="background-color: #dc2527;color: #fff;">标佣¥'+byFnc(zkPrice,$this.commission_rate)+'</div>' +
-                                '<div style="color: #dc2527;">特佣¥'+tyFnc(zkPrice,$this.commission_rate)+'</div>' +
-                                '</div>' +
-                              '</div>' +
-                            '</a>' +
-                          '</li>');
-                });
-            }else{
-                $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
-                loading = true;
-            }
-	      }else{
-            $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
-            loading = true;
-	        if(data.msg){
-              $.toast(data.msg, 'forbidden');
-            }else{
-              $.toast('发送失败', 'forbidden');
-            }
-	      }
-
-          $(".weui-loadmore").hide();
-        });
-    }
     var loading = false;
+
     $("#listwrap").infinite().on("infinite", function () {
         if (loading) return;
         loading = true;
         pageNum++; //页数
         $('.weui-loadmore').show();
         setTimeout(function () {
-            loadGoods();
+            loadGoodsForMain();
         }, 100);
     });
 </script>
