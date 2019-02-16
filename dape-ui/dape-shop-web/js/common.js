@@ -195,12 +195,18 @@ function dateFormat(now,mask)
 // js减法运算失精度问题
 function jsSubtr(arg1,arg2){
     var r1,r2,m,n;
-    try{
-        r1=arg1.toString().split('.')[1].length;
-    }catch(e){r1=0}
-    try{
-        r2=arg2.toString().split('.')[1].length
-    }catch(e){r2=0}
+    var tmp1 = arg1.toString().split('.');
+    if(tmp1.length > 1){
+        r1=tmp1[1].length;
+    }else{
+        r1 = 0;
+    }
+    var tmp2 = arg2.toString().split('.');
+    if(tmp2.length > 1){
+        r2=tmp2[1].length;
+    }else{
+        r2 = 0;
+    }
     m=Math.pow(10,Math.max(r1,r2));
     //动态控制精度长度
     n=(r1>=r2)?r1:r2;
@@ -246,4 +252,16 @@ function postGoodsDetail(item_id,platform,commission_rate,coupon_amount,coupon_c
     $('#goodsDetailForm').find("input[name='click_url']").val(click_url);
     $('#goodsDetailForm').find("input[name='item_description']").val(item_description);
     $('#goodsDetailForm').submit();
+}
+
+function formatCouponInfo(info){
+    var tmp = info.split('减');
+    if(tmp.length == 2){
+        var coupon = tmp[1].replace(/元/g,'');
+        if(isNaN(coupon)){
+            return 0;
+        }else{
+            return coupon;
+        }
+    }
 }

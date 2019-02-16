@@ -15,7 +15,8 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <div class="weui-flex wy-iconlist-box">
-    <a th:href="@{${menu.url}+'?showId='+${menu.id}}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit"></a>
+    <a th:href="${menu.url}+${menu.id}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
+    <a href="javascript:;" class="open-popup" data-target="half" style="padding:0.5rem 0;line-height:0.8rem;flex: 0 0 12%;text-align:right;"><i class="icon24-zz item-menu-24"></i></a>
   </div>
   <!--图标分类-->
   <div class="weui-panel index-module">
@@ -40,15 +41,22 @@
   </div>
 </div>
 
+<div id="half" class="weui-popup__container">
+  <div class="weui-popup__overlay"></div>
+  <div class="weui-popup__modal">
+    你的内容放在这里...
+  </div>
+</div>
+
 <!--顶部搜索-->
 <header class="weui-header index-header">
   <div class="weui-search-bar index-search-bar">
     <div class="weui-search-bar__box index-search-box">
       <form action="/goods/toSearch" method="post" id="searchForm">
-        <input type="hidden" name="pageNum" value="1" />
-        <input type="hidden" name="pageSize" value="20" />
+        <input type="hidden" name="platform" id="platform" th:value="${platform}" />
+        <input type="hidden" name="has_coupon" value="true" />
         <i class="weui-icon-search"></i>
-        <input type="search" name="title" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
+        <input type="search" name="q" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
       </form>
     </div>
     <div class="index-search-c">
@@ -91,6 +99,8 @@
 <script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
 <script th:src="${uiPath + appName} + '/js/common.js'"></script>
 <script th:inline="javascript">
+
+    var material_id = [[${material_id}]];
     $(function() {
         FastClick.attach(document.body);
         // 第一次加载数据
@@ -103,14 +113,13 @@
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
-    var platform = 2;
 	function loadGoods(){
+	    var platform = $('#platform').val();
 	    //$.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'16,18',platform:platform,has_coupon:true,need_free_shipment:true,need_prepay:true,material_id:2836,sort:'tk_rate'},function(data){
-	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,material_id:13367},function(data){
+	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,material_id:material_id},function(data){
           loading = false;
 	      if(data.success){
 	        var mapData = data.mapData;
-	        console.log(mapData);
             if(mapData && mapData.length > 0){
                 $(mapData).each(function(){
                     $this = this;
@@ -122,6 +131,7 @@
                       tianmaoCss = 'icon-tianmao-18';
                     }
                     var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
+
                     // new图标是否显示，如果券开始时间为当天：显示，反之：隐藏
                     var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
                     //if(typeof($this.coupon_start_time) != 'undefined'){
@@ -132,6 +142,7 @@
                     //}else{
                     //  newIcon = '';
                     //}
+
                     $('#goodsUL').append('<li>' +
                           //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
                           '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_click_url+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
