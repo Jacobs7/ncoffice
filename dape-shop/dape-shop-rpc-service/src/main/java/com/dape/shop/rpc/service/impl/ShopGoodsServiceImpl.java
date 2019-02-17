@@ -59,10 +59,10 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
 
 
             TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
-//            req.setUserId("123");
-            req.setText("长度大于5个字符");
-            req.setUrl("https://uland.taobao.com/coupon/edetail?e=BQR0fgQyyAgNfLV8niU3R%2FYRDMKMeGICjDppvlX%2Bob%2BBtHA6T8TZnVBPfopb7LXvLGbJes29FQrJb3ExMzcsfUB6C%2BxEUwyFm4VLH9mslwz2cdoyd9dVa2kuCri1Q9l5IGgGvlpEmMrYGUfvDRkpmYPKQRyZ88zo09bBz561wuBXXJGMgA0nMuW%2FLfVtrUGmxfIoB7ojYT28HzXEgh689Qk%2FwPX6CUItJTNWSR3CwiY%3D&&app_pvid=59590_11.186.136.22_70964_1550207925066&ptl=floorId:13367;app_pvid:59590_11.186.136.22_70964_1550207925066;tpp_pvid:642d7a4d-17df-417c-8e7a-4a9171ba0dc6&union_lens=lensId:0bba8816_0c53_168ef97bbd0_7759");
-            req.setExt("{}");
+            req.setUserId("123");
+            req.setText("雨伞男女全自动开收大号双人三折折叠加固晴雨两用学生加大号定制");
+            req.setUrl("https://uland.taobao.com/coupon/edetail?e=kU1HVf9BxHYNfLV8niU3RwXoB%2BDaBK5LQS0Flu%2FfbSp4QsdWMikAalrisGmre1Id522H2TxuqpIJs1xX5zzxBxtTvtpwq94UTSvQvC0XMdUyi8r%2FB5H5eHl3bPxl2zv9iHBrMsahiyvIxzSW1FdMgZbV2%2BrO1tknA8r4sORx2%2FLKhCDdY44lU3cfn8oOafsLFF6O9STo8Qg7mmMWJDI59WUFFgz3RBVH&&app_pvid=59590_11.23.60.3_70141_1550392042601&ptl=floorId:2836;app_pvid:59590_11.23.60.3_70141_1550392042601;tpp_pvid:100_11.139.177.84_32849_6991550392042606598&xId=bUVQ5IkDtYIGtzLLfTUHpVSCSRka4jpY7dTgJw9Do2djpvkpc9WBxkjFhCDoRWPVtLLVZM6qHRRzmilUY1b3cN&union_lens=lensId:0b173c03_0c11_168fa9124ab_05f7");
+            req.setExt("{'aaa':'123aaa'}");
             TbkTpwdCreateResponse rsp = client.execute(req);
 
 //            req.setNumIids("584574208203");

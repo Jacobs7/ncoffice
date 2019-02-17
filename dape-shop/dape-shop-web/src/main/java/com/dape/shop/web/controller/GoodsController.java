@@ -2,13 +2,11 @@ package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
 import com.dape.common.util.QRCodeUtil;
-import com.dape.shop.common.constant.ShopTypeEnum;
 import com.dape.shop.dao.model.ShopGoods;
-import com.dape.shop.dao.model.ShopStore;
-import com.dape.shop.dao.model.ShopUser;
 import com.dape.shop.dao.model.UpmsUser;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopStoreService;
+import com.dape.shop.rpc.api.ShopUserService;
 import com.google.zxing.BarcodeFormat;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.config.RequestConfig;
@@ -35,8 +33,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 首页控制器
@@ -51,6 +51,8 @@ public class GoodsController extends BaseController {
     private ShopGoodsService shopGoodsService;
     @Autowired
     private ShopStoreService shopStoreService;
+    @Autowired
+    public ShopUserService shopUserService;
 
     /**
      * 加载商品列表, ajax请求
@@ -260,12 +262,23 @@ public class GoodsController extends BaseController {
         if(StringUtils.isNotBlank(logo)){
             params.put("logo", logo);
         }
-        String ext = request.getParameter("ext");
-        if(StringUtils.isNotBlank(ext)){
-            params.put("ext", ext);
+        Object o = request.getSession().getAttribute("upmsuser");
+        UpmsUser upmsUser = null;
+        if(o != null){
+            upmsUser = (UpmsUser)o;
+            upmsUser = shopUserService.selectUpmsUserByUsername(upmsUser.getUsername());
         }
-
-        return shopGoodsService.getTKL(params);
+        if(upmsUser != null){
+            params.put("ext", "{'user':'123aaa'}");
+//            params.put("ext", "{user:"+upmsUser.getUserId()+"}");
+        }
+        Map<String, Object> m = shopGoodsService.getTKL(params);
+        if(upmsUser != null){
+            m.put("isLogin", true);
+        }else{
+            m.put("isLogin", false);
+        }
+        return m;
     }
 
     /**
