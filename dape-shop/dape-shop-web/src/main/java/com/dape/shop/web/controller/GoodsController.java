@@ -269,8 +269,9 @@ public class GoodsController extends BaseController {
             upmsUser = shopUserService.selectUpmsUserByUsername(upmsUser.getUsername());
         }
         if(upmsUser != null){
-            params.put("ext", "{'user':'123aaa'}");
-//            params.put("ext", "{user:"+upmsUser.getUserId()+"}");
+//            params.put("ext", "{'user':'123aaa'}");
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            params.put("ext", "{\"outer_trade_code\":\""+"NO_"+upmsUser.getUserId()+"_" +format.format(new Date())+"\"}");
         }
         Map<String, Object> m = shopGoodsService.getTKL(params);
         if(upmsUser != null){
