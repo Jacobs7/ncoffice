@@ -516,14 +516,23 @@ function loadInfo(){
 // 抢券淘口令
 function qiangquan(){
     if(tkl == ''){
+        showLoading('正在获取淘口令','style="min-width: 6.5rem;min-height: 6.5rem;"');
         $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
             $.hideLoading();
             if(data.success){
                 tkl = txt+data.model+'复制这条信息，打开手机淘宝即可领券';
-                $('#copyKeyAndroid').text(tkl);
-                $('#copyButton').attr('data-clipboard-text',tkl);
+                if(!data.isLogin){
+                    $.alert('亲，你还没有登录<br/>登录后才能获得返佣哦',function(){
+                        showTKLWin();
+                        $('#copyKeyAndroid').text(tkl);
+                        $('#copyButton').attr('data-clipboard-text',tkl);
+                    });
+                }else{
+                    showTKLWin();
+                    $('#copyKeyAndroid').text(tkl);
+                    $('#copyButton').attr('data-clipboard-text',tkl);
+                }
             }else{
-                toast('');
                 if(data.msg){
                   toast(data.msg);
                 }else{
@@ -533,10 +542,9 @@ function qiangquan(){
 
         });
     }else{
-        showTKLWin(tkl);
+        showTKLWin();
     }
-    showTKLWin();
-    showLoading('正在获取淘口令','style="min-width: 6.5rem;min-height: 6.5rem;"');
+
 }
 // 淘口令窗口
 function showTKLWin(){
