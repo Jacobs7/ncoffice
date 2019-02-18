@@ -520,17 +520,14 @@ function qiangquan(){
         $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
             $.hideLoading();
             if(data.success){
-                tkl = txt+data.model+'复制这条信息，打开手机淘宝即可领券';
+                tkl = data.model;
+                tklTxt = txt+tkl+'复制这条信息，打开手机淘宝即可领券';
                 if(!data.isLogin){
                     $.alert('亲，你还没有登录<br/>登录后才能获得返佣哦',function(){
-                        showTKLWin();
-                        $('#copyKeyAndroid').text(tkl);
-                        $('#copyButton').attr('data-clipboard-text',tkl);
+                        showTKLWin(tklTxt);
                     });
                 }else{
-                    showTKLWin();
-                    $('#copyKeyAndroid').text(tkl);
-                    $('#copyButton').attr('data-clipboard-text',tkl);
+                    showTKLWin(tklTxt);
                 }
             }else{
                 if(data.msg){
@@ -542,21 +539,21 @@ function qiangquan(){
 
         });
     }else{
-        showTKLWin();
+        showTKLWin(tklTxt);
     }
 
 }
 // 淘口令窗口
-function showTKLWin(){
+function showTKLWin(tklTxt){
   var dialogId = 'qianquan';
   var title = '<div style="background-color: #F54D23;color: #fff;font-size: 1rem;padding:0.25rem 0 0 0;line-height: 2.5rem;"><em>抢券淘口令</em><a style="position: absolute;right:0.25rem;top:0.2rem;font-size: 1.25rem;color:#E9E9E9;width:2rem;" id="'+dialogId+'Close" href="javascript:">X</a></div>';
   var content = '<div id="copyDiv" class="puBody">' +
         '<h2><em>长按框内 <u class="p3">&gt;</u> 全选 <u class="p3">&gt;</u> 复制</em></h2>' +
         '<form name="puKoulingForm" id="puKoulingForm">' +
-          '<textarea class="inputArea inputArea-2" id="copyKeyAndroid"></textarea>' +
+          '<textarea class="inputArea inputArea-2" id="copyKeyAndroid">'+tklTxt+'</textarea>' +
         '</form>' +
       '</div>' +
-      '<div id="copyButton" class="imne-copy-btn" style="display: block;" onclick="cloneTxt(\'copyButton\')">一键复制</div>' +
+      '<div id="copyButton" class="imne-copy-btn" style="display: block;" onclick="cloneTxt(\'copyButton\')" data-clipboard-text="'+tklTxt+'">一键复制</div>' +
       '<div class="hasCoupon" style="display: block;" id="hasCoupon">复制淘口令，打开【手机淘宝】即可领券！</div>';
   var footer = '';
   createDialog(dialogId,title,content,footer);
@@ -579,32 +576,49 @@ function showTKLWin(){
 // 生成推广海报
 function haibao() {
   if(!!goodsDetail && goodsDetail.length > 0){
-      var dialogId = 'haibao';
-      var len = $('#'+dialogId+'Win').length;
-      var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #d47b4f;">长按图片发送给朋友，或保存到手机</div><div class="haibao-c-remark" style="color: #d9d9db;">好友通过领券购买，您即可赚取佣金</div>';
-      var footer = '<div class="haibaoFoot"><a href="javascript:" id="copyTitle" onclick="cloneTxt(\'copyTitle\')" data-clipboard-text="'+title+'">复制标题</a><a href="javascript:" id="copyText" onclick="cloneTxt(\'copyText\')" data-clipboard-text="'+txt+'长按识别二维码，复制口伶或网址，打开手机淘宝，领券下单'+'">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
-      createDialog(dialogId,'',content,footer);
-      $.post('/goods/haibao',{
-          shopType : userType,
-          platform : platform,
-          numIid : numIid,
-          pictUrl : pictUrl,
-          title : title,
-          zkFinalPrice : zkFinalPrice,
-          reservePrice : reservePrice,
-          freeShipment : freeShipment,
-          volume : volume,
-          couponInfo : '0.00'//未确定
-      },function (data) {
-          $('#goodsHaibao').attr('src',data.url);
-      });
-      if(len > 0){
-          showDialog(dialogId);
-      }else{
-          //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
-          showLoading('正在生成海报','style="min-width: 7.5rem;min-height: 7.5rem;"');
-      }
+        if(tkl == ''){
+            $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
+                $.hideLoading();
+                if(data.success){
+                    tkl = data.model;
+                    tklTxt = txt+tkl+'复制这条信息，打开手机淘宝即可领券';
+                    createHaiBao();
+                }else{
+                    toast('生成海报失败');
+                }
+            });
+        }else{
+            createHaiBao();
+        }
+
   }
+}
+function createHaiBao(){
+    var dialogId = 'haibao';
+    var len = $('#'+dialogId+'Win').length;
+    var content = '<div class="haibaoContent"><img id="goodsHaibao" onload="imgloadComplent(\''+dialogId+'\')"/></div><div class="haibao-c-remark" style="color: #d47b4f;">长按图片发送给朋友，或保存到手机</div><div class="haibao-c-remark" style="color: #d9d9db;">好友通过领券购买，您即可赚取佣金</div>';
+    var footer = '<div class="haibaoFoot"><a href="javascript:" id="copyTitle" onclick="cloneTxt(\'copyTitle\')" data-clipboard-text="'+title+'">复制标题</a><a href="javascript:" id="copyText" onclick="cloneTxt(\'copyText\')" data-clipboard-text="'+txt+'长按识别二维码，复制口伶或网址，打开手机淘宝，领券下单'+'">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+    createDialog(dialogId,'',content,footer);
+    $.post('/goods/haibao',{
+      shopType : userType,
+      platform : platform,
+      numIid : numIid,
+      pictUrl : pictUrl,
+      title : title,
+      zkFinalPrice : zkFinalPrice,
+      freeShipment : freeShipment,
+      volume : volume,
+      couponInfo : coupon_amount,
+      tkl:tkl
+    },function (data) {
+      $('#goodsHaibao').attr('src',data.url);
+    });
+    if(len > 0){
+      showDialog(dialogId);
+    }else{
+      //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
+      showLoading('正在生成海报','style="min-width: 7.5rem;min-height: 7.5rem;"');
+    }
 }
 
 // 显示首页菜单
