@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -181,7 +182,7 @@ public class GoodsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/goodsDetail", method = RequestMethod.POST)
-    public String goodsDetail(Long item_id, Integer userid, Model model, HttpServletRequest request) {
+    public String goodsDetail(Long item_id, String tkl, Integer userid, Model model, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
 
         String platform = request.getParameter("platform");
@@ -237,6 +238,8 @@ public class GoodsController extends BaseController {
 //        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
 //        model.addAttribute("copyTxt", copyTxt);
         model.addAttribute("platform", platform);
+
+        model.addAttribute("tkl", StringUtils.isNotBlank(tkl) ? tkl : "");
 
         return thymeleaf("/goodsInfo");
     }
@@ -379,7 +382,7 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping(value = "/haibao", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> haibao(ShopGoods shopGood, String shopType, Integer platform, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> haibao(ShopGoods shopGood, String tkl, String shopType, Integer platform, Model model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
@@ -399,11 +402,11 @@ public class GoodsController extends BaseController {
 
 
 //        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
-        String ip = "www.16office.com";
-//        String ip = "192.168.0.103";
+//        String ip = "www.16office.com";
+        String ip = "192.168.0.105";
         int port = request.getLocalPort();
         // 商品推广二维码
-        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
+        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform + "&tkl=" + tkl;
 
         // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
         String haibaoKey = "goods_" + date + "_" + openId + "_" + shopGood.getNumIid();
@@ -461,11 +464,18 @@ public class GoodsController extends BaseController {
                 }
 
                 String title = shopGood.getTitle();// 标题
-                String zkPrice = shopGood.getZkFinalPrice();// 折扣价
-                String yjPrice = shopGood.getReservePrice();// 原价
+                String yjPrice = shopGood.getZkFinalPrice();// 原价
                 boolean baoyou = shopGood.getFreeShipment();// 是否包邮
                 String volume = shopGood.getVolume().toString();// 30天销量
                 String quan = shopGood.getCouponInfo();
+                String zkPrice = yjPrice;// 折扣价
+                try{
+                    BigDecimal zkP = new BigDecimal(zkPrice);
+                    BigDecimal q = new BigDecimal(quan);
+                    zkPrice = zkP.subtract(q).toString();
+                }catch (Exception e){
+
+                }
 
                 int width = 640;
                 int height = 986;
