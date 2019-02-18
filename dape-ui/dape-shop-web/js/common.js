@@ -606,3 +606,17 @@ function haibao() {
       }
   }
 }
+
+// 显示首页菜单
+function menuPopup(obj){
+    var top = $(obj).offset().top + $(obj).height();
+    $("#top-menu-box").css('top',top + 20);
+    $("#top-menu-box-mask").show();
+    $("#top-menu-box").show(200);
+    setTimeout("hideMenuPopup()",3000)
+}
+// 隐藏首页菜单
+function hideMenuPopup(){
+  $("#top-menu-box").hide(200);
+  $("#top-menu-box-mask").hide();
+}

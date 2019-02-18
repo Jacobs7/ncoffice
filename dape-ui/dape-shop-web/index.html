@@ -16,7 +16,7 @@
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <div class="weui-flex wy-iconlist-box">
     <a th:href="${menu.url}+${menu.id}" th:text="${menu.name}" th:each="menu,menuStat:${menus}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
-    <a href="javascript:;" class="open-popup" data-target="half" style="padding:0.5rem 0;line-height:0.8rem;flex: 0 0 12%;text-align:right;"><i class="icon24-zz item-menu-24"></i></a>
+    <a href="javascript:;" onclick="menuPopup(this)" style="padding:0.5rem 0;line-height:0.8rem;flex: 0 0 12%;text-align:right;"><i class="icon24-zz item-menu-24"></i></a>
   </div>
   <!--图标分类-->
   <div class="weui-panel index-module">
@@ -41,13 +41,6 @@
   </div>
 </div>
 
-<div id="half" class="weui-popup__container">
-  <div class="weui-popup__overlay"></div>
-  <div class="weui-popup__modal">
-    你的内容放在这里...
-  </div>
-</div>
-
 <!--顶部搜索-->
 <header class="weui-header index-header">
   <div class="weui-search-bar index-search-bar">
@@ -63,6 +56,12 @@
     </div>
   </div>
 </header>
+
+<!-- 菜单 -->
+<div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()">
+  <a th:href="${menu.url}+${menu.id}" th:text="${menu.name}" th:each="menu,menuStat:${menus}"></a>
+</div>
+<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="hideMenuPopup()"></div>
 
 <!-- 返回顶部 -->
 <div class="detail-top" id="backTop">
@@ -115,6 +114,7 @@
     var loading = false;
 
     $("#listwrap").infinite().on("infinite", function () {
+        hideMenuPopup();
         if (loading) return;
         loading = true;
         pageNum++; //页数
