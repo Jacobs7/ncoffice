@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>搜索宝贝</title>
+<title>大额券</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -14,13 +14,8 @@
 <body ontouchstart>
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-  <div id="sortDiv" class="weui-flex wy-iconlist-box" style="display: flex;">
-    <a id="tk_total_sales" onclick="sortTTSFnc()" th:classappend="${sort == 'tk_total_sales_des' || sort == 'tk_total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
-    <a id="total_sales" onclick="sortTSFnc()" th:classappend="${sort == 'total_sales_des' || sort == 'total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
-    <a id="price_asc" onclick="sortPFnc()" th:classappend="${sort == 'price_des' || sort == 'price_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
-  </div>
   <!--数据列表-->
-  <div class="weui-panel">
+  <div class="weui-panel" style="margin-top:2.3rem;">
     <ul id="goodsUL" class="wy-pro-list clear"></ul>
   </div>
   <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
@@ -29,19 +24,27 @@
 </div>
 
 <!--顶部搜索-->
-<header class="weui-header index-header">
-  <div class="weui-search-bar index-search-bar">
-    <div class="weui-search-bar__box index-search-box">
-      <form action="/goods/toSearch" method="post" id="searchForm">
-        <i class="weui-icon-search"></i>
-        <input type="search" name="q" id="qTxt" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
-      </form>
-    </div>
-    <div class="index-search-c">
-      <a href="javascript:void(0);" onclick="searchPBtn()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
-    </div>
+<header class="weui-header index-header" style="z-index:999;">
+  <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;margin-bottom:0;background-color: #DD2727;">
+    <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+    <a href="javascript:;" id="menuNameA" onclick="deqFadeToggle()" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2"></a>
   </div>
 </header>
+
+<div id="top-menu-box" class="top-menu-box-d" onclick="deqFadeToggle()" style="top: 2.1rem;display:none;">
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=综合&material_id=9660'">综合</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=女装&material_id=9658'">女装</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=男装&material_id=9654'">男装</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=鞋包配饰&material_id=9648'">鞋包配饰</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=母婴&material_id=9650'">母婴</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=内衣&material_id=9652'">内衣</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=美妆个护&material_id=9653'">美妆个护</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=食品&material_id=9649'">食品</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=家居家装&material_id=9655'">家居家装</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=运动户外&material_id=9651'">运动户外</a>
+  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=数码家电&material_id=9656'">数码家电</a>
+</div>
+<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="deqFadeToggle()"></div>
 
 <!-- 返回顶部 -->
 <div class="detail-top" id="backTop">
@@ -80,25 +83,22 @@
 
 <script th:inline="javascript">
 
-    var q = [[${q}]];
-    var cat = '';
-    var sort = [[${sort}]];
+    var q = '';
+    var menuName = [[${menuName}]];
     var platform = [[${platform}]];
     var material_id = [[${material_id}]];
-    var has_coupon = [[${has_coupon}]];
 
     $(function() {
       FastClick.attach(document.body);
       // 第一次加载数据
+      $(".weui-loadmore").show();
 
-        $('#qTxt').val(q);
-        if(has_coupon == ''){
-          has_coupon = true;
-        }
-        if(sort == ''){
-          sort = 'tk_total_sales_des';
-        }
-      setJian(sort);
+      if(menuName == ''){menuName = '综合';}
+      if(platform == ''){platform = '2';}
+      if(material_id == ''){material_id = '9660';}
+      $('#menuNameA').html(menuName + '<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+
+      loadGoodsForMain();
       $('#listwrap').height($('body').height() - 44);
         // 返回顶部
         backScroll('listwrap');
@@ -107,7 +107,6 @@
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
-    var cat = '';
     var loading = false;
 
     $("#listwrap").infinite().on("infinite", function () {
@@ -115,7 +114,7 @@
         loading = true;
         pageNum++; //页数
         $('.weui-loadmore').show();
-        loadGoodsForSearch();
+        loadGoodsForMain();
     });
 
 </script>

@@ -266,70 +266,10 @@ function formatCouponInfo(info){
     }
 }
 
-// 综合排序
-function sortTTSFnc(){
-    var sort = $('#sort').val();
-    if(sort == 'tk_total_sales_des'){
-      sort = 'tk_total_sales_asc';
-    }else if(sort == 'tk_total_sales_asc'){
-      sort = 'tk_total_sales_des';
-    }else{
-      sort = 'tk_total_sales_des';
-    }
-    $('#sort').val(sort);
-    $('#searchForm').submit();
-}
-// 销量排序
-function sortTSFnc(){
-    var sort = $('#sort').val();
-    if(sort == 'total_sales_des'){
-      sort = 'total_sales_asc';
-    }else if(sort == 'total_sales_asc'){
-      sort = 'total_sales_des';
-    }else{
-      sort = 'total_sales_des';
-    }
-    $('#sort').val(sort);
-    $('#searchForm').submit();
-}
-// 价格排序
-function sortPFnc(){
-    var sort = $('#sort').val();
-    if(sort == 'price_asc'){
-      sort = 'price_des';
-    }else if(sort == 'price_des'){
-      sort = 'price_asc';
-    }else{
-      sort = 'price_asc';
-    }
-    $('#sort').val(sort);
-    $('#searchForm').submit();
-}
-// 设置排序箭头
-function setJian(){
-  var sort = $('#sort').val();
-  if(sort == 'tk_total_sales_des'){
-    $('#tk_total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-    $('#tk_total_sales').addClass('on');
-  }else if(sort == 'tk_total_sales_asc'){
-    $('#tk_total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-  }else if(sort == 'total_sales_des'){
-    $('#total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-    $('#total_sales').addClass('on');
-  }else if(sort == 'total_sales_asc'){
-    $('#total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-  }else if(sort == 'price_des'){
-    $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-    $('#price_asc').addClass('on');
-  }else if(sort == 'price_asc'){
-    $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
-  }
-}
 // 首页加载商品
 function loadGoodsForMain(){
-    var platform = $('#platform').val();
     //$.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,cat:'16,18',platform:platform,has_coupon:true,need_free_shipment:true,need_prepay:true,material_id:2836,sort:'tk_rate'},function(data){
-    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,material_id:material_id},function(data){
+    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,material_id:material_id},function(data){
       loading = false;
       if(data.success){
         var mapData = data.mapData;
@@ -399,10 +339,79 @@ function loadGoodsForMain(){
       $(".weui-loadmore").hide();
     });
 }
+
+// 综合排序
+function sortTTSFnc(){
+    if(sort == 'tk_total_sales_des'){
+      sort = 'tk_total_sales_asc';
+    }else if(sort == 'tk_total_sales_asc'){
+      sort = 'tk_total_sales_des';
+    }else{
+      sort = 'tk_total_sales_des';
+    }
+    setJian(sort);
+}
+// 销量排序
+function sortTSFnc(){
+    if(sort == 'total_sales_des'){
+      sort = 'total_sales_asc';
+    }else if(sort == 'total_sales_asc'){
+      sort = 'total_sales_des';
+    }else{
+      sort = 'total_sales_des';
+    }
+    setJian(sort);
+}
+// 价格排序
+function sortPFnc(){
+    if(sort == 'price_asc'){
+      sort = 'price_des';
+    }else if(sort == 'price_des'){
+      sort = 'price_asc';
+    }else{
+      sort = 'price_asc';
+    }
+    setJian(sort);
+}
+// 搜索按钮
+function searchPBtn(){
+    setJian(sort);
+}
+// 设置排序箭头
+function setJian(sort){
+$('#sortDiv').find('i').remove();
+$('#sortDiv').find('.on').removeClass('on');
+  if(sort == 'tk_total_sales_des'){
+    $('#tk_total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+    $('#tk_total_sales').addClass('on');
+  }else if(sort == 'tk_total_sales_asc'){
+    $('#tk_total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+  }else if(sort == 'total_sales_des'){
+    $('#total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+    $('#total_sales').addClass('on');
+  }else if(sort == 'total_sales_asc'){
+    $('#total_sales').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+  }else if(sort == 'price_des'){
+    $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+    $('#price_asc').addClass('on');
+  }else if(sort == 'price_asc'){
+    $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+  }
+    $('#goodsUL').html('');
+    q = $('#qTxt').val();
+    if(q == ''){
+      cat = '16,30,50020808,50010788,1801,50012100,1625,50002768,50008163,50006842';
+    }else{
+      cat = '';
+    }
+    loadGoodsForSearch();
+
+}
 // 查询页商品加载
 function loadGoodsForSearch(){
-  var platform = $('#platform').val();
-    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:$('#titleQuery').val(),material_id:$('#material_id').val(),has_coupon:$('#has_coupon').val(),sort:$('#sort').val()},function(data){
+    $(".weui-cells__title").remove();
+    $(".weui-loadmore").show();
+    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:q,cat:cat,material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
       loading = false;
       if(data.success){
         var mapData = data.mapData;
@@ -620,17 +629,33 @@ function createHaiBao(){
       showLoading('正在生成海报','style="min-width: 7.5rem;min-height: 7.5rem;"');
     }
 }
-
+var index_t;
 // 显示首页菜单
 function menuPopup(obj){
     var top = $(obj).offset().top + $(obj).height();
     $("#top-menu-box").css('top',top + 20);
     $("#top-menu-box-mask").show();
     $("#top-menu-box").show(200);
-    setTimeout("hideMenuPopup()",3000)
+    //index_t = setTimeout("hideMenuPopup()",3000)
 }
 // 隐藏首页菜单
 function hideMenuPopup(){
   $("#top-menu-box").hide(200);
   $("#top-menu-box-mask").hide();
+  //clearTimeout(index_t);
+}
+// 淡入淡出
+function deqFadeToggle(){
+    if($("#top-menu-box").is(':hidden')){
+        $("#top-menu-box-mask").show();
+        $("#top-menu-box").fadeIn(200);
+    }else{
+        $("#top-menu-box-mask").hide();
+        $("#top-menu-box").fadeOut(200);
+    }
+}
+function toNewUrl(obj, url){
+    $('#top-menu-box').find('.menuOn').removeClass('menuOn');
+    $(obj).addClass('menuOn');
+    window.location.href = url;
 }
