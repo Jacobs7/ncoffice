@@ -2,8 +2,7 @@ package com.dape.shop.web.controller;
 
 import com.dape.common.base.BaseController;
 import com.dape.common.util.QRCodeUtil;
-import com.dape.shop.dao.model.ShopGoods;
-import com.dape.shop.dao.model.UpmsUser;
+import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.ShopGoodsService;
 import com.dape.shop.rpc.api.ShopStoreService;
 import com.dape.shop.rpc.api.ShopUserService;
@@ -37,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -297,14 +297,32 @@ public class GoodsController extends BaseController {
         String q = request.getParameter("q");
         if(StringUtils.isNotBlank(q)){
             model.addAttribute("q", q);
+        }else{
+            model.addAttribute("q", "");
         }
         String platform = request.getParameter("platform");
         if(StringUtils.isNotBlank(platform)){
             model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", "");
         }
         String material_id = request.getParameter("material_id");
         if(StringUtils.isNotBlank(material_id)){
             model.addAttribute("material_id", material_id);
+        }else{
+            model.addAttribute("material_id", "");
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "");
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            model.addAttribute("has_coupon", has_coupon);
+        }else{
+            model.addAttribute("has_coupon", "");
         }
 
         return thymeleaf("/search");
@@ -653,5 +671,52 @@ public class GoodsController extends BaseController {
         result.put("url", targetImg);
         result.put("success", true);
         return result;
+    }
+
+
+    /**
+     * 大额券
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deq", method = RequestMethod.GET)
+    public String deq(Model model, HttpServletRequest request) {
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            model.addAttribute("q", q);
+        }else{
+            model.addAttribute("q", "");
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", "");
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", material_id);
+        }else{
+            model.addAttribute("material_id", "");
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "");
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            model.addAttribute("has_coupon", has_coupon);
+        }else{
+            model.addAttribute("has_coupon", "");
+        }
+        String menuName = request.getParameter("menuName");
+        if(StringUtils.isNotBlank(menuName)){
+            model.addAttribute("menuName", menuName);
+        }else{
+            model.addAttribute("menuName", "");
+        }
+        return thymeleaf("/deq");
     }
 }

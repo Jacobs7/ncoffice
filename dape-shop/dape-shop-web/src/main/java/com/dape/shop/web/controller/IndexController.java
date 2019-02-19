@@ -61,7 +61,12 @@ public class IndexController extends BaseController {
         shopMenuE.or().andIsEnabledEqualTo(true);
         shopMenuE.setOrderByClause("sort ASC");
         List<ShopMenu> menus = shopMenuService.selectByExample(shopMenuE);
+        int size = 7;
+        if(menus.size() < size){
+            size = menus.size();
+        }
         model.addAttribute("menus", menus);
+        model.addAttribute("menusSize", size);
         model.addAttribute("showId", showId == null ? 1L : showId);
 
         // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
