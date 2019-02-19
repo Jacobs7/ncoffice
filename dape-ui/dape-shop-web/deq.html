@@ -15,7 +15,7 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--数据列表-->
-  <div class="weui-panel" style="margin-top:2.3rem;">
+  <div class="weui-panel" style="margin-top:2.5rem;">
     <ul id="goodsUL" class="wy-pro-list clear"></ul>
   </div>
   <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
@@ -28,23 +28,79 @@
   <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;margin-bottom:0;background-color: #DD2727;">
     <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
     <a href="javascript:;" id="menuNameA" onclick="deqFadeToggle()" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2"></a>
+    <a class="func-back" href="/" style="margin-left: -24px;"><i class="icon24-zz item-home-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
   </div>
 </header>
 
-<div id="top-menu-box" class="top-menu-box-d" onclick="deqFadeToggle()" style="top: 2.1rem;display:none;">
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=综合&material_id=9660'">综合</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=女装&material_id=9658'">女装</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=男装&material_id=9654'">男装</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=鞋包配饰&material_id=9648'">鞋包配饰</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=母婴&material_id=9650'">母婴</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=内衣&material_id=9652'">内衣</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=美妆个护&material_id=9653'">美妆个护</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=食品&material_id=9649'">食品</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=家居家装&material_id=9655'">家居家装</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=运动户外&material_id=9651'">运动户外</a>
-  <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=数码家电&material_id=9656'">数码家电</a>
+<div id="top-menu-box" class="top-menu-box-d" onclick="deqFadeToggle()" style="top: 2rem;display:none;">
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=综合&material_id=9660'" class="weui-tabbar__item">
+      <div class="icon24 icon-deq-menu"></div>
+      <p class="weui-tabbar__label">综合</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=女装&material_id=9658'" class="weui-tabbar__item">
+      <div class="icon24 icon-girl"></div>
+      <p class="weui-tabbar__label">女装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=男装&material_id=9654'" class="weui-tabbar__item">
+      <div class="icon24 icon-boy"></div>
+      <p class="weui-tabbar__label">男装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;border-right:none;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=鞋包配饰&material_id=9648'" class="weui-tabbar__item">
+      <div class="icon24 icon-shoe"></div>
+      <p class="weui-tabbar__label">鞋包配饰</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=母婴&material_id=9650'" class="weui-tabbar__item">
+      <div class="icon24 icon-baby"></div>
+      <p class="weui-tabbar__label">母婴</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=内衣&material_id=9652'" class="weui-tabbar__item">
+      <div class="icon24 icon-bao-24"></div>
+      <p class="weui-tabbar__label">内衣</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=美妆个护&material_id=9653'" class="weui-tabbar__item">
+      <div class="icon24 icon-beauty"></div>
+      <p class="weui-tabbar__label">美妆个护</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;border-right:none;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=食品&material_id=9649'" class="weui-tabbar__item">
+      <div class="icon24 icon-eat"></div>
+      <p class="weui-tabbar__label">食品</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=家居家装&material_id=9655'" class="weui-tabbar__item">
+      <div class="icon24 icon-homeLife"></div>
+      <p class="weui-tabbar__label">家居家装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=运动户外&material_id=9651'" class="weui-tabbar__item">
+      <div class="icon24 icon-huo"></div>
+      <p class="weui-tabbar__label">运动户外</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=数码家电&material_id=9656'" class="weui-tabbar__item">
+      <div class="icon24 icon-electron"></div>
+      <p class="weui-tabbar__label">数码家电</p>
+    </a>
+  </div>
 </div>
-<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="deqFadeToggle()"></div>
+<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display:none;margin-top:2.2rem;" class="weui-mask" onclick="deqFadeToggle()"></div>
 
 <!-- 返回顶部 -->
 <div class="detail-top" id="backTop">
@@ -96,7 +152,7 @@
       if(menuName == ''){menuName = '综合';}
       if(platform == ''){platform = '2';}
       if(material_id == ''){material_id = '9660';}
-      $('#menuNameA').html(menuName + '<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
+      $('#menuNameA').html(menuName + '<i class="icon24-zz icon-deq-24" style="margin-left:5px;margin-bottom:-6px;"></i>');
 
       loadGoodsForMain();
       $('#listwrap').height($('body').height() - 44);
