@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dape.shop.dao.model.ShopGoods;
+import com.dape.shop.dao.model.ShopGoodsExample;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -12,33 +13,12 @@ import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
+import java.util.Date;
 
 public class ExportDgOptimusMaterial {
 
     public static void main(String[] args){
-//        String materialIds = "13366,13367,13372,13370";
-//        String[] arr = materialIds.split(",");
-//        List<Long> materialIdList = new ArrayList<Long>();
-//        List<Long> materialIdRemove = new ArrayList<Long>();
-//        Long materialIdTmp = null;
-//        for(String item : arr){
-//            try{
-//                materialIdTmp = Long.valueOf(item);
-//                materialIdList.add(materialIdTmp);
-//            }catch (Exception e){
-//            }
-//        }
-//
-//        materialIdRemove.add(13370L);
-//        materialIdRemove.add(13367L);
-//
-//        for(Long m : materialIdRemove){
-//            materialIdList.remove(m);
-//        }
-
 
         // 多线程导入商品到数据库 start *******************************************************************
 
@@ -257,20 +237,7 @@ public class ExportDgOptimusMaterial {
     public static Integer webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds, BigDecimal couponA, BigDecimal floatA){
 
         int saveNum = 0;//记录保存到数据的总条数
-        int requeryNum = 0;//请求开放平台接口次数
 
-        List<Long> materialIdList = new ArrayList<Long>();
-        List<Long> materialIdRemove = new ArrayList<Long>();
-        Long materialIdTmp = null;
-        for(String item : materialIds){
-            try{
-                materialIdTmp = Long.valueOf(item);
-                materialIdList.add(materialIdTmp);
-            }catch (Exception e){
-            }
-        }
-
-        ShopGoods goods = null;
         if(couponA == null){
             couponA = new BigDecimal("20");//券额大于19的保存到数据库
         }
@@ -280,26 +247,27 @@ public class ExportDgOptimusMaterial {
 
         TaobaoClient client = new DefaultTaobaoClient(url, appKey, secret);
         TbkDgOptimusMaterialRequest req = null;
-        query:for(int i = 0; i < totalPage; i++){
-            System.out.print("当前循环：" + i);
-            // 删除无结果的类目
-            for(Long m : materialIdRemove){
-                materialIdList.remove(m);
+
+        Map<String, Object> exportInfo = new HashMap<String, Object>();//记录每个类目请求次数，查询条数，导入条数
+        int requeryNum = 0;//请求开放平台接口次数
+        int queryNum = 0;
+        int exportNum = 0;
+
+        // 循环类目
+        material:for(String item : materialIds){
+
+            Long materialId = null;
+            try{
+                materialId = Long.valueOf(item);
+            }catch (Exception e){
+                continue material;
             }
 
-            // 类目为空时，跳出循环
-            if(materialIdList.size() <= 0){
-                break query;
-            }
-
-            // 打印当前循环查询的类目
-            materialIdRemove = new ArrayList<Long>();
-            for(Long l : materialIdList){
-                System.out.print(l + ",");
-            }
-            System.out.println();
-
-            material:for(Long materialId : materialIdList){
+            requeryNum = 0;
+            queryNum = 0;
+            exportNum = 0;
+            // 查询页数
+            query:for(int i = 0; i < totalPage; i++){
 
                 req = new TbkDgOptimusMaterialRequest();
                 req.setPageSize(pageSize);
@@ -313,7 +281,7 @@ public class ExportDgOptimusMaterial {
 
                     System.out.println(resultJson);
 
-                    requeryNum += 1;
+                    requeryNum += 1;//请求总次数
 
                     // 返回结果转json
                     JSONObject jsonObject = JSON.parseObject(resultJson);
@@ -322,16 +290,18 @@ public class ExportDgOptimusMaterial {
 
                     if(errorResponse != null){//返回错误
                         String subMsg = errorResponse.getString("sub_msg");
-                        materialIdRemove.add(materialId);
-                        continue material;
+                        if(subMsg.equals("无结果")){
+                            continue material;
+                        }
+
                     }else if(tbkDgOptimusMaterialResponse != null){//查询成功
                         String requestId = tbkDgOptimusMaterialResponse.getString("request_id");
                         JSONObject resultList = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
                         JSONArray mapData = resultList.getJSONArray("map_data");
                         if(mapData == null || mapData.size() <= 0){
-                            materialIdRemove.add(materialId);
                             continue material;
                         }
+                        requeryNum += mapData.size();//记录查询总条数
                         save:for(int j = 0; j < mapData.size(); j++){
                             JSONObject data = mapData.getJSONObject(j);
 
@@ -352,8 +322,9 @@ public class ExportDgOptimusMaterial {
 
                             boolean addR = addGoods(itemId,zkFinalPrice, couponAmount, materialId, data);// 添加到数据库
                             if(addR){
+                                exportNum += 1;//记录导入总条数
                                 saveNum += 1;
-                                System.out.println("导入条数：" + saveNum + "，循环次数：" + i + ", 请求次数：" + requeryNum + "，分类id：" + materialId + "，商品id" + itemId);
+                                System.out.println("导入条数：" + saveNum + "，分类id：" + materialId + "，商品id" + itemId);
                             }
                         }
                     }
@@ -372,6 +343,8 @@ public class ExportDgOptimusMaterial {
                     break;
                 }
             }
+
+            exportInfo.put("LM_" + materialId, materialId + "[请求次数：" + requeryNum + "，查询总数：" + queryNum + "，导入总条数：" + exportNum + "]");
 
         }
         return saveNum;
