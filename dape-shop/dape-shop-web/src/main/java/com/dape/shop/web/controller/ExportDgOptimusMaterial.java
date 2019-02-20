@@ -25,9 +25,15 @@ public class ExportDgOptimusMaterial {
 
         int totalPage = 500;//查询开放平台的总页数
         // 查询的物料ID
-        String materialIds = "13366,13367,13372,13370,13374,13371,13375,13368,13376,13369,13373";
+        String hqzb = "3756,3767,3764,3762,3760,3763,3761,3758,3766,3759,3765";//好券直播
+        String deq = "9660,9658,9654,9648,9650,9653,9649,9655,9651,9656,9652";//大额券
+        String gyb = "13366,13367,13372,13370,13374,13371,13375,13368,13376,13369,13373";//高佣榜
+        String ppq = "3786,3788,3790,3796,3789,3794,3791,3792,3795,3793,3787";//品牌券
 
-        // 每页条数，开放平台要求最大100
+//        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
+        String materialIds = "13366";
+
+                // 每页条数，开放平台要求最大100
         Long pageSize = 100L;
 
         String[] arr = materialIds.split(",");
@@ -38,7 +44,13 @@ public class ExportDgOptimusMaterial {
         BigDecimal couponA = new BigDecimal("10");//券额大于等于10元的导入到数据库
         BigDecimal floatA = new BigDecimal("0.2");//券额占折扣价20%的导入到数据库
 
-        webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, arr, couponA, floatA);
+        Map<String, Object> exportInfo = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, arr, couponA, floatA);
+
+        System.out.println("******************************  导入数据  **************************************");
+        for(Map.Entry<String, Object> map : exportInfo.entrySet()){
+            System.out.println(map.getValue());
+        }
+        System.out.println("******************************  导入数据  **************************************");
         // 多线程导入商品到数据库 end *******************************************************************
     }
 
@@ -355,9 +367,6 @@ public class ExportDgOptimusMaterial {
                 }
             }
             exportInfo.put("LM_" + materialId, materialId + "：[请求次数：" + requestNum + "，查询总数：" + queryNum + "，导入总条数：" + exportNum + "]");
-        }
-        for(Map.Entry<String, Object> map : exportInfo.entrySet()){
-            System.out.println(map.getValue());
         }
         return exportInfo;
     }
