@@ -4,41 +4,45 @@
   <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopGoods">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="num_iid" jdbcType="VARCHAR" property="numIid" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
     <result column="pict_url" jdbcType="VARCHAR" property="pictUrl" />
     <result column="small_images" jdbcType="VARCHAR" property="smallImages" />
-    <result column="reserve_price" jdbcType="VARCHAR" property="reservePrice" />
-    <result column="zk_final_price" jdbcType="VARCHAR" property="zkFinalPrice" />
-    <result column="user_type" jdbcType="INTEGER" property="userType" />
-    <result column="provcity" jdbcType="VARCHAR" property="provcity" />
-    <result column="item_url" jdbcType="VARCHAR" property="itemUrl" />
-    <result column="nick" jdbcType="VARCHAR" property="nick" />
-    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="click_url" jdbcType="VARCHAR" property="clickUrl" />
+    <result column="zk_final_price" jdbcType="DECIMAL" property="zkFinalPrice" />
+    <result column="item_description" jdbcType="VARCHAR" property="itemDescription" />
     <result column="volume" jdbcType="INTEGER" property="volume" />
-    <result column="cat_leaf_name" jdbcType="VARCHAR" property="catLeafName" />
-    <result column="is_prepay" jdbcType="BIT" property="isPrepay" />
-    <result column="shop_dsr" jdbcType="INTEGER" property="shopDsr" />
-    <result column="ratesum" jdbcType="INTEGER" property="ratesum" />
-    <result column="i_rfd_rate" jdbcType="BIT" property="iRfdRate" />
-    <result column="h_good_rate" jdbcType="BIT" property="hGoodRate" />
-    <result column="h_pay_rate30" jdbcType="BIT" property="hPayRate30" />
-    <result column="free_shipment" jdbcType="BIT" property="freeShipment" />
-    <result column="material_lib_type" jdbcType="VARCHAR" property="materialLibType" />
-    <result column="tk_rate" jdbcType="VARCHAR" property="tkRate" />
-    <result column="zk_final_price_wap" jdbcType="VARCHAR" property="zkFinalPriceWap" />
-    <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
-    <result column="event_start_time" jdbcType="TIMESTAMP" property="eventStartTime" />
-    <result column="event_end_time" jdbcType="TIMESTAMP" property="eventEndTime" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="category" jdbcType="INTEGER" property="category" />
     <result column="coupon_click_url" jdbcType="VARCHAR" property="couponClickUrl" />
-    <result column="coupon_end_time" jdbcType="TIMESTAMP" property="couponEndTime" />
-    <result column="coupon_info" jdbcType="VARCHAR" property="couponInfo" />
-    <result column="coupon_start_time" jdbcType="TIMESTAMP" property="couponStartTime" />
+    <result column="coupon_amount" jdbcType="DECIMAL" property="couponAmount" />
     <result column="coupon_total_count" jdbcType="INTEGER" property="couponTotalCount" />
     <result column="coupon_remain_count" jdbcType="INTEGER" property="couponRemainCount" />
+    <result column="coupon_start_fee" jdbcType="VARCHAR" property="couponStartFee" />
+    <result column="coupon_start_time" jdbcType="VARCHAR" property="couponStartTime" />
+    <result column="coupon_end_time" jdbcType="VARCHAR" property="couponEndTime" />
+    <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
+    <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="level_one_category_id" jdbcType="VARCHAR" property="levelOneCategoryId" />
+    <result column="level_one_category_name" jdbcType="VARCHAR" property="levelOneCategoryName" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="sell_num" jdbcType="INTEGER" property="sellNum" />
+    <result column="total_stock" jdbcType="INTEGER" property="totalStock" />
+    <result column="ostime" jdbcType="VARCHAR" property="ostime" />
+    <result column="oetime" jdbcType="VARCHAR" property="oetime" />
+    <result column="jdd_num" jdbcType="INTEGER" property="jddNum" />
+    <result column="jdd_price" jdbcType="VARCHAR" property="jddPrice" />
+    <result column="orig_price" jdbcType="VARCHAR" property="origPrice" />
+    <result column="commission_rate" jdbcType="VARCHAR" property="commissionRate" />
+    <result column="word_url" jdbcType="VARCHAR" property="wordUrl" />
+    <result column="word" jdbcType="VARCHAR" property="word" />
+    <result column="tmall_play_activity_info" jdbcType="VARCHAR" property="tmallPlayActivityInfo" />
+    <result column="uv_sum_pre_sale" jdbcType="INTEGER" property="uvSumPreSale" />
+    <result column="x_id" jdbcType="VARCHAR" property="xId" />
+    <result column="new_user_price" jdbcType="VARCHAR" property="newUserPrice" />
+    <result column="material_id" jdbcType="BIGINT" property="materialId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -99,12 +103,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, num_iid, title, pict_url, small_images, reserve_price, zk_final_price, 
-    user_type, provcity, item_url, nick, seller_id, volume, cat_leaf_name, is_prepay, 
-    shop_dsr, ratesum, i_rfd_rate, h_good_rate, h_pay_rate30, free_shipment, material_lib_type, 
-    tk_rate, zk_final_price_wap, shop_title, event_start_time, event_end_time, type, 
-    status, category, coupon_click_url, coupon_end_time, coupon_info, coupon_start_time, 
-    coupon_total_count, coupon_remain_count
+    id, create_date, item_id, title, short_title, pict_url, small_images, click_url, 
+    zk_final_price, item_description, volume, coupon_click_url, coupon_amount, coupon_total_count, 
+    coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, seller_id, 
+    shop_title, user_type, category_id, category_name, level_one_category_id, level_one_category_name, 
+    stock, sell_num, total_stock, ostime, oetime, jdd_num, jdd_price, orig_price, commission_rate, 
+    word_url, word, tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, 
+    material_id
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
     select
@@ -137,32 +142,34 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopGoods">
-    insert into shop_goods (id, create_date, num_iid, 
-      title, pict_url, small_images, 
-      reserve_price, zk_final_price, user_type, 
-      provcity, item_url, nick, 
-      seller_id, volume, cat_leaf_name, 
-      is_prepay, shop_dsr, ratesum, 
-      i_rfd_rate, h_good_rate, h_pay_rate30, 
-      free_shipment, material_lib_type, tk_rate, 
-      zk_final_price_wap, shop_title, event_start_time, 
-      event_end_time, type, status, 
-      category, coupon_click_url, coupon_end_time, 
-      coupon_info, coupon_start_time, coupon_total_count, 
-      coupon_remain_count)
-    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{numIid,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
-      #{reservePrice,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
-      #{provcity,jdbcType=VARCHAR}, #{itemUrl,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, 
-      #{sellerId,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, #{catLeafName,jdbcType=VARCHAR}, 
-      #{isPrepay,jdbcType=BIT}, #{shopDsr,jdbcType=INTEGER}, #{ratesum,jdbcType=INTEGER}, 
-      #{iRfdRate,jdbcType=BIT}, #{hGoodRate,jdbcType=BIT}, #{hPayRate30,jdbcType=BIT}, 
-      #{freeShipment,jdbcType=BIT}, #{materialLibType,jdbcType=VARCHAR}, #{tkRate,jdbcType=VARCHAR}, 
-      #{zkFinalPriceWap,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, #{eventStartTime,jdbcType=TIMESTAMP}, 
-      #{eventEndTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{category,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, #{couponEndTime,jdbcType=TIMESTAMP}, 
-      #{couponInfo,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponTotalCount,jdbcType=INTEGER}, 
-      #{couponRemainCount,jdbcType=INTEGER})
+    insert into shop_goods (id, create_date, item_id, 
+      title, short_title, pict_url, 
+      small_images, click_url, zk_final_price, 
+      item_description, volume, coupon_click_url, 
+      coupon_amount, coupon_total_count, coupon_remain_count, 
+      coupon_start_fee, coupon_start_time, coupon_end_time, 
+      seller_id, shop_title, user_type, 
+      category_id, category_name, level_one_category_id, 
+      level_one_category_name, stock, sell_num, 
+      total_stock, ostime, oetime, 
+      jdd_num, jdd_price, orig_price, 
+      commission_rate, word_url, word, 
+      tmall_play_activity_info, uv_sum_pre_sale, x_id, 
+      new_user_price, material_id)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{itemId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, 
+      #{smallImages,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, 
+      #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, 
+      #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
+      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=VARCHAR}, #{couponEndTime,jdbcType=VARCHAR}, 
+      #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, 
+      #{levelOneCategoryName,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{totalStock,jdbcType=INTEGER}, #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, 
+      #{jddNum,jdbcType=INTEGER}, #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, 
+      #{commissionRate,jdbcType=VARCHAR}, #{wordUrl,jdbcType=VARCHAR}, #{word,jdbcType=VARCHAR}, 
+      #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, #{xId,jdbcType=VARCHAR}, 
+      #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods
@@ -173,11 +180,14 @@
       <if test="createDate != null">
         create_date,
       </if>
-      <if test="numIid != null">
-        num_iid,
+      <if test="itemId != null">
+        item_id,
       </if>
       <if test="title != null">
         title,
+      </if>
+      <if test="shortTitle != null">
+        short_title,
       </if>
       <if test="pictUrl != null">
         pict_url,
@@ -185,98 +195,107 @@
       <if test="smallImages != null">
         small_images,
       </if>
-      <if test="reservePrice != null">
-        reserve_price,
+      <if test="clickUrl != null">
+        click_url,
       </if>
       <if test="zkFinalPrice != null">
         zk_final_price,
       </if>
-      <if test="userType != null">
-        user_type,
-      </if>
-      <if test="provcity != null">
-        provcity,
-      </if>
-      <if test="itemUrl != null">
-        item_url,
-      </if>
-      <if test="nick != null">
-        nick,
-      </if>
-      <if test="sellerId != null">
-        seller_id,
+      <if test="itemDescription != null">
+        item_description,
       </if>
       <if test="volume != null">
         volume,
       </if>
-      <if test="catLeafName != null">
-        cat_leaf_name,
-      </if>
-      <if test="isPrepay != null">
-        is_prepay,
-      </if>
-      <if test="shopDsr != null">
-        shop_dsr,
-      </if>
-      <if test="ratesum != null">
-        ratesum,
-      </if>
-      <if test="iRfdRate != null">
-        i_rfd_rate,
-      </if>
-      <if test="hGoodRate != null">
-        h_good_rate,
-      </if>
-      <if test="hPayRate30 != null">
-        h_pay_rate30,
-      </if>
-      <if test="freeShipment != null">
-        free_shipment,
-      </if>
-      <if test="materialLibType != null">
-        material_lib_type,
-      </if>
-      <if test="tkRate != null">
-        tk_rate,
-      </if>
-      <if test="zkFinalPriceWap != null">
-        zk_final_price_wap,
-      </if>
-      <if test="shopTitle != null">
-        shop_title,
-      </if>
-      <if test="eventStartTime != null">
-        event_start_time,
-      </if>
-      <if test="eventEndTime != null">
-        event_end_time,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="category != null">
-        category,
-      </if>
       <if test="couponClickUrl != null">
         coupon_click_url,
       </if>
-      <if test="couponEndTime != null">
-        coupon_end_time,
-      </if>
-      <if test="couponInfo != null">
-        coupon_info,
-      </if>
-      <if test="couponStartTime != null">
-        coupon_start_time,
+      <if test="couponAmount != null">
+        coupon_amount,
       </if>
       <if test="couponTotalCount != null">
         coupon_total_count,
       </if>
       <if test="couponRemainCount != null">
         coupon_remain_count,
+      </if>
+      <if test="couponStartFee != null">
+        coupon_start_fee,
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time,
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="shopTitle != null">
+        shop_title,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="levelOneCategoryId != null">
+        level_one_category_id,
+      </if>
+      <if test="levelOneCategoryName != null">
+        level_one_category_name,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="sellNum != null">
+        sell_num,
+      </if>
+      <if test="totalStock != null">
+        total_stock,
+      </if>
+      <if test="ostime != null">
+        ostime,
+      </if>
+      <if test="oetime != null">
+        oetime,
+      </if>
+      <if test="jddNum != null">
+        jdd_num,
+      </if>
+      <if test="jddPrice != null">
+        jdd_price,
+      </if>
+      <if test="origPrice != null">
+        orig_price,
+      </if>
+      <if test="commissionRate != null">
+        commission_rate,
+      </if>
+      <if test="wordUrl != null">
+        word_url,
+      </if>
+      <if test="word != null">
+        word,
+      </if>
+      <if test="tmallPlayActivityInfo != null">
+        tmall_play_activity_info,
+      </if>
+      <if test="uvSumPreSale != null">
+        uv_sum_pre_sale,
+      </if>
+      <if test="xId != null">
+        x_id,
+      </if>
+      <if test="newUserPrice != null">
+        new_user_price,
+      </if>
+      <if test="materialId != null">
+        material_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -286,11 +305,14 @@
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="numIid != null">
-        #{numIid,jdbcType=VARCHAR},
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        #{shortTitle,jdbcType=VARCHAR},
       </if>
       <if test="pictUrl != null">
         #{pictUrl,jdbcType=VARCHAR},
@@ -298,98 +320,107 @@
       <if test="smallImages != null">
         #{smallImages,jdbcType=VARCHAR},
       </if>
-      <if test="reservePrice != null">
-        #{reservePrice,jdbcType=VARCHAR},
+      <if test="clickUrl != null">
+        #{clickUrl,jdbcType=VARCHAR},
       </if>
       <if test="zkFinalPrice != null">
-        #{zkFinalPrice,jdbcType=VARCHAR},
+        #{zkFinalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="userType != null">
-        #{userType,jdbcType=INTEGER},
-      </if>
-      <if test="provcity != null">
-        #{provcity,jdbcType=VARCHAR},
-      </if>
-      <if test="itemUrl != null">
-        #{itemUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="nick != null">
-        #{nick,jdbcType=VARCHAR},
-      </if>
-      <if test="sellerId != null">
-        #{sellerId,jdbcType=INTEGER},
+      <if test="itemDescription != null">
+        #{itemDescription,jdbcType=VARCHAR},
       </if>
       <if test="volume != null">
         #{volume,jdbcType=INTEGER},
       </if>
-      <if test="catLeafName != null">
-        #{catLeafName,jdbcType=VARCHAR},
-      </if>
-      <if test="isPrepay != null">
-        #{isPrepay,jdbcType=BIT},
-      </if>
-      <if test="shopDsr != null">
-        #{shopDsr,jdbcType=INTEGER},
-      </if>
-      <if test="ratesum != null">
-        #{ratesum,jdbcType=INTEGER},
-      </if>
-      <if test="iRfdRate != null">
-        #{iRfdRate,jdbcType=BIT},
-      </if>
-      <if test="hGoodRate != null">
-        #{hGoodRate,jdbcType=BIT},
-      </if>
-      <if test="hPayRate30 != null">
-        #{hPayRate30,jdbcType=BIT},
-      </if>
-      <if test="freeShipment != null">
-        #{freeShipment,jdbcType=BIT},
-      </if>
-      <if test="materialLibType != null">
-        #{materialLibType,jdbcType=VARCHAR},
-      </if>
-      <if test="tkRate != null">
-        #{tkRate,jdbcType=VARCHAR},
-      </if>
-      <if test="zkFinalPriceWap != null">
-        #{zkFinalPriceWap,jdbcType=VARCHAR},
-      </if>
-      <if test="shopTitle != null">
-        #{shopTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="eventStartTime != null">
-        #{eventStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="eventEndTime != null">
-        #{eventEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="category != null">
-        #{category,jdbcType=INTEGER},
-      </if>
       <if test="couponClickUrl != null">
         #{couponClickUrl,jdbcType=VARCHAR},
       </if>
-      <if test="couponEndTime != null">
-        #{couponEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="couponInfo != null">
-        #{couponInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="couponStartTime != null">
-        #{couponStartTime,jdbcType=TIMESTAMP},
+      <if test="couponAmount != null">
+        #{couponAmount,jdbcType=DECIMAL},
       </if>
       <if test="couponTotalCount != null">
         #{couponTotalCount,jdbcType=INTEGER},
       </if>
       <if test="couponRemainCount != null">
         #{couponRemainCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponStartFee != null">
+        #{couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        #{couponStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEndTime != null">
+        #{couponEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryId != null">
+        #{levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryName != null">
+        #{levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null">
+        #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStock != null">
+        #{totalStock,jdbcType=INTEGER},
+      </if>
+      <if test="ostime != null">
+        #{ostime,jdbcType=VARCHAR},
+      </if>
+      <if test="oetime != null">
+        #{oetime,jdbcType=VARCHAR},
+      </if>
+      <if test="jddNum != null">
+        #{jddNum,jdbcType=INTEGER},
+      </if>
+      <if test="jddPrice != null">
+        #{jddPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="origPrice != null">
+        #{origPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionRate != null">
+        #{commissionRate,jdbcType=VARCHAR},
+      </if>
+      <if test="wordUrl != null">
+        #{wordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="word != null">
+        #{word,jdbcType=VARCHAR},
+      </if>
+      <if test="tmallPlayActivityInfo != null">
+        #{tmallPlayActivityInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="uvSumPreSale != null">
+        #{uvSumPreSale,jdbcType=INTEGER},
+      </if>
+      <if test="xId != null">
+        #{xId,jdbcType=VARCHAR},
+      </if>
+      <if test="newUserPrice != null">
+        #{newUserPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -408,11 +439,14 @@
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.numIid != null">
-        num_iid = #{record.numIid,jdbcType=VARCHAR},
+      <if test="record.itemId != null">
+        item_id = #{record.itemId,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortTitle != null">
+        short_title = #{record.shortTitle,jdbcType=VARCHAR},
       </if>
       <if test="record.pictUrl != null">
         pict_url = #{record.pictUrl,jdbcType=VARCHAR},
@@ -420,98 +454,107 @@
       <if test="record.smallImages != null">
         small_images = #{record.smallImages,jdbcType=VARCHAR},
       </if>
-      <if test="record.reservePrice != null">
-        reserve_price = #{record.reservePrice,jdbcType=VARCHAR},
+      <if test="record.clickUrl != null">
+        click_url = #{record.clickUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.zkFinalPrice != null">
-        zk_final_price = #{record.zkFinalPrice,jdbcType=VARCHAR},
+        zk_final_price = #{record.zkFinalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.userType != null">
-        user_type = #{record.userType,jdbcType=INTEGER},
-      </if>
-      <if test="record.provcity != null">
-        provcity = #{record.provcity,jdbcType=VARCHAR},
-      </if>
-      <if test="record.itemUrl != null">
-        item_url = #{record.itemUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nick != null">
-        nick = #{record.nick,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sellerId != null">
-        seller_id = #{record.sellerId,jdbcType=INTEGER},
+      <if test="record.itemDescription != null">
+        item_description = #{record.itemDescription,jdbcType=VARCHAR},
       </if>
       <if test="record.volume != null">
         volume = #{record.volume,jdbcType=INTEGER},
       </if>
-      <if test="record.catLeafName != null">
-        cat_leaf_name = #{record.catLeafName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isPrepay != null">
-        is_prepay = #{record.isPrepay,jdbcType=BIT},
-      </if>
-      <if test="record.shopDsr != null">
-        shop_dsr = #{record.shopDsr,jdbcType=INTEGER},
-      </if>
-      <if test="record.ratesum != null">
-        ratesum = #{record.ratesum,jdbcType=INTEGER},
-      </if>
-      <if test="record.iRfdRate != null">
-        i_rfd_rate = #{record.iRfdRate,jdbcType=BIT},
-      </if>
-      <if test="record.hGoodRate != null">
-        h_good_rate = #{record.hGoodRate,jdbcType=BIT},
-      </if>
-      <if test="record.hPayRate30 != null">
-        h_pay_rate30 = #{record.hPayRate30,jdbcType=BIT},
-      </if>
-      <if test="record.freeShipment != null">
-        free_shipment = #{record.freeShipment,jdbcType=BIT},
-      </if>
-      <if test="record.materialLibType != null">
-        material_lib_type = #{record.materialLibType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.tkRate != null">
-        tk_rate = #{record.tkRate,jdbcType=VARCHAR},
-      </if>
-      <if test="record.zkFinalPriceWap != null">
-        zk_final_price_wap = #{record.zkFinalPriceWap,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopTitle != null">
-        shop_title = #{record.shopTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="record.eventStartTime != null">
-        event_start_time = #{record.eventStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.eventEndTime != null">
-        event_end_time = #{record.eventEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
-      </if>
-      <if test="record.category != null">
-        category = #{record.category,jdbcType=INTEGER},
-      </if>
       <if test="record.couponClickUrl != null">
         coupon_click_url = #{record.couponClickUrl,jdbcType=VARCHAR},
       </if>
-      <if test="record.couponEndTime != null">
-        coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.couponInfo != null">
-        coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.couponStartTime != null">
-        coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      <if test="record.couponAmount != null">
+        coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.couponTotalCount != null">
         coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
       </if>
       <if test="record.couponRemainCount != null">
         coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponStartFee != null">
+        coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponStartTime != null">
+        coupon_start_time = #{record.couponStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponEndTime != null">
+        coupon_end_time = #{record.couponEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerId != null">
+        seller_id = #{record.sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopTitle != null">
+        shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryName != null">
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelOneCategoryId != null">
+        level_one_category_id = #{record.levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelOneCategoryName != null">
+        level_one_category_name = #{record.levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stock != null">
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellNum != null">
+        sell_num = #{record.sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalStock != null">
+        total_stock = #{record.totalStock,jdbcType=INTEGER},
+      </if>
+      <if test="record.ostime != null">
+        ostime = #{record.ostime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oetime != null">
+        oetime = #{record.oetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jddNum != null">
+        jdd_num = #{record.jddNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.jddPrice != null">
+        jdd_price = #{record.jddPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origPrice != null">
+        orig_price = #{record.origPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commissionRate != null">
+        commission_rate = #{record.commissionRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wordUrl != null">
+        word_url = #{record.wordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.word != null">
+        word = #{record.word,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tmallPlayActivityInfo != null">
+        tmall_play_activity_info = #{record.tmallPlayActivityInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uvSumPreSale != null">
+        uv_sum_pre_sale = #{record.uvSumPreSale,jdbcType=INTEGER},
+      </if>
+      <if test="record.xId != null">
+        x_id = #{record.xId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newUserPrice != null">
+        new_user_price = #{record.newUserPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialId != null">
+        material_id = #{record.materialId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -522,41 +565,45 @@
     update shop_goods
     set id = #{record.id,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      num_iid = #{record.numIid,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
+      short_title = #{record.shortTitle,jdbcType=VARCHAR},
       pict_url = #{record.pictUrl,jdbcType=VARCHAR},
       small_images = #{record.smallImages,jdbcType=VARCHAR},
-      reserve_price = #{record.reservePrice,jdbcType=VARCHAR},
-      zk_final_price = #{record.zkFinalPrice,jdbcType=VARCHAR},
-      user_type = #{record.userType,jdbcType=INTEGER},
-      provcity = #{record.provcity,jdbcType=VARCHAR},
-      item_url = #{record.itemUrl,jdbcType=VARCHAR},
-      nick = #{record.nick,jdbcType=VARCHAR},
-      seller_id = #{record.sellerId,jdbcType=INTEGER},
+      click_url = #{record.clickUrl,jdbcType=VARCHAR},
+      zk_final_price = #{record.zkFinalPrice,jdbcType=DECIMAL},
+      item_description = #{record.itemDescription,jdbcType=VARCHAR},
       volume = #{record.volume,jdbcType=INTEGER},
-      cat_leaf_name = #{record.catLeafName,jdbcType=VARCHAR},
-      is_prepay = #{record.isPrepay,jdbcType=BIT},
-      shop_dsr = #{record.shopDsr,jdbcType=INTEGER},
-      ratesum = #{record.ratesum,jdbcType=INTEGER},
-      i_rfd_rate = #{record.iRfdRate,jdbcType=BIT},
-      h_good_rate = #{record.hGoodRate,jdbcType=BIT},
-      h_pay_rate30 = #{record.hPayRate30,jdbcType=BIT},
-      free_shipment = #{record.freeShipment,jdbcType=BIT},
-      material_lib_type = #{record.materialLibType,jdbcType=VARCHAR},
-      tk_rate = #{record.tkRate,jdbcType=VARCHAR},
-      zk_final_price_wap = #{record.zkFinalPriceWap,jdbcType=VARCHAR},
-      shop_title = #{record.shopTitle,jdbcType=VARCHAR},
-      event_start_time = #{record.eventStartTime,jdbcType=TIMESTAMP},
-      event_end_time = #{record.eventEndTime,jdbcType=TIMESTAMP},
-      type = #{record.type,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      category = #{record.category,jdbcType=INTEGER},
       coupon_click_url = #{record.couponClickUrl,jdbcType=VARCHAR},
-      coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
-      coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
-      coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
       coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
-      coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER}
+      coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
+      coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
+      coupon_start_time = #{record.couponStartTime,jdbcType=VARCHAR},
+      coupon_end_time = #{record.couponEndTime,jdbcType=VARCHAR},
+      seller_id = #{record.sellerId,jdbcType=VARCHAR},
+      shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=VARCHAR},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      level_one_category_id = #{record.levelOneCategoryId,jdbcType=VARCHAR},
+      level_one_category_name = #{record.levelOneCategoryName,jdbcType=VARCHAR},
+      stock = #{record.stock,jdbcType=INTEGER},
+      sell_num = #{record.sellNum,jdbcType=INTEGER},
+      total_stock = #{record.totalStock,jdbcType=INTEGER},
+      ostime = #{record.ostime,jdbcType=VARCHAR},
+      oetime = #{record.oetime,jdbcType=VARCHAR},
+      jdd_num = #{record.jddNum,jdbcType=INTEGER},
+      jdd_price = #{record.jddPrice,jdbcType=VARCHAR},
+      orig_price = #{record.origPrice,jdbcType=VARCHAR},
+      commission_rate = #{record.commissionRate,jdbcType=VARCHAR},
+      word_url = #{record.wordUrl,jdbcType=VARCHAR},
+      word = #{record.word,jdbcType=VARCHAR},
+      tmall_play_activity_info = #{record.tmallPlayActivityInfo,jdbcType=VARCHAR},
+      uv_sum_pre_sale = #{record.uvSumPreSale,jdbcType=INTEGER},
+      x_id = #{record.xId,jdbcType=VARCHAR},
+      new_user_price = #{record.newUserPrice,jdbcType=VARCHAR},
+      material_id = #{record.materialId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -567,11 +614,14 @@
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="numIid != null">
-        num_iid = #{numIid,jdbcType=VARCHAR},
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        short_title = #{shortTitle,jdbcType=VARCHAR},
       </if>
       <if test="pictUrl != null">
         pict_url = #{pictUrl,jdbcType=VARCHAR},
@@ -579,92 +629,23 @@
       <if test="smallImages != null">
         small_images = #{smallImages,jdbcType=VARCHAR},
       </if>
-      <if test="reservePrice != null">
-        reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      <if test="clickUrl != null">
+        click_url = #{clickUrl,jdbcType=VARCHAR},
       </if>
       <if test="zkFinalPrice != null">
-        zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+        zk_final_price = #{zkFinalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="userType != null">
-        user_type = #{userType,jdbcType=INTEGER},
-      </if>
-      <if test="provcity != null">
-        provcity = #{provcity,jdbcType=VARCHAR},
-      </if>
-      <if test="itemUrl != null">
-        item_url = #{itemUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="nick != null">
-        nick = #{nick,jdbcType=VARCHAR},
-      </if>
-      <if test="sellerId != null">
-        seller_id = #{sellerId,jdbcType=INTEGER},
+      <if test="itemDescription != null">
+        item_description = #{itemDescription,jdbcType=VARCHAR},
       </if>
       <if test="volume != null">
         volume = #{volume,jdbcType=INTEGER},
       </if>
-      <if test="catLeafName != null">
-        cat_leaf_name = #{catLeafName,jdbcType=VARCHAR},
-      </if>
-      <if test="isPrepay != null">
-        is_prepay = #{isPrepay,jdbcType=BIT},
-      </if>
-      <if test="shopDsr != null">
-        shop_dsr = #{shopDsr,jdbcType=INTEGER},
-      </if>
-      <if test="ratesum != null">
-        ratesum = #{ratesum,jdbcType=INTEGER},
-      </if>
-      <if test="iRfdRate != null">
-        i_rfd_rate = #{iRfdRate,jdbcType=BIT},
-      </if>
-      <if test="hGoodRate != null">
-        h_good_rate = #{hGoodRate,jdbcType=BIT},
-      </if>
-      <if test="hPayRate30 != null">
-        h_pay_rate30 = #{hPayRate30,jdbcType=BIT},
-      </if>
-      <if test="freeShipment != null">
-        free_shipment = #{freeShipment,jdbcType=BIT},
-      </if>
-      <if test="materialLibType != null">
-        material_lib_type = #{materialLibType,jdbcType=VARCHAR},
-      </if>
-      <if test="tkRate != null">
-        tk_rate = #{tkRate,jdbcType=VARCHAR},
-      </if>
-      <if test="zkFinalPriceWap != null">
-        zk_final_price_wap = #{zkFinalPriceWap,jdbcType=VARCHAR},
-      </if>
-      <if test="shopTitle != null">
-        shop_title = #{shopTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="eventStartTime != null">
-        event_start_time = #{eventStartTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="eventEndTime != null">
-        event_end_time = #{eventEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="category != null">
-        category = #{category,jdbcType=INTEGER},
-      </if>
       <if test="couponClickUrl != null">
         coupon_click_url = #{couponClickUrl,jdbcType=VARCHAR},
       </if>
-      <if test="couponEndTime != null">
-        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="couponInfo != null">
-        coupon_info = #{couponInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="couponStartTime != null">
-        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      <if test="couponAmount != null">
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
       </if>
       <if test="couponTotalCount != null">
         coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
@@ -672,47 +653,129 @@
       <if test="couponRemainCount != null">
         coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
       </if>
+      <if test="couponStartFee != null">
+        coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time = #{couponStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time = #{couponEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        shop_title = #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryId != null">
+        level_one_category_id = #{levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryName != null">
+        level_one_category_name = #{levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null">
+        sell_num = #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalStock != null">
+        total_stock = #{totalStock,jdbcType=INTEGER},
+      </if>
+      <if test="ostime != null">
+        ostime = #{ostime,jdbcType=VARCHAR},
+      </if>
+      <if test="oetime != null">
+        oetime = #{oetime,jdbcType=VARCHAR},
+      </if>
+      <if test="jddNum != null">
+        jdd_num = #{jddNum,jdbcType=INTEGER},
+      </if>
+      <if test="jddPrice != null">
+        jdd_price = #{jddPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="origPrice != null">
+        orig_price = #{origPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionRate != null">
+        commission_rate = #{commissionRate,jdbcType=VARCHAR},
+      </if>
+      <if test="wordUrl != null">
+        word_url = #{wordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="word != null">
+        word = #{word,jdbcType=VARCHAR},
+      </if>
+      <if test="tmallPlayActivityInfo != null">
+        tmall_play_activity_info = #{tmallPlayActivityInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="uvSumPreSale != null">
+        uv_sum_pre_sale = #{uvSumPreSale,jdbcType=INTEGER},
+      </if>
+      <if test="xId != null">
+        x_id = #{xId,jdbcType=VARCHAR},
+      </if>
+      <if test="newUserPrice != null">
+        new_user_price = #{newUserPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopGoods">
     update shop_goods
     set create_date = #{createDate,jdbcType=TIMESTAMP},
-      num_iid = #{numIid,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
+      short_title = #{shortTitle,jdbcType=VARCHAR},
       pict_url = #{pictUrl,jdbcType=VARCHAR},
       small_images = #{smallImages,jdbcType=VARCHAR},
-      reserve_price = #{reservePrice,jdbcType=VARCHAR},
-      zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=INTEGER},
-      provcity = #{provcity,jdbcType=VARCHAR},
-      item_url = #{itemUrl,jdbcType=VARCHAR},
-      nick = #{nick,jdbcType=VARCHAR},
-      seller_id = #{sellerId,jdbcType=INTEGER},
+      click_url = #{clickUrl,jdbcType=VARCHAR},
+      zk_final_price = #{zkFinalPrice,jdbcType=DECIMAL},
+      item_description = #{itemDescription,jdbcType=VARCHAR},
       volume = #{volume,jdbcType=INTEGER},
-      cat_leaf_name = #{catLeafName,jdbcType=VARCHAR},
-      is_prepay = #{isPrepay,jdbcType=BIT},
-      shop_dsr = #{shopDsr,jdbcType=INTEGER},
-      ratesum = #{ratesum,jdbcType=INTEGER},
-      i_rfd_rate = #{iRfdRate,jdbcType=BIT},
-      h_good_rate = #{hGoodRate,jdbcType=BIT},
-      h_pay_rate30 = #{hPayRate30,jdbcType=BIT},
-      free_shipment = #{freeShipment,jdbcType=BIT},
-      material_lib_type = #{materialLibType,jdbcType=VARCHAR},
-      tk_rate = #{tkRate,jdbcType=VARCHAR},
-      zk_final_price_wap = #{zkFinalPriceWap,jdbcType=VARCHAR},
-      shop_title = #{shopTitle,jdbcType=VARCHAR},
-      event_start_time = #{eventStartTime,jdbcType=TIMESTAMP},
-      event_end_time = #{eventEndTime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      category = #{category,jdbcType=INTEGER},
       coupon_click_url = #{couponClickUrl,jdbcType=VARCHAR},
-      coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
-      coupon_info = #{couponInfo,jdbcType=VARCHAR},
-      coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
       coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
-      coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER}
+      coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
+      coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
+      coupon_start_time = #{couponStartTime,jdbcType=VARCHAR},
+      coupon_end_time = #{couponEndTime,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=VARCHAR},
+      shop_title = #{shopTitle,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      level_one_category_id = #{levelOneCategoryId,jdbcType=VARCHAR},
+      level_one_category_name = #{levelOneCategoryName,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      sell_num = #{sellNum,jdbcType=INTEGER},
+      total_stock = #{totalStock,jdbcType=INTEGER},
+      ostime = #{ostime,jdbcType=VARCHAR},
+      oetime = #{oetime,jdbcType=VARCHAR},
+      jdd_num = #{jddNum,jdbcType=INTEGER},
+      jdd_price = #{jddPrice,jdbcType=VARCHAR},
+      orig_price = #{origPrice,jdbcType=VARCHAR},
+      commission_rate = #{commissionRate,jdbcType=VARCHAR},
+      word_url = #{wordUrl,jdbcType=VARCHAR},
+      word = #{word,jdbcType=VARCHAR},
+      tmall_play_activity_info = #{tmallPlayActivityInfo,jdbcType=VARCHAR},
+      uv_sum_pre_sale = #{uvSumPreSale,jdbcType=INTEGER},
+      x_id = #{xId,jdbcType=VARCHAR},
+      new_user_price = #{newUserPrice,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

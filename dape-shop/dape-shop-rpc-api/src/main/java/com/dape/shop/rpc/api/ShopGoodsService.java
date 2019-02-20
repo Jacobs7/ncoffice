@@ -4,6 +4,7 @@ import com.dape.common.base.BaseService;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,17 @@ import java.util.Map;
 */
 public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExample> {
 
+    /**
+     * 物料下行接口数据导入到数据库
+     * @param totalPage
+     * @param pageSize
+     * @param url
+     * @param appKey
+     * @param secret
+     * @param adzoneId
+     * @return
+     */
+    public Integer exportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds);
     /**
      * 淘宝客商品查询(只有商品列表，没有券信息)
      * @param pageNum

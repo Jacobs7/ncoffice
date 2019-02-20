@@ -1,6 +1,7 @@
 package com.dape.shop.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ShopGoods implements Serializable {
@@ -13,7 +14,7 @@ public class ShopGoods implements Serializable {
      *
      * @mbg.generated
      */
-    private String numIid;
+    private String itemId;
 
     /**
      * 商品标题
@@ -21,6 +22,13 @@ public class ShopGoods implements Serializable {
      * @mbg.generated
      */
     private String title;
+
+    /**
+     * 商品短标题
+     *
+     * @mbg.generated
+     */
+    private String shortTitle;
 
     /**
      * 商品主图
@@ -37,53 +45,25 @@ public class ShopGoods implements Serializable {
     private String smallImages;
 
     /**
-     * 商品一口价格
+     * 淘客链接
      *
      * @mbg.generated
      */
-    private String reservePrice;
+    private String clickUrl;
 
     /**
-     * 商品折扣价格
+     * 折扣价
      *
      * @mbg.generated
      */
-    private String zkFinalPrice;
+    private BigDecimal zkFinalPrice;
 
     /**
-     * 卖家类型，0表示集市，1表示商城
+     * 推荐理由
      *
      * @mbg.generated
      */
-    private Integer userType;
-
-    /**
-     * 宝贝所在地
-     *
-     * @mbg.generated
-     */
-    private String provcity;
-
-    /**
-     * 商品地址
-     *
-     * @mbg.generated
-     */
-    private String itemUrl;
-
-    /**
-     * 卖家昵称
-     *
-     * @mbg.generated
-     */
-    private String nick;
-
-    /**
-     * 卖家id
-     *
-     * @mbg.generated
-     */
-    private Integer sellerId;
+    private String itemDescription;
 
     /**
      * 30天销量
@@ -93,149 +73,21 @@ public class ShopGoods implements Serializable {
     private Integer volume;
 
     /**
-     * 叶子类目名称
-     *
-     * @mbg.generated
-     */
-    private String catLeafName;
-
-    /**
-     * boolean类型：是否加入消费者保障
-     *
-     * @mbg.generated
-     */
-    private Boolean isPrepay;
-
-    /**
-     * 店铺dsr 评分
-     *
-     * @mbg.generated
-     */
-    private Integer shopDsr;
-
-    /**
-     * 卖家等级
-     *
-     * @mbg.generated
-     */
-    private Integer ratesum;
-
-    /**
-     * 退款率是否低于行业均值
-     *
-     * @mbg.generated
-     */
-    private Boolean iRfdRate;
-
-    /**
-     * 好评率是否高于行业均值
-     *
-     * @mbg.generated
-     */
-    private Boolean hGoodRate;
-
-    /**
-     * 成交转化是否高于行业均值
-     *
-     * @mbg.generated
-     */
-    private Boolean hPayRate30;
-
-    /**
-     * 是否包邮
-     *
-     * @mbg.generated
-     */
-    private Boolean freeShipment;
-
-    /**
-     * 商品库类型，支持多库类型输出，以“，”区分，1:营销商品主推库
-     *
-     * @mbg.generated
-     */
-    private String materialLibType;
-
-    /**
-     * 收入比例，举例，取值为20.00，表示比例20.00%
-     *
-     * @mbg.generated
-     */
-    private String tkRate;
-
-    /**
-     * 无线折扣价，即宝贝在无线上的实际售卖价格。
-     *
-     * @mbg.generated
-     */
-    private String zkFinalPriceWap;
-
-    private String shopTitle;
-
-    /**
-     * 招商活动开始时间；如果该宝贝取自普通选品组，则取值为1970-01-01 00:00:00；
-     *
-     * @mbg.generated
-     */
-    private Date eventStartTime;
-
-    /**
-     * 招行活动的结束时间；如果该宝贝取自普通的选品组，则取值为1970-01-01 00:00:00
-     *
-     * @mbg.generated
-     */
-    private Date eventEndTime;
-
-    /**
-     * 宝贝类型：1 普通商品； 2 鹊桥高佣金商品；3 定向招商商品；4 营销计划商品;
-     *
-     * @mbg.generated
-     */
-    private Integer type;
-
-    /**
-     * 宝贝状态，0失效，1有效；注：失效可能是宝贝已经下线或者是被处罚不能在进行推广
-     *
-     * @mbg.generated
-     */
-    private Integer status;
-
-    /**
-     * 后台一级类目
-     *
-     * @mbg.generated
-     */
-    private Integer category;
-
-    /**
-     * 商品优惠券推广链接
+     * 券链接
      *
      * @mbg.generated
      */
     private String couponClickUrl;
 
     /**
-     * 优惠券结束时间
+     * 券额
      *
      * @mbg.generated
      */
-    private Date couponEndTime;
+    private BigDecimal couponAmount;
 
     /**
-     * 优惠券面额
-     *
-     * @mbg.generated
-     */
-    private String couponInfo;
-
-    /**
-     * 优惠券开始时间
-     *
-     * @mbg.generated
-     */
-    private Date couponStartTime;
-
-    /**
-     * 优惠券总量
+     * 券总量
      *
      * @mbg.generated
      */
@@ -247,6 +99,188 @@ public class ShopGoods implements Serializable {
      * @mbg.generated
      */
     private Integer couponRemainCount;
+
+    /**
+     * 券起用门槛,满X元可用
+     *
+     * @mbg.generated
+     */
+    private String couponStartFee;
+
+    /**
+     * 优惠券开始时间
+     *
+     * @mbg.generated
+     */
+    private String couponStartTime;
+
+    /**
+     * 优惠券结束时间
+     *
+     * @mbg.generated
+     */
+    private String couponEndTime;
+
+    /**
+     * 卖家id
+     *
+     * @mbg.generated
+     */
+    private String sellerId;
+
+    /**
+     * 店铺名称
+     *
+     * @mbg.generated
+     */
+    private String shopTitle;
+
+    /**
+     * 卖家类型，0表示集市，1表示商城
+     *
+     * @mbg.generated
+     */
+    private Integer userType;
+
+    /**
+     * 叶子类目id
+     *
+     * @mbg.generated
+     */
+    private String categoryId;
+
+    /**
+     * 叶子类目名称
+     *
+     * @mbg.generated
+     */
+    private String categoryName;
+
+    /**
+     * 一级类目ID
+     *
+     * @mbg.generated
+     */
+    private String levelOneCategoryId;
+
+    /**
+     * 一级类目名称
+     *
+     * @mbg.generated
+     */
+    private String levelOneCategoryName;
+
+    /**
+     * 拼团：剩余库存
+     *
+     * @mbg.generated
+     */
+    private Integer stock;
+
+    /**
+     * 拼团：已售数量
+     *
+     * @mbg.generated
+     */
+    private Integer sellNum;
+
+    /**
+     * 拼团：库存数量
+     *
+     * @mbg.generated
+     */
+    private Integer totalStock;
+
+    /**
+     * 拼团：开始时间
+     *
+     * @mbg.generated
+     */
+    private String ostime;
+
+    /**
+     * 拼团：结束时间
+     *
+     * @mbg.generated
+     */
+    private String oetime;
+
+    /**
+     * 拼团：几人团
+     *
+     * @mbg.generated
+     */
+    private Integer jddNum;
+
+    /**
+     * 拼团：拼成价，单位元
+     *
+     * @mbg.generated
+     */
+    private String jddPrice;
+
+    /**
+     * 一人价（原价)，单位元
+     *
+     * @mbg.generated
+     */
+    private String origPrice;
+
+    /**
+     * 佣金比率(%)
+     *
+     * @mbg.generated
+     */
+    private String commissionRate;
+
+    /**
+     * 商品相关关联词落地页地址
+     *
+     * @mbg.generated
+     */
+    private String wordUrl;
+
+    /**
+     * 商品相关的关联词
+     *
+     * @mbg.generated
+     */
+    private String word;
+
+    /**
+     * 天猫营销玩法
+     *
+     * @mbg.generated
+     */
+    private String tmallPlayActivityInfo;
+
+    /**
+     * 预售数量
+     *
+     * @mbg.generated
+     */
+    private Integer uvSumPreSale;
+
+    /**
+     * 物料块id(测试中请勿使用)
+     *
+     * @mbg.generated
+     */
+    private String xId;
+
+    /**
+     * 新人价
+     *
+     * @mbg.generated
+     */
+    private String newUserPrice;
+
+    /**
+     * 物料id
+     *
+     * @mbg.generated
+     */
+    private Long materialId;
 
     private static final long serialVersionUID = 1L;
 
@@ -266,12 +300,12 @@ public class ShopGoods implements Serializable {
         this.createDate = createDate;
     }
 
-    public String getNumIid() {
-        return numIid;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setNumIid(String numIid) {
-        this.numIid = numIid;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getTitle() {
@@ -280,6 +314,14 @@ public class ShopGoods implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getShortTitle() {
+        return shortTitle;
+    }
+
+    public void setShortTitle(String shortTitle) {
+        this.shortTitle = shortTitle;
     }
 
     public String getPictUrl() {
@@ -298,60 +340,28 @@ public class ShopGoods implements Serializable {
         this.smallImages = smallImages;
     }
 
-    public String getReservePrice() {
-        return reservePrice;
+    public String getClickUrl() {
+        return clickUrl;
     }
 
-    public void setReservePrice(String reservePrice) {
-        this.reservePrice = reservePrice;
+    public void setClickUrl(String clickUrl) {
+        this.clickUrl = clickUrl;
     }
 
-    public String getZkFinalPrice() {
+    public BigDecimal getZkFinalPrice() {
         return zkFinalPrice;
     }
 
-    public void setZkFinalPrice(String zkFinalPrice) {
+    public void setZkFinalPrice(BigDecimal zkFinalPrice) {
         this.zkFinalPrice = zkFinalPrice;
     }
 
-    public Integer getUserType() {
-        return userType;
+    public String getItemDescription() {
+        return itemDescription;
     }
 
-    public void setUserType(Integer userType) {
-        this.userType = userType;
-    }
-
-    public String getProvcity() {
-        return provcity;
-    }
-
-    public void setProvcity(String provcity) {
-        this.provcity = provcity;
-    }
-
-    public String getItemUrl() {
-        return itemUrl;
-    }
-
-    public void setItemUrl(String itemUrl) {
-        this.itemUrl = itemUrl;
-    }
-
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
     }
 
     public Integer getVolume() {
@@ -362,142 +372,6 @@ public class ShopGoods implements Serializable {
         this.volume = volume;
     }
 
-    public String getCatLeafName() {
-        return catLeafName;
-    }
-
-    public void setCatLeafName(String catLeafName) {
-        this.catLeafName = catLeafName;
-    }
-
-    public Boolean getIsPrepay() {
-        return isPrepay;
-    }
-
-    public void setIsPrepay(Boolean isPrepay) {
-        this.isPrepay = isPrepay;
-    }
-
-    public Integer getShopDsr() {
-        return shopDsr;
-    }
-
-    public void setShopDsr(Integer shopDsr) {
-        this.shopDsr = shopDsr;
-    }
-
-    public Integer getRatesum() {
-        return ratesum;
-    }
-
-    public void setRatesum(Integer ratesum) {
-        this.ratesum = ratesum;
-    }
-
-    public Boolean getiRfdRate() {
-        return iRfdRate;
-    }
-
-    public void setiRfdRate(Boolean iRfdRate) {
-        this.iRfdRate = iRfdRate;
-    }
-
-    public Boolean gethGoodRate() {
-        return hGoodRate;
-    }
-
-    public void sethGoodRate(Boolean hGoodRate) {
-        this.hGoodRate = hGoodRate;
-    }
-
-    public Boolean gethPayRate30() {
-        return hPayRate30;
-    }
-
-    public void sethPayRate30(Boolean hPayRate30) {
-        this.hPayRate30 = hPayRate30;
-    }
-
-    public Boolean getFreeShipment() {
-        return freeShipment;
-    }
-
-    public void setFreeShipment(Boolean freeShipment) {
-        this.freeShipment = freeShipment;
-    }
-
-    public String getMaterialLibType() {
-        return materialLibType;
-    }
-
-    public void setMaterialLibType(String materialLibType) {
-        this.materialLibType = materialLibType;
-    }
-
-    public String getTkRate() {
-        return tkRate;
-    }
-
-    public void setTkRate(String tkRate) {
-        this.tkRate = tkRate;
-    }
-
-    public String getZkFinalPriceWap() {
-        return zkFinalPriceWap;
-    }
-
-    public void setZkFinalPriceWap(String zkFinalPriceWap) {
-        this.zkFinalPriceWap = zkFinalPriceWap;
-    }
-
-    public String getShopTitle() {
-        return shopTitle;
-    }
-
-    public void setShopTitle(String shopTitle) {
-        this.shopTitle = shopTitle;
-    }
-
-    public Date getEventStartTime() {
-        return eventStartTime;
-    }
-
-    public void setEventStartTime(Date eventStartTime) {
-        this.eventStartTime = eventStartTime;
-    }
-
-    public Date getEventEndTime() {
-        return eventEndTime;
-    }
-
-    public void setEventEndTime(Date eventEndTime) {
-        this.eventEndTime = eventEndTime;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
     public String getCouponClickUrl() {
         return couponClickUrl;
     }
@@ -506,28 +380,12 @@ public class ShopGoods implements Serializable {
         this.couponClickUrl = couponClickUrl;
     }
 
-    public Date getCouponEndTime() {
-        return couponEndTime;
+    public BigDecimal getCouponAmount() {
+        return couponAmount;
     }
 
-    public void setCouponEndTime(Date couponEndTime) {
-        this.couponEndTime = couponEndTime;
-    }
-
-    public String getCouponInfo() {
-        return couponInfo;
-    }
-
-    public void setCouponInfo(String couponInfo) {
-        this.couponInfo = couponInfo;
-    }
-
-    public Date getCouponStartTime() {
-        return couponStartTime;
-    }
-
-    public void setCouponStartTime(Date couponStartTime) {
-        this.couponStartTime = couponStartTime;
+    public void setCouponAmount(BigDecimal couponAmount) {
+        this.couponAmount = couponAmount;
     }
 
     public Integer getCouponTotalCount() {
@@ -546,6 +404,214 @@ public class ShopGoods implements Serializable {
         this.couponRemainCount = couponRemainCount;
     }
 
+    public String getCouponStartFee() {
+        return couponStartFee;
+    }
+
+    public void setCouponStartFee(String couponStartFee) {
+        this.couponStartFee = couponStartFee;
+    }
+
+    public String getCouponStartTime() {
+        return couponStartTime;
+    }
+
+    public void setCouponStartTime(String couponStartTime) {
+        this.couponStartTime = couponStartTime;
+    }
+
+    public String getCouponEndTime() {
+        return couponEndTime;
+    }
+
+    public void setCouponEndTime(String couponEndTime) {
+        this.couponEndTime = couponEndTime;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getShopTitle() {
+        return shopTitle;
+    }
+
+    public void setShopTitle(String shopTitle) {
+        this.shopTitle = shopTitle;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getLevelOneCategoryId() {
+        return levelOneCategoryId;
+    }
+
+    public void setLevelOneCategoryId(String levelOneCategoryId) {
+        this.levelOneCategoryId = levelOneCategoryId;
+    }
+
+    public String getLevelOneCategoryName() {
+        return levelOneCategoryName;
+    }
+
+    public void setLevelOneCategoryName(String levelOneCategoryName) {
+        this.levelOneCategoryName = levelOneCategoryName;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public Integer getSellNum() {
+        return sellNum;
+    }
+
+    public void setSellNum(Integer sellNum) {
+        this.sellNum = sellNum;
+    }
+
+    public Integer getTotalStock() {
+        return totalStock;
+    }
+
+    public void setTotalStock(Integer totalStock) {
+        this.totalStock = totalStock;
+    }
+
+    public String getOstime() {
+        return ostime;
+    }
+
+    public void setOstime(String ostime) {
+        this.ostime = ostime;
+    }
+
+    public String getOetime() {
+        return oetime;
+    }
+
+    public void setOetime(String oetime) {
+        this.oetime = oetime;
+    }
+
+    public Integer getJddNum() {
+        return jddNum;
+    }
+
+    public void setJddNum(Integer jddNum) {
+        this.jddNum = jddNum;
+    }
+
+    public String getJddPrice() {
+        return jddPrice;
+    }
+
+    public void setJddPrice(String jddPrice) {
+        this.jddPrice = jddPrice;
+    }
+
+    public String getOrigPrice() {
+        return origPrice;
+    }
+
+    public void setOrigPrice(String origPrice) {
+        this.origPrice = origPrice;
+    }
+
+    public String getCommissionRate() {
+        return commissionRate;
+    }
+
+    public void setCommissionRate(String commissionRate) {
+        this.commissionRate = commissionRate;
+    }
+
+    public String getWordUrl() {
+        return wordUrl;
+    }
+
+    public void setWordUrl(String wordUrl) {
+        this.wordUrl = wordUrl;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getTmallPlayActivityInfo() {
+        return tmallPlayActivityInfo;
+    }
+
+    public void setTmallPlayActivityInfo(String tmallPlayActivityInfo) {
+        this.tmallPlayActivityInfo = tmallPlayActivityInfo;
+    }
+
+    public Integer getUvSumPreSale() {
+        return uvSumPreSale;
+    }
+
+    public void setUvSumPreSale(Integer uvSumPreSale) {
+        this.uvSumPreSale = uvSumPreSale;
+    }
+
+    public String getxId() {
+        return xId;
+    }
+
+    public void setxId(String xId) {
+        this.xId = xId;
+    }
+
+    public String getNewUserPrice() {
+        return newUserPrice;
+    }
+
+    public void setNewUserPrice(String newUserPrice) {
+        this.newUserPrice = newUserPrice;
+    }
+
+    public Long getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(Long materialId) {
+        this.materialId = materialId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -554,41 +620,45 @@ public class ShopGoods implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", createDate=").append(createDate);
-        sb.append(", numIid=").append(numIid);
+        sb.append(", itemId=").append(itemId);
         sb.append(", title=").append(title);
+        sb.append(", shortTitle=").append(shortTitle);
         sb.append(", pictUrl=").append(pictUrl);
         sb.append(", smallImages=").append(smallImages);
-        sb.append(", reservePrice=").append(reservePrice);
+        sb.append(", clickUrl=").append(clickUrl);
         sb.append(", zkFinalPrice=").append(zkFinalPrice);
-        sb.append(", userType=").append(userType);
-        sb.append(", provcity=").append(provcity);
-        sb.append(", itemUrl=").append(itemUrl);
-        sb.append(", nick=").append(nick);
-        sb.append(", sellerId=").append(sellerId);
+        sb.append(", itemDescription=").append(itemDescription);
         sb.append(", volume=").append(volume);
-        sb.append(", catLeafName=").append(catLeafName);
-        sb.append(", isPrepay=").append(isPrepay);
-        sb.append(", shopDsr=").append(shopDsr);
-        sb.append(", ratesum=").append(ratesum);
-        sb.append(", iRfdRate=").append(iRfdRate);
-        sb.append(", hGoodRate=").append(hGoodRate);
-        sb.append(", hPayRate30=").append(hPayRate30);
-        sb.append(", freeShipment=").append(freeShipment);
-        sb.append(", materialLibType=").append(materialLibType);
-        sb.append(", tkRate=").append(tkRate);
-        sb.append(", zkFinalPriceWap=").append(zkFinalPriceWap);
-        sb.append(", shopTitle=").append(shopTitle);
-        sb.append(", eventStartTime=").append(eventStartTime);
-        sb.append(", eventEndTime=").append(eventEndTime);
-        sb.append(", type=").append(type);
-        sb.append(", status=").append(status);
-        sb.append(", category=").append(category);
         sb.append(", couponClickUrl=").append(couponClickUrl);
-        sb.append(", couponEndTime=").append(couponEndTime);
-        sb.append(", couponInfo=").append(couponInfo);
-        sb.append(", couponStartTime=").append(couponStartTime);
+        sb.append(", couponAmount=").append(couponAmount);
         sb.append(", couponTotalCount=").append(couponTotalCount);
         sb.append(", couponRemainCount=").append(couponRemainCount);
+        sb.append(", couponStartFee=").append(couponStartFee);
+        sb.append(", couponStartTime=").append(couponStartTime);
+        sb.append(", couponEndTime=").append(couponEndTime);
+        sb.append(", sellerId=").append(sellerId);
+        sb.append(", shopTitle=").append(shopTitle);
+        sb.append(", userType=").append(userType);
+        sb.append(", categoryId=").append(categoryId);
+        sb.append(", categoryName=").append(categoryName);
+        sb.append(", levelOneCategoryId=").append(levelOneCategoryId);
+        sb.append(", levelOneCategoryName=").append(levelOneCategoryName);
+        sb.append(", stock=").append(stock);
+        sb.append(", sellNum=").append(sellNum);
+        sb.append(", totalStock=").append(totalStock);
+        sb.append(", ostime=").append(ostime);
+        sb.append(", oetime=").append(oetime);
+        sb.append(", jddNum=").append(jddNum);
+        sb.append(", jddPrice=").append(jddPrice);
+        sb.append(", origPrice=").append(origPrice);
+        sb.append(", commissionRate=").append(commissionRate);
+        sb.append(", wordUrl=").append(wordUrl);
+        sb.append(", word=").append(word);
+        sb.append(", tmallPlayActivityInfo=").append(tmallPlayActivityInfo);
+        sb.append(", uvSumPreSale=").append(uvSumPreSale);
+        sb.append(", xId=").append(xId);
+        sb.append(", newUserPrice=").append(newUserPrice);
+        sb.append(", materialId=").append(materialId);
         sb.append("]");
         return sb.toString();
     }
@@ -607,41 +677,45 @@ public class ShopGoods implements Serializable {
         ShopGoods other = (ShopGoods) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
-            && (this.getNumIid() == null ? other.getNumIid() == null : this.getNumIid().equals(other.getNumIid()))
+            && (this.getItemId() == null ? other.getItemId() == null : this.getItemId().equals(other.getItemId()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
+            && (this.getShortTitle() == null ? other.getShortTitle() == null : this.getShortTitle().equals(other.getShortTitle()))
             && (this.getPictUrl() == null ? other.getPictUrl() == null : this.getPictUrl().equals(other.getPictUrl()))
             && (this.getSmallImages() == null ? other.getSmallImages() == null : this.getSmallImages().equals(other.getSmallImages()))
-            && (this.getReservePrice() == null ? other.getReservePrice() == null : this.getReservePrice().equals(other.getReservePrice()))
+            && (this.getClickUrl() == null ? other.getClickUrl() == null : this.getClickUrl().equals(other.getClickUrl()))
             && (this.getZkFinalPrice() == null ? other.getZkFinalPrice() == null : this.getZkFinalPrice().equals(other.getZkFinalPrice()))
-            && (this.getUserType() == null ? other.getUserType() == null : this.getUserType().equals(other.getUserType()))
-            && (this.getProvcity() == null ? other.getProvcity() == null : this.getProvcity().equals(other.getProvcity()))
-            && (this.getItemUrl() == null ? other.getItemUrl() == null : this.getItemUrl().equals(other.getItemUrl()))
-            && (this.getNick() == null ? other.getNick() == null : this.getNick().equals(other.getNick()))
-            && (this.getSellerId() == null ? other.getSellerId() == null : this.getSellerId().equals(other.getSellerId()))
+            && (this.getItemDescription() == null ? other.getItemDescription() == null : this.getItemDescription().equals(other.getItemDescription()))
             && (this.getVolume() == null ? other.getVolume() == null : this.getVolume().equals(other.getVolume()))
-            && (this.getCatLeafName() == null ? other.getCatLeafName() == null : this.getCatLeafName().equals(other.getCatLeafName()))
-            && (this.getIsPrepay() == null ? other.getIsPrepay() == null : this.getIsPrepay().equals(other.getIsPrepay()))
-            && (this.getShopDsr() == null ? other.getShopDsr() == null : this.getShopDsr().equals(other.getShopDsr()))
-            && (this.getRatesum() == null ? other.getRatesum() == null : this.getRatesum().equals(other.getRatesum()))
-            && (this.getiRfdRate() == null ? other.getiRfdRate() == null : this.getiRfdRate().equals(other.getiRfdRate()))
-            && (this.gethGoodRate() == null ? other.gethGoodRate() == null : this.gethGoodRate().equals(other.gethGoodRate()))
-            && (this.gethPayRate30() == null ? other.gethPayRate30() == null : this.gethPayRate30().equals(other.gethPayRate30()))
-            && (this.getFreeShipment() == null ? other.getFreeShipment() == null : this.getFreeShipment().equals(other.getFreeShipment()))
-            && (this.getMaterialLibType() == null ? other.getMaterialLibType() == null : this.getMaterialLibType().equals(other.getMaterialLibType()))
-            && (this.getTkRate() == null ? other.getTkRate() == null : this.getTkRate().equals(other.getTkRate()))
-            && (this.getZkFinalPriceWap() == null ? other.getZkFinalPriceWap() == null : this.getZkFinalPriceWap().equals(other.getZkFinalPriceWap()))
-            && (this.getShopTitle() == null ? other.getShopTitle() == null : this.getShopTitle().equals(other.getShopTitle()))
-            && (this.getEventStartTime() == null ? other.getEventStartTime() == null : this.getEventStartTime().equals(other.getEventStartTime()))
-            && (this.getEventEndTime() == null ? other.getEventEndTime() == null : this.getEventEndTime().equals(other.getEventEndTime()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getCategory() == null ? other.getCategory() == null : this.getCategory().equals(other.getCategory()))
             && (this.getCouponClickUrl() == null ? other.getCouponClickUrl() == null : this.getCouponClickUrl().equals(other.getCouponClickUrl()))
-            && (this.getCouponEndTime() == null ? other.getCouponEndTime() == null : this.getCouponEndTime().equals(other.getCouponEndTime()))
-            && (this.getCouponInfo() == null ? other.getCouponInfo() == null : this.getCouponInfo().equals(other.getCouponInfo()))
-            && (this.getCouponStartTime() == null ? other.getCouponStartTime() == null : this.getCouponStartTime().equals(other.getCouponStartTime()))
+            && (this.getCouponAmount() == null ? other.getCouponAmount() == null : this.getCouponAmount().equals(other.getCouponAmount()))
             && (this.getCouponTotalCount() == null ? other.getCouponTotalCount() == null : this.getCouponTotalCount().equals(other.getCouponTotalCount()))
-            && (this.getCouponRemainCount() == null ? other.getCouponRemainCount() == null : this.getCouponRemainCount().equals(other.getCouponRemainCount()));
+            && (this.getCouponRemainCount() == null ? other.getCouponRemainCount() == null : this.getCouponRemainCount().equals(other.getCouponRemainCount()))
+            && (this.getCouponStartFee() == null ? other.getCouponStartFee() == null : this.getCouponStartFee().equals(other.getCouponStartFee()))
+            && (this.getCouponStartTime() == null ? other.getCouponStartTime() == null : this.getCouponStartTime().equals(other.getCouponStartTime()))
+            && (this.getCouponEndTime() == null ? other.getCouponEndTime() == null : this.getCouponEndTime().equals(other.getCouponEndTime()))
+            && (this.getSellerId() == null ? other.getSellerId() == null : this.getSellerId().equals(other.getSellerId()))
+            && (this.getShopTitle() == null ? other.getShopTitle() == null : this.getShopTitle().equals(other.getShopTitle()))
+            && (this.getUserType() == null ? other.getUserType() == null : this.getUserType().equals(other.getUserType()))
+            && (this.getCategoryId() == null ? other.getCategoryId() == null : this.getCategoryId().equals(other.getCategoryId()))
+            && (this.getCategoryName() == null ? other.getCategoryName() == null : this.getCategoryName().equals(other.getCategoryName()))
+            && (this.getLevelOneCategoryId() == null ? other.getLevelOneCategoryId() == null : this.getLevelOneCategoryId().equals(other.getLevelOneCategoryId()))
+            && (this.getLevelOneCategoryName() == null ? other.getLevelOneCategoryName() == null : this.getLevelOneCategoryName().equals(other.getLevelOneCategoryName()))
+            && (this.getStock() == null ? other.getStock() == null : this.getStock().equals(other.getStock()))
+            && (this.getSellNum() == null ? other.getSellNum() == null : this.getSellNum().equals(other.getSellNum()))
+            && (this.getTotalStock() == null ? other.getTotalStock() == null : this.getTotalStock().equals(other.getTotalStock()))
+            && (this.getOstime() == null ? other.getOstime() == null : this.getOstime().equals(other.getOstime()))
+            && (this.getOetime() == null ? other.getOetime() == null : this.getOetime().equals(other.getOetime()))
+            && (this.getJddNum() == null ? other.getJddNum() == null : this.getJddNum().equals(other.getJddNum()))
+            && (this.getJddPrice() == null ? other.getJddPrice() == null : this.getJddPrice().equals(other.getJddPrice()))
+            && (this.getOrigPrice() == null ? other.getOrigPrice() == null : this.getOrigPrice().equals(other.getOrigPrice()))
+            && (this.getCommissionRate() == null ? other.getCommissionRate() == null : this.getCommissionRate().equals(other.getCommissionRate()))
+            && (this.getWordUrl() == null ? other.getWordUrl() == null : this.getWordUrl().equals(other.getWordUrl()))
+            && (this.getWord() == null ? other.getWord() == null : this.getWord().equals(other.getWord()))
+            && (this.getTmallPlayActivityInfo() == null ? other.getTmallPlayActivityInfo() == null : this.getTmallPlayActivityInfo().equals(other.getTmallPlayActivityInfo()))
+            && (this.getUvSumPreSale() == null ? other.getUvSumPreSale() == null : this.getUvSumPreSale().equals(other.getUvSumPreSale()))
+            && (this.getxId() == null ? other.getxId() == null : this.getxId().equals(other.getxId()))
+            && (this.getNewUserPrice() == null ? other.getNewUserPrice() == null : this.getNewUserPrice().equals(other.getNewUserPrice()))
+            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()));
     }
 
     @Override
@@ -650,41 +724,45 @@ public class ShopGoods implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
-        result = prime * result + ((getNumIid() == null) ? 0 : getNumIid().hashCode());
+        result = prime * result + ((getItemId() == null) ? 0 : getItemId().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
+        result = prime * result + ((getShortTitle() == null) ? 0 : getShortTitle().hashCode());
         result = prime * result + ((getPictUrl() == null) ? 0 : getPictUrl().hashCode());
         result = prime * result + ((getSmallImages() == null) ? 0 : getSmallImages().hashCode());
-        result = prime * result + ((getReservePrice() == null) ? 0 : getReservePrice().hashCode());
+        result = prime * result + ((getClickUrl() == null) ? 0 : getClickUrl().hashCode());
         result = prime * result + ((getZkFinalPrice() == null) ? 0 : getZkFinalPrice().hashCode());
-        result = prime * result + ((getUserType() == null) ? 0 : getUserType().hashCode());
-        result = prime * result + ((getProvcity() == null) ? 0 : getProvcity().hashCode());
-        result = prime * result + ((getItemUrl() == null) ? 0 : getItemUrl().hashCode());
-        result = prime * result + ((getNick() == null) ? 0 : getNick().hashCode());
-        result = prime * result + ((getSellerId() == null) ? 0 : getSellerId().hashCode());
+        result = prime * result + ((getItemDescription() == null) ? 0 : getItemDescription().hashCode());
         result = prime * result + ((getVolume() == null) ? 0 : getVolume().hashCode());
-        result = prime * result + ((getCatLeafName() == null) ? 0 : getCatLeafName().hashCode());
-        result = prime * result + ((getIsPrepay() == null) ? 0 : getIsPrepay().hashCode());
-        result = prime * result + ((getShopDsr() == null) ? 0 : getShopDsr().hashCode());
-        result = prime * result + ((getRatesum() == null) ? 0 : getRatesum().hashCode());
-        result = prime * result + ((getiRfdRate() == null) ? 0 : getiRfdRate().hashCode());
-        result = prime * result + ((gethGoodRate() == null) ? 0 : gethGoodRate().hashCode());
-        result = prime * result + ((gethPayRate30() == null) ? 0 : gethPayRate30().hashCode());
-        result = prime * result + ((getFreeShipment() == null) ? 0 : getFreeShipment().hashCode());
-        result = prime * result + ((getMaterialLibType() == null) ? 0 : getMaterialLibType().hashCode());
-        result = prime * result + ((getTkRate() == null) ? 0 : getTkRate().hashCode());
-        result = prime * result + ((getZkFinalPriceWap() == null) ? 0 : getZkFinalPriceWap().hashCode());
-        result = prime * result + ((getShopTitle() == null) ? 0 : getShopTitle().hashCode());
-        result = prime * result + ((getEventStartTime() == null) ? 0 : getEventStartTime().hashCode());
-        result = prime * result + ((getEventEndTime() == null) ? 0 : getEventEndTime().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getCategory() == null) ? 0 : getCategory().hashCode());
         result = prime * result + ((getCouponClickUrl() == null) ? 0 : getCouponClickUrl().hashCode());
-        result = prime * result + ((getCouponEndTime() == null) ? 0 : getCouponEndTime().hashCode());
-        result = prime * result + ((getCouponInfo() == null) ? 0 : getCouponInfo().hashCode());
-        result = prime * result + ((getCouponStartTime() == null) ? 0 : getCouponStartTime().hashCode());
+        result = prime * result + ((getCouponAmount() == null) ? 0 : getCouponAmount().hashCode());
         result = prime * result + ((getCouponTotalCount() == null) ? 0 : getCouponTotalCount().hashCode());
         result = prime * result + ((getCouponRemainCount() == null) ? 0 : getCouponRemainCount().hashCode());
+        result = prime * result + ((getCouponStartFee() == null) ? 0 : getCouponStartFee().hashCode());
+        result = prime * result + ((getCouponStartTime() == null) ? 0 : getCouponStartTime().hashCode());
+        result = prime * result + ((getCouponEndTime() == null) ? 0 : getCouponEndTime().hashCode());
+        result = prime * result + ((getSellerId() == null) ? 0 : getSellerId().hashCode());
+        result = prime * result + ((getShopTitle() == null) ? 0 : getShopTitle().hashCode());
+        result = prime * result + ((getUserType() == null) ? 0 : getUserType().hashCode());
+        result = prime * result + ((getCategoryId() == null) ? 0 : getCategoryId().hashCode());
+        result = prime * result + ((getCategoryName() == null) ? 0 : getCategoryName().hashCode());
+        result = prime * result + ((getLevelOneCategoryId() == null) ? 0 : getLevelOneCategoryId().hashCode());
+        result = prime * result + ((getLevelOneCategoryName() == null) ? 0 : getLevelOneCategoryName().hashCode());
+        result = prime * result + ((getStock() == null) ? 0 : getStock().hashCode());
+        result = prime * result + ((getSellNum() == null) ? 0 : getSellNum().hashCode());
+        result = prime * result + ((getTotalStock() == null) ? 0 : getTotalStock().hashCode());
+        result = prime * result + ((getOstime() == null) ? 0 : getOstime().hashCode());
+        result = prime * result + ((getOetime() == null) ? 0 : getOetime().hashCode());
+        result = prime * result + ((getJddNum() == null) ? 0 : getJddNum().hashCode());
+        result = prime * result + ((getJddPrice() == null) ? 0 : getJddPrice().hashCode());
+        result = prime * result + ((getOrigPrice() == null) ? 0 : getOrigPrice().hashCode());
+        result = prime * result + ((getCommissionRate() == null) ? 0 : getCommissionRate().hashCode());
+        result = prime * result + ((getWordUrl() == null) ? 0 : getWordUrl().hashCode());
+        result = prime * result + ((getWord() == null) ? 0 : getWord().hashCode());
+        result = prime * result + ((getTmallPlayActivityInfo() == null) ? 0 : getTmallPlayActivityInfo().hashCode());
+        result = prime * result + ((getUvSumPreSale() == null) ? 0 : getUvSumPreSale().hashCode());
+        result = prime * result + ((getxId() == null) ? 0 : getxId().hashCode());
+        result = prime * result + ((getNewUserPrice() == null) ? 0 : getNewUserPrice().hashCode());
+        result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
         return result;
     }
 }

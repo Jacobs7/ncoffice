@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dape.common.annotation.BaseService;
 import com.dape.common.base.BaseServiceImpl;
-import com.dape.common.util.PropertiesFileUtil;
 import com.dape.shop.dao.mapper.ShopGoodsMapper;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
@@ -21,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
 * ShopGoodsService实现
@@ -58,14 +59,19 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
 
 
-            TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
-            req.setUserId("123");
-            req.setText("雨伞男女全自动开收大号双人三折折叠加固晴雨两用学生加大号定制");
-            req.setUrl("https://uland.taobao.com/coupon/edetail?e=kU1HVf9BxHYNfLV8niU3RwXoB%2BDaBK5LQS0Flu%2FfbSp4QsdWMikAalrisGmre1Id522H2TxuqpIJs1xX5zzxBxtTvtpwq94UTSvQvC0XMdUyi8r%2FB5H5eHl3bPxl2zv9iHBrMsahiyvIxzSW1FdMgZbV2%2BrO1tknA8r4sORx2%2FLKhCDdY44lU3cfn8oOafsLFF6O9STo8Qg7mmMWJDI59WUFFgz3RBVH&&app_pvid=59590_11.23.60.3_70141_1550392042601&ptl=floorId:2836;app_pvid:59590_11.23.60.3_70141_1550392042601;tpp_pvid:100_11.139.177.84_32849_6991550392042606598&xId=bUVQ5IkDtYIGtzLLfTUHpVSCSRka4jpY7dTgJw9Do2djpvkpc9WBxkjFhCDoRWPVtLLVZM6qHRRzmilUY1b3cN&union_lens=lensId:0b173c03_0c11_168fa9124ab_05f7");
-            req.setExt("{'aaa':'123aaa'}");
-            TbkTpwdCreateResponse rsp = client.execute(req);
+//            TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
+//            req.setUserId("123");
+//            req.setText("雨伞男女全自动开收大号双人三折折叠加固晴雨两用学生加大号定制");
+//            req.setUrl("https://uland.taobao.com/coupon/edetail?e=kU1HVf9BxHYNfLV8niU3RwXoB%2BDaBK5LQS0Flu%2FfbSp4QsdWMikAalrisGmre1Id522H2TxuqpIJs1xX5zzxBxtTvtpwq94UTSvQvC0XMdUyi8r%2FB5H5eHl3bPxl2zv9iHBrMsahiyvIxzSW1FdMgZbV2%2BrO1tknA8r4sORx2%2FLKhCDdY44lU3cfn8oOafsLFF6O9STo8Qg7mmMWJDI59WUFFgz3RBVH&&app_pvid=59590_11.23.60.3_70141_1550392042601&ptl=floorId:2836;app_pvid:59590_11.23.60.3_70141_1550392042601;tpp_pvid:100_11.139.177.84_32849_6991550392042606598&xId=bUVQ5IkDtYIGtzLLfTUHpVSCSRka4jpY7dTgJw9Do2djpvkpc9WBxkjFhCDoRWPVtLLVZM6qHRRzmilUY1b3cN&union_lens=lensId:0b173c03_0c11_168fa9124ab_05f7");
+//            req.setExt("{aaa:1}");
 
 //            req.setNumIids("584574208203");
+            TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
+            req.setPageSize(20L);
+            req.setAdzoneId(ADZONE_ID);
+            req.setPageNo(1L);
+
+            TbkDgOptimusMaterialResponse rsp = client.execute(req);
 
 
             System.out.println("*********************");
@@ -74,6 +80,149 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         } catch (ApiException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 导入数据到粉淘数据库
+     * 淘宝客物料下行-导购:taobao.tbk.dg.optimus.material
+     * @param totalPage:查询的总页数
+     * @param pageSize:每页的总条数
+     */
+    @Override
+    public Integer exportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds){
+
+        int saveNum = 0;//记录保存到数据的总条数
+
+        ShopGoods goods = null;
+        BigDecimal couponA = new BigDecimal("20");//券额大于19的保存到数据库
+        BigDecimal floatA = new BigDecimal("0.3");//券点折扣价的30%的保存到数据库
+
+        TaobaoClient client = new DefaultTaobaoClient(url, appKey, secret);
+        TbkDgOptimusMaterialRequest req = null;
+        query:for(int i = 0; i < totalPage; i++){
+            material:for(String item : materialIds){
+                Long materialId = null;
+                try{
+                    materialId = Long.valueOf(item);
+                }catch (Exception e){
+                    break material;
+                }
+                req = new TbkDgOptimusMaterialRequest();
+                req.setPageSize(pageSize);
+                req.setAdzoneId(adzoneId);
+                req.setPageNo(Long.valueOf(i));
+                req.setMaterialId(materialId);
+
+                try {
+                    TbkDgOptimusMaterialResponse rsp = client.execute(req);
+                    String resultJson = rsp.getBody();
+
+                    // 返回结果转json
+                    JSONObject jsonObject = JSON.parseObject(resultJson);
+                    JSONObject tbkDgOptimusMaterialResponse = jsonObject.getJSONObject("tbk_dg_optimus_material_response");// 各个接口的结果集字段不一样
+                    JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+                    if(errorResponse != null){//返回错误
+                        String subMsg = errorResponse.getString("sub_msg");
+                        continue material;
+                    }else if(tbkDgOptimusMaterialResponse != null){//查询成功
+                        String requestId = tbkDgOptimusMaterialResponse.getString("request_id");
+                        JSONObject resultList = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
+                        JSONArray mapData = resultList.getJSONArray("map_data");
+                        if(mapData == null || mapData.size() <= 0){
+                            break;
+                        }
+                        save:for(int j = 0; j < mapData.size(); j++){
+                            JSONObject data = mapData.getJSONObject(j);
+
+                            String zkFinalPriceStr = data.getString("zk_final_price");//折扣价(未摔扣减券额)
+                            String couponAmountStr = data.getString("coupon_amount");//折扣价(未摔扣减券额)
+                            BigDecimal zkFinalPrice = new BigDecimal(zkFinalPriceStr);
+                            BigDecimal couponAmount = new BigDecimal(couponAmountStr);
+
+                            if(couponAmount.divide(zkFinalPrice, 2, BigDecimal.ROUND_HALF_DOWN).compareTo(floatA) == -1){
+                                continue save;
+                            }else if(couponAmount.compareTo(couponA) == -1){
+                                continue save;
+                            }
+
+                            goods = new ShopGoods();
+                            goods.setCreateDate(new Date());//导入时间
+                            goods.setItemId(data.getString("item_id"));//商品id
+                            goods.setTitle(data.getString("title"));//标题
+                            goods.setShortTitle(data.getString("short_title"));//商品短标题
+                            goods.setPictUrl(data.getString("pict_url"));//主图
+                            JSONObject smallImagesObj = data.getJSONObject("small_images");//小图数组
+                            String small_images = "";
+                            if(smallImagesObj != null){
+                                JSONArray smalls = smallImagesObj.getJSONArray("string");
+                                if(smalls != null && smalls.size() > 0){
+                                    for(int m = 0; m < smalls.size(); m++){
+                                        small_images += smalls.getString(m);
+                                        if(m < smalls.size()){
+                                            small_images += ",";
+                                        }
+                                    }
+                                    goods.setSmallImages(small_images);
+                                }
+                            }
+                            goods.setZkFinalPrice(zkFinalPrice);//折扣价(未摔扣减券额)
+                            goods.setUserType(data.getInteger("user_type"));//卖家类型，0表示集市，1表示商城
+                            goods.setClickUrl(data.getString("click_url"));//淘客链接
+                            goods.setShopTitle(data.getString("shop_title"));//卖家昵称
+                            goods.setSellerId(data.getString("seller_id"));//卖家id
+                            goods.setItemDescription(data.getString("item_description"));//推荐理由
+                            goods.setVolume(data.getInteger("volume"));//30天销量
+                            goods.setCouponClickUrl(data.getString("coupon_click_url"));//券链接
+                            goods.setCouponAmount(couponAmount);//券额
+                            goods.setCouponTotalCount(data.getInteger("coupon_total_count"));//券总量
+                            goods.setCouponRemainCount(data.getInteger("coupon_remain_count"));//优惠券剩余量
+                            goods.setCouponStartFee(data.getString("coupon_start_fee"));//券起用门槛,满X元可用
+                            goods.setCouponStartTime(data.getString("coupon_start_time"));//优惠券开始时间
+                            goods.setCouponEndTime(data.getString("coupon_end_time"));//优惠券结束时间
+                            goods.setSellerId(data.getString("seller_id"));//卖家id
+                            goods.setShopTitle(data.getString("shop_title"));//店铺名称
+                            goods.setUserType(data.getInteger("user_type"));//卖家类型，0表示集市，1表示商城
+                            goods.setCategoryId(data.getString("category_id"));//叶子类目id
+                            goods.setCategoryName(data.getString("category_name"));//叶子类目名称
+                            goods.setLevelOneCategoryId(data.getString("level_one_category_id"));//一级类目ID
+                            goods.setLevelOneCategoryName(data.getString("level_one_category_name"));//一级类目名称
+                            goods.setLevelOneCategoryName(data.getString("level_one_category_name"));//一级类目名称
+                            goods.setStock(data.getInteger("stock"));//拼团：剩余库存
+                            goods.setSellNum(data.getInteger("sell_num"));//拼团：已售数量
+                            goods.setTotalStock(data.getInteger("total_stock"));//拼团：库存数量
+                            goods.setOstime(data.getString("ostime"));//拼团：开始时间
+                            goods.setOetime(data.getString("oetime"));//拼团：结束时间
+                            goods.setJddNum(data.getInteger("jdd_num"));//拼团：几人团
+                            goods.setJddPrice(data.getString("jdd_price"));//拼团：拼成价，单位元
+                            goods.setOrigPrice(data.getString("orig_price"));//一人价（原价)，单位元
+                            goods.setCommissionRate(data.getString("commission_rate"));//一人价（原价)，单位元
+                            JSONObject wordListObj = data.getJSONObject("word_list");
+                            if(wordListObj != null){
+//                                goods.setWordUrl(data.getString("word_url"));//商品相关关联词落地页地址
+//                                goods.setWord(data.getString("关联词"));//商品相关的关联词
+                                goods.setWordUrl("关联url");//商品相关关联词落地页地址
+                                goods.setWord("关联词");//商品相关的关联词
+                            }
+                            goods.setTmallPlayActivityInfo(data.getString("tmall_play_activity_info"));//天猫营销玩法
+                            goods.setUvSumPreSale(data.getInteger("uv_sum_pre_sale"));//预售数量
+                            goods.setxId(data.getString("x_id"));//物料块id(测试中请勿使用)
+                            goods.setNewUserPrice(data.getString("new_user_price"));//新人价
+
+                            int result = shopGoodsMapper.insert(goods);
+                            saveNum += result;
+                            System.out.println("导入条数：" + saveNum);
+                        }
+                    }
+
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+
+        }
+        return saveNum;
     }
 
     @Override
