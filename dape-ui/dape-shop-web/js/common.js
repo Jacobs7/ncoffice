@@ -323,11 +323,11 @@ function loadGoodsForMain(){
                       '</li>');
             });
         }else{
-            $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+            $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
             loading = true;
         }
       }else{
-        $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+        $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
         if(data.msg){
           $.toast(data.msg, 'forbidden');
@@ -339,6 +339,71 @@ function loadGoodsForMain(){
       $(".weui-loadmore").hide();
     });
 }
+
+// 首页加载数据库商品
+function loadLocalGoodsForMain(){
+    $.post('/goods/loadLocalGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,materialId:material_id},function(data){
+      loading = false;
+      if(data.success){
+        var mapData = data.data;
+        if(mapData && mapData.length > 0){
+            $(mapData).each(function(){
+                $this = this;
+                // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
+                var tianmaoCss = 'icon-tianmao-18';
+                if($this.userType == 0){
+                  tianmaoCss = 'icon-taobao-18';
+                }else if($this.userType == 1){
+                  tianmaoCss = 'icon-tianmao-18';
+                }
+                var zkPrice = jsSubtr($this.zkFinalPrice,$this.couponAmount);
+
+                // new图标是否显示，如果券开始时间为当天：显示，反之：隐藏
+                var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
+
+                $('#goodsUL').append('<li>' +
+                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.itemId+','+platform+','+$this.commissionRate+','+$this.couponAmount+',\'https:'+$this.couponClickUrl+'\',\'https:'+$this.clickUrl+'\',\''+$this.itemDescription+'\')">' +
+                        newIcon +
+                        '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
+                        '<div class="proimg">' +
+                          '<img src="http:'+$this.pictUrl+'">' +
+                        '</div>' +
+                        '<div class="protxt">' +
+                        // 根据店铺类型判断是天猫、淘宝
+                          '<div class="name" style="position: relative;">' +
+                          '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
+                          '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
+                          '<div class="name" style="position: relative;"><p>' +
+                            '<em class="nowPrice">￥'+zkPrice+'</em>' +
+                            '<span class="oldPrice">￥'+$this.zkFinalPrice+'</span>' +
+                            '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                            '</p></div>' +
+                          '<div class="return" style="margin-bottom: 3px;">' +
+                            '<div style="background-color: #dc2527;color: #fff;">标佣¥'+byFnc(zkPrice,$this.commissionRate)+'</div>' +
+                            '<div style="color: #dc2527;">特佣¥'+tyFnc(zkPrice,$this.commissionRate)+'</div>' +
+                            '</div>' +
+                          '</div>' +
+                        '</a>' +
+                      '</li>');
+            });
+        }else{
+            $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
+            loading = true;
+        }
+      }else{
+        $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
+        loading = true;
+        if(data.msg){
+          $.toast(data.msg, 'forbidden');
+        }else{
+          $.toast('发送失败', 'forbidden');
+        }
+      }
+
+      $(".weui-loadmore").hide();
+    });
+}
+
 
 // 综合排序
 function sortTTSFnc(){
@@ -459,11 +524,11 @@ function loadGoodsForSearch(){
                     '</li>');
             });
         }else{
-            $("#goodsUL").append('<div class="weui-cells__title" style=\'text-align: center;\'>已无更多数据</div>');
+            $("#goodsUL").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
             loading = true;
         }
       }else{
-        $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;'>已无更多数据</div>");
+        $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
       }
 
@@ -658,4 +723,11 @@ function toNewUrl(obj, url){
     $('#top-menu-box').find('.menuOn').removeClass('menuOn');
     $(obj).addClass('menuOn');
     window.location.href = url;
+}
+function toModulePage(id,url,platform){
+    if(id == 8){
+        showKeFu(url);
+    }else{
+        window.location.href = url + '?platform=' + platform;
+    }
 }
