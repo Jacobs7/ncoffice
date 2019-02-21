@@ -676,13 +676,13 @@ function createHaiBao(){
     $.post('/goods/haibao',{
       shopType : userType,
       platform : platform,
-      numIid : numIid,
+      itemId : numIid,
       pictUrl : pictUrl,
       title : title,
       zkFinalPrice : zkFinalPrice,
       freeShipment : freeShipment,
       volume : volume,
-      couponInfo : coupon_amount,
+      couponAmount : coupon_amount,
       tkl:tkl
     },function (data) {
       $('#goodsHaibao').attr('src',data.url);
@@ -713,10 +713,10 @@ function hideMenuPopup(){
 function deqFadeToggle(){
     if($("#top-menu-box").is(':hidden')){
         $("#top-menu-box-mask").show();
-        $("#top-menu-box").fadeIn(200);
+        $("#top-menu-box").fadeIn(100);
     }else{
         $("#top-menu-box-mask").hide();
-        $("#top-menu-box").fadeOut(200);
+        $("#top-menu-box").fadeOut(100);
     }
 }
 function toNewUrl(obj, url){
