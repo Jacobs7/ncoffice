@@ -5,7 +5,6 @@ import com.dape.shop.dao.mapper.ShopGoodsMapper;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +31,9 @@ public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopG
 
     @Override
     public Map<String, Object> getTKL(Map<String, Object> params) { return null; }
+
+    @Override
+    public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip) {
+        return null;
+    }
 }

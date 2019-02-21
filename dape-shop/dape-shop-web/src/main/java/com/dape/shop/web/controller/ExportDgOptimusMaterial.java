@@ -32,8 +32,8 @@ public class ExportDgOptimusMaterial {
         String gyb = "13366,13367,13372,13370,13374,13371,13375,13368,13376,13369,13373";//高佣榜
         String ppq = "3786,3788,3790,3796,3789,3794,3791,3792,3795,3793,3787";//品牌券
 
-        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
-//        String materialIds = "13366";
+//        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
+        String materialIds = "13366";
 
                 // 每页条数，开放平台要求最大100
         Long pageSize = 100L;
@@ -101,7 +101,7 @@ public class ExportDgOptimusMaterial {
 
         Connection conn = getPool();
 
-        String sql = "INSERT INTO shop_goods(create_date,item_id,title,short_title,pict_url,small_images,click_url,zk_final_price,item_description,volume,coupon_click_url,coupon_amount,coupon_total_count,coupon_remain_count,coupon_start_fee,coupon_start_time,coupon_end_time,seller_id,shop_title,user_type,category_id,category_name,level_one_category_id,level_one_category_name,stock,sell_num,total_stock,ostime,oetime,jdd_num,jdd_price,orig_price,commission_rate,word_url,word,tmall_play_activity_info,uv_sum_pre_sale,x_id,new_user_price,material_id,commission) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO shop_goods(create_date,item_id,title,short_title,pict_url,small_images,click_url,zk_final_price,item_description,volume,coupon_share_url,coupon_amount,coupon_total_count,coupon_remain_count,coupon_start_fee,coupon_start_time,coupon_end_time,seller_id,shop_title,user_type,category_id,category_name,level_one_category_id,level_one_category_name,stock,sell_num,total_stock,ostime,oetime,jdd_num,jdd_price,orig_price,commission_rate,word_url,word,tmall_play_activity_info,uv_sum_pre_sale,x_id,new_user_price,material_id,commission,coupon_info,nick) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = null;
 
@@ -139,7 +139,7 @@ public class ExportDgOptimusMaterial {
             ps.setBigDecimal(8,zkFinalPrice);
             ps.setString(9,data.getString("item_description"));
             ps.setInt(10,data.getInteger("volume"));
-            ps.setString(11,data.getString("coupon_click_url"));
+            ps.setString(11,data.getString("coupon_share_url"));
             ps.setBigDecimal(12,couponAmount);
             if(data.containsKey("coupon_total_count")){
                 ps.setInt(13,data.getInteger("coupon_total_count"));
@@ -215,6 +215,8 @@ public class ExportDgOptimusMaterial {
             ps.setString(39,data.getString("new_user_price"));
             ps.setLong(40,materialId);
             ps.setBigDecimal(41,commission);
+            ps.setString(42,data.getString("coupon_info"));
+            ps.setString(43,data.getString("nick"));
 
             ps.executeUpdate();
 

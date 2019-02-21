@@ -14,6 +14,7 @@ import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.*;
 import com.taobao.api.response.*;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             req.setPageSize(20L);
             req.setAdzoneId(ADZONE_ID);
             req.setPageNo(1L);
+            req.setMaterialId(13366L);
 
             TbkDgOptimusMaterialResponse rsp = client.execute(req);
 
@@ -403,5 +405,50 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         }
 
         return  result;
+    }
+
+    @Override
+    public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
+
+        if(StringUtils.isNotBlank(itemId)){
+            req.setNumIids(itemId);
+        }else{
+            return result;
+        }
+        if(platform != null){
+            req.setPlatform(platform);
+        }
+        if(StringUtils.isNotBlank(ip)){
+            req.setIp(ip);
+        }
+        try {
+            TbkItemInfoGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkItemInfoGetResponse = jsonObject.getJSONObject("tbk_item_info_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkItemInfoGetResponse != null){//查询成功
+                String request_id = tbkItemInfoGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkItemInfoGetResponse.getJSONObject("results");
+                JSONArray nTbkItem = results.getJSONArray("n_tbk_item");
+                result.put("nTbkItem", nTbkItem);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -20,8 +20,11 @@
     <result column="coupon_start_fee" jdbcType="VARCHAR" property="couponStartFee" />
     <result column="coupon_start_time" jdbcType="TIMESTAMP" property="couponStartTime" />
     <result column="coupon_end_time" jdbcType="TIMESTAMP" property="couponEndTime" />
+    <result column="coupon_info" jdbcType="VARCHAR" property="couponInfo" />
+    <result column="coupon_share_url" jdbcType="VARCHAR" property="couponShareUrl" />
     <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
     <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
+    <result column="nick" jdbcType="VARCHAR" property="nick" />
     <result column="user_type" jdbcType="INTEGER" property="userType" />
     <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
@@ -106,11 +109,11 @@
   <sql id="Base_Column_List">
     id, create_date, item_id, title, short_title, pict_url, small_images, click_url, 
     zk_final_price, item_description, volume, coupon_click_url, coupon_amount, coupon_total_count, 
-    coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, seller_id, 
-    shop_title, user_type, category_id, category_name, level_one_category_id, level_one_category_name, 
-    stock, sell_num, total_stock, ostime, oetime, jdd_num, jdd_price, orig_price, commission_rate, 
-    commission, word_url, word, tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, 
-    material_id
+    coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, coupon_info, 
+    coupon_share_url, seller_id, shop_title, nick, user_type, category_id, category_name, 
+    level_one_category_id, level_one_category_name, stock, sell_num, total_stock, ostime, 
+    oetime, jdd_num, jdd_price, orig_price, commission_rate, commission, word_url, word, 
+    tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, material_id
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
     select
@@ -149,7 +152,8 @@
       item_description, volume, coupon_click_url, 
       coupon_amount, coupon_total_count, coupon_remain_count, 
       coupon_start_fee, coupon_start_time, coupon_end_time, 
-      seller_id, shop_title, user_type, 
+      coupon_info, coupon_share_url, seller_id, 
+      shop_title, nick, user_type, 
       category_id, category_name, level_one_category_id, 
       level_one_category_name, stock, sell_num, 
       total_stock, ostime, oetime, 
@@ -164,7 +168,8 @@
       #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, 
       #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
       #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, 
-      #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{couponInfo,jdbcType=VARCHAR}, #{couponShareUrl,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, 
+      #{shopTitle,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
       #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, 
       #{levelOneCategoryName,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
       #{totalStock,jdbcType=INTEGER}, #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, 
@@ -231,11 +236,20 @@
       <if test="couponEndTime != null">
         coupon_end_time,
       </if>
+      <if test="couponInfo != null">
+        coupon_info,
+      </if>
+      <if test="couponShareUrl != null">
+        coupon_share_url,
+      </if>
       <if test="sellerId != null">
         seller_id,
       </if>
       <if test="shopTitle != null">
         shop_title,
+      </if>
+      <if test="nick != null">
+        nick,
       </if>
       <if test="userType != null">
         user_type,
@@ -359,11 +373,20 @@
       <if test="couponEndTime != null">
         #{couponEndTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="couponInfo != null">
+        #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponShareUrl != null">
+        #{couponShareUrl,jdbcType=VARCHAR},
+      </if>
       <if test="sellerId != null">
         #{sellerId,jdbcType=VARCHAR},
       </if>
       <if test="shopTitle != null">
         #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        #{nick,jdbcType=VARCHAR},
       </if>
       <if test="userType != null">
         #{userType,jdbcType=INTEGER},
@@ -496,11 +519,20 @@
       <if test="record.couponEndTime != null">
         coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.couponInfo != null">
+        coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponShareUrl != null">
+        coupon_share_url = #{record.couponShareUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.sellerId != null">
         seller_id = #{record.sellerId,jdbcType=VARCHAR},
       </if>
       <if test="record.shopTitle != null">
         shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nick != null">
+        nick = #{record.nick,jdbcType=VARCHAR},
       </if>
       <if test="record.userType != null">
         user_type = #{record.userType,jdbcType=INTEGER},
@@ -593,8 +625,11 @@
       coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
       coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
       coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      coupon_share_url = #{record.couponShareUrl,jdbcType=VARCHAR},
       seller_id = #{record.sellerId,jdbcType=VARCHAR},
       shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      nick = #{record.nick,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=INTEGER},
       category_id = #{record.categoryId,jdbcType=VARCHAR},
       category_name = #{record.categoryName,jdbcType=VARCHAR},
@@ -675,11 +710,20 @@
       <if test="couponEndTime != null">
         coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="couponInfo != null">
+        coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="couponShareUrl != null">
+        coupon_share_url = #{couponShareUrl,jdbcType=VARCHAR},
+      </if>
       <if test="sellerId != null">
         seller_id = #{sellerId,jdbcType=VARCHAR},
       </if>
       <if test="shopTitle != null">
         shop_title = #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        nick = #{nick,jdbcType=VARCHAR},
       </if>
       <if test="userType != null">
         user_type = #{userType,jdbcType=INTEGER},
@@ -769,8 +813,11 @@
       coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
       coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
       coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      coupon_share_url = #{couponShareUrl,jdbcType=VARCHAR},
       seller_id = #{sellerId,jdbcType=VARCHAR},
       shop_title = #{shopTitle,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=VARCHAR},
       category_name = #{categoryName,jdbcType=VARCHAR},

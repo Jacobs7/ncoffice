@@ -14,11 +14,18 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.TbkDgOptimusMaterialRequest;
 import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +46,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -252,6 +256,104 @@ public class GoodsController extends BaseController {
         return thymeleaf("/goodsInfo");
     }
 
+    /**
+     * 商品详情
+     * @param itemId 淘宝商品id
+     * @param platform 1:pc,2:无线
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/goodsTBDetail", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsTBDetail(String itemId, Long platform, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        if(StringUtils.isBlank(itemId)){
+            return params;
+        }
+
+        Map<String, Object> itemDetail = shopGoodsService.tbkItemInfoGet(itemId, platform, null);
+        boolean flag = (boolean)itemDetail.get("success");
+
+        if(!flag){
+            return params;
+        }
+        JSONArray nTbkItem = (JSONArray)itemDetail.get("nTbkItem");
+        if(nTbkItem == null || nTbkItem.size() <= 0){
+            return params;
+        }
+
+        String url = null;
+        JSONObject item = nTbkItem.getJSONObject(0);
+        url = item.getString("item_url");
+        if(StringUtils.isBlank(url)){
+            return params;
+        }
+
+        String imgUrl = null;
+
+        // 获取详情图片地址
+        try {
+            Document doc = Jsoup.connect(url).timeout(50000).get();
+            Elements elScripts = doc.getElementsByTag("script");
+
+            String scriptTxt = null;
+            for (Element ele : elScripts) {
+                scriptTxt = ele.data().toString();
+                if(scriptTxt.indexOf("httpsDescUrl") > 0){
+                    String[] txts1 = scriptTxt.split("httpsDescUrl");
+                    String[] txts2 = txts1[1].split(",");
+                    imgUrl = "http:" + txts2[0].replaceAll("\"", "").replaceAll(":","").replaceAll(" ", "");
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 获取详情图片数据
+        if(StringUtils.isBlank(imgUrl)){
+            return params;
+        }
+        HttpGet httpGet = null;
+        CloseableHttpClient httpClient = null;
+        CloseableHttpResponse httpResponse = null;
+        try {
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+            httpClient = HttpClients.createDefault();
+            httpGet = new HttpGet(imgUrl);
+            httpGet.setConfig(requestConfig);
+            httpResponse = httpClient.execute(httpGet);
+
+            int status_code = httpResponse.getStatusLine().getStatusCode();
+
+            if(status_code == HttpStatus.SC_OK){
+                HttpEntity entity = httpResponse.getEntity();
+                if(entity != null){
+                    String respStr = EntityUtils.toString(entity, "UTF-8");
+                    params.put("imgsStr", respStr);
+                    params.put("success", true);
+                }
+                EntityUtils.consume(entity);
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(httpGet != null){httpGet.releaseConnection();}
+            if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+            if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
+        }
+        return params;
+    }
+
+    /**
+     * 获取淘口令
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/goodsTPwd", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> goodsTPwd(HttpServletRequest request, HttpServletResponse response) {
@@ -334,68 +436,6 @@ public class GoodsController extends BaseController {
         }
 
         return thymeleaf("/search");
-    }
-
-    /**
-     * 获取真实ip地址
-     * @param request
-     * @return
-     */
-    public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-    /**
-     * 获取内网ip
-     */
-    public static String getLocalIp() {
-        String localip = null;// 本地IP，如果没有配置外网IP则返回它
-        String netip = null;// 外网IP
-        try {
-            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip = null;
-            boolean finded = false;// 是否找到外网IP
-            while (netInterfaces.hasMoreElements() && !finded) {
-                NetworkInterface ni = netInterfaces.nextElement();
-                Enumeration<InetAddress> address = ni.getInetAddresses();
-                while (address.hasMoreElements()) {
-                    ip = address.nextElement();
-                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
-                        netip = ip.getHostAddress();
-                        System.out.println("外网IP：" + netip);
-                        finded = true;
-                        break;
-                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
-                        localip = ip.getHostAddress();
-                        System.out.println("内网IP：" + localip);
-                    }
-
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
-        }
     }
 
     /**
@@ -668,7 +708,6 @@ public class GoodsController extends BaseController {
         return result;
     }
 
-
     /**
      * 大额券
      * @param request
@@ -713,6 +752,47 @@ public class GoodsController extends BaseController {
             model.addAttribute("menuName", "");
         }
         return thymeleaf("/deq");
+    }
+
+
+
+    // *******************************************************************************************************************************
+
+    /**
+     * 获取内网ip
+     */
+    public static String getLocalIp() {
+        String localip = null;// 本地IP，如果没有配置外网IP则返回它
+        String netip = null;// 外网IP
+        try {
+            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            boolean finded = false;// 是否找到外网IP
+            while (netInterfaces.hasMoreElements() && !finded) {
+                NetworkInterface ni = netInterfaces.nextElement();
+                Enumeration<InetAddress> address = ni.getInetAddresses();
+                while (address.hasMoreElements()) {
+                    ip = address.nextElement();
+                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
+                        netip = ip.getHostAddress();
+                        System.out.println("外网IP：" + netip);
+                        finded = true;
+                        break;
+                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
+                        localip = ip.getHostAddress();
+                        System.out.println("内网IP：" + localip);
+                    }
+
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        if (netip != null && !"".equals(netip)) {
+            return netip;
+        } else {
+            return localip;
+        }
     }
 
     // 加载数据库商品 start *******************************************************************************************************

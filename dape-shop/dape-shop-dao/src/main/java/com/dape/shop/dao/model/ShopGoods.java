@@ -122,6 +122,20 @@ public class ShopGoods implements Serializable {
     private Date couponEndTime;
 
     /**
+     * 优惠券信息-优惠券满减信息
+     *
+     * @mbg.generated
+     */
+    private String couponInfo;
+
+    /**
+     * 链接-宝贝+券二合一页面链接
+     *
+     * @mbg.generated
+     */
+    private String couponShareUrl;
+
+    /**
      * 卖家id
      *
      * @mbg.generated
@@ -134,6 +148,13 @@ public class ShopGoods implements Serializable {
      * @mbg.generated
      */
     private String shopTitle;
+
+    /**
+     * 店铺信息-卖家昵称
+     *
+     * @mbg.generated
+     */
+    private String nick;
 
     /**
      * 卖家类型，0表示集市，1表示商城
@@ -435,6 +456,22 @@ public class ShopGoods implements Serializable {
         this.couponEndTime = couponEndTime;
     }
 
+    public String getCouponInfo() {
+        return couponInfo;
+    }
+
+    public void setCouponInfo(String couponInfo) {
+        this.couponInfo = couponInfo;
+    }
+
+    public String getCouponShareUrl() {
+        return couponShareUrl;
+    }
+
+    public void setCouponShareUrl(String couponShareUrl) {
+        this.couponShareUrl = couponShareUrl;
+    }
+
     public String getSellerId() {
         return sellerId;
     }
@@ -449,6 +486,14 @@ public class ShopGoods implements Serializable {
 
     public void setShopTitle(String shopTitle) {
         this.shopTitle = shopTitle;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public Integer getUserType() {
@@ -651,8 +696,11 @@ public class ShopGoods implements Serializable {
         sb.append(", couponStartFee=").append(couponStartFee);
         sb.append(", couponStartTime=").append(couponStartTime);
         sb.append(", couponEndTime=").append(couponEndTime);
+        sb.append(", couponInfo=").append(couponInfo);
+        sb.append(", couponShareUrl=").append(couponShareUrl);
         sb.append(", sellerId=").append(sellerId);
         sb.append(", shopTitle=").append(shopTitle);
+        sb.append(", nick=").append(nick);
         sb.append(", userType=").append(userType);
         sb.append(", categoryId=").append(categoryId);
         sb.append(", categoryName=").append(categoryName);
@@ -709,8 +757,11 @@ public class ShopGoods implements Serializable {
             && (this.getCouponStartFee() == null ? other.getCouponStartFee() == null : this.getCouponStartFee().equals(other.getCouponStartFee()))
             && (this.getCouponStartTime() == null ? other.getCouponStartTime() == null : this.getCouponStartTime().equals(other.getCouponStartTime()))
             && (this.getCouponEndTime() == null ? other.getCouponEndTime() == null : this.getCouponEndTime().equals(other.getCouponEndTime()))
+            && (this.getCouponInfo() == null ? other.getCouponInfo() == null : this.getCouponInfo().equals(other.getCouponInfo()))
+            && (this.getCouponShareUrl() == null ? other.getCouponShareUrl() == null : this.getCouponShareUrl().equals(other.getCouponShareUrl()))
             && (this.getSellerId() == null ? other.getSellerId() == null : this.getSellerId().equals(other.getSellerId()))
             && (this.getShopTitle() == null ? other.getShopTitle() == null : this.getShopTitle().equals(other.getShopTitle()))
+            && (this.getNick() == null ? other.getNick() == null : this.getNick().equals(other.getNick()))
             && (this.getUserType() == null ? other.getUserType() == null : this.getUserType().equals(other.getUserType()))
             && (this.getCategoryId() == null ? other.getCategoryId() == null : this.getCategoryId().equals(other.getCategoryId()))
             && (this.getCategoryName() == null ? other.getCategoryName() == null : this.getCategoryName().equals(other.getCategoryName()))
@@ -757,8 +808,11 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((getCouponStartFee() == null) ? 0 : getCouponStartFee().hashCode());
         result = prime * result + ((getCouponStartTime() == null) ? 0 : getCouponStartTime().hashCode());
         result = prime * result + ((getCouponEndTime() == null) ? 0 : getCouponEndTime().hashCode());
+        result = prime * result + ((getCouponInfo() == null) ? 0 : getCouponInfo().hashCode());
+        result = prime * result + ((getCouponShareUrl() == null) ? 0 : getCouponShareUrl().hashCode());
         result = prime * result + ((getSellerId() == null) ? 0 : getSellerId().hashCode());
         result = prime * result + ((getShopTitle() == null) ? 0 : getShopTitle().hashCode());
+        result = prime * result + ((getNick() == null) ? 0 : getNick().hashCode());
         result = prime * result + ((getUserType() == null) ? 0 : getUserType().hashCode());
         result = prime * result + ((getCategoryId() == null) ? 0 : getCategoryId().hashCode());
         result = prime * result + ((getCategoryName() == null) ? 0 : getCategoryName().hashCode());

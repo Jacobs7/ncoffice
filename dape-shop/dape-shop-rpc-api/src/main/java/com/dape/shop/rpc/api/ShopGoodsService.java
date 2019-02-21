@@ -54,4 +54,13 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      * @return
      */
     public Map<String, Object> getTKL(Map<String, Object> params);
+
+    /**
+     * 淘宝客简版详情
+     * @param itemId
+     * @param platform
+     * @param ip
+     * @return
+     */
+    public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip);
 }

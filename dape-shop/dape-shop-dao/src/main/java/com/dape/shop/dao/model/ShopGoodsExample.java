@@ -1279,6 +1279,146 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andCouponInfoIsNull() {
+            addCriterion("coupon_info is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoIsNotNull() {
+            addCriterion("coupon_info is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoEqualTo(String value) {
+            addCriterion("coupon_info =", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoNotEqualTo(String value) {
+            addCriterion("coupon_info <>", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoGreaterThan(String value) {
+            addCriterion("coupon_info >", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoGreaterThanOrEqualTo(String value) {
+            addCriterion("coupon_info >=", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoLessThan(String value) {
+            addCriterion("coupon_info <", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoLessThanOrEqualTo(String value) {
+            addCriterion("coupon_info <=", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoLike(String value) {
+            addCriterion("coupon_info like", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoNotLike(String value) {
+            addCriterion("coupon_info not like", value, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoIn(List<String> values) {
+            addCriterion("coupon_info in", values, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoNotIn(List<String> values) {
+            addCriterion("coupon_info not in", values, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoBetween(String value1, String value2) {
+            addCriterion("coupon_info between", value1, value2, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponInfoNotBetween(String value1, String value2) {
+            addCriterion("coupon_info not between", value1, value2, "couponInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlIsNull() {
+            addCriterion("coupon_share_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlIsNotNull() {
+            addCriterion("coupon_share_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlEqualTo(String value) {
+            addCriterion("coupon_share_url =", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlNotEqualTo(String value) {
+            addCriterion("coupon_share_url <>", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlGreaterThan(String value) {
+            addCriterion("coupon_share_url >", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("coupon_share_url >=", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlLessThan(String value) {
+            addCriterion("coupon_share_url <", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlLessThanOrEqualTo(String value) {
+            addCriterion("coupon_share_url <=", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlLike(String value) {
+            addCriterion("coupon_share_url like", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlNotLike(String value) {
+            addCriterion("coupon_share_url not like", value, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlIn(List<String> values) {
+            addCriterion("coupon_share_url in", values, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlNotIn(List<String> values) {
+            addCriterion("coupon_share_url not in", values, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlBetween(String value1, String value2) {
+            addCriterion("coupon_share_url between", value1, value2, "couponShareUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCouponShareUrlNotBetween(String value1, String value2) {
+            addCriterion("coupon_share_url not between", value1, value2, "couponShareUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andSellerIdIsNull() {
             addCriterion("seller_id is null");
             return (Criteria) this;
@@ -1416,6 +1556,76 @@ public class ShopGoodsExample implements Serializable {
 
         public Criteria andShopTitleNotBetween(String value1, String value2) {
             addCriterion("shop_title not between", value1, value2, "shopTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickIsNull() {
+            addCriterion("nick is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickIsNotNull() {
+            addCriterion("nick is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickEqualTo(String value) {
+            addCriterion("nick =", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickNotEqualTo(String value) {
+            addCriterion("nick <>", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickGreaterThan(String value) {
+            addCriterion("nick >", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickGreaterThanOrEqualTo(String value) {
+            addCriterion("nick >=", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickLessThan(String value) {
+            addCriterion("nick <", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickLessThanOrEqualTo(String value) {
+            addCriterion("nick <=", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickLike(String value) {
+            addCriterion("nick like", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickNotLike(String value) {
+            addCriterion("nick not like", value, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickIn(List<String> values) {
+            addCriterion("nick in", values, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickNotIn(List<String> values) {
+            addCriterion("nick not in", values, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickBetween(String value1, String value2) {
+            addCriterion("nick between", value1, value2, "nick");
+            return (Criteria) this;
+        }
+
+        public Criteria andNickNotBetween(String value1, String value2) {
+            addCriterion("nick not between", value1, value2, "nick");
             return (Criteria) this;
         }
 
