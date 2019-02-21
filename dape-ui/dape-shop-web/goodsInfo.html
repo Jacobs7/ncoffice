@@ -50,8 +50,8 @@
       </div>
       <div class="weui-tab__bd">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-          <div>
-            <!-- 详情内容  -->
+          <div id="detailImgs">
+
           </div>
           <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;">------已经到底了------</div>
         </div>
@@ -131,7 +131,9 @@
       // 返回顶部
       //backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');
+      goodsTBDetail();
   });
+
 </script>
 </body>
 </html>

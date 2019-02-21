@@ -298,7 +298,7 @@ function loadGoodsForMain(){
 
                 $('#goodsUL').append('<li>' +
                       //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
-                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_click_url+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
+                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.coupon_amount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
@@ -362,7 +362,7 @@ function loadLocalGoodsForMain(){
                 var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
 
                 $('#goodsUL').append('<li>' +
-                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.itemId+','+platform+','+$this.commissionRate+','+$this.couponAmount+',\'https:'+$this.couponClickUrl+'\',\'https:'+$this.clickUrl+'\',\''+$this.itemDescription+'\')">' +
+                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.itemId+','+platform+','+$this.commissionRate+','+$this.couponAmount+',\'https:'+$this.couponShareUrl+'\',\'https:'+$this.clickUrl+'\',\''+$this.itemDescription+'\')">' +
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
@@ -730,4 +730,16 @@ function toModulePage(id,url,platform){
     }else{
         window.location.href = url + '?platform=' + platform;
     }
+}
+
+// 抓取商品详情
+function goodsTBDetail(){
+$.post('/goods/goodsTBDetail',{itemId:numIid,platform:platform},function(data){
+    if(data.success){
+        var imgStr = data.imgsStr;
+        imgStr = imgStr.substring(10, imgStr.length-3).replace(/align="absmiddle"/g, '').replace(/class="desc_anchor"/g, '').replace(/id="desc-module-1"/g, '').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<img/g, '<img width="100%"');
+        $('#detailImgs').append(imgStr);
+        console.log(imgStr);
+    }
+});
 }
