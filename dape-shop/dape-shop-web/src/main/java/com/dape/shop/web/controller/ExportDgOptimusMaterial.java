@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExportDgOptimusMaterial {
 
@@ -30,8 +32,8 @@ public class ExportDgOptimusMaterial {
         String gyb = "13366,13367,13372,13370,13374,13371,13375,13368,13376,13369,13373";//高佣榜
         String ppq = "3786,3788,3790,3796,3789,3794,3791,3792,3795,3793,3787";//品牌券
 
-//        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
-        String materialIds = "13366";
+        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
+//        String materialIds = "13366";
 
                 // 每页条数，开放平台要求最大100
         Long pageSize = 100L;
@@ -46,11 +48,13 @@ public class ExportDgOptimusMaterial {
 
         Map<String, Object> exportInfo = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, arr, couponA, floatA);
 
+        System.out.println();
         System.out.println("******************************  导入数据  **************************************");
         for(Map.Entry<String, Object> map : exportInfo.entrySet()){
             System.out.println(map.getValue());
         }
         System.out.println("******************************  导入数据  **************************************");
+        System.out.println();
         // 多线程导入商品到数据库 end *******************************************************************
     }
 
@@ -89,6 +93,7 @@ public class ExportDgOptimusMaterial {
         }
     }
 
+    static Pattern pattern = Pattern.compile("[0-9]*");
 
 
     public static boolean addGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data){
@@ -147,8 +152,25 @@ public class ExportDgOptimusMaterial {
                 ps.setNull(14,Types.INTEGER);
             }
             ps.setString(15,data.getString("coupon_start_fee"));
-            ps.setString(16,data.getString("coupon_start_time"));
-            ps.setString(17,data.getString("coupon_end_time"));
+            String couponStartTime = data.getString("coupon_start_time");
+            Long dateMillis = null;
+            Matcher isNum = pattern.matcher(couponStartTime);
+            if(isNum.matches()){
+                dateMillis = Long.valueOf(couponStartTime);
+                ps.setTimestamp(16,new Timestamp(dateMillis));
+            }else{
+                ps.setNull(16, Types.TIMESTAMP);
+            }
+
+            String couponEndTime = data.getString("coupon_end_time");
+            isNum = pattern.matcher(couponEndTime);
+            if(isNum.matches()){
+                dateMillis = Long.valueOf(couponEndTime);
+                ps.setTimestamp(17,new Timestamp(dateMillis));
+            }else{
+                ps.setNull(17, Types.TIMESTAMP);
+            }
+
             ps.setString(18,data.getString("seller_id"));
             ps.setString(19,data.getString("shop_title"));
             ps.setInt(20,data.getInteger("user_type"));

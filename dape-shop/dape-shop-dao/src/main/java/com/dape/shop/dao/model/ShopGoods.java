@@ -112,14 +112,14 @@ public class ShopGoods implements Serializable {
      *
      * @mbg.generated
      */
-    private String couponStartTime;
+    private Date couponStartTime;
 
     /**
      * 优惠券结束时间
      *
      * @mbg.generated
      */
-    private String couponEndTime;
+    private Date couponEndTime;
 
     /**
      * 卖家id
@@ -232,6 +232,13 @@ public class ShopGoods implements Serializable {
      * @mbg.generated
      */
     private String commissionRate;
+
+    /**
+     * 佣金
+     *
+     * @mbg.generated
+     */
+    private BigDecimal commission;
 
     /**
      * 商品相关关联词落地页地址
@@ -412,19 +419,19 @@ public class ShopGoods implements Serializable {
         this.couponStartFee = couponStartFee;
     }
 
-    public String getCouponStartTime() {
+    public Date getCouponStartTime() {
         return couponStartTime;
     }
 
-    public void setCouponStartTime(String couponStartTime) {
+    public void setCouponStartTime(Date couponStartTime) {
         this.couponStartTime = couponStartTime;
     }
 
-    public String getCouponEndTime() {
+    public Date getCouponEndTime() {
         return couponEndTime;
     }
 
-    public void setCouponEndTime(String couponEndTime) {
+    public void setCouponEndTime(Date couponEndTime) {
         this.couponEndTime = couponEndTime;
     }
 
@@ -556,6 +563,14 @@ public class ShopGoods implements Serializable {
         this.commissionRate = commissionRate;
     }
 
+    public BigDecimal getCommission() {
+        return commission;
+    }
+
+    public void setCommission(BigDecimal commission) {
+        this.commission = commission;
+    }
+
     public String getWordUrl() {
         return wordUrl;
     }
@@ -652,6 +667,7 @@ public class ShopGoods implements Serializable {
         sb.append(", jddPrice=").append(jddPrice);
         sb.append(", origPrice=").append(origPrice);
         sb.append(", commissionRate=").append(commissionRate);
+        sb.append(", commission=").append(commission);
         sb.append(", wordUrl=").append(wordUrl);
         sb.append(", word=").append(word);
         sb.append(", tmallPlayActivityInfo=").append(tmallPlayActivityInfo);
@@ -709,6 +725,7 @@ public class ShopGoods implements Serializable {
             && (this.getJddPrice() == null ? other.getJddPrice() == null : this.getJddPrice().equals(other.getJddPrice()))
             && (this.getOrigPrice() == null ? other.getOrigPrice() == null : this.getOrigPrice().equals(other.getOrigPrice()))
             && (this.getCommissionRate() == null ? other.getCommissionRate() == null : this.getCommissionRate().equals(other.getCommissionRate()))
+            && (this.getCommission() == null ? other.getCommission() == null : this.getCommission().equals(other.getCommission()))
             && (this.getWordUrl() == null ? other.getWordUrl() == null : this.getWordUrl().equals(other.getWordUrl()))
             && (this.getWord() == null ? other.getWord() == null : this.getWord().equals(other.getWord()))
             && (this.getTmallPlayActivityInfo() == null ? other.getTmallPlayActivityInfo() == null : this.getTmallPlayActivityInfo().equals(other.getTmallPlayActivityInfo()))
@@ -756,6 +773,7 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((getJddPrice() == null) ? 0 : getJddPrice().hashCode());
         result = prime * result + ((getOrigPrice() == null) ? 0 : getOrigPrice().hashCode());
         result = prime * result + ((getCommissionRate() == null) ? 0 : getCommissionRate().hashCode());
+        result = prime * result + ((getCommission() == null) ? 0 : getCommission().hashCode());
         result = prime * result + ((getWordUrl() == null) ? 0 : getWordUrl().hashCode());
         result = prime * result + ((getWord() == null) ? 0 : getWord().hashCode());
         result = prime * result + ((getTmallPlayActivityInfo() == null) ? 0 : getTmallPlayActivityInfo().hashCode());

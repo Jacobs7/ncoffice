@@ -1169,62 +1169,52 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeEqualTo(String value) {
+        public Criteria andCouponStartTimeEqualTo(Date value) {
             addCriterion("coupon_start_time =", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeNotEqualTo(String value) {
+        public Criteria andCouponStartTimeNotEqualTo(Date value) {
             addCriterion("coupon_start_time <>", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeGreaterThan(String value) {
+        public Criteria andCouponStartTimeGreaterThan(Date value) {
             addCriterion("coupon_start_time >", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeGreaterThanOrEqualTo(String value) {
+        public Criteria andCouponStartTimeGreaterThanOrEqualTo(Date value) {
             addCriterion("coupon_start_time >=", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeLessThan(String value) {
+        public Criteria andCouponStartTimeLessThan(Date value) {
             addCriterion("coupon_start_time <", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeLessThanOrEqualTo(String value) {
+        public Criteria andCouponStartTimeLessThanOrEqualTo(Date value) {
             addCriterion("coupon_start_time <=", value, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeLike(String value) {
-            addCriterion("coupon_start_time like", value, "couponStartTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponStartTimeNotLike(String value) {
-            addCriterion("coupon_start_time not like", value, "couponStartTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponStartTimeIn(List<String> values) {
+        public Criteria andCouponStartTimeIn(List<Date> values) {
             addCriterion("coupon_start_time in", values, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeNotIn(List<String> values) {
+        public Criteria andCouponStartTimeNotIn(List<Date> values) {
             addCriterion("coupon_start_time not in", values, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeBetween(String value1, String value2) {
+        public Criteria andCouponStartTimeBetween(Date value1, Date value2) {
             addCriterion("coupon_start_time between", value1, value2, "couponStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponStartTimeNotBetween(String value1, String value2) {
+        public Criteria andCouponStartTimeNotBetween(Date value1, Date value2) {
             addCriterion("coupon_start_time not between", value1, value2, "couponStartTime");
             return (Criteria) this;
         }
@@ -1239,62 +1229,52 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeEqualTo(String value) {
+        public Criteria andCouponEndTimeEqualTo(Date value) {
             addCriterion("coupon_end_time =", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeNotEqualTo(String value) {
+        public Criteria andCouponEndTimeNotEqualTo(Date value) {
             addCriterion("coupon_end_time <>", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeGreaterThan(String value) {
+        public Criteria andCouponEndTimeGreaterThan(Date value) {
             addCriterion("coupon_end_time >", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeGreaterThanOrEqualTo(String value) {
+        public Criteria andCouponEndTimeGreaterThanOrEqualTo(Date value) {
             addCriterion("coupon_end_time >=", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeLessThan(String value) {
+        public Criteria andCouponEndTimeLessThan(Date value) {
             addCriterion("coupon_end_time <", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeLessThanOrEqualTo(String value) {
+        public Criteria andCouponEndTimeLessThanOrEqualTo(Date value) {
             addCriterion("coupon_end_time <=", value, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeLike(String value) {
-            addCriterion("coupon_end_time like", value, "couponEndTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponEndTimeNotLike(String value) {
-            addCriterion("coupon_end_time not like", value, "couponEndTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCouponEndTimeIn(List<String> values) {
+        public Criteria andCouponEndTimeIn(List<Date> values) {
             addCriterion("coupon_end_time in", values, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeNotIn(List<String> values) {
+        public Criteria andCouponEndTimeNotIn(List<Date> values) {
             addCriterion("coupon_end_time not in", values, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeBetween(String value1, String value2) {
+        public Criteria andCouponEndTimeBetween(Date value1, Date value2) {
             addCriterion("coupon_end_time between", value1, value2, "couponEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andCouponEndTimeNotBetween(String value1, String value2) {
+        public Criteria andCouponEndTimeNotBetween(Date value1, Date value2) {
             addCriterion("coupon_end_time not between", value1, value2, "couponEndTime");
             return (Criteria) this;
         }
@@ -2366,6 +2346,66 @@ public class ShopGoodsExample implements Serializable {
 
         public Criteria andCommissionRateNotBetween(String value1, String value2) {
             addCriterion("commission_rate not between", value1, value2, "commissionRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionIsNull() {
+            addCriterion("commission is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionIsNotNull() {
+            addCriterion("commission is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionEqualTo(BigDecimal value) {
+            addCriterion("commission =", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionNotEqualTo(BigDecimal value) {
+            addCriterion("commission <>", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionGreaterThan(BigDecimal value) {
+            addCriterion("commission >", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("commission >=", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionLessThan(BigDecimal value) {
+            addCriterion("commission <", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("commission <=", value, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionIn(List<BigDecimal> values) {
+            addCriterion("commission in", values, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionNotIn(List<BigDecimal> values) {
+            addCriterion("commission not in", values, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("commission between", value1, value2, "commission");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommissionNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("commission not between", value1, value2, "commission");
             return (Criteria) this;
         }
 

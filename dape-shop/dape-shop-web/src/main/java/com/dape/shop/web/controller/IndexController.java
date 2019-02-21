@@ -42,18 +42,9 @@ public class IndexController extends BaseController {
     private ShopMenuService shopMenuService;
     @Autowired
     private ShopModuleService shopModuleService;
-//    @Autowired
-//    public ShopUserService shopUserService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model, Long showId, HttpServletRequest request) {
-
-//        String openId = request.getAttribute("openId").toString();
-//        if(openId == null){
-//            ShopUserExample userExample = new ShopUserExample();
-//            userExample.or().andOpenIdEqualTo(openId);
-//            ShopUser user = shopUserService.selectFirstByExample(userExample);
-//        }
 
         /** 后面要放到缓存中 start */
         // 查询导航栏列表: 首页、男装、女装等

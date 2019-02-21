@@ -44,6 +44,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 首页控制器
@@ -410,36 +412,29 @@ public class GoodsController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String date = format.format(new Date());
 
         Object o = request.getSession().getAttribute("upmsuser");
-        String openId = "open_id_test";
+        Integer userId = 0;
         UpmsUser upmsuser = null;
         if(o != null){
             upmsuser = (UpmsUser)o;
-            openId = upmsuser.getOpenid();
+            userId = upmsuser.getUserId();
         }
 
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 
-
-//        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
 //        String ip = "www.16office.com";
-        String ip = "192.168.0.105";
+        String ip = "192.168.0.109";//内网IP(测试用)，上线要改为域名
         int port = request.getLocalPort();
         // 商品推广二维码
-        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getItemId()+"&platform=" + platform + "&tkl=" + tkl;
+        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetailTG?itemId="+shopGood.getItemId()+"&platform=" + platform + "&userid=" + userId + "&tkl=" + tkl;
 
-        // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
-        String haibaoKey = "goods_" + date + "_" + openId + "_" + shopGood.getItemId();
-        if (upmsuser != null){
-            qrCode += "&userid=" + upmsuser.getUserId();
-            haibaoKey = "goods_" + date + "_" + upmsuser.getUserId() + "_" + shopGood.getItemId();
-        }
+        // 分享图片名称
+        String haibaoKey = "goods_" + date + "_" + userId + "_" + shopGood.getItemId();
 
-//        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
         // 生成的分享图片
         String targetImg = "/resources/images/tuiguang/"+haibaoKey+".jpg";
 
@@ -447,9 +442,6 @@ public class GoodsController extends BaseController {
         String targetTemp = proPath + targetImg;
         File temp = new File(targetTemp);
         if(!temp.exists()){
-//            temp.delete();
-//        }
-//        if(haibaoImg == null){
 
             try {
                 // 商品主图保存到本地
@@ -620,18 +612,21 @@ public class GoodsController extends BaseController {
                 // 原价删除线
                 fm = g.getFontMetrics(font);
                 int delLineW = fm.stringWidth(yjPriceStr);
-                g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 95);
+                g.drawLine(74,(tempH + 60) + (35 * line) + 100, 74 + delLineW,(tempH + 60) + (35 * line) + 100);
+                g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 100);
 
+                // 券宽度
+                int quanW = fm.stringWidth(quan.toString());
                 // 月销量
                 font = new Font("黑体 常规", Font.PLAIN, 20);
                 g.setFont(font);
-                g.drawString("月销" + volume + "件", 75 + delLineW + 115,(tempH + 60) + (35 * line) + 105);
+                g.drawString("月销" + volume + "件", 75 + delLineW + quanW + 90,(tempH + 60) + (35 * line) + 105);
 
                 // 券
                 color = new Color(255, 68, 0);
                 g.setColor(color);
                 g.fillRoundRect(75 + delLineW + 10, (tempH + 60) + (35 * line) + 85, 30,26, 5, 5);
-                g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,72,25,5,5);
+                g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,quanW + 36,25,5,5);
                 font = new Font("黑体 常规", Font.BOLD, 18);
                 g.setFont(font);
                 color = Color.white;
@@ -641,9 +636,8 @@ public class GoodsController extends BaseController {
                 g.setFont(font);
                 color = new Color(255, 68, 0);
                 g.setColor(color);
-                int quanW = fm.stringWidth(quan.toString());
-                g.drawString("元", 75 + delLineW + 36 + quanW + (quanW / 2),(tempH + 60) + (35 * line) + 103);
-                g.drawString(quan.toString(), 75 + delLineW + 36 + (quanW / 2),(tempH + 60) + (35 * line) + 105);
+                g.drawString("元", 75 + delLineW + 48 + quanW,(tempH + 60) + (35 * line) + 103);
+                g.drawString(quan.toString(), 75 + delLineW + 48,(tempH + 60) + (35 * line) + 105);
 
                 // 底部
                 color = new Color(255, 207, 207);
@@ -651,7 +645,8 @@ public class GoodsController extends BaseController {
                 g.fillRect(0, height - 60, width,60);
                 color = new Color(155, 55, 55);
                 g.setColor(color);
-                font = new Font("楷体 常规", Font.BOLD, 30);
+//                font = new Font("楷体 常规", Font.BOLD + Font.ITALIC, 30);
+                font = new Font("叶根友毛笔行书2.0版 常规", Font.BOLD, 30);
                 g.setFont(font);
                 String dbTxt = "粉丝福利优惠券，别的地方看不到哦";
                 fm = g.getFontMetrics(font);
@@ -660,16 +655,13 @@ public class GoodsController extends BaseController {
                 File outputfile = new File(targetTemp);
                 ImageIO.write(imageNew,"jpg", outputfile);
 
-//                request.getSession().setAttribute(haibaoKey, targetImg);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-//        else {
-//            targetImg = haibaoImg.toString();
-//        }
+
         System.out.println("生成海报共耗时：[" + (System.currentTimeMillis() - start) + "]毫秒");
         result.put("url", targetImg);
         result.put("success", true);
@@ -844,6 +836,8 @@ public class GoodsController extends BaseController {
             floatA = new BigDecimal("0.3");//券点折扣价的30%的保存到数据库
         }
 
+        Pattern pattern = Pattern.compile("[0-9]*");
+
         Map<String, Object> exportInfo = new HashMap<String, Object>();//记录每个类目请求次数，查询条数，导入条数
         int requeryNum = 0;//请求开放平台接口次数
         int queryNum = 0;
@@ -939,8 +933,22 @@ public class GoodsController extends BaseController {
                             goods.setCouponTotalCount(data.getInteger("coupon_total_count"));//券总量
                             goods.setCouponRemainCount(data.getInteger("coupon_remain_count"));//优惠券剩余量
                             goods.setCouponStartFee(data.getString("coupon_start_fee"));//券起用门槛,满X元可用
-                            goods.setCouponStartTime(data.getString("coupon_start_time"));//优惠券开始时间
-                            goods.setCouponEndTime(data.getString("coupon_end_time"));//优惠券结束时间
+
+                            String couponStartTime = data.getString("coupon_start_time");
+                            Long dateMillis = null;
+                            Matcher isNum = pattern.matcher(couponStartTime);
+                            if(isNum.matches()){
+                                dateMillis = Long.valueOf(couponStartTime);
+                                goods.setCouponStartTime(new Date(dateMillis));//优惠券开始时间
+                            }
+
+                            String couponEndTime = data.getString("coupon_end_time");
+                            isNum = pattern.matcher(couponEndTime);
+                            if(isNum.matches()){
+                                dateMillis = Long.valueOf(couponEndTime);
+                                goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                            }
+
                             goods.setSellerId(data.getString("seller_id"));//卖家id
                             goods.setShopTitle(data.getString("shop_title"));//店铺名称
                             goods.setUserType(data.getInteger("user_type"));//卖家类型，0表示集市，1表示商城

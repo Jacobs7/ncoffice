@@ -18,8 +18,8 @@
     <result column="coupon_total_count" jdbcType="INTEGER" property="couponTotalCount" />
     <result column="coupon_remain_count" jdbcType="INTEGER" property="couponRemainCount" />
     <result column="coupon_start_fee" jdbcType="VARCHAR" property="couponStartFee" />
-    <result column="coupon_start_time" jdbcType="VARCHAR" property="couponStartTime" />
-    <result column="coupon_end_time" jdbcType="VARCHAR" property="couponEndTime" />
+    <result column="coupon_start_time" jdbcType="TIMESTAMP" property="couponStartTime" />
+    <result column="coupon_end_time" jdbcType="TIMESTAMP" property="couponEndTime" />
     <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
     <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
     <result column="user_type" jdbcType="INTEGER" property="userType" />
@@ -36,6 +36,7 @@
     <result column="jdd_price" jdbcType="VARCHAR" property="jddPrice" />
     <result column="orig_price" jdbcType="VARCHAR" property="origPrice" />
     <result column="commission_rate" jdbcType="VARCHAR" property="commissionRate" />
+    <result column="commission" jdbcType="DECIMAL" property="commission" />
     <result column="word_url" jdbcType="VARCHAR" property="wordUrl" />
     <result column="word" jdbcType="VARCHAR" property="word" />
     <result column="tmall_play_activity_info" jdbcType="VARCHAR" property="tmallPlayActivityInfo" />
@@ -108,7 +109,7 @@
     coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, seller_id, 
     shop_title, user_type, category_id, category_name, level_one_category_id, level_one_category_name, 
     stock, sell_num, total_stock, ostime, oetime, jdd_num, jdd_price, orig_price, commission_rate, 
-    word_url, word, tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, 
+    commission, word_url, word, tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, 
     material_id
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
@@ -153,23 +154,25 @@
       level_one_category_name, stock, sell_num, 
       total_stock, ostime, oetime, 
       jdd_num, jdd_price, orig_price, 
-      commission_rate, word_url, word, 
-      tmall_play_activity_info, uv_sum_pre_sale, x_id, 
-      new_user_price, material_id)
+      commission_rate, commission, word_url, 
+      word, tmall_play_activity_info, uv_sum_pre_sale, 
+      x_id, new_user_price, material_id
+      )
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{itemId,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, 
       #{smallImages,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, 
       #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, 
       #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
-      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=VARCHAR}, #{couponEndTime,jdbcType=VARCHAR}, 
+      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, 
       #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
       #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, 
       #{levelOneCategoryName,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
       #{totalStock,jdbcType=INTEGER}, #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, 
       #{jddNum,jdbcType=INTEGER}, #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, 
-      #{commissionRate,jdbcType=VARCHAR}, #{wordUrl,jdbcType=VARCHAR}, #{word,jdbcType=VARCHAR}, 
-      #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, #{xId,jdbcType=VARCHAR}, 
-      #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=BIGINT})
+      #{commissionRate,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, #{wordUrl,jdbcType=VARCHAR}, 
+      #{word,jdbcType=VARCHAR}, #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, 
+      #{xId,jdbcType=VARCHAR}, #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods
@@ -276,6 +279,9 @@
       <if test="commissionRate != null">
         commission_rate,
       </if>
+      <if test="commission != null">
+        commission,
+      </if>
       <if test="wordUrl != null">
         word_url,
       </if>
@@ -348,10 +354,10 @@
         #{couponStartFee,jdbcType=VARCHAR},
       </if>
       <if test="couponStartTime != null">
-        #{couponStartTime,jdbcType=VARCHAR},
+        #{couponStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="couponEndTime != null">
-        #{couponEndTime,jdbcType=VARCHAR},
+        #{couponEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="sellerId != null">
         #{sellerId,jdbcType=VARCHAR},
@@ -400,6 +406,9 @@
       </if>
       <if test="commissionRate != null">
         #{commissionRate,jdbcType=VARCHAR},
+      </if>
+      <if test="commission != null">
+        #{commission,jdbcType=DECIMAL},
       </if>
       <if test="wordUrl != null">
         #{wordUrl,jdbcType=VARCHAR},
@@ -482,10 +491,10 @@
         coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
       </if>
       <if test="record.couponStartTime != null">
-        coupon_start_time = #{record.couponStartTime,jdbcType=VARCHAR},
+        coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.couponEndTime != null">
-        coupon_end_time = #{record.couponEndTime,jdbcType=VARCHAR},
+        coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.sellerId != null">
         seller_id = #{record.sellerId,jdbcType=VARCHAR},
@@ -535,6 +544,9 @@
       <if test="record.commissionRate != null">
         commission_rate = #{record.commissionRate,jdbcType=VARCHAR},
       </if>
+      <if test="record.commission != null">
+        commission = #{record.commission,jdbcType=DECIMAL},
+      </if>
       <if test="record.wordUrl != null">
         word_url = #{record.wordUrl,jdbcType=VARCHAR},
       </if>
@@ -579,8 +591,8 @@
       coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
       coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
       coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
-      coupon_start_time = #{record.couponStartTime,jdbcType=VARCHAR},
-      coupon_end_time = #{record.couponEndTime,jdbcType=VARCHAR},
+      coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
       seller_id = #{record.sellerId,jdbcType=VARCHAR},
       shop_title = #{record.shopTitle,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=INTEGER},
@@ -597,6 +609,7 @@
       jdd_price = #{record.jddPrice,jdbcType=VARCHAR},
       orig_price = #{record.origPrice,jdbcType=VARCHAR},
       commission_rate = #{record.commissionRate,jdbcType=VARCHAR},
+      commission = #{record.commission,jdbcType=DECIMAL},
       word_url = #{record.wordUrl,jdbcType=VARCHAR},
       word = #{record.word,jdbcType=VARCHAR},
       tmall_play_activity_info = #{record.tmallPlayActivityInfo,jdbcType=VARCHAR},
@@ -657,10 +670,10 @@
         coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
       </if>
       <if test="couponStartTime != null">
-        coupon_start_time = #{couponStartTime,jdbcType=VARCHAR},
+        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="couponEndTime != null">
-        coupon_end_time = #{couponEndTime,jdbcType=VARCHAR},
+        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
       </if>
       <if test="sellerId != null">
         seller_id = #{sellerId,jdbcType=VARCHAR},
@@ -710,6 +723,9 @@
       <if test="commissionRate != null">
         commission_rate = #{commissionRate,jdbcType=VARCHAR},
       </if>
+      <if test="commission != null">
+        commission = #{commission,jdbcType=DECIMAL},
+      </if>
       <if test="wordUrl != null">
         word_url = #{wordUrl,jdbcType=VARCHAR},
       </if>
@@ -751,8 +767,8 @@
       coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
       coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
       coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
-      coupon_start_time = #{couponStartTime,jdbcType=VARCHAR},
-      coupon_end_time = #{couponEndTime,jdbcType=VARCHAR},
+      coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
       seller_id = #{sellerId,jdbcType=VARCHAR},
       shop_title = #{shopTitle,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=INTEGER},
@@ -769,6 +785,7 @@
       jdd_price = #{jddPrice,jdbcType=VARCHAR},
       orig_price = #{origPrice,jdbcType=VARCHAR},
       commission_rate = #{commissionRate,jdbcType=VARCHAR},
+      commission = #{commission,jdbcType=DECIMAL},
       word_url = #{wordUrl,jdbcType=VARCHAR},
       word = #{word,jdbcType=VARCHAR},
       tmall_play_activity_info = #{tmallPlayActivityInfo,jdbcType=VARCHAR},

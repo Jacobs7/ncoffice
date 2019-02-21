@@ -15,11 +15,6 @@ import java.util.Map;
 public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopGoods, ShopGoodsExample> implements ShopGoodsService {
 
     @Override
-    public Integer exportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds) {
-        return null;
-    }
-
-    @Override
     public Map<String, Object> loadGoods(Long pageNum, Long pageSize, Map<String, Object> params) {
         return null;
     }
