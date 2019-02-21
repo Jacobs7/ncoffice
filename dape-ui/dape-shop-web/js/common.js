@@ -731,15 +731,20 @@ function toModulePage(id,url,platform){
         window.location.href = url + '?platform=' + platform;
     }
 }
-
 // 抓取商品详情
 function goodsTBDetail(){
 $.post('/goods/goodsTBDetail',{itemId:numIid,platform:platform},function(data){
-    if(data.success){
-        var imgStr = data.imgsStr;
-        imgStr = imgStr.substring(10, imgStr.length-3).replace(/align="absmiddle"/g, '').replace(/class="desc_anchor"/g, '').replace(/id="desc-module-1"/g, '').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<img/g, '<img width="100%"');
-        $('#detailImgs').append(imgStr);
-        console.log(imgStr);
+    $('.loadingImg').remove();
+        if(data.success){
+            var imgStr = data.imgsStr;
+            imgStr = imgStr.substring(10, imgStr.length-3).replace(/align="absmiddle"/g, '').replace(/class="desc_anchor"/g, '').replace(/id="desc-module-1"/g, '').replace(/<img/g, '<img onload="imgLoadComplete(this)"');
+            $('#detailImgs').append(imgStr);
+        }
+    });
+}
+// 图片加载完成设置宽度(商品详情页)
+function imgLoadComplete(obj){
+    if(obj.width > 10){
+        $(obj).width("100%");
     }
-});
 }

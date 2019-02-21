@@ -13,9 +13,8 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap">
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <!--产品详情-->
-
   <!--主图轮播-->
   <div class="weui-panel">
     <div class="swiper-container swiper-zhutu">
@@ -51,12 +50,12 @@
       <div class="weui-tab__bd">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
           <div id="detailImgs">
-
+              <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
           </div>
-          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;">------已经到底了------</div>
+          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:4rem;">------已经到底了------</div>
         </div>
         <div id="tab2" class="weui-tab__bd-item">
-          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;">------已经到底了------</div>
+          <div class="weui-cells__title" style="text-align: center;line-height: 3rem;margin-bottom:4rem;">------已经到底了------</div>
         </div>
       </div>
     </div>
@@ -129,7 +128,7 @@
           autoplay:5000
       });
       // 返回顶部
-      //backScroll('listwrap');
+      backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');
       goodsTBDetail();
   });
