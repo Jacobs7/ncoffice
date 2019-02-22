@@ -7,6 +7,9 @@ import com.dape.common.base.BaseController;
 import com.dape.common.util.QRCodeUtil;
 import com.dape.shop.dao.model.*;
 import com.dape.shop.rpc.api.*;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.zxing.BarcodeFormat;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
@@ -43,8 +46,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -253,19 +258,21 @@ public class GoodsController extends BaseController {
 
         model.addAttribute("tkl", StringUtils.isNotBlank(tkl) ? tkl : "");
 
+        model.addAttribute("item_id", item_id);
+
         return thymeleaf("/goodsInfo");
     }
 
     /**
-     * 商品详情
+     * 商品详情图片
      * @param itemId 淘宝商品id
      * @param platform 1:pc,2:无线
      * @param request
      * @return
      */
-    @RequestMapping(value = "/goodsTBDetail", method = RequestMethod.POST)
+    @RequestMapping(value = "/goodsTBTP", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> goodsTBDetail(String itemId, Long platform, HttpServletRequest request) {
+    public Map<String, Object> goodsTBTP(String itemId, Integer userType, String clickUrl, Long platform, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("success", false);
 
@@ -273,77 +280,161 @@ public class GoodsController extends BaseController {
             return params;
         }
 
-        Map<String, Object> itemDetail = shopGoodsService.tbkItemInfoGet(itemId, platform, null);
-        boolean flag = (boolean)itemDetail.get("success");
 
-        if(!flag){
-            return params;
-        }
-        JSONArray nTbkItem = (JSONArray)itemDetail.get("nTbkItem");
-        if(nTbkItem == null || nTbkItem.size() <= 0){
-            return params;
-        }
+        // 记录详情图片url
+        List<String> imgsArr = new ArrayList<String>();
 
-        String url = null;
-        JSONObject item = nTbkItem.getJSONObject(0);
-        url = item.getString("item_url");
-        if(StringUtils.isBlank(url)){
-            return params;
-        }
+        if(userType == 1){// 天猫详情抓取
+            Map<String, Object> itemDetail = shopGoodsService.tbkItemInfoGet(itemId, platform, null);
+            boolean flag = (boolean)itemDetail.get("success");
 
-        String imgUrl = null;
-
-        // 获取详情图片地址
-        try {
-            Document doc = Jsoup.connect(url).timeout(50000).get();
-            Elements elScripts = doc.getElementsByTag("script");
-
-            String scriptTxt = null;
-            for (Element ele : elScripts) {
-                scriptTxt = ele.data().toString();
-                if(scriptTxt.indexOf("httpsDescUrl") > 0){
-                    String[] txts1 = scriptTxt.split("httpsDescUrl");
-                    String[] txts2 = txts1[1].split(",");
-                    imgUrl = "http:" + txts2[0].replaceAll("\"", "").replaceAll(":","").replaceAll(" ", "");
-                    break;
-                }
+            if(!flag){
+                return params;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            JSONArray nTbkItem = (JSONArray)itemDetail.get("nTbkItem");
+            if(nTbkItem == null || nTbkItem.size() <= 0){
+                return params;
+            }
 
-        // 获取详情图片数据
-        if(StringUtils.isBlank(imgUrl)){
-            return params;
-        }
-        HttpGet httpGet = null;
-        CloseableHttpClient httpClient = null;
-        CloseableHttpResponse httpResponse = null;
-        try {
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
-            httpClient = HttpClients.createDefault();
-            httpGet = new HttpGet(imgUrl);
-            httpGet.setConfig(requestConfig);
-            httpResponse = httpClient.execute(httpGet);
+            String url = null;
+            JSONObject item = nTbkItem.getJSONObject(0);
+            url = item.getString("item_url");
+            if(StringUtils.isBlank(url)){
+                return params;
+            }
 
-            int status_code = httpResponse.getStatusLine().getStatusCode();
+            String imgUrl = null;
 
-            if(status_code == HttpStatus.SC_OK){
-                HttpEntity entity = httpResponse.getEntity();
-                if(entity != null){
-                    String respStr = EntityUtils.toString(entity, "UTF-8");
-                    params.put("imgsStr", respStr);
+            // 获取详情图片地址
+            try {
+
+                // 天猫抓取详情图片
+                Document doc = Jsoup.connect(url).ignoreContentType(true).get();
+                Elements imgSrcElement = doc.select("#modules-desc > div");
+                for(Element ele : imgSrcElement){
+                    Elements imgs = ele.getElementsByTag("img");
+                    for(Element img : imgs){
+//                    System.out.println("**: " +img.attr("data-ks-lazyload"));
+                        imgsArr.add(img.attr("data-ks-lazyload"));
+                    }
+                }
+                if(imgsArr.size() > 0){
+                    params.put("imgsArr", imgsArr);
                     params.put("success", true);
                 }
-                EntityUtils.consume(entity);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else if(userType == 0){// 淘宝详情抓取
+            BrowserVersion b = BrowserVersion.getDefault();
+            WebClient wc = new WebClient(b);
+            HtmlPage page = null;
+
+            String pageXml = null;//记录请求的html字符串
+            String imgUrl = null;
+            try {
+                // htmlunit解析网页，获取详情图片url
+                wc.setUseInsecureSSL(true);
+                wc.setJavaScriptEnabled(true); // 启用JS解释器，默认为true
+                wc.setCssEnabled(false); // 禁用css支持
+                wc.setThrowExceptionOnScriptError(false); // js运行错误时，是否抛出异常
+                wc.setTimeout(100000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
+                page = wc.getPage(clickUrl);
+
+                pageXml = page.asXml();
+
+                Document doc = Jsoup.parse(pageXml);
+                Elements elements = doc.getElementsByTag("script");
+
+                String tmp = null;
+
+                for (Element e : elements) {
+                    tmp = e.data().toString();
+                    tmp = tmp.replaceAll(" ","").replaceAll("\n", "");
+                    if(tmp.indexOf("varg_config") >= 0){
+                        tmp = tmp.substring(tmp.indexOf("descUrl")+7);
+                        tmp = tmp.substring(1,tmp.indexOf(","));
+                        tmp = tmp.substring(tmp.indexOf("'?'") +3, tmp.indexOf("':'"));
+                        imgUrl = "http:" + tmp;
+                        break;
+                    }
+                }
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                wc.closeAllWindows();
             }
 
-        }catch (IOException e) {
+            // 请求详情图片url
+            String respStr = null;
+            HttpGet httpGet = null;
+            CloseableHttpClient httpClient = null;
+            CloseableHttpResponse httpResponse = null;
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+                httpClient = HttpClients.createDefault();
+                httpGet = new HttpGet(imgUrl);
+                httpGet.setConfig(requestConfig);
+                httpResponse = httpClient.execute(httpGet);
+
+                int status_code = httpResponse.getStatusLine().getStatusCode();
+                if(status_code == HttpStatus.SC_OK){
+                    HttpEntity entity = httpResponse.getEntity();
+                    if(entity != null){
+                        respStr = EntityUtils.toString(entity, "UTF-8");
+                    }
+                    EntityUtils.consume(entity);
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if(httpGet != null){httpGet.releaseConnection();}
+                if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+                if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
+            }
+
+            // 获取详情图片src属性
+            Document doc = Jsoup.parse(respStr);
+            Elements imgs = doc.getElementsByTag("img");
+            for(Element img : imgs){
+                imgsArr.add(img.attr("src"));
+            }
+            if(imgsArr.size() > 0){
+                params.put("imgsArr", imgsArr);
+                params.put("success", true);
+            }
+        }
+
+        return params;
+    }
+
+    /**
+     * 商品评价
+     * @param pjUrl 评价url
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/goodsTBPJ", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsTBPJ(String pjUrl, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        List<String> imgsArr = new ArrayList<String>();
+        // 获取详情图片地址
+        try {
+
+            // 天猫抓取详情图片
+            Document doc = Jsoup.connect(pjUrl).ignoreContentType(true).get();
+            System.out.println(doc.data().toString());
+            params.put("TBPJ",doc.data().toString());
+            params.put("success", true);
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(httpGet != null){httpGet.releaseConnection();}
-            if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
-            if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
         }
         return params;
     }
