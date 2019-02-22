@@ -307,23 +307,60 @@ public class GoodsController extends BaseController {
 
             // 获取详情图片地址
             try {
+                Document doc = Jsoup.connect(url).timeout(50000).get();
+                Elements elScripts = doc.getElementsByTag("script");
 
-                // 天猫抓取详情图片
-                Document doc = Jsoup.connect(url).ignoreContentType(true).get();
-                Elements imgSrcElement = doc.select("#modules-desc > div");
-                for(Element ele : imgSrcElement){
-                    Elements imgs = ele.getElementsByTag("img");
-                    for(Element img : imgs){
-//                    System.out.println("**: " +img.attr("data-ks-lazyload"));
-                        imgsArr.add(img.attr("data-ks-lazyload"));
+                String scriptTxt = null;
+                for (Element ele : elScripts) {
+                    scriptTxt = ele.data().toString();
+                    if(scriptTxt.indexOf("httpsDescUrl") > 0){
+                        String[] txts1 = scriptTxt.split("httpsDescUrl");
+                        String[] txts2 = txts1[1].split(",");
+                        imgUrl = "http:" + txts2[0].replaceAll("\"", "").replaceAll(":","").replaceAll(" ", "");
+                        break;
                     }
-                }
-                if(imgsArr.size() > 0){
-                    params.put("imgsArr", imgsArr);
-                    params.put("success", true);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+
+            // 获取详情图片数据
+            if(StringUtils.isBlank(imgUrl)){
+                return params;
+            }
+            String respStr = null;
+            HttpGet httpGet = null;
+            CloseableHttpClient httpClient = null;
+            CloseableHttpResponse httpResponse = null;
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+                httpClient = HttpClients.createDefault();
+                httpGet = new HttpGet(imgUrl);
+                httpGet.setConfig(requestConfig);
+                httpResponse = httpClient.execute(httpGet);
+
+                int status_code = httpResponse.getStatusLine().getStatusCode();
+
+                if(status_code == HttpStatus.SC_OK){
+                    HttpEntity entity = httpResponse.getEntity();
+                    if(entity != null){
+                        respStr = EntityUtils.toString(entity, "UTF-8");
+                    }
+                    EntityUtils.consume(entity);
+                }
+
+            }catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if(httpGet != null){httpGet.releaseConnection();}
+                if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+                if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
+            }
+            // 获取详情图片src属性
+            Document doc = Jsoup.parse(respStr);
+            Elements imgs = doc.getElementsByTag("img");
+            for(Element img : imgs){
+                imgsArr.add(img.attr("src"));
             }
         }else if(userType == 0){// 淘宝详情抓取
             BrowserVersion b = BrowserVersion.getDefault();
@@ -403,12 +440,12 @@ public class GoodsController extends BaseController {
             for(Element img : imgs){
                 imgsArr.add(img.attr("src"));
             }
-            if(imgsArr.size() > 0){
-                params.put("imgsArr", imgsArr);
-                params.put("success", true);
-            }
         }
 
+        if(imgsArr.size() > 0){
+            params.put("imgsArr", imgsArr);
+            params.put("success", true);
+        }
         return params;
     }
 
