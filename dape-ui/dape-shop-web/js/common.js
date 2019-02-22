@@ -279,6 +279,7 @@ function loadGoodsForMain(){
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                 var tianmaoCss = 'icon-tianmao-18';
                 if($this.user_type == 0){
+                    console.log($this);
                   tianmaoCss = 'icon-taobao-18';
                 }else if($this.user_type == 1){
                   tianmaoCss = 'icon-tianmao-18';
@@ -540,6 +541,7 @@ function loadGoodsForSearch(){
 function loadInfo(){
     if(!!goodsDetail && goodsDetail.length > 0){
       var item = goodsDetail[0];
+      sellerId = item['seller_id'];
       numIid = item['num_iid'];
       // 商品图片
       pictUrl = item['pict_url'];
@@ -733,18 +735,29 @@ function toModulePage(id,url,platform){
 }
 // 抓取商品详情
 function goodsTBDetail(){
-$.post('/goods/goodsTBDetail',{itemId:numIid,platform:platform},function(data){
-    $('.loadingImg').remove();
+$.post('/goods/goodsTBTP',{itemId:numIid,platform:platform,userType:userType,clickUrl:click_url},function(data){
+    $('#detailImgs').find('.loadingImg').remove();
         if(data.success){
-            var imgStr = data.imgsStr;
-            imgStr = imgStr.substring(10, imgStr.length-3).replace(/align="absmiddle"/g, '').replace(/class="desc_anchor"/g, '').replace(/id="desc-module-1"/g, '').replace(/<img/g, '<img onload="imgLoadComplete(this)"');
-            $('#detailImgs').append(imgStr);
+            var imgsArr = data.imgsArr;
+            $(imgsArr).each(function(){
+                $('#detailImgs').append('<img onload="imgLoadComplete(this)" src='+this+' />');
+            });
+
         }
     });
 }
 // 图片加载完成设置宽度(商品详情页)
 function imgLoadComplete(obj){
-    if(obj.width > 10){
+    if(obj.width > 50){
         $(obj).width("100%");
     }
+}
+// 抓取商品评价
+function goodsTBPJ(){
+$.post('/goods/goodsTBPJ',{pjUrl:'https://rate.tmall.com/list_detail_rate.htm?itemId='+numIid+'&sellerId='+sellerId+'&pageSize='+pageSize},function(data){
+    $('#detailPj').find('.loadingImg').remove();
+        if(data.success){
+            console.log(data.TBPJ);
+        }
+    });
 }

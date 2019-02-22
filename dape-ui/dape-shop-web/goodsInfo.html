@@ -13,7 +13,7 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
   <!--产品详情-->
   <!--主图轮播-->
   <div class="weui-panel">
@@ -55,6 +55,9 @@
           <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:3rem;">------已经到底了------</div>
         </div>
         <div id="tab2" class="weui-tab__bd-item">
+          <div id="detailPj">
+            <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
+          </div>
           <div class="weui-cells__title" style="text-align: center;line-height: 3rem;margin-bottom:3rem;">------已经到底了------</div>
         </div>
       </div>
@@ -89,14 +92,6 @@
   </a>
 </div>
 
-<!-- 查询页链接提交form，隐藏 -->
-<div style="display: none;">
-<form action="/goods/toSearch" method="post" id="searchForm">
-  <input type="hidden" name="pageNum" value="1" />
-  <input type="hidden" name="pageSize" value="20" />
-  <input type="hidden" name="title" value="" />
-</form>
-</div>
 <div id="toastContainer"></div>
 <script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
 <script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
@@ -104,6 +99,7 @@
 <script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
 <script th:src="${uiPath + appName} + '/js/common.js'"></script>
 <script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
+
 <script th:inline="javascript">
   var appURL = [[${uiPath}]] + [[${appName}]];
   var goodsDetail = [[${goodsDetail}]];
@@ -113,10 +109,15 @@
   var click_url = [[${click_url}]];
   var item_description = [[${item_description}]];
   var platform = [[${platform}]];
-  var numIid,title,userType,pictUrl,zkPrice,zkFinalPrice,reservePrice,volume,freeShipment=false;
+  var numIid,title,userType,pictUrl,zkPrice,zkFinalPrice,reservePrice,volume,freeShipment=false,sellerId;
   var txt = '';
   var tkl = '';
   var tklTxt = '';
+  var itemId = [[${item_id}]];
+
+  var pageNum = 1;
+  var pageSize = 20;
+  var loading = false;
 
   $(function() {
       FastClick.attach(document.body);
@@ -130,9 +131,11 @@
       // 返回顶部
       backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');
-      goodsTBDetail();
+      goodsTBDetail();//天猫详情
+      goodsTBPJ();//天猫评价
   });
 
 </script>
+
 </body>
 </html>
