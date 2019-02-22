@@ -95,7 +95,7 @@ function showKeFu(img){
     if(len > 0){
         showDialog(dialogId);
     }else{
-        showLoading('请稍候...','style="min-width: 5rem;min-height: 5rem;"');
+        showLoading('请稍候...','style="min-width:5rem;min-height:5rem;margin-left:0;"');
     }
 }
 // 验证整数
@@ -331,9 +331,9 @@ function loadGoodsForMain(){
         $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
         if(data.msg){
-          $.toast(data.msg, 'forbidden');
+          toast(data.msg);
         }else{
-          $.toast('发送失败', 'forbidden');
+          toast('发送失败');
         }
       }
 
@@ -592,7 +592,7 @@ function loadInfo(){
 // 抢券淘口令
 function qiangquan(){
     if(tkl == ''){
-        showLoading('正在获取淘口令','style="min-width: 6.5rem;min-height: 6.5rem;"');
+        showLoading('正在获取淘口令','style="min-width:6.5rem;min-height:6.5rem;"');
         $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
             $.hideLoading();
             if(data.success){
