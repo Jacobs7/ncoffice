@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>大额券</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/style.css'">
+  <style>.weui-panel.weui-panel:after{border-bottom:none;}</style>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+  <!--数据列表-->
+  <div class="weui-panel" style="margin-top:2.5rem;">
+    <ul id="goodsUL" class="wy-pro-list clear"></ul>
+  </div>
+  <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
+    <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header" style="z-index:999;">
+  <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;margin-bottom:0;background-color: #DD2727;">
+    <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+    <a href="javascript:;" id="menuNameA" onclick="deqFadeToggle()" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2"></a>
+    <a class="func-back" href="/" style="margin-left: -24px;"><i class="icon24-zz item-home-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
+  </div>
+</header>
+
+<div id="top-menu-box" class="top-menu-box-d" onclick="deqFadeToggle()" style="top: 2rem;display:none;">
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=综合&material_id=9660'" class="weui-tabbar__item">
+      <div class="icon24 icon-deq-menu"></div>
+      <p class="weui-tabbar__label">综合</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=女装&material_id=9658'" class="weui-tabbar__item">
+      <div class="icon24 icon-girl"></div>
+      <p class="weui-tabbar__label">女装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=男装&material_id=9654'" class="weui-tabbar__item">
+      <div class="icon24 icon-boy"></div>
+      <p class="weui-tabbar__label">男装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;border-right:none;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=鞋包配饰&material_id=9648'" class="weui-tabbar__item">
+      <div class="icon24 icon-shoe"></div>
+      <p class="weui-tabbar__label">鞋包配饰</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=母婴&material_id=9650'" class="weui-tabbar__item">
+      <div class="icon24 icon-baby"></div>
+      <p class="weui-tabbar__label">母婴</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=内衣&material_id=9652'" class="weui-tabbar__item">
+      <div class="icon24 icon-bao-24"></div>
+      <p class="weui-tabbar__label">内衣</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=美妆个护&material_id=9653'" class="weui-tabbar__item">
+      <div class="icon24 icon-beauty"></div>
+      <p class="weui-tabbar__label">美妆个护</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;border-right:none;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=食品&material_id=9649'" class="weui-tabbar__item">
+      <div class="icon24 icon-eat"></div>
+      <p class="weui-tabbar__label">食品</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=家居家装&material_id=9655'" class="weui-tabbar__item">
+      <div class="icon24 icon-homeLife"></div>
+      <p class="weui-tabbar__label">家居家装</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=运动户外&material_id=9651'" class="weui-tabbar__item">
+      <div class="icon24 icon-huo"></div>
+      <p class="weui-tabbar__label">运动户外</p>
+    </a>
+  </div>
+  <div class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
+    <a th:href="'/goods/deq?platform='+ ${menuName} + '&menuName=数码家电&material_id=9656'" class="weui-tabbar__item">
+      <div class="icon24 icon-electron"></div>
+      <p class="weui-tabbar__label">数码家电</p>
+    </a>
+  </div>
+</div>
+<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display:none;margin-top:2.2rem;" class="weui-mask" onclick="deqFadeToggle()"></div>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="${uiPath} + ${appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/common.js'"></script>
+
+<script th:inline="javascript">
+
+    var q = '';
+    var menuName = [[${menuName}]];
+    var platform = [[${platform}]];
+    var material_id = [[${material_id}]];
+
+    $(function() {
+      FastClick.attach(document.body);
+      // 第一次加载数据
+      $(".weui-loadmore").show();
+
+      if(menuName == ''){menuName = '综合';}
+      if(platform == ''){platform = '2';}
+      if(material_id == ''){material_id = '9660';}
+      $('#menuNameA').html(menuName + '<i class="icon24-zz icon-deq-24" style="margin-left:5px;margin-bottom:-6px;"></i>');
+
+      loadGoodsForMain();
+      $('#listwrap').height($('body').height() - 44);
+        // 返回顶部
+        backScroll('listwrap');
+    });
+
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    var pageNum = 1;
+    var pageSize = 20;
+    var loading = false;
+
+    $("#listwrap").infinite().on("infinite", function () {
+        if (loading) return;
+        loading = true;
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        loadGoodsForMain();
+    });
+
+</script>
+</body>
+</html>

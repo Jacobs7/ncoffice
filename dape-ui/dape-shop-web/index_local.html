@@ -16,7 +16,7 @@
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
   <div class="weui-flex wy-iconlist-box" style="position: relative;">
-    <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="${menu.url + menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
+    <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="'/goods/localGoods' + ${menu.url} + ${menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
     <a href="javascript:;" onclick="menuPopup(this)" class="menuIcon"><i class="icon24-zz item-menu-24"></i></a>
   </div>
   <!--图标分类-->
@@ -32,7 +32,7 @@
     </div>
   </div>
   <!--优惠抢购-->
-    <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.75rem;">领券抢购</span></div>
+    <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.75rem;">本地商品列表</span></div>
   <!-- 数据列表 -->
   <div class="weui-panel">
       <ul id="goodsUL" class="wy-pro-list clear"></ul>
@@ -60,7 +60,7 @@
 
 <!-- 菜单 -->
 <div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()">
-  <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toNewUrl(this,\''+${menu.url}+${menu.id}+'\')'" th:classappend="${showId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;" th:text="${menu.name}"></a>
+  <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toNewUrl(this,\'/goods/localGoods'+${menu.url}+${menu.id}+'\')'" th:classappend="${showId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;" th:text="${menu.name}"></a>
 </div>
 <div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="hideMenuPopup()"></div>
 
@@ -105,7 +105,7 @@
         FastClick.attach(document.body);
         // 第一次加载数据
         $(".weui-loadmore").show();
-        loadGoodsForMain();
+        loadLocalGoodsForMain();
         $('#listwrap').height($('body').height() - 44);
         // 返回顶部
         backScroll('listwrap');
@@ -125,7 +125,7 @@
         pageNum++; //页数
         $('.weui-loadmore').show();
         setTimeout(function () {
-            loadGoodsForMain();
+            loadLocalGoodsForMain();
         }, 100);
     });
 </script>

@@ -12,6 +12,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="json" jdbcType="VARCHAR" property="json" />
+    <result column="module_id" jdbcType="BIGINT" property="moduleId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, is_enabled, name, url, icon, img, remark, sort, json
+    id, create_date, is_enabled, name, url, icon, img, remark, sort, json, module_id
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopMenuExample" resultMap="BaseResultMap">
     select
@@ -107,10 +108,12 @@
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopMenu">
     insert into shop_menu (id, create_date, is_enabled, 
       name, url, icon, img, 
-      remark, sort, json)
+      remark, sort, json, 
+      module_id)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, 
       #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR}, 
+      #{moduleId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopMenu">
     insert into shop_menu
@@ -145,6 +148,9 @@
       <if test="json != null">
         json,
       </if>
+      <if test="moduleId != null">
+        module_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -176,6 +182,9 @@
       </if>
       <if test="json != null">
         #{json,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -218,6 +227,9 @@
       <if test="record.json != null">
         json = #{record.json,jdbcType=VARCHAR},
       </if>
+      <if test="record.moduleId != null">
+        module_id = #{record.moduleId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -234,7 +246,8 @@
       img = #{record.img,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER},
-      json = #{record.json,jdbcType=VARCHAR}
+      json = #{record.json,jdbcType=VARCHAR},
+      module_id = #{record.moduleId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -269,6 +282,9 @@
       <if test="json != null">
         json = #{json,jdbcType=VARCHAR},
       </if>
+      <if test="moduleId != null">
+        module_id = #{moduleId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -282,7 +298,8 @@
       img = #{img,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
-      json = #{json,jdbcType=VARCHAR}
+      json = #{json,jdbcType=VARCHAR},
+      module_id = #{moduleId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

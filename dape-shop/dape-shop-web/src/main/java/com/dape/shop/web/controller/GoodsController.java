@@ -1,21 +1,34 @@
 package com.dape.shop.web.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dape.common.base.BaseController;
 import com.dape.common.util.QRCodeUtil;
-import com.dape.shop.common.constant.ShopTypeEnum;
-import com.dape.shop.dao.model.ShopGoods;
-import com.dape.shop.dao.model.ShopStore;
-import com.dape.shop.dao.model.ShopUser;
-import com.dape.shop.dao.model.UpmsUser;
-import com.dape.shop.rpc.api.ShopGoodsService;
-import com.dape.shop.rpc.api.ShopStoreService;
+import com.dape.shop.dao.model.*;
+import com.dape.shop.rpc.api.*;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.zxing.BarcodeFormat;
+import com.taobao.api.ApiException;
+import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.TbkDgOptimusMaterialRequest;
+import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +44,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 首页控制器
@@ -51,6 +69,10 @@ public class GoodsController extends BaseController {
     private ShopGoodsService shopGoodsService;
     @Autowired
     private ShopStoreService shopStoreService;
+    @Autowired
+    public ShopUserService shopUserService;
+    @Autowired
+    public ShopDetailImgUrlService shopDetailImgUrlService;
 
     /**
      * 加载商品列表, ajax请求
@@ -72,6 +94,78 @@ public class GoodsController extends BaseController {
         if(StringUtils.isNotBlank(cat)){
             params.put("cat", cat);
         }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            params.put("has_coupon", has_coupon);
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            params.put("sort", sort);
+        }
+        String need_free_shipment = request.getParameter("need_free_shipment");
+        if(StringUtils.isNotBlank(need_free_shipment)){
+            params.put("need_free_shipment", need_free_shipment);
+        }
+        String need_prepay = request.getParameter("need_prepay");
+        if(StringUtils.isNotBlank(need_prepay)){
+            params.put("need_prepay", need_prepay);
+        }
+        String itemloc = request.getParameter("itemloc");
+        if(StringUtils.isNotBlank(itemloc)){
+            params.put("itemloc", itemloc);
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            params.put("material_id", material_id);
+        }
+//        String ip = request.getParameter("ip");
+//        if(StringUtils.isNotBlank(ip)){
+//            params.put("ip", ip);
+//        }
+
+        return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
+    }
+
+    /**
+     * 加载商品列表, ajax请求
+     * @param pageNum 第几页
+     * @param pageSize 每页多少条
+     * @param request 查询条件
+     * @return
+     */
+    @RequestMapping(value = "/loadSearchGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadSearchGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String cat = request.getParameter("cat");
+        if(StringUtils.isNotBlank(cat)){
+            params.put("cat", cat);
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            params.put("platform", platform);
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            params.put("has_coupon", has_coupon);
+        }
+        String need_free_shipment = request.getParameter("need_free_shipment");
+        if(StringUtils.isNotBlank(need_free_shipment)){
+            params.put("need_free_shipment", need_free_shipment);
+        }
+        String need_prepay = request.getParameter("need_prepay");
+        if(StringUtils.isNotBlank(need_prepay)){
+            params.put("need_prepay", need_prepay);
+        }
         String itemloc = request.getParameter("itemloc");
         if(StringUtils.isNotBlank(itemloc)){
             params.put("itemloc", itemloc);
@@ -79,138 +173,438 @@ public class GoodsController extends BaseController {
         String sort = request.getParameter("sort");
         if(StringUtils.isNotBlank(sort)){
             params.put("sort", sort);
+        }else{
+            params.put("sort", "tk_total_sales_des");
         }
-        String is_tmall = request.getParameter("is_tmall");
-        if(StringUtils.isNotBlank(is_tmall)){
-            params.put("is_tmall", is_tmall);
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            params.put("material_id", material_id);
         }
-        String is_overseas = request.getParameter("is_overseas");
-        if(StringUtils.isNotBlank(is_overseas)){
-            params.put("is_overseas", is_overseas);
-        }
-        String platform = request.getParameter("platform");
-        if(StringUtils.isNotBlank(platform)){
-            params.put("platform", platform);
-        }
+//        if(StringUtils.isNotBlank(ip)){
+//            params.put("ip", ip);
+//        }
 
-        return shopGoodsService.loadGoods(pageNum, pageSize, params);
+//        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
+            Map<String, Object> m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+            m.put("material_id", material_id);
+            return m;
+//        }else{
+//            Map<String, Object> m = shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
+//            return m;
+//        }
     }
 
     /**
      * 商品详情
-     * @param numIid id
      * @param model
      * @param request
      * @return
      */
-    @RequestMapping(value = "/goodsDetail", method = RequestMethod.GET)
-    public String goodsDetail(Long numIid, Integer userid, Model model, HttpServletRequest request) {
+    @RequestMapping(value = "/goodsDetail", method = RequestMethod.POST)
+    public String goodsDetail(Long item_id, String tkl, Integer userid, Model model, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
 
-        String count = request.getParameter("count");
-        if(StringUtils.isNotBlank(count)){
-            params.put("count", count);
-        }
         String platform = request.getParameter("platform");
         if(StringUtils.isNotBlank(platform)){
             params.put("platform", platform);
         }
 
         // 商品
-        Map<String, Object> goodsDetail = shopGoodsService.findGoods(numIid, params);
+        Map<String, Object> goodsDetail = shopGoodsService.findGoods(item_id, params);
         if(Boolean.valueOf(goodsDetail.get("success").toString())){
             model.addAttribute("goodsDetail", goodsDetail.get("nTbkItem"));
+        }else{
+            model.addAttribute("goodsDetail", "");
         }
 
-        // 店铺
-//        ShopStore shopStore = shopStoreService.findShopStore(shopGoods.getSellerId().toString());
-//        model.addAttribute("shopStore", shopStore);
+        // 佣金率
+        String commission_rate = request.getParameter("commission_rate");
+        if(StringUtils.isNotBlank(commission_rate)){
+            model.addAttribute("commission_rate", commission_rate);
+        }else{
+            model.addAttribute("commission_rate", 0);
+        }
+        // 券额
+        String coupon_amount = request.getParameter("coupon_amount");
+        if(StringUtils.isNotBlank(coupon_amount)){
+            model.addAttribute("coupon_amount", coupon_amount);
+        }else{
+            model.addAttribute("coupon_amount", "0");
+        }
+        // 券链接
+        String coupon_click_url = request.getParameter("coupon_click_url");
+        if(StringUtils.isNotBlank(coupon_click_url)){
+            model.addAttribute("coupon_click_url", coupon_click_url);
+        }else {
+            model.addAttribute("coupon_click_url", "");
+        }
+        // 淘客链接
+        String click_url = request.getParameter("click_url");
+        if(StringUtils.isNotBlank(click_url)){
+            model.addAttribute("click_url", click_url);
+        }else {
+            model.addAttribute("click_url", "");
+        }
+        // 推荐理由
+        String item_description = request.getParameter("item_description");
+        if(StringUtils.isNotBlank(item_description)){
+            model.addAttribute("item_description", item_description);
+        }else {
+            model.addAttribute("item_description", "");
+        }
 
         // 分享方案  推荐理由、口令需要后续添加
-        String shopTxt = ShopTypeEnum.getMessage("B");
 //        String copyTxt = shopGoods.getTitle() + "\n----------\n券后￥"+shopGoods.getZkFinalPrice()+"【优惠券"+shopGoods.getCouponInfo()+"元】\n原价￥"+shopGoods.getReservePrice() + (shopTxt==null?"":"【"+shopTxt+"】")+"\n----------\n推荐理由：大包装，全家一起泡，可以使用100次的艾草泡脚包，独立包装，吸湿暖足，排毒养颜，缓解疲劳，改善失眠，舒缓护理，家庭养生必备佳品，天然量多，效果好。\n----------\n￥joxNbkGCkNZ￥复制这条信息，打开手机淘宝即可领券";
 //        model.addAttribute("copyTxt", copyTxt);
         model.addAttribute("platform", platform);
+
+        model.addAttribute("tkl", StringUtils.isNotBlank(tkl) ? tkl : "");
+
+        model.addAttribute("item_id", item_id);
 
         return thymeleaf("/goodsInfo");
     }
 
     /**
+     * 推荐页的商品详情
+     * @param i 淘宝商品id
+     * @param p 1:PC，2:无线
+     * @param u 用户id
+     * @param t 淘口令
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/toTGGD", method = RequestMethod.GET)
+    public String toGoodsDetailTG(String i, String p, Integer u, String t, Model model, HttpServletRequest request) {
+
+        model.addAttribute("itemId", i);
+        model.addAttribute("platform", p);
+        model.addAttribute("userid", u);
+        model.addAttribute("tkl", t);
+
+        return thymeleaf("/goodsDetailTG");
+    }
+
+    /**
+     * 商品详情图片
+     * @param itemId 淘宝商品id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/goodsDetailTG", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsDetailTG(String itemId, Long platform, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        Map<String, Object> itemInfo = shopGoodsService.tbkItemInfoGet(itemId, platform,null);
+        boolean flag = (boolean)itemInfo.get("success");
+
+        // 调用淘宝接口，获取主图列表
+        List<String> pics = new ArrayList<String>();
+        if(flag){
+            JSONArray nTbkItem = (JSONArray)itemInfo.get("nTbkItem");
+            if(nTbkItem != null && nTbkItem.size() > 0){
+                JSONObject info = nTbkItem.getJSONObject(0);
+                pics.add(info.getString("pict_url"));
+                JSONObject smallImages = info.getJSONObject("small_images");
+                if(smallImages != null){
+                    JSONArray smalls = smallImages.getJSONArray("string");
+                    if(smalls != null && smalls.size() > 0) {
+                        for (int m = 0; m < smalls.size(); m++) {
+                            pics.add(smalls.getString(m));
+                        }
+                    }
+                }
+            }
+        }
+
+        List<String> detailPics = new ArrayList<String>();
+
+        ShopDetailImgUrlExample example = new ShopDetailImgUrlExample();
+        example.or().andItemIdEqualTo(itemId);
+        List<ShopDetailImgUrl> list = shopDetailImgUrlService.selectByExample(example);
+        if(list != null && list.size() > 0){
+            String imgUrl = list.get(0).getImgUrl();
+            detailPics = getDetailImgs(imgUrl);
+        }
+
+        params.put("pics", pics);
+        params.put("detailPics", detailPics);
+        params.put("success", true);
+        return params;
+    }
+
+    /**
+     * 商品详情图片
+     * @param itemId 淘宝商品id
+     * @param userType 0:淘宝，1:天猫
+     * @param clickUrl 淘宝客商品链接
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/goodsTBTP", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsTBTP(String itemId, Integer userType, String clickUrl, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        if(StringUtils.isBlank(itemId)){
+            return params;
+        }
+
+        // 详情图片的淘宝url
+        String imgUrl = null;
+
+        ShopDetailImgUrlExample example = new ShopDetailImgUrlExample();
+        example.or().andItemIdEqualTo(itemId);
+        List<ShopDetailImgUrl> list = shopDetailImgUrlService.selectByExample(example);
+
+        if(list != null && list.size() > 0){
+            imgUrl = list.get(0).getImgUrl();
+        }else{
+
+            BrowserVersion b = BrowserVersion.getDefault();
+            WebClient wc = new WebClient(b);
+            HtmlPage page = null;
+            String pageXml = null;//记录请求的html字符串
+            try {
+                // htmlunit解析网页，获取详情图片url
+                wc.setUseInsecureSSL(true);
+                wc.setJavaScriptEnabled(true); // 启用JS解释器，默认为true
+                wc.setCssEnabled(false); // 禁用css支持
+                wc.setThrowExceptionOnScriptError(false); // js运行错误时，是否抛出异常
+                wc.setTimeout(100000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
+                page = wc.getPage(clickUrl);
+
+                pageXml = page.asXml();
+
+                Document doc = Jsoup.parse(pageXml);
+                Elements elScripts = doc.getElementsByTag("script");
+
+                if(userType == 0){// 淘宝处理
+                    String tmp = null;
+                    for (Element e : elScripts) {
+                        tmp = e.data().toString();
+                        tmp = tmp.replaceAll(" ","").replaceAll("\n", "");
+                        if(tmp.indexOf("varg_config") >= 0){
+                            tmp = tmp.substring(tmp.indexOf("descUrl")+7);
+                            tmp = tmp.substring(1,tmp.indexOf(","));
+                            tmp = tmp.substring(tmp.indexOf("'?'") +3, tmp.indexOf("':'"));
+                            imgUrl = "http:" + tmp;
+                            break;
+                        }
+                    }
+                }else if(userType == 1){//开猫处理
+                    String scriptTxt = null;
+                    for (Element ele : elScripts) {
+                        scriptTxt = ele.data().toString();
+                        if(scriptTxt.indexOf("httpsDescUrl") > 0){
+                            String[] txts1 = scriptTxt.split("httpsDescUrl");
+                            String[] txts2 = txts1[1].split(",");
+                            imgUrl = "http:" + txts2[0].replaceAll("\"", "").replaceAll(":","").replaceAll(" ", "");
+                            break;
+                        }
+                    }
+                }
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                wc.closeAllWindows();
+            }
+
+            // 抓取的详情图片url添加到数据库
+            if(StringUtils.isNotBlank(imgUrl)){
+                ShopDetailImgUrl shopDetailImgUrl = new ShopDetailImgUrl();
+                shopDetailImgUrl.setCreateDate(new Date());
+                shopDetailImgUrl.setItemId(itemId);
+                shopDetailImgUrl.setImgUrl(imgUrl);
+                shopDetailImgUrlService.insert(shopDetailImgUrl);
+            }
+        }
+
+        // 获取详情图片数据
+        if(StringUtils.isBlank(imgUrl)){
+            return params;
+        }
+
+        // 记录详情图片url
+        List<String> imgsArr = getDetailImgs(imgUrl);
+
+        if(imgsArr.size() > 0){
+            params.put("imgsArr", imgsArr);
+            params.put("success", true);
+        }
+        return params;
+    }
+
+    /**
+     * 请求详情图片的地址
+     * @param imgUrl
+     * @return
+     */
+    public List<String> getDetailImgs(String imgUrl){
+
+        List<String> imgsArr = new ArrayList<String>();
+
+        String respStr = null;
+        HttpGet httpGet = null;
+        CloseableHttpClient httpClient = null;
+        CloseableHttpResponse httpResponse = null;
+        try {
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+            httpClient = HttpClients.createDefault();
+            httpGet = new HttpGet(imgUrl);
+            httpGet.setConfig(requestConfig);
+            httpResponse = httpClient.execute(httpGet);
+
+            int status_code = httpResponse.getStatusLine().getStatusCode();
+
+            if(status_code == HttpStatus.SC_OK){
+                HttpEntity entity = httpResponse.getEntity();
+                if(entity != null){
+                    respStr = EntityUtils.toString(entity, "UTF-8");
+                }
+                EntityUtils.consume(entity);
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(httpGet != null){httpGet.releaseConnection();}
+            if(httpResponse != null){try { httpResponse.close();} catch(IOException e) { e.printStackTrace();}}
+            if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
+        }
+        // 获取详情图片src属性
+        Document doc = Jsoup.parse(respStr);
+        Elements imgs = doc.getElementsByTag("img");
+        for(Element img : imgs){
+            imgsArr.add(img.attr("src"));
+        }
+
+        return imgsArr;
+    }
+
+    /**
+     * 商品评价
+     * @param pjUrl 评价url
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/goodsTBPJ", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsTBPJ(String pjUrl, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        List<String> imgsArr = new ArrayList<String>();
+        // 获取详情图片地址
+        try {
+
+            // 天猫抓取详情图片
+            Document doc = Jsoup.connect(pjUrl).ignoreContentType(true).get();
+            System.out.println(doc.data().toString());
+            params.put("TBPJ",doc.data().toString());
+            params.put("success", true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return params;
+    }
+
+    /**
+     * 获取淘口令
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/goodsTPwd", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> goodsTPwd(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String url = request.getParameter("url");
+        if(StringUtils.isNotBlank(url)){
+            params.put("url", url);
+        }
+        String text = request.getParameter("text");
+        if(StringUtils.isNotBlank(text)){
+            params.put("text", text);
+        }
+        String user_id = request.getParameter("user_id");
+        if(StringUtils.isNotBlank(user_id)){
+            params.put("user_id", user_id);
+        }
+        String logo = request.getParameter("logo");
+        if(StringUtils.isNotBlank(logo)){
+            params.put("logo", logo);
+        }
+        Object o = request.getSession().getAttribute("upmsuser");
+        UpmsUser upmsUser = null;
+        if(o != null){
+            upmsUser = (UpmsUser)o;
+            upmsUser = shopUserService.selectUpmsUserByUsername(upmsUser.getUsername());
+        }
+        if(upmsUser != null){
+//            params.put("ext", "{'user':'123aaa'}");
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            params.put("ext", "{\"outer_trade_code\":\""+"NO_"+upmsUser.getUserId()+"_" +format.format(new Date())+"\"}");
+        }
+        Map<String, Object> m = shopGoodsService.getTKL(params);
+        if(upmsUser != null){
+            m.put("isLogin", true);
+        }else{
+            m.put("isLogin", false);
+        }
+        return m;
+    }
+
+    /**
      * 转向查询页,get请求
-     * @param pageNum 第几页
-     * @param pageSize 每页多少条
      * @param request 查询条件
      * @param model
      * @return
      */
     @RequestMapping(value = "/toSearch", method = RequestMethod.POST)
-    public String toSearch(Long pageNum, Long pageSize, HttpServletRequest request, Model model) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        model.addAttribute("goodsList", shopGoodsService.loadGoods(pageNum, pageSize, params));
-        model.addAttribute("query", params);
+    public String toSearch(HttpServletRequest request, Model model) {
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            model.addAttribute("q", q);
+        }else{
+            model.addAttribute("q", "");
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", "");
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", material_id);
+        }else{
+            model.addAttribute("material_id", "");
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "");
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            model.addAttribute("has_coupon", has_coupon);
+        }else{
+            model.addAttribute("has_coupon", "");
+        }
+
         return thymeleaf("/search");
-    }
-
-    /**
-     * 获取真实ip地址
-     * @param request
-     * @return
-     */
-    public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
-    /**
-     * 获取内网ip
-     */
-    public static String getLocalIp() {
-        String localip = null;// 本地IP，如果没有配置外网IP则返回它
-        String netip = null;// 外网IP
-        try {
-            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip = null;
-            boolean finded = false;// 是否找到外网IP
-            while (netInterfaces.hasMoreElements() && !finded) {
-                NetworkInterface ni = netInterfaces.nextElement();
-                Enumeration<InetAddress> address = ni.getInetAddresses();
-                while (address.hasMoreElements()) {
-                    ip = address.nextElement();
-                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
-                        netip = ip.getHostAddress();
-                        System.out.println("外网IP：" + netip);
-                        finded = true;
-                        break;
-                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
-                        localip = ip.getHostAddress();
-                        System.out.println("内网IP：" + localip);
-                    }
-
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
-        }
     }
 
     /**
@@ -223,39 +617,35 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping(value = "/haibao", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> haibao(ShopGoods shopGood, String shopType, Integer platform, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> haibao(ShopGoods shopGood, Boolean freeShipment, String tkl, String shopType, Integer platform, Model model, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
+
+        tkl = tkl.replaceAll("￥", "");
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String date = format.format(new Date());
 
         Object o = request.getSession().getAttribute("upmsuser");
-        String openId = "open_id_test";
+        Integer userId = 0;
         UpmsUser upmsuser = null;
         if(o != null){
             upmsuser = (UpmsUser)o;
-            openId = upmsuser.getOpenid();
+            userId = upmsuser.getUserId();
         }
 
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 
-
-//        String ip = getLocalIp();//内网IP(测试用)，上线要改为域名
         String ip = "www.16office.com";
+//        String ip = "192.168.0.105";//内网IP(测试用)，上线要改为域名
         int port = request.getLocalPort();
         // 商品推广二维码
-        String qrCode = "http://" + ip + ":" + port + "/goods/goodsDetail?numIid="+shopGood.getNumIid()+"&platform=" + platform;
+        String qrCode = "http://" + ip + ":" + port + "/goods/toTGGD?i="+shopGood.getItemId()+"&p=" + platform + "&u=" + userId + "&t=" + tkl;
 
-        // 当前session存在分享图片，直接转出到前端，不存在创建分享图片
-        String haibaoKey = "goods_" + date + "_" + openId + "_" + shopGood.getNumIid();
-        if (upmsuser != null){
-            qrCode += "&userid=" + upmsuser.getUserId();
-            haibaoKey = "goods_" + date + "_" + upmsuser.getUserId() + "_" + shopGood.getNumIid();
-        }
+        // 分享图片名称
+        String haibaoKey = "goods_" + date + "_" + userId + "_" + shopGood.getItemId() + "_" + tkl;
 
-//        Object haibaoImg = request.getSession().getAttribute(haibaoKey);
         // 生成的分享图片
         String targetImg = "/resources/images/tuiguang/"+haibaoKey+".jpg";
 
@@ -263,9 +653,6 @@ public class GoodsController extends BaseController {
         String targetTemp = proPath + targetImg;
         File temp = new File(targetTemp);
         if(!temp.exists()){
-//            temp.delete();
-//        }
-//        if(haibaoImg == null){
 
             try {
                 // 商品主图保存到本地
@@ -304,11 +691,15 @@ public class GoodsController extends BaseController {
                 }
 
                 String title = shopGood.getTitle();// 标题
-                String zkPrice = shopGood.getZkFinalPrice();// 折扣价
-                String yjPrice = shopGood.getReservePrice();// 原价
-                boolean baoyou = shopGood.getFreeShipment();// 是否包邮
+                BigDecimal yjPrice = shopGood.getZkFinalPrice();// 原价
                 String volume = shopGood.getVolume().toString();// 30天销量
-                String quan = shopGood.getCouponInfo();
+                BigDecimal quan = shopGood.getCouponAmount();
+                BigDecimal zkPrice = yjPrice;// 折扣价
+                try{
+                    zkPrice = zkPrice.subtract(quan);
+                }catch (Exception e){
+
+                }
 
                 int width = 640;
                 int height = 986;
@@ -335,11 +726,11 @@ public class GoodsController extends BaseController {
 
                 // 店铺类型
                 if(shopType != null){
-                    if(shopType.equals("B")){ // 天猫
+                    if(shopType.equals("1")){ // 天猫
                         String tianmaoTmp = proPath + "/resources/images/base/icon_tianmao.png";
                         BufferedImage tianmaoIcon = ImageIO.read(new File(tianmaoTmp));
                         g.drawImage(tianmaoIcon, 20, tempH + 25, 40, 40, null);
-                    }else if(shopType.equals("C")){ // 淘宝
+                    }else if(shopType.equals("0")){ // 淘宝
                         String tiaobaoTmp = proPath + "/resources/images/base/icon_taobao.png";
                         BufferedImage tiaobaoTmpIcon = ImageIO.read(new File(tiaobaoTmp));
                         g.drawImage(tiaobaoTmpIcon, 20, tempH + 25, 40, 40, null);
@@ -410,7 +801,7 @@ public class GoodsController extends BaseController {
                 g.drawString(zkPriceStr, 80,(tempH + 60) + (35 * line) + 63);
 
                 // 是否包邮
-                if(baoyou){
+                if(freeShipment){
                     fm = g.getFontMetrics(font);
                     int baoyouW = fm.stringWidth(zkPriceStr);
                     g.fillRect(80 + baoyouW + 20, (tempH + 60) + (35 * line) + 40,46, 26);
@@ -432,18 +823,21 @@ public class GoodsController extends BaseController {
                 // 原价删除线
                 fm = g.getFontMetrics(font);
                 int delLineW = fm.stringWidth(yjPriceStr);
-                g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 95);
+                g.drawLine(74,(tempH + 60) + (35 * line) + 100, 74 + delLineW,(tempH + 60) + (35 * line) + 100);
+                g.drawLine(75,(tempH + 60) + (35 * line) + 100, 75 + delLineW,(tempH + 60) + (35 * line) + 100);
 
+                // 券宽度
+                int quanW = fm.stringWidth(quan.toString());
                 // 月销量
                 font = new Font("黑体 常规", Font.PLAIN, 20);
                 g.setFont(font);
-                g.drawString("月销" + volume + "件", 75 + delLineW + 115,(tempH + 60) + (35 * line) + 105);
+                g.drawString("月销" + volume + "件", 75 + delLineW + quanW + 90,(tempH + 60) + (35 * line) + 105);
 
                 // 券
                 color = new Color(255, 68, 0);
                 g.setColor(color);
                 g.fillRoundRect(75 + delLineW + 10, (tempH + 60) + (35 * line) + 85, 30,26, 5, 5);
-                g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,72,25,5,5);
+                g.drawRoundRect(75 + delLineW + 36,(tempH + 60) + (35 * line) + 85,quanW + 36,25,5,5);
                 font = new Font("黑体 常规", Font.BOLD, 18);
                 g.setFont(font);
                 color = Color.white;
@@ -453,9 +847,8 @@ public class GoodsController extends BaseController {
                 g.setFont(font);
                 color = new Color(255, 68, 0);
                 g.setColor(color);
-                int quanW = fm.stringWidth(quan);
-                g.drawString("元", 75 + delLineW + 36 + quanW + (quanW / 2),(tempH + 60) + (35 * line) + 103);
-                g.drawString(quan, 75 + delLineW + 36 + (quanW / 2),(tempH + 60) + (35 * line) + 105);
+                g.drawString("元", 75 + delLineW + 48 + quanW,(tempH + 60) + (35 * line) + 103);
+                g.drawString(quan.toString(), 75 + delLineW + 48,(tempH + 60) + (35 * line) + 105);
 
                 // 底部
                 color = new Color(255, 207, 207);
@@ -463,28 +856,399 @@ public class GoodsController extends BaseController {
                 g.fillRect(0, height - 60, width,60);
                 color = new Color(155, 55, 55);
                 g.setColor(color);
-                font = new Font("楷体 常规", Font.BOLD, 30);
+//                font = new Font("楷体 常规", Font.BOLD + Font.ITALIC, 30);
+                font = new Font("叶根友毛笔行书2.0版 常规", Font.BOLD, 30);
                 g.setFont(font);
                 String dbTxt = "粉丝福利优惠券，别的地方看不到哦";
                 fm = g.getFontMetrics(font);
                 int dbW = fm.stringWidth(dbTxt);
                 g.drawString(dbTxt, (width - dbW ) / 2,height - 20);
                 File outputfile = new File(targetTemp);
+                outputfile.createNewFile();
                 ImageIO.write(imageNew,"jpg", outputfile);
 
-//                request.getSession().setAttribute(haibaoKey, targetImg);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-//        else {
-//            targetImg = haibaoImg.toString();
-//        }
+
         System.out.println("生成海报共耗时：[" + (System.currentTimeMillis() - start) + "]毫秒");
         result.put("url", targetImg);
         result.put("success", true);
         return result;
+    }
+
+    /**
+     * 大额券
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deq", method = RequestMethod.GET)
+    public String deq(Model model, HttpServletRequest request) {
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            model.addAttribute("q", q);
+        }else{
+            model.addAttribute("q", "");
+        }
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", "");
+        }
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", material_id);
+        }else{
+            model.addAttribute("material_id", "");
+        }
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "");
+        }
+        String has_coupon = request.getParameter("has_coupon");
+        if(StringUtils.isNotBlank(has_coupon)){
+            model.addAttribute("has_coupon", has_coupon);
+        }else{
+            model.addAttribute("has_coupon", "");
+        }
+        String menuName = request.getParameter("menuName");
+        if(StringUtils.isNotBlank(menuName)){
+            model.addAttribute("menuName", menuName);
+        }else{
+            model.addAttribute("menuName", "");
+        }
+        return thymeleaf("/deq");
+    }
+
+
+
+    // *******************************************************************************************************************************
+
+    /**
+     * 获取内网ip
+     */
+    public static String getLocalIp() {
+        String localip = null;// 本地IP，如果没有配置外网IP则返回它
+        String netip = null;// 外网IP
+        try {
+            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            boolean finded = false;// 是否找到外网IP
+            while (netInterfaces.hasMoreElements() && !finded) {
+                NetworkInterface ni = netInterfaces.nextElement();
+                Enumeration<InetAddress> address = ni.getInetAddresses();
+                while (address.hasMoreElements()) {
+                    ip = address.nextElement();
+                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
+                        netip = ip.getHostAddress();
+                        System.out.println("外网IP：" + netip);
+                        finded = true;
+                        break;
+                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
+                        localip = ip.getHostAddress();
+                        System.out.println("内网IP：" + localip);
+                    }
+
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        if (netip != null && !"".equals(netip)) {
+            return netip;
+        } else {
+            return localip;
+        }
+    }
+
+    // 加载数据库商品 start *******************************************************************************************************
+    @Autowired
+    private ShopMenuService shopMenuService;
+    @Autowired
+    private ShopModuleService shopModuleService;
+
+    @RequestMapping(value = "localGoods", method = RequestMethod.GET)
+    public String localGoods(Model model, Long showId, HttpServletRequest request) {
+
+        /** 后面要放到缓存中 start */
+        // 查询导航栏列表: 首页、男装、女装等
+        ShopMenuExample shopMenuE = new ShopMenuExample();
+        shopMenuE.or().andIsEnabledEqualTo(true);
+        shopMenuE.setOrderByClause("sort ASC");
+        List<ShopMenu> menus = shopMenuService.selectByExample(shopMenuE);
+        int size = 7;
+        if(menus.size() < size){
+            size = menus.size();
+        }
+        model.addAttribute("menus", menus);
+        model.addAttribute("menusSize", size);
+        model.addAttribute("showId", showId == null ? 1L : showId);
+
+        // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
+        ShopModuleExample shopModuleE = new ShopModuleExample();
+        shopModuleE.or().andIsEnabledEqualTo(true);
+        shopModuleE.setOrderByClause("sort ASC");
+        List<ShopModule> modules = shopModuleService.selectByExample(shopModuleE);
+        model.addAttribute("modules", modules);
+        /** 后面要放到缓存中 end */
+
+        String material_id = request.getParameter("material_id");
+        if(StringUtils.isNotBlank(material_id)){
+            model.addAttribute("material_id", Long.valueOf(material_id));
+        }else{
+            model.addAttribute("material_id", 13366L);
+        }
+
+        String platform = request.getParameter("platform");
+        if(StringUtils.isNotBlank(platform)){
+            model.addAttribute("platform", platform);
+        }else{
+            model.addAttribute("platform", 2);
+        }
+
+        return thymeleaf("/index_local");
+    }
+
+    /**
+     * 加载数据库商品, ajax请求
+     * @param pageNum 第几页
+     * @param pageSize 每页多少条
+     * @param shopGoods 查询条件
+     * @return
+     */
+    @RequestMapping(value = "/loadLocalGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadLocalGoods(Integer pageNum, Integer pageSize, ShopGoods shopGoods) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        ShopGoodsExample example = new ShopGoodsExample();
+        ShopGoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andMaterialIdEqualTo(shopGoods.getMaterialId());
+        List<ShopGoods> goods = shopGoodsService.selectByExampleForStartPage(example, pageNum, pageSize);
+        params.put("data", goods);
+        params.put("success", true);
+        return params;
+    }
+    // 加载数据库商品 end *******************************************************************************************************
+
+    /**
+     * 导入开放平台商品
+     * @param materialIds
+     * @param totalPage
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public String export(String materialIds, Integer totalPage, HttpServletRequest request) {
+        if(StringUtils.isNotBlank(materialIds)){
+            String[] arr = materialIds.split(",");
+            if(totalPage == null){
+                totalPage = 100;
+            }
+            Long pageSize = 100L;
+            String url = "http://gw.api.taobao.com/router/rest";
+            String appKey = "25632498";
+            String secret = "51e06e43ebc6f093579131f6c7fcd568";
+            Long adzoneId = 96030450186L;
+            webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, arr, null, null);
+        }
+        return thymeleaf("/index_local");
+    }
+
+    /**
+     * 导入开放平台商品到数据库
+     * @param totalPage 导入总页数
+     * @param pageSize 每页条数
+     * @param url 开放平台url
+     * @param appKey
+     * @param secret
+     * @param adzoneId
+     * @param materialIds 类目
+     * @param couponA 最小券面额，默认20
+     * @param floatA 券点商品折扣价的百分比，默认0.3，0.3表示30%
+     * @return
+     */
+    public Map<String, Object> webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds, BigDecimal couponA, BigDecimal floatA){
+
+        int saveNum = 0;//记录保存到数据的总条数
+
+        ShopGoods goods = null;
+
+        if(couponA == null){
+            couponA = new BigDecimal("20");//券额大于19的保存到数据库
+        }
+        if(floatA == null){
+            floatA = new BigDecimal("0.3");//券点折扣价的30%的保存到数据库
+        }
+
+        Pattern pattern = Pattern.compile("[0-9]*");
+
+        Map<String, Object> exportInfo = new HashMap<String, Object>();//记录每个类目请求次数，查询条数，导入条数
+        int requeryNum = 0;//请求开放平台接口次数
+        int queryNum = 0;
+        int exportNum = 0;
+
+        TaobaoClient client = new DefaultTaobaoClient(url, appKey, secret);
+        TbkDgOptimusMaterialRequest req = null;
+        material:for(String item : materialIds){
+            Long materialId = null;
+            try{
+                materialId = Long.valueOf(item);
+            }catch (Exception e){
+                break material;
+            }
+            query:for(int i = 0; i < totalPage; i++){
+                req = new TbkDgOptimusMaterialRequest();
+                req.setPageSize(pageSize);
+                req.setAdzoneId(adzoneId);
+                req.setPageNo(Long.valueOf(i));
+                req.setMaterialId(materialId);
+
+                try {
+                    TbkDgOptimusMaterialResponse rsp = client.execute(req);
+                    String resultJson = rsp.getBody();
+                    requeryNum += 1;
+
+                    // 返回结果转json
+                    JSONObject jsonObject = JSON.parseObject(resultJson);
+                    JSONObject tbkDgOptimusMaterialResponse = jsonObject.getJSONObject("tbk_dg_optimus_material_response");// 各个接口的结果集字段不一样
+                    JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+                    if(errorResponse != null){//返回错误
+                        String subMsg = errorResponse.getString("sub_msg");
+                        if(subMsg.equals("无结果")){
+                            continue material;
+                        }
+                    }else if(tbkDgOptimusMaterialResponse != null){//查询成功
+                        String requestId = tbkDgOptimusMaterialResponse.getString("request_id");
+                        JSONObject resultList = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
+                        JSONArray mapData = resultList.getJSONArray("map_data");
+                        if(mapData == null || mapData.size() <= 0){
+                            continue material;
+                        }
+                        queryNum += mapData.size();
+                        save:for(int j = 0; j < mapData.size(); j++){
+                            JSONObject data = mapData.getJSONObject(j);
+
+                            String zkFinalPriceStr = data.getString("zk_final_price");//折扣价(未摔扣减券额)
+                            String couponAmountStr = data.getString("coupon_amount");//折扣价(未摔扣减券额)
+                            BigDecimal zkFinalPrice = new BigDecimal(zkFinalPriceStr);
+                            BigDecimal couponAmount = new BigDecimal(couponAmountStr);
+
+                            if(couponAmount.divide(zkFinalPrice, 2, BigDecimal.ROUND_HALF_DOWN).compareTo(floatA) == -1 && couponAmount.compareTo(couponA) == -1){
+                                continue save;
+                            }
+
+                            String itemId = data.getString("item_id");
+                            ShopGoodsExample e = new ShopGoodsExample();
+                            e.or().andItemIdEqualTo(itemId);
+                            int count = shopGoodsService.countByExample(e);//验证商品是否存在
+                            if(count > 0) {
+                                continue save;
+                            }
+
+                            goods = new ShopGoods();
+                            goods.setCreateDate(new Date());//导入时间
+                            goods.setItemId(itemId);//商品id
+                            goods.setTitle(data.getString("title"));//标题
+                            goods.setShortTitle(data.getString("short_title"));//商品短标题
+                            goods.setPictUrl(data.getString("pict_url"));//主图
+                            JSONObject smallImagesObj = data.getJSONObject("small_images");//小图数组
+                            String small_images = "";
+                            if(smallImagesObj != null){
+                                JSONArray smalls = smallImagesObj.getJSONArray("string");
+                                if(smalls != null && smalls.size() > 0){
+                                    for(int m = 0; m < smalls.size(); m++){
+                                        small_images += smalls.getString(m);
+                                        if(m < smalls.size()){
+                                            small_images += ",";
+                                        }
+                                    }
+                                    goods.setSmallImages(small_images);
+                                }
+                            }
+                            goods.setZkFinalPrice(zkFinalPrice);//折扣价(未摔扣减券额)
+                            goods.setClickUrl(data.getString("click_url"));//淘客链接
+                            goods.setShopTitle(data.getString("shop_title"));//卖家昵称
+                            goods.setSellerId(data.getString("seller_id"));//卖家id
+                            goods.setItemDescription(data.getString("item_description"));//推荐理由
+                            goods.setVolume(data.getInteger("volume"));//30天销量
+                            goods.setCouponClickUrl(data.getString("coupon_click_url"));//券链接
+                            goods.setCouponAmount(couponAmount);//券额
+                            goods.setCouponTotalCount(data.getInteger("coupon_total_count"));//券总量
+                            goods.setCouponRemainCount(data.getInteger("coupon_remain_count"));//优惠券剩余量
+                            goods.setCouponStartFee(data.getString("coupon_start_fee"));//券起用门槛,满X元可用
+
+                            String couponStartTime = data.getString("coupon_start_time");
+                            Long dateMillis = null;
+                            Matcher isNum = pattern.matcher(couponStartTime);
+                            if(isNum.matches()){
+                                dateMillis = Long.valueOf(couponStartTime);
+                                goods.setCouponStartTime(new Date(dateMillis));//优惠券开始时间
+                            }
+
+                            String couponEndTime = data.getString("coupon_end_time");
+                            isNum = pattern.matcher(couponEndTime);
+                            if(isNum.matches()){
+                                dateMillis = Long.valueOf(couponEndTime);
+                                goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                            }
+
+                            goods.setSellerId(data.getString("seller_id"));//卖家id
+                            goods.setShopTitle(data.getString("shop_title"));//店铺名称
+                            goods.setUserType(data.getInteger("user_type"));//卖家类型，0表示集市，1表示商城
+                            goods.setCategoryId(data.getString("category_id"));//叶子类目id
+                            goods.setCategoryName(data.getString("category_name"));//叶子类目名称
+                            goods.setLevelOneCategoryId(data.getString("level_one_category_id"));//一级类目ID
+                            goods.setLevelOneCategoryName(data.getString("level_one_category_name"));//一级类目名称
+                            goods.setLevelOneCategoryName(data.getString("level_one_category_name"));//一级类目名称
+                            goods.setStock(data.getInteger("stock"));//拼团：剩余库存
+                            goods.setSellNum(data.getInteger("sell_num"));//拼团：已售数量
+                            goods.setTotalStock(data.getInteger("total_stock"));//拼团：库存数量
+                            goods.setOstime(data.getString("ostime"));//拼团：开始时间
+                            goods.setOetime(data.getString("oetime"));//拼团：结束时间
+                            goods.setJddNum(data.getInteger("jdd_num"));//拼团：几人团
+                            goods.setJddPrice(data.getString("jdd_price"));//拼团：拼成价，单位元
+                            goods.setOrigPrice(data.getString("orig_price"));//一人价（原价)，单位元
+                            goods.setCommissionRate(data.getString("commission_rate"));//一人价（原价)，单位元
+                            JSONObject wordListObj = data.getJSONObject("word_list");
+                            if(wordListObj != null){
+//                                goods.setWordUrl(data.getString("word_url"));//商品相关关联词落地页地址
+//                                goods.setWord(data.getString("关联词"));//商品相关的关联词
+                                goods.setWordUrl("关联url");//商品相关关联词落地页地址
+                                goods.setWord("关联词");//商品相关的关联词
+                            }
+                            goods.setTmallPlayActivityInfo(data.getString("tmall_play_activity_info"));//天猫营销玩法
+                            goods.setUvSumPreSale(data.getInteger("uv_sum_pre_sale"));//预售数量
+                            goods.setxId(data.getString("x_id"));//物料块id(测试中请勿使用)
+                            goods.setNewUserPrice(data.getString("new_user_price"));//新人价
+                            goods.setMaterialId(materialId);
+
+                            int result = shopGoodsService.insert(goods);
+                            saveNum += 1;
+                            exportNum += 1;
+                            System.out.println("导入条数：" + saveNum + "，分类id：" + materialId + "，商品id：" + itemId);
+                        }
+                    }
+
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    break;
+                } catch (Exception e1){
+                    e1.printStackTrace();
+                    break;
+                }
+
+            }
+            exportInfo.put("LM_" + materialId, materialId + "[请求次数：" + requeryNum + "，查询总数：" + queryNum + "，导入总条数：" + exportNum + "]");
+        }
+        return exportInfo;
     }
 }

@@ -4,6 +4,7 @@ import com.dape.common.base.BaseService;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +23,16 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
     public Map<String, Object> loadGoods(Long pageNum, Long pageSize, Map<String, Object> params);
 
     /**
-     * 好券清单API【导购】
+     * 好券清单API【导购】：查询接口
+     * @param pageNum
+     * @param pageSize
+     * @param params
+     * @return
+     */
+    public Map<String, Object> loadCouponGoodsBySeach(Long pageNum, Long pageSize, Map<String, Object> params);
+
+    /**
+     * 好券清单API【导购】：根据物料ID加载接口
      * @param pageNum
      * @param pageSize
      * @param params
@@ -37,4 +47,20 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      * @return
      */
     public Map<String, Object> findGoods(Long numIids, Map<String, Object> params);
+
+    /**
+     * 查询商品详情
+     * @param params
+     * @return
+     */
+    public Map<String, Object> getTKL(Map<String, Object> params);
+
+    /**
+     * 淘宝客简版详情
+     * @param itemId
+     * @param platform
+     * @param ip
+     * @return
+     */
+    public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip);
 }

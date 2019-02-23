@@ -59,6 +59,13 @@ public class ShopMenu implements Serializable {
      */
     private String json;
 
+    /**
+     * 模块id
+     *
+     * @mbg.generated
+     */
+    private Long moduleId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -141,6 +148,14 @@ public class ShopMenu implements Serializable {
         this.json = json;
     }
 
+    public Long getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(Long moduleId) {
+        this.moduleId = moduleId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -157,6 +172,7 @@ public class ShopMenu implements Serializable {
         sb.append(", remark=").append(remark);
         sb.append(", sort=").append(sort);
         sb.append(", json=").append(json);
+        sb.append(", moduleId=").append(moduleId);
         sb.append("]");
         return sb.toString();
     }
@@ -182,7 +198,8 @@ public class ShopMenu implements Serializable {
             && (this.getImg() == null ? other.getImg() == null : this.getImg().equals(other.getImg()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()))
-            && (this.getJson() == null ? other.getJson() == null : this.getJson().equals(other.getJson()));
+            && (this.getJson() == null ? other.getJson() == null : this.getJson().equals(other.getJson()))
+            && (this.getModuleId() == null ? other.getModuleId() == null : this.getModuleId().equals(other.getModuleId()));
     }
 
     @Override
@@ -199,6 +216,7 @@ public class ShopMenu implements Serializable {
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getSort() == null) ? 0 : getSort().hashCode());
         result = prime * result + ((getJson() == null) ? 0 : getJson().hashCode());
+        result = prime * result + ((getModuleId() == null) ? 0 : getModuleId().hashCode());
         return result;
     }
 }

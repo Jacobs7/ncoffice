@@ -7,17 +7,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/weui.min.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/jquery-weui.css'}">
-<link rel="stylesheet" th:href="@{${uiPath} + ${appName} + '/css/style.css'}">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/style.css'">
+  <style>.weui-panel.weui-panel:after{border-bottom:none;}</style>
 </head>
 <body ontouchstart>
 <!--主体-->
 <div class="weui-content" id="listwrap" style="overflow-y:auto;">
-  <div class="weui-flex wy-iconlist-box" style="display: flex;">
-    <a onclick="sortFnc(1)" th:classappend="${sort == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
-    <a onclick="sortFnc(2)" th:classappend="${sort == 2}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
-    <a onclick="sortFnc(3)" th:classappend="${sort == 3}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
+  <div id="sortDiv" class="weui-flex wy-iconlist-box" style="display: flex;">
+    <a id="tk_total_sales" onclick="sortTTSFnc()" th:classappend="${sort == 'tk_total_sales_des' || sort == 'tk_total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
+    <a id="total_sales" onclick="sortTSFnc()" th:classappend="${sort == 'total_sales_des' || sort == 'total_sales_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
+    <a id="price_asc" onclick="sortPFnc()" th:classappend="${sort == 'price_des' || sort == 'price_asc'}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
   </div>
   <!--数据列表-->
   <div class="weui-panel">
@@ -33,15 +34,12 @@
   <div class="weui-search-bar index-search-bar">
     <div class="weui-search-bar__box index-search-box">
       <form action="/goods/toSearch" method="post" id="searchForm">
-        <input type="hidden" name="pageNum" value="1" />
-        <input type="hidden" name="pageSize" value="20" />
-        <input type="hidden" name="sort" th:value="${sort}" id="sortQuery" />
         <i class="weui-icon-search"></i>
-        <input type="search" name="title" id="titleQuery" th:value="${query.title}" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
+        <input type="search" name="q" id="qTxt" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
       </form>
     </div>
     <div class="index-search-c">
-      <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+      <a href="javascript:void(0);" onclick="searchPBtn()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
     </div>
   </div>
 </header>
@@ -75,78 +73,52 @@
   </a>
 </div>
 
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-2.1.4.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/fastclick.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/common.js'}"></script>
-<script>
-  $(function() {
-    FastClick.attach(document.body);
-    // 第一次加载数据
-    $(".weui-loadmore").show();
-    loadGoods();
-    $('#listwrap').height($('body').height() - 44);
-      // 返回顶部
-      backScroll('listwrap');
-  });
-</script>
-<script th:src="@{${uiPath} + ${appName} + '/js/jquery-weui.js'}"></script>
-<script th:src="@{${uiPath} + ${appName} + '/js/swiper.js'}"></script>
+<script th:src="${uiPath} + ${appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/common.js'"></script>
+
 <script th:inline="javascript">
+
+    var q = [[${q}]];
+    var cat = '';
+    var sort = [[${sort}]];
+    var platform = [[${platform}]];
+    var material_id = [[${material_id}]];
+    var has_coupon = [[${has_coupon}]];
+
+    $(function() {
+      FastClick.attach(document.body);
+      // 第一次加载数据
+
+        $('#qTxt').val(q);
+        if(has_coupon == ''){
+          has_coupon = true;
+        }
+        if(sort == ''){
+          sort = 'tk_total_sales_des';
+        }
+      setJian(sort);
+      $('#listwrap').height($('body').height() - 44);
+        // 返回顶部
+        backScroll('listwrap');
+    });
+
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
-	function loadGoods(){
-	    $.post('/goods/loadGoods',{pageNum:pageNum,pageSize:pageSize,title:$('titleQuery').val()},function(data){
-          loading = false;
-          if(data.length > 0){
-              $(data).each(function(){
-                  $this = this;
-                  // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
-                  var tianmaoCss = 'icon-tianmao-18';
-                  $('#goodsUL').append('<li>' +
-                      '<a href="/goods/goodsDetail?numIid='+$this.id+'&platform=2">' +
-                      '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
-                      '<span class="quanFlag"><b>'+$this.couponInfo+'</b><br>元券</span>' +
-                      '<div class="proimg">' +
-                      '<img src="'+appURL+$this.pictUrl+'">' +
-                      '</div>' +
-                      '<div class="protxt">' +
-                      // 根据店铺类型判断是天猫、淘宝
-                      '<div class="name" style="position: relative;">' +
-                      '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
-                      '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
-                      '<div class="name" style="position: relative;"><p>' +
-                      '<em class="nowPrice">￥'+$this.zkFinalPrice+'</em>' +
-                      '<span class="oldPrice">￥'+$this.reservePrice+'</span>' +
-                      '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
-                      '</p></div>' +
-                      '<div class="return" style="margin-bottom: 3px;">' +
-                      '<div style="background-color: #d02c37;color: #fff;">标佣¥4.32</div>' +
-                      '<div style="color: #d02c37;">特佣¥6.32</div>' +
-                      '</div>' +
-                      '</div>' +
-                      '</a>' +
-                      '</li>');
-              });
-          }else{
-              $("#goodsUL").append('<div class="weui-cells__title" style=\'text-align: center;\'>已无更多数据</div>');
-              loading = true;
-          }
-          $(".weui-loadmore").hide();
-        });
-    }
+    var cat = '';
     var loading = false;
+
     $("#listwrap").infinite().on("infinite", function () {
         if (loading) return;
         loading = true;
         pageNum++; //页数
         $('.weui-loadmore').show();
-        loadGoods();
+        loadGoodsForSearch();
     });
-    function sortFnc(sort) {
-        $('#sortQuery').val(sort);
-        $('#searchForm').submit();
-    }
+
 </script>
 </body>
 </html>

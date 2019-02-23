@@ -34,4 +34,6 @@
 
     <dubbo:reference id="shopSmsService" interface="com.dape.shop.rpc.api.ShopSmsService" mock="true"/>
 
+    <dubbo:reference id="shopDetailImgUrlService" interface="com.dape.shop.rpc.api.ShopDetailImgUrlService" mock="true"/>
+
 </beans>
