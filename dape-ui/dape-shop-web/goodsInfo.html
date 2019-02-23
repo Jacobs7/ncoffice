@@ -122,12 +122,12 @@
   $(function() {
       FastClick.attach(document.body);
       loadInfo();
+      $("#listwrap").height($(document.body).height()-44);
       $(".swiper-zhutu").swiper({
           loop: true,
           paginationType:'fraction',
           autoplay:5000
       });
-      //$("#listwrap").height($(document.body).height()-44);
 
       // 返回顶部
       backScroll('listwrap');
