@@ -72,10 +72,6 @@
   $(function() {
       FastClick.attach(document.body);
       loadPics();
-      $("#listwrap").height($(document.body).height()-44);
-      // 返回顶部
-      backScroll('listwrap');
-      //goodsTBDetail();//天猫详情
   });
 
 function loadPics(){
@@ -97,6 +93,7 @@ function loadPics(){
                 autoplay:5000
             });
         }
+        $("#listwrap").height($(document.body).height()-44);
     });
 }
 
