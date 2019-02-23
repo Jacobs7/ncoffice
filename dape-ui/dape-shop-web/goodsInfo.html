@@ -122,12 +122,13 @@
   $(function() {
       FastClick.attach(document.body);
       loadInfo();
-      $("#listwrap").height($(document.body).height()-44);
       $(".swiper-zhutu").swiper({
           loop: true,
           paginationType:'fraction',
           autoplay:5000
       });
+      $("#listwrap").height($(document.body).height()-44);
+
       // 返回顶部
       backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');
