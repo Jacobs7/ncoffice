@@ -197,4 +197,13 @@ public class IndexController extends BaseController {
         }
     }
 
+    /**
+     * 常见问题
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "question", method = RequestMethod.GET)
+    public String question(Model model) {
+        return thymeleaf("/question");
+    }
 }
