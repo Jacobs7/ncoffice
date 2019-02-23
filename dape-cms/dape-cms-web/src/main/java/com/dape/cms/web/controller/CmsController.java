@@ -58,15 +58,15 @@ public class CmsController extends BaseController {
     public Object checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
 
         String userName = request.getParameter("username");
-        String pwd = request.getParameter("password");
+        String password = request.getParameter("password");
 
         Map loginUser = new HashMap();
-        loginUser.put(userName,userName);
-        loginUser.put(pwd,pwd);
+        loginUser.put("username",userName);
+        loginUser.put("pwd",password);
 
         JmsUtil.sendMessage(jmsTemplate,destination, JSON.toJSONString(loginUser));
+        System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
 
-        System.out.println("进入了Controller");
         return new CmsResult(CmsResultConstant.SUCCESS, 0);
     }
 }

@@ -130,13 +130,14 @@ public class SSOController extends BaseController {
         // code校验值
         if (StringUtils.isBlank(hasCode)) {
             // 使用shiro认证
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
+                UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
             try {
                 if (BooleanUtils.toBoolean(rememberMe)) {
                     usernamePasswordToken.setRememberMe(true);
                 } else {
                     usernamePasswordToken.setRememberMe(false);
                 }
+                //验证用户名密码
                 subject.login(usernamePasswordToken);
             } catch (UnknownAccountException e) {
                 return new UpmsResult(UpmsResultConstant.INVALID_USERNAME, "帐号不存在！");

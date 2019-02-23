@@ -27,10 +27,9 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>fentao</groupId>
-            <artifactId>fentao-ali-sdk</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
+            <groupId>dp.taobao</groupId>
+            <artifactId>taobao</artifactId>
+            <version>20190213</version>
         </dependency>
     </dependencies>
 
