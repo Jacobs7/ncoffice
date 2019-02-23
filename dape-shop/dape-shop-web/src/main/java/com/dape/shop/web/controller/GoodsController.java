@@ -637,8 +637,8 @@ public class GoodsController extends BaseController {
         // 项目根路径，绝对路径
         String proPath = request.getSession().getServletContext().getRealPath("");
 
-//        String ip = "www.16office.com";
-        String ip = "192.168.0.105";//内网IP(测试用)，上线要改为域名
+        String ip = "www.16office.com";
+//        String ip = "192.168.0.105";//内网IP(测试用)，上线要改为域名
         int port = request.getLocalPort();
         // 商品推广二维码
         String qrCode = "http://" + ip + ":" + port + "/goods/toTGGD?i="+shopGood.getItemId()+"&p=" + platform + "&u=" + userId + "&t=" + tkl;
