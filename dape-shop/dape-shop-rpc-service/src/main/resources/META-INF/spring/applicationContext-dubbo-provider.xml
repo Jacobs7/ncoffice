@@ -43,4 +43,7 @@
     <bean id="shopSmsServiceImpl" class="com.dape.shop.rpc.service.impl.ShopSmsServiceImpl"/>
     <dubbo:service interface="com.dape.shop.rpc.api.ShopSmsService" ref="shopSmsServiceImpl" timeout="10000"/>
 
+    <bean id="shopDetailImgUrlServiceImpl" class="com.dape.shop.rpc.service.impl.ShopDetailImgUrlServiceImpl"/>
+    <dubbo:service interface="com.dape.shop.rpc.api.ShopDetailImgUrlService" ref="shopDetailImgUrlServiceImpl" timeout="10000"/>
+
 </beans>

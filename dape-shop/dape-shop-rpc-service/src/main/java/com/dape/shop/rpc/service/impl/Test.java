@@ -23,14 +23,14 @@ import java.security.GeneralSecurityException;
 public class Test {
     public static void main(String[] args){
 
-//        String url = "https://detail.m.tmall.com/item.htm?id=584989553305";
+        String url = "https://h5.m.taobao.com/awp/core/detail.htm?id=578128525322";
 //        String url = "https://h5.m.taobao.com/awp/core/detail.htm?id=581423267164";
-        String url = "https://s.click.taobao.com/t?e=m%3D2%26s%3DAi5Sw%2BkW4GFw4vFB6t2Z2ueEDrYVVa64juWlisr3dOdyINtkUhsv0KKDmSVhUxeC4GdqFgUik8IUU8I5v72K82OfZmId5Ix3rivmRbl1tBoDfV6DIhLzDGLVpCiUCL%2BGZiqtwk9j5QPwdDmZ4my9rK9DD%2F200Ioy9OSfRI2eAoOkOrGae4DS5oO2CiNcVz0K95vlob%2FPOFC9lY%2FnJkvXISGFCzYOOqAQ&scm=1007.19011.125585.0_13366&pvid=1be5ae89-f3a1-4941-848a-a498e63994e5&app_pvid=59590_11.1.39.91_770_1550821077764&ptl=floorId:13366;pvid:1be5ae89-f3a1-4941-848a-a498e63994e5;app_pvid:59590_11.1.39.91_770_1550821077764&union_lens=lensId:0b01275b_0c87_1691423b399_6ba3";
+//        String url = "https://s.click.taobao.com/t?e=m%3D2%26s%3DAi5Sw%2BkW4GFw4vFB6t2Z2ueEDrYVVa64juWlisr3dOdyINtkUhsv0KKDmSVhUxeC4GdqFgUik8IUU8I5v72K82OfZmId5Ix3rivmRbl1tBoDfV6DIhLzDGLVpCiUCL%2BGZiqtwk9j5QPwdDmZ4my9rK9DD%2F200Ioy9OSfRI2eAoOkOrGae4DS5oO2CiNcVz0K95vlob%2FPOFC9lY%2FnJkvXISGFCzYOOqAQ&scm=1007.19011.125585.0_13366&pvid=1be5ae89-f3a1-4941-848a-a498e63994e5&app_pvid=59590_11.1.39.91_770_1550821077764&ptl=floorId:13366;pvid:1be5ae89-f3a1-4941-848a-a498e63994e5;app_pvid:59590_11.1.39.91_770_1550821077764&union_lens=lensId:0b01275b_0c87_1691423b399_6ba3";
 
-        BrowserVersion b = BrowserVersion.getDefault();
-        WebClient wc = new WebClient(b);
+//        BrowserVersion b = BrowserVersion.getDefault();
+        WebClient wc = new WebClient();
         HtmlPage page = null;
-
+//
         String pageXml = null;//记录请求的html字符串
         String imgUrl = null;
         try {
@@ -44,22 +44,7 @@ public class Test {
 
             pageXml = page.asXml();
 
-            Document doc = Jsoup.parse(pageXml);
-            Elements elements = doc.getElementsByTag("script");
 
-            String tmp = null;
-
-            for (Element e : elements) {
-                tmp = e.data().toString();
-                tmp = tmp.replaceAll(" ","").replaceAll("\n", "");
-                if(tmp.indexOf("varg_config") >= 0){
-                    tmp = tmp.substring(tmp.indexOf("descUrl")+7);
-                    tmp = tmp.substring(1,tmp.indexOf(","));
-                    tmp = tmp.substring(tmp.indexOf("'?'") +3, tmp.indexOf("':'"));
-                    imgUrl = "http:" + tmp;
-                    break;
-                }
-            }
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -70,6 +55,22 @@ public class Test {
             wc.closeAllWindows();
         }
 
+        Document doc = Jsoup.parse(pageXml);
+        Elements elScripts = doc.getElementsByTag("script");
+
+        String tmp = null;
+
+        for (Element e : elScripts) {
+            tmp = e.data().toString();
+            tmp = tmp.replaceAll(" ","").replaceAll("\n", "");
+            if(tmp.indexOf("varg_config") >= 0){
+                tmp = tmp.substring(tmp.indexOf("descUrl")+7);
+                tmp = tmp.substring(1,tmp.indexOf(","));
+                tmp = tmp.substring(tmp.indexOf("'?'") +3, tmp.indexOf("':'"));
+                imgUrl = "http:" + tmp;
+                break;
+            }
+        }
         String respStr = null;
         HttpGet httpGet = null;
         CloseableHttpClient httpClient = null;
@@ -101,9 +102,10 @@ public class Test {
             if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
         }
 
-        Document doc = Jsoup.parse(respStr);
+        doc = Jsoup.parse(respStr);
         Elements imgs = doc.getElementsByTag("img");
         for(Element img : imgs){
+            System.out.println(img.attr("src"));
 //            imgsArr.add(img.attr("data-ks-lazyload"));
         }
 

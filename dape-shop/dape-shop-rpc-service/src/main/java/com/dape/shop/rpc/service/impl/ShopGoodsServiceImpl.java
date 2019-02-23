@@ -67,12 +67,13 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
 //            req.setExt("{aaa:1}");
 
 //            req.setNumIids("584574208203");
+
             TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
             req.setPageSize(20L);
-            req.setAdzoneId(ADZONE_ID);
+            req.setAdzoneId(96030450186L);
             req.setPageNo(1L);
-            req.setMaterialId(13366L);
-
+//            req.setMaterialId(123L);
+            req.setItemId(578586247457L);
             TbkDgOptimusMaterialResponse rsp = client.execute(req);
 
 
