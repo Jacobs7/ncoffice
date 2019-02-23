@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>宝贝推荐</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+  <style>
+    .weui-tabbar:before{content:none;}
+  </style>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
+  <!--产品详情-->
+  <!--主图轮播-->
+  <div class="weui-panel">
+    <div class="swiper-container swiper-zhutu">
+      <div class="swiper-wrapper" id="picList"><div class="swiper-slide"><img th:src="${uiPath + appName} + '/images/loading-max.gif'" /></div></div>
+      <div class="swiper-pagination swiper-zhutu-pagination"></div>
+    </div>
+    <div class="weui-media-box_text detail-container">
+      <div class="puBody" style="padding:1rem 0 0.5rem 0;color:#86564B">
+        <h2><em>长按框内 <u class="p3">&gt;</u> 复制</em></h2>
+        <p>复制口令，打开「手机啕宝」领券下单！(<em th:text="${tkl}"></em>)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="weui-panel">
+      <div class="TGTitle">
+        <a href="javascript:;">图文详情</a>
+      </div>
+      <div id="detailImgs">
+          <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
+      </div>
+      <div class="weui-cells__title" style="text-align:center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:2rem;">------已经到底了------</div>
+  </div>
+</div>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu" style="background-color:#fff;">
+  <a href="javascript:;" style="margin-left:2rem;color:#f72353;background-color:#f6f6f6;" class="weui-tabbar__item TGBBtn TGBBtn-l" th:text="'('+${tkl}+')'"></a>
+  <a href="javascript:;" style="margin-right:2rem;color:#fff;background-color:#f72353;" class="weui-tabbar__item TGBBtn TGBBtn-r" id="copyButton" onclick="cloneTxt('copyButton')" th:data-clipboard-text="'￥'+${tkl}+'￥'">一键复制口令</a>
+</div>
+
+<div id="toastContainer"></div>
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
+
+<script th:inline="javascript">
+  var platform = [[${platform}]];
+  var tkl = [[${tkl}]];
+  var userid = [[${userid}]];
+  var itemId = [[${itemId}]];
+
+  $(function() {
+      FastClick.attach(document.body);
+      loadPics();
+      $("#listwrap").height($(document.body).height()-44);
+      // 返回顶部
+      backScroll('listwrap');
+      //goodsTBDetail();//天猫详情
+  });
+
+function loadPics(){
+    $.post('/goods/goodsDetailTG',{itemId:itemId,platform:platform},function(data){
+        $('#picList').html('');
+        $('#detailImgs').html('');
+        if(data.success){
+            var pics = data.pics;
+            var detailPics = data.detailPics;
+            $(pics).each(function(){
+                $('#picList').append('<div class="swiper-slide"><img src="'+this+'" /></div>');
+            });
+            $(detailPics).each(function(){
+                $('#detailImgs').append('<img onload="imgLoadComplete(this)" src='+this+' />');
+            });
+            $(".swiper-zhutu").swiper({
+                loop: true,
+                paginationType:'fraction',
+                autoplay:5000
+            });
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>
