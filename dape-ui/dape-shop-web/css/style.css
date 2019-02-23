@@ -1,8 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+html,body{height:100%;}
 html { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color :rgba(0, 0, 0, 0); -moz-tap-highlight-color :rgba(0, 0, 0, 0);}
-body {font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; margin: 0; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;  margin:0 auto;}
+body {font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial; margin: 0;overflow-x: hidden; margin:0 auto;}
+
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
 audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
@@ -49,7 +51,8 @@ ul, ol { list-style: none outside none; }
 .mg10-0{margin:10px 0;}
 .mg-r-10{margin-right:10px;}
 .mg10{margin:10px;}
-.weui-content{background:#f5f5f5;}
+.w-container{background:#f5f5f5;overflow-y:scroll;-webkit-overflow-scrolling:touch;height:100%;}
+.w-main{min-height: calc(100% + 1px)}
 .clearfix{clear:both; display:block;}
 .clear:after,.clear:before{clear:both; display:block; content:"";}
 .num{font-family:Arial, Helvetica, sans-serif;}
@@ -204,7 +207,7 @@ header,.weui-navbar{
 html,body{height: 100%;background-color: #f5f5f5;}
 .index-zkprice{color: #d02c37;font-size: 0.85rem;}
 .weui-navbar__item.proinfo-tab-tit{-webkit-flex:none;padding:11px 0 9px 0;font-size:0.75rem;}
-.index-header{top: 0;width: 100%;position: absolute;height: 2.1rem;}
+.index-header{top: 0;width: 100%;position:fixed;height: 2.1rem;z-index:999;}
 .index-module{display: flex;flex-flow: row wrap;padding:0 5px 5px 5px;}
 .img{width:50%;margin:0 auto;font-size:0.75rem;}
 .wy-links-iconlist{margin: 10px 0 0 0;}

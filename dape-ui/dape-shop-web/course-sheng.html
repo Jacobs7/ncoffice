@@ -13,7 +13,8 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
+<div class="w-container" id="listwrap">
+  <div class="w-main">
   <div class="weui-flex wy-iconlist-box">
     <a style="margin: 0 auto;" href="/module/courseSheng" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on">淘宝省钱</a>
   </div>
@@ -31,11 +32,12 @@
       <img width="100%" th:src="${uiPath + appName} + '/images/class-1.1-04.jpg'" />
     </div>
   </div>
-    <div class="weui-panel index-module" style="padding-bottom: 4rem;">
+    <div class="weui-panel index-module" style="margin-bottom: 4rem;">
         <div class="class-item "><h2>▼<br>联系专属客服</h2></div>
         <div style="width:100%;text-align: center;color:#F54D23">长按图片－识别图中二维码－联系客服</div>
         <div style="width: 60%;margin: 0 auto;"><img width="100%" th:src="${uiPath + appName} + '/upload/kefu.jpg'" /></div>
     </div>
+  </div>
 </div>
 
 <!--顶部-->

@@ -14,31 +14,33 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;">
-  <div class="weui-flex wy-iconlist-box" style="position: relative;">
-    <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="'/goods/localGoods' + ${menu.url} + ${menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
-    <a href="javascript:;" onclick="menuPopup(this)" class="menuIcon"><i class="icon24-zz item-menu-24"></i></a>
-  </div>
-  <!--图标分类-->
-  <div class="weui-panel index-module">
-    <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
-      <a href="javascript:;" th:onclick="'toModulePage('+${module.id} + ',\''+${module.url} + '\','+${platform}+')'" class="wy-links-iconlist">
-        <div class="img">
-          <!--<img th:src="${uiPath + appName} + ${module.icon}" />-->
-          <i th:classappend="${module.icon}" class="icon36-zz"></i>
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <div class="weui-flex wy-iconlist-box" style="position: relative;">
+        <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="'/goods/localGoods' + ${menu.url} + ${menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
+        <a href="javascript:;" onclick="menuPopup(this)" class="menuIcon"><i class="icon24-zz item-menu-24"></i></a>
+      </div>
+      <!--图标分类-->
+      <div class="weui-panel index-module">
+        <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
+          <a href="javascript:;" th:onclick="'toModulePage('+${module.id} + ',\''+${module.url} + '\','+${platform}+')'" class="wy-links-iconlist">
+            <div class="img">
+              <!--<img th:src="${uiPath + appName} + ${module.icon}" />-->
+              <i th:classappend="${module.icon}" class="icon36-zz"></i>
+            </div>
+            <p style="font-size:0.7rem;" th:text="${module.name}"></p>
+          </a>
         </div>
-        <p style="font-size:0.7rem;" th:text="${module.name}"></p>
-      </a>
-    </div>
-  </div>
-  <!--优惠抢购-->
-    <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.75rem;">本地商品列表</span></div>
-  <!-- 数据列表 -->
-  <div class="weui-panel">
-      <ul id="goodsUL" class="wy-pro-list clear"></ul>
-  </div>
-  <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
-    <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+      </div>
+      <!--优惠抢购-->
+        <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.75rem;">本地商品列表</span></div>
+      <!-- 数据列表 -->
+      <div class="weui-panel">
+          <ul id="goodsUL" class="wy-pro-list clear"></ul>
+      </div>
+      <div class="weui-loadmore" style="margin-bottom:3.5rem;height:1rem">
+        <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+      </div>
   </div>
 </div>
 

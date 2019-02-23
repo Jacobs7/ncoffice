@@ -324,11 +324,11 @@ function loadGoodsForMain(){
                       '</li>');
             });
         }else{
-            $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+            $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
             loading = true;
         }
       }else{
-        $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+        $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
         if(data.msg){
           toast(data.msg);
@@ -388,11 +388,11 @@ function loadLocalGoodsForMain(){
                       '</li>');
             });
         }else{
-            $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
+            $(".w-main").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
             loading = true;
         }
       }else{
-        $("#listwrap").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
+        $(".w-main").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
         loading = true;
         if(data.msg){
           $.toast(data.msg, 'forbidden');
@@ -525,11 +525,11 @@ function loadGoodsForSearch(){
                     '</li>');
             });
         }else{
-            $("#goodsUL").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+            $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
             loading = true;
         }
       }else{
-        $("#listwrap").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+        $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
       }
 

@@ -19,112 +19,114 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class='weui-content' style="padding-bottom: 5rem;">
-  <div class="wy-center-top">
-    <div class="weui-media-box" style="text-align: center;">
-      <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(shopuser.headUrl)}" style="width: 30%;margin: 0 auto;">
-          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
-          <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${shopuser.headUrl}" />
-      </div>
-      <div class="weui-media-box__bd">
-        <div class="weui-media-box__title user-name" th:text="${shopuser.weiNickName}"></div>
-        <div>
-          <span class="user-integral" th:switch="${shopuser.rank}"><em th:if="${!#strings.isEmpty(upmsuser.phone)}" th:text="${#strings.substring(upmsuser.phone,0,3)}+'****'+${#strings.substring(upmsuser.phone,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
-          <span class="user-integral"><em class="num" th:text="'积分:'+${shopuser.integral}+'积分'"></em></span>
-        </div>
-        <div class="weui-media-box__title">
-        <span class="user-integral">
-          <em>(公众号:赚赚返利&nbsp;&nbsp;ID:888888)</em>
-        </span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="weui-panel" style="margin-top:0;">
-    <div class="weui-panel__hd">
-        <div class="weui-cell__bd wy-cell">
-          <div class="weui-cell__hd"><img th:src="${uiPath + appName} + '/images/center-icon-jk.png'" alt="" class="center-list-icon"></div>
-          <div class="weui-cell__bd weui-cell_primary"><p class="center-list-txt">我的小金库</p></div>
-        </div>
-        <span class="weui-cell__ft"></span>
-    </div>
-    <div class="weui-panel__bd">
-      <div class="weui-flex">
-        <div class="weui-flex__item">
-          <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${shopuser.money + shopuser.outCash} / 100"></em></div>
-            <div class="name">佣金总额</div>
-          </a>
-        </div>
-        <div class="weui-flex__item">
-          <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${shopuser.money} / 100"></em></div>
-            <div class="name">账户余额</div>
-          </a>
-        </div>
-        <div class="weui-flex__item">
-          <a href="/user/cash" class="center-ordersModule">
-            <div class="center-money"><em th:text="${shopuser.outCash} / 100"></em></div>
-            <div class="name">累计提现</div>
-          </a>
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <div class="wy-center-top">
+        <div class="weui-media-box" style="text-align: center;">
+          <div class="weui-media-box__hd mine-head-d" th:switch="${#strings.isEmpty(shopuser.headUrl)}" style="width: 30%;margin: 0 auto;">
+              <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
+              <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:case="false" th:src="${shopuser.headUrl}" />
+          </div>
+          <div class="weui-media-box__bd">
+            <div class="weui-media-box__title user-name" th:text="${shopuser.weiNickName}"></div>
+            <div>
+              <span class="user-integral" th:switch="${shopuser.rank}"><em th:if="${!#strings.isEmpty(upmsuser.phone)}" th:text="${#strings.substring(upmsuser.phone,0,3)}+'****'+${#strings.substring(upmsuser.phone,7,11)}"></em><em th:case="1">等级:普通</em><em th:case="2">等级:特权</em></span>
+              <span class="user-integral"><em class="num" th:text="'积分:'+${shopuser.integral}+'积分'"></em></span>
+            </div>
+            <div class="weui-media-box__title">
+            <span class="user-integral">
+              <em>(公众号:赚赚返利&nbsp;&nbsp;ID:888888)</em>
+            </span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="weui-panel" style="display: flex;padding: 0.5rem 2.5rem;">
-    <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
-      <a href="/user/toFrends" class="weui-tabbar__item">
-        <div class="icon24-zz icon-friends-24"></div>
-        <p class="weui-tabbar__label">好友列表</p>
-      </a>
-    </div>
-    <div style="flex: 0 0 49%;">
-      <a href="javascript:showFenxiang()" class="weui-tabbar__item">
-        <div class="icon24-zz icon-invite-24"></div>
-        <p class="weui-tabbar__label">邀请好友</p>
-      </a>
-    </div>
-  </div>
+      <div class="weui-panel" style="margin-top:0;">
+        <div class="weui-panel__hd">
+            <div class="weui-cell__bd wy-cell">
+              <div class="weui-cell__hd"><img th:src="${uiPath + appName} + '/images/center-icon-jk.png'" alt="" class="center-list-icon"></div>
+              <div class="weui-cell__bd weui-cell_primary"><p class="center-list-txt">我的小金库</p></div>
+            </div>
+            <span class="weui-cell__ft"></span>
+        </div>
+        <div class="weui-panel__bd">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em th:text="${shopuser.money + shopuser.outCash} / 100"></em></div>
+                <div class="name">佣金总额</div>
+              </a>
+            </div>
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em th:text="${shopuser.money} / 100"></em></div>
+                <div class="name">账户余额</div>
+              </a>
+            </div>
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em th:text="${shopuser.outCash} / 100"></em></div>
+                <div class="name">累计提现</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="weui-panel" style="display: flex;flex-flow: row wrap;">
-    <div class="mine-module-i">
-      <a href="/order/toOrders" class="weui-tabbar__item">
-        <div class="icon24-zz icon-report-24-2"></div>
-        <p class="weui-tabbar__label">订单业绩</p>
-      </a>
-    </div>
-    <div class="mine-module-i">
-      <a href="/user/cash" class="weui-tabbar__item">
-        <div class="icon24-zz icon-wallet-24-2"></div>
-        <p class="weui-tabbar__label">钱包提现</p>
-      </a>
-    </div>
-    <div class="mine-module-i" style="border-right: none;">
-      <a href="javascript:showKeFu('/upload/kefu.jpg')" class="weui-tabbar__item">
-        <div class="icon24-zz icon-cs-24-2"></div>
-        <p class="weui-tabbar__label">召唤客服</p>
-      </a>
-    </div>
-    <div class="mine-module-i">
-      <a href="/question" class="weui-tabbar__item">
-        <div class="icon24-zz icon-class-24"></div>
-        <p class="weui-tabbar__label">常见问题</p>
-      </a>
-    </div>
-    <div class="mine-module-i">
-      <a href="/user/toSetting" class="weui-tabbar__item">
-        <div class="icon24-zz icon-set-24"></div>
-        <p class="weui-tabbar__label">设置</p>
-      </a>
-    </div>
-    <div class="mine-module-i" style="border-right: none;">
-      <a href="/user/integral" class="weui-tabbar__item">
-        <div class="icon24-zz icon-fen-24"></div>
-        <p class="weui-tabbar__label">积分</p>
-      </a>
-    </div>
+      <div class="weui-panel" style="display: flex;padding: 0.5rem 2.5rem;">
+        <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
+          <a href="/user/toFrends" class="weui-tabbar__item">
+            <div class="icon24-zz icon-friends-24"></div>
+            <p class="weui-tabbar__label">好友列表</p>
+          </a>
+        </div>
+        <div style="flex: 0 0 49%;">
+          <a href="javascript:showFenxiang()" class="weui-tabbar__item">
+            <div class="icon24-zz icon-invite-24"></div>
+            <p class="weui-tabbar__label">邀请好友</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="weui-panel" style="display: flex;flex-flow: row wrap;">
+        <div class="mine-module-i">
+          <a href="/order/toOrders" class="weui-tabbar__item">
+            <div class="icon24-zz icon-report-24-2"></div>
+            <p class="weui-tabbar__label">订单业绩</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/user/cash" class="weui-tabbar__item">
+            <div class="icon24-zz icon-wallet-24-2"></div>
+            <p class="weui-tabbar__label">钱包提现</p>
+          </a>
+        </div>
+        <div class="mine-module-i" style="border-right: none;">
+          <a href="javascript:showKeFu('/upload/kefu.jpg')" class="weui-tabbar__item">
+            <div class="icon24-zz icon-cs-24-2"></div>
+            <p class="weui-tabbar__label">召唤客服</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/question" class="weui-tabbar__item">
+            <div class="icon24-zz icon-class-24"></div>
+            <p class="weui-tabbar__label">常见问题</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/user/toSetting" class="weui-tabbar__item">
+            <div class="icon24-zz icon-set-24"></div>
+            <p class="weui-tabbar__label">设置</p>
+          </a>
+        </div>
+        <div class="mine-module-i" style="border-right: none;">
+          <a href="/user/integral" class="weui-tabbar__item">
+            <div class="icon24-zz icon-fen-24"></div>
+            <p class="weui-tabbar__label">积分</p>
+          </a>
+        </div>
+      </div>
   </div>
 </div>
 <!-- 底部导航 -->

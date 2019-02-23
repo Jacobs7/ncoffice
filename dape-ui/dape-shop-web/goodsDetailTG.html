@@ -16,30 +16,32 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;height:100%;">
-  <!--产品详情-->
-  <!--主图轮播-->
-  <div class="weui-panel">
-    <div class="swiper-container swiper-zhutu">
-      <div class="swiper-wrapper" id="picList"><div class="swiper-slide"><img th:src="${uiPath + appName} + '/images/loading-max.gif'" /></div></div>
-      <div class="swiper-pagination swiper-zhutu-pagination"></div>
-    </div>
-    <div class="weui-media-box_text detail-container">
-      <div class="puBody" style="padding:1rem 0 0.5rem 0;color:#86564B">
-        <h2><em>长按框内 <u class="p3">&gt;</u> 复制</em></h2>
-        <p>复制口令，打开「手机啕宝」领券下单！(<em th:text="${tkl}"></em>)</p>
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <!--产品详情-->
+      <!--主图轮播-->
+      <div class="weui-panel">
+        <div class="swiper-container swiper-zhutu">
+          <div class="swiper-wrapper" id="picList"><div class="swiper-slide"><img th:src="${uiPath + appName} + '/images/loading-max.gif'" /></div></div>
+          <div class="swiper-pagination swiper-zhutu-pagination"></div>
+        </div>
+        <div class="weui-media-box_text detail-container">
+          <div class="puBody" style="padding:1rem 0 0.5rem 0;color:#86564B">
+            <h2><em>长按框内 <u class="p3">&gt;</u> 复制</em></h2>
+            <p>复制口令，打开「手机啕宝」领券下单！(<em th:text="${tkl}"></em>)</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="weui-panel">
-      <div class="TGTitle">
-        <a href="javascript:;">图文详情</a>
+      <div class="weui-panel">
+          <div class="TGTitle">
+            <a href="javascript:;">图文详情</a>
+          </div>
+          <div id="detailImgs">
+              <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
+          </div>
+          <div class="weui-cells__title" style="text-align:center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:2rem;">------已经到底了------</div>
       </div>
-      <div id="detailImgs">
-          <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
-      </div>
-      <div class="weui-cells__title" style="text-align:center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:2rem;">------已经到底了------</div>
   </div>
 </div>
 
@@ -93,7 +95,6 @@ function loadPics(){
                 autoplay:5000
             });
         }
-        $("#listwrap").height($(document.body).height()-44);
     });
 }
 

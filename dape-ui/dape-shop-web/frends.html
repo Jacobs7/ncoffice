@@ -13,7 +13,7 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;">
+<div class="w-container" id="listwrap">
   <!--
   <div class="weui-flex wy-iconlist-box" style="display: flex;">
     <a th:href="'/user/frends?frendItem=1&frendTab='+${frendTab}" th:classappend="${frendItem == 1}? 'weui-bar__item--on'" style="padding:11px 0 9px 0;flex: 0 0 25%;" class="weui-navbar__item proinfo-tab-tit">已邀请(<em></em>)</a>
@@ -31,7 +31,7 @@
     </div>
     <div id="frendsList" class="frendsList" ></div>
   </div>
-  <div class="weui-loadmore" style="padding-bottom:1rem;height:1rem">
+  <div class="weui-loadmore" style="margin-bottom:3.5rem;height:1rem">
     <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
   </div>
 </div>

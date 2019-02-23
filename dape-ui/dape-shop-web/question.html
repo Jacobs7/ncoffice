@@ -13,41 +13,43 @@
 </head>
 <body ontouchstart>
 <!--主体-->
-<div class="weui-content" id="listwrap" style="overflow-y:auto;padding-bottom: 5rem;">
-  <!--数据列表-->
-  <div class="weui-panel" style="margin-top: 2.1rem;">
-    <div class="question-div">
-      <p class="title"><i>&bull;</i>1 赚取的佣金什么时候可以提现？</p>
-      <p class="content">每月22号结算上一个自然月确认收货的订单，未确认收货的订单将在下月22号结算。结算后的佣金将自动计入您的账户钱包，结算后即可提现。</p>
-      <p class="notes">每月结算一次，像领工资一样 ^_^</p>
-    </div>
-    <div class="question-div">
-      <p class="title"><i>&bull;</i>2 为什么有的订单佣金不对？</p>
-      <p class="content">1，检查订单实付款和页面显示的商品价格是否一致，佣金会按照实付款计算；</p>
-      <p class="content">2，检查用户购买的商品和平台的商品是否是同一个，有时用户会购买店铺其他产品；</p>
-      <p class="content">3，商家调整佣金24小时内同步到平台，平台显示偶尔会有误差，以实际佣金为准；</p>
-      <p class="notes">个人出单10分钟左右，可以有新订单提醒。如果发现佣金不对，可以及时取消订单重新拍。如果重新拍了佣金还不对，以实际佣金为准。</p>
-    </div>
-    <div class="question-div">
-      <p class="title"><i>&bull;</i>3 为什么下了单没有看到订单？</p>
-      <p class="content">正确的下单流程是：复制淘口令内容 → 打开手机淘宝 → 领券下单付款，一气呵成。</p>
-      <p class="content">以下情况会导致订单丢失：</p>
-      <p class="content">1，购买时使用的不是手机淘宝APP；</p>
-      <p class="content">2，加入购物车就没有管了，然后去别人群里乱点使用了别人的口令；</p>
-      <p class="content">3，使用淘宝官方红包购买（例如：双11红包、双12红包、618大促红包等），99%无法计入订单；</p>
-      <p class="content">4，下单后超过24小时没有付款；</p>
-      <p class="notes">个人出单10分钟左右，可以有新订单提醒。如果发现佣金不对，可以及时取消订单重新拍。如果重新拍了佣金还不对，以实际佣金为准。</p>
-      <p><img class="question-img" width="100%" th:src="${uiPath} + ${appName} + '/images/orderTime-1.1.png'"></p>
-    </div>
-    <div class="question-div">
-      <p class="title"><i>&bull;</i>4 优惠券没有了怎么办？</p>
-      <p class="content">优惠券有时间和数量限制，领取后请尽快使用，错过了就没有了。平台也会及时下架已经没有优惠券的商品。</p>
-    </div>
-    <div class="question-div">
-      <p class="title"><i>&bull;</i>5 在淘宝看到的商品，怎么查询优惠券？</p>
-      <p class="content">在手机淘宝APP里【长按宝贝标题】、【复制宝贝标题】，然后进入公众号【搜索找券】。</p>
-      <p><img class="question-img" width="100%" th:src="${uiPath} + ${appName} + '/images/zhaoquan-1.1.png'"></p>
-    </div>
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <!--数据列表-->
+      <div class="weui-panel" style="margin-top: 2.1rem;">
+        <div class="question-div">
+          <p class="title"><i>&bull;</i>1 赚取的佣金什么时候可以提现？</p>
+          <p class="content">每月22号结算上一个自然月确认收货的订单，未确认收货的订单将在下月22号结算。结算后的佣金将自动计入您的账户钱包，结算后即可提现。</p>
+          <p class="notes">每月结算一次，像领工资一样 ^_^</p>
+        </div>
+        <div class="question-div">
+          <p class="title"><i>&bull;</i>2 为什么有的订单佣金不对？</p>
+          <p class="content">1，检查订单实付款和页面显示的商品价格是否一致，佣金会按照实付款计算；</p>
+          <p class="content">2，检查用户购买的商品和平台的商品是否是同一个，有时用户会购买店铺其他产品；</p>
+          <p class="content">3，商家调整佣金24小时内同步到平台，平台显示偶尔会有误差，以实际佣金为准；</p>
+          <p class="notes">个人出单10分钟左右，可以有新订单提醒。如果发现佣金不对，可以及时取消订单重新拍。如果重新拍了佣金还不对，以实际佣金为准。</p>
+        </div>
+        <div class="question-div">
+          <p class="title"><i>&bull;</i>3 为什么下了单没有看到订单？</p>
+          <p class="content">正确的下单流程是：复制淘口令内容 → 打开手机淘宝 → 领券下单付款，一气呵成。</p>
+          <p class="content">以下情况会导致订单丢失：</p>
+          <p class="content">1，购买时使用的不是手机淘宝APP；</p>
+          <p class="content">2，加入购物车就没有管了，然后去别人群里乱点使用了别人的口令；</p>
+          <p class="content">3，使用淘宝官方红包购买（例如：双11红包、双12红包、618大促红包等），99%无法计入订单；</p>
+          <p class="content">4，下单后超过24小时没有付款；</p>
+          <p class="notes">个人出单10分钟左右，可以有新订单提醒。如果发现佣金不对，可以及时取消订单重新拍。如果重新拍了佣金还不对，以实际佣金为准。</p>
+          <p><img class="question-img" width="100%" th:src="${uiPath} + ${appName} + '/images/orderTime-1.1.png'"></p>
+        </div>
+        <div class="question-div">
+          <p class="title"><i>&bull;</i>4 优惠券没有了怎么办？</p>
+          <p class="content">优惠券有时间和数量限制，领取后请尽快使用，错过了就没有了。平台也会及时下架已经没有优惠券的商品。</p>
+        </div>
+        <div class="question-div">
+          <p class="title"><i>&bull;</i>5 在淘宝看到的商品，怎么查询优惠券？</p>
+          <p class="content">在手机淘宝APP里【长按宝贝标题】、【复制宝贝标题】，然后进入公众号【搜索找券】。</p>
+          <p><img class="question-img" width="100%" th:src="${uiPath} + ${appName} + '/images/zhaoquan-1.1.png'"></p>
+        </div>
+      </div>
   </div>
 </div>
 
@@ -65,17 +67,6 @@
     <i class="icon18-zz icon-quan-18-2"></i>
     <p class="weui-tabbar__label">活动券</p>
   </a>
-  <!--
-  <a href="classify.html" class="weui-tabbar__item">
-    <i class="icon18-zz icon-retui-18"></i>
-    <p class="weui-tabbar__label">团长推荐</p>
-  </a>
-  <a href="shopcart.html" class="weui-tabbar__item">
-    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
-    <i class="icon18-zz icon-pyq-18"></i>
-    <p class="weui-tabbar__label">一键发圈</p>
-  </a>
-  -->
   <a href="/user/mine" class="weui-tabbar__item">
     <i class="icon18-zz icon-mine-18"></i>
     <p class="weui-tabbar__label">我的</p>
