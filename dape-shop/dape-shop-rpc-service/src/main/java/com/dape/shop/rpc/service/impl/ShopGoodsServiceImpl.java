@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,14 +70,32 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
 
 //            req.setNumIids("584574208203");
 
-            TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
-            req.setPageSize(20L);
-            req.setAdzoneId(96030450186L);
-            req.setPageNo(1L);
-//            req.setMaterialId(123L);
-            req.setItemId(578586247457L);
-            TbkDgOptimusMaterialResponse rsp = client.execute(req);
+//            TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
+//            req.setPageSize(20L);
+//            req.setAdzoneId(96030450186L);
+//            req.setPageNo(1L);
+////            req.setMaterialId(123L);
+//            req.setItemId(578586247457L);
+//            TbkDgOptimusMaterialResponse rsp = client.execute(req);
 
+            TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
+            req.setAdzoneId(ADZONE_ID);
+            req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String date = format.format(new Date());
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date start = format.parse(date + " 00:00:00");
+                req.setStartTime(start);
+                Date end = format.parse(date + " 23:59:59");
+                req.setEndTime(end);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            req.setPageNo(1L);
+            req.setPageSize(40L);
+            TbkJuTqgGetResponse rsp = client.execute(req);
 
             System.out.println("*********************");
             System.out.println(rsp.getBody());
@@ -448,6 +468,52 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             }
 
         } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> tbkJuTqgGet(Long pageNum, Long pageSize) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        try {
+            TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
+            req.setAdzoneId(ADZONE_ID);
+            req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String date = format.format(new Date());
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date start = format.parse(date + " 00:00:00");
+            req.setStartTime(start);
+            Date end = format.parse(date + " 23:59:59");
+            req.setEndTime(end);
+            req.setPageNo(pageNum);
+            req.setPageSize(pageSize);
+            TbkJuTqgGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkJuTqgGetResponse = jsonObject.getJSONObject("tbk_ju_tqg_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkJuTqgGetResponse != null){//查询成功
+                String request_id = tbkJuTqgGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkJuTqgGetResponse.getJSONObject("results");
+                JSONArray items = results.getJSONArray("results");
+                result.put("results", items);
+                result.put("success", true);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }catch (ApiException e) {
             e.printStackTrace();
         }
         return result;

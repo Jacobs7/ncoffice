@@ -63,4 +63,12 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      * @return
      */
     public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip);
+
+    /**
+     * 淘抢购
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Map<String, Object> tbkJuTqgGet(Long pageNum, Long pageSize);
 }

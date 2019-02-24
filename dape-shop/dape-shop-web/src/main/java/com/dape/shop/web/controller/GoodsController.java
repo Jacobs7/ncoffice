@@ -926,6 +926,22 @@ public class GoodsController extends BaseController {
         return thymeleaf("/deq");
     }
 
+    /**
+     * 淘抢购
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/tqg", method = RequestMethod.GET)
+    public String tqg(Model model, HttpServletRequest request) {
+        String sort = request.getParameter("sort");
+        if(StringUtils.isNotBlank(sort)){
+            model.addAttribute("sort", sort);
+        }else{
+            model.addAttribute("sort", "");
+        }
+        return thymeleaf("/tqg");
+    }
+
 
 
     // *******************************************************************************************************************************

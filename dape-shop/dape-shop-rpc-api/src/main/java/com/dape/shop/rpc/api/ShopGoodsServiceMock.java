@@ -36,4 +36,9 @@ public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopG
     public Map<String, Object> tbkItemInfoGet(String itemId, Long platform, String ip) {
         return null;
     }
+
+    @Override
+    public Map<String, Object> tbkJuTqgGet(Long pageNum, Long pageSize) {
+        return null;
+    }
 }
