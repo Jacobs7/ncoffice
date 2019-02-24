@@ -232,11 +232,11 @@ public class GoodsController extends BaseController {
             model.addAttribute("coupon_amount", "0");
         }
         // 券链接
-        String coupon_click_url = request.getParameter("coupon_click_url");
-        if(StringUtils.isNotBlank(coupon_click_url)){
-            model.addAttribute("coupon_click_url", coupon_click_url);
+        String coupon_share_url = request.getParameter("coupon_share_url");
+        if(StringUtils.isNotBlank(coupon_share_url)){
+            model.addAttribute("coupon_share_url", coupon_share_url);
         }else {
-            model.addAttribute("coupon_click_url", "");
+            model.addAttribute("coupon_share_url", "");
         }
         // 淘客链接
         String click_url = request.getParameter("click_url");
