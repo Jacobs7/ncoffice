@@ -609,7 +609,7 @@ function qiangquan(){
                 tkl = data.model;
                 tklTxt = txt+tkl+'复制这条信息，打开手机淘宝即可领券';
                 if(!data.isLogin){
-                    $.alert('亲，你还没有登录<br/>登录后才能获得返佣哦',function(){
+                    $.alert('亲，您还没有登录<br/>登录后才能获得返佣哦',function(){
                         showTKLWin(tklTxt);
                     });
                 }else{
