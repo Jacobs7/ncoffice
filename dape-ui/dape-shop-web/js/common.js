@@ -766,7 +766,8 @@ $.post('/goods/goodsTBTP',{itemId:numIid,platform:platform,userType:userType,cli
 }
 // 图片加载完成设置宽度(商品详情页)
 function imgLoadComplete(obj){
-    if(obj.width > 50){
+    var widthB = $('body').width();
+    if(obj.width >= widthB){
         $(obj).width("100%");
     }
 }
@@ -775,7 +776,7 @@ function goodsTBPJ(){
 $.post('/goods/goodsTBPJ',{pjUrl:'https://rate.tmall.com/list_detail_rate.htm?itemId='+numIid+'&sellerId='+sellerId+'&pageSize='+pageSize},function(data){
     $('#detailPj').find('.loadingImg').remove();
         if(data.success){
-            console.log(data.TBPJ);
+            //console.log(data.TBPJ);
         }
     });
 }
