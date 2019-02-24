@@ -68,7 +68,7 @@ function cloneTxt(id){
 }
 // 自带的苹果手机会乱跳，自己实现一个
 function toast(txt){
-    var html = '<div class="weui-toast  weui-toast--visible"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">复制成功</p></div>';
+    var html = '<div class="weui-toast  weui-toast--visible"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">'+txt+'</p></div>';
     $('body').append(html);
     $('.weui-toast').fadeIn(100);
     setTimeout(function () {
@@ -239,16 +239,16 @@ function tyFnc(zkPrice, commission_rate){
     return tmp2;
 }
 // item_id:商品id,zk_final_price:折扣价,coupon_amount:券面额,coupon_click_url:券领取链接,click_url:淘客链接,item_description:推荐理由
-function postGoodsDetail(item_id,platform,commission_rate,coupon_amount,coupon_click_url,click_url,item_description){
+function postGoodsDetail(item_id,platform,commission_rate,coupon_amount,coupon_share_url,click_url,item_description){
     var form = $('#goodsDetailForm');
     if(form.length <= 0){
-        $('body').append('<form id="goodsDetailForm" action="/goods/goodsDetail" method="post" style="display:none;"><input type="text" name="item_id"/><input type="text" name="platform"/><input type="text" name="commission_rate"/><input type="text" name="coupon_amount"/><input type="text" name="coupon_click_url"/><input type="text" name="click_url"/><input type="text" name="item_description"/></from>');
+        $('body').append('<form id="goodsDetailForm" action="/goods/goodsDetail" method="post" style="display:none;"><input type="text" name="item_id"/><input type="text" name="platform"/><input type="text" name="commission_rate"/><input type="text" name="coupon_amount"/><input type="text" name="coupon_share_url"/><input type="text" name="click_url"/><input type="text" name="item_description"/></from>');
     }
     $('#goodsDetailForm').find("input[name='item_id']").val(item_id);
     $('#goodsDetailForm').find("input[name='platform']").val(platform);
     $('#goodsDetailForm').find("input[name='commission_rate']").val(commission_rate);
     $('#goodsDetailForm').find("input[name='coupon_amount']").val(coupon_amount);
-    $('#goodsDetailForm').find("input[name='coupon_click_url']").val(coupon_click_url);
+    $('#goodsDetailForm').find("input[name='coupon_share_url']").val(coupon_share_url);
     $('#goodsDetailForm').find("input[name='click_url']").val(click_url);
     $('#goodsDetailForm').find("input[name='item_description']").val(item_description);
     $('#goodsDetailForm').submit();
@@ -279,12 +279,18 @@ function loadGoodsForMain(){
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                 var tianmaoCss = 'icon-tianmao-18';
                 if($this.user_type == 0){
-                    console.log($this);
                   tianmaoCss = 'icon-taobao-18';
                 }else if($this.user_type == 1){
                   tianmaoCss = 'icon-tianmao-18';
                 }
                 var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
+
+                var couponShareUrl = $this.coupon_share_url;
+                if($this.coupon_amount > 0){
+                    couponShareUrl = 'https:' + couponShareUrl;
+                }else{
+                    couponShareUrl = '';
+                }
 
                 // new图标是否显示，如果券开始时间为当天：显示，反之：隐藏
                 var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
@@ -299,7 +305,7 @@ function loadGoodsForMain(){
 
                 $('#goodsUL').append('<li>' +
                       //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
-                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
+                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\''+couponShareUrl+'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.coupon_amount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
@@ -395,9 +401,9 @@ function loadLocalGoodsForMain(){
         $(".w-main").append("<div class=\"weui-cells__title\" style='text-align: center;margin-bottom:5rem;'>已无更多数据</div>");
         loading = true;
         if(data.msg){
-          $.toast(data.msg, 'forbidden');
+          toast(data.msg);
         }else{
-          $.toast('发送失败', 'forbidden');
+          toast('发送失败');
         }
       }
 
@@ -591,9 +597,13 @@ function loadInfo(){
 
 // 抢券淘口令
 function qiangquan(){
+    var url = coupon_share_url;
+    if(url == ''){
+        url = click_url;
+    }
     if(tkl == ''){
         showLoading('正在获取淘口令','style="min-width:6.5rem;min-height:6.5rem;"');
-        $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
+        $.post('/goods/goodsTPwd',{url:url,text:title},function(data){
             $.hideLoading();
             if(data.success){
                 tkl = data.model;
@@ -652,15 +662,23 @@ function showTKLWin(tklTxt){
 // 生成推广海报
 function haibao() {
   if(!!goodsDetail && goodsDetail.length > 0){
+        var url = coupon_share_url;
+        if(url == ''){
+          url = click_url;
+        }
         if(tkl == ''){
-            $.post('/goods/goodsTPwd',{url:coupon_click_url,text:title},function(data){
+            $.post('/goods/goodsTPwd',{url:url,text:title},function(data){
                 $.hideLoading();
                 if(data.success){
                     tkl = data.model;
                     tklTxt = txt+tkl+'复制这条信息，打开手机淘宝即可领券';
                     createHaiBao();
                 }else{
-                    toast('生成海报失败');
+                    if(data.msg){
+                        toast(data.msg);
+                    }else{
+                        toast('生成海报失败');
+                    }
                 }
             });
         }else{
