@@ -84,22 +84,36 @@ public class GoodsController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/coupon", method = RequestMethod.GET)
-    public String coupon(Long moduleId,Model model, HttpServletRequest request) {
-        if(moduleId != null){
+    public String coupon(Long i, Integer p, String m, Model model, HttpServletRequest request) {
+        if(i != null){
+            model.addAttribute("p", p);
+            model.addAttribute("m", m);
             ShopModuleExample me = new ShopModuleExample();
-            me.or().andIdEqualTo(moduleId);
+            me.or().andIdEqualTo(i);
             List<ShopModule> modules = shopModuleService.selectByExample(me);
             if(modules != null && modules.size() == 1){
                 model.addAttribute("module", modules.get(0));
             }
             ShopModuleItemExample e = new ShopModuleItemExample();
-            e.or().andModuleIdEqualTo(moduleId);
+            e.or().andModuleIdEqualTo(i);
             List<ShopModuleItem> items = shopModuleItemService.selectByExample(e);
             model.addAttribute("items", items);
             return thymeleaf("/coupon");
         }else{
             return thymeleaf("/index");
         }
+    }
+
+    /**
+     * 淘宝客各模块
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/jhs", method = RequestMethod.GET)
+    public String jhs(Integer p, String m, Model model, HttpServletRequest request) {
+            model.addAttribute("p", p);
+            model.addAttribute("m", m);
+            return thymeleaf("/jhs");
     }
 
     /**
@@ -154,7 +168,6 @@ public class GoodsController extends BaseController {
 //        if(StringUtils.isNotBlank(ip)){
 //            params.put("ip", ip);
 //        }
-
         return shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
     }
 

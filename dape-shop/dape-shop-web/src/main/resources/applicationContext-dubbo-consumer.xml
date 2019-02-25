@@ -36,4 +36,6 @@
 
     <dubbo:reference id="shopDetailImgUrlService" interface="com.dape.shop.rpc.api.ShopDetailImgUrlService" mock="true"/>
 
+    <dubbo:reference id="shopModuleItemService" interface="com.dape.shop.rpc.api.ShopModuleItemService" mock="true"/>
+
 </beans>
