@@ -52,13 +52,13 @@
                         password="tyXyp_2233!" />
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="com.dape.shop.dao.model" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-dao/src/main/java" />
+        <javaModelGenerator targetPackage="com.dape.shop.dao.model" targetProject="D:/idea-project/ncoffice/dape-shop/dape-shop-dao/src/main/java" />
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-rpc-service/src/main/java" />
+        <sqlMapGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="D:/idea-project/ncoffice/dape-shop/dape-shop-rpc-service/src/main/java" />
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="E:/huo/project/weixin/ncoffice/dape-shop/dape-shop-dao/src/main/java" type="XMLMAPPER" />
+        <javaClientGenerator targetPackage="com.dape.shop.dao.mapper" targetProject="D:/idea-project/ncoffice/dape-shop/dape-shop-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
                                     <table tableName="shop_cash_flow" domainObjectName="ShopCashFlow"></table>
@@ -66,6 +66,7 @@
                                                 <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
                                                 <table tableName="shop_menu" domainObjectName="ShopMenu"></table>
                                                 <table tableName="shop_module" domainObjectName="ShopModule"></table>
+                                                <table tableName="shop_module_item" domainObjectName="ShopModuleItem"></table>
                                                 <table tableName="shop_order" domainObjectName="ShopOrder"></table>
                                                 <table tableName="shop_order_flow" domainObjectName="ShopOrderFlow"></table>
                                                 <table tableName="shop_sms" domainObjectName="ShopSms"></table>

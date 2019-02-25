@@ -97,6 +97,12 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             req.setPageSize(40L);
             TbkJuTqgGetResponse rsp = client.execute(req);
 
+//            TbkItemidCouponGetRequest req = new TbkItemidCouponGetRequest();
+//            req.setPlatform(1L);
+//            req.setPid("mm_123_123_123");
+//            req.setNumIids("123,456");
+//            TbkItemidCouponGetResponse rsp = client.execute(req);
+
             System.out.println("*********************");
             System.out.println(rsp.getBody());
             System.out.println("*********************");

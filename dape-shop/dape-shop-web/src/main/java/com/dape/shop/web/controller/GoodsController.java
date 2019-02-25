@@ -73,6 +73,34 @@ public class GoodsController extends BaseController {
     public ShopUserService shopUserService;
     @Autowired
     public ShopDetailImgUrlService shopDetailImgUrlService;
+    @Autowired
+    public ShopModuleService shopModuleService;
+    @Autowired
+    public ShopModuleItemService shopModuleItemService;
+
+    /**
+     * 淘宝客各模块
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/coupon", method = RequestMethod.GET)
+    public String coupon(Long moduleId,Model model, HttpServletRequest request) {
+        if(moduleId != null){
+            ShopModuleExample me = new ShopModuleExample();
+            me.or().andIdEqualTo(moduleId);
+            List<ShopModule> modules = shopModuleService.selectByExample(me);
+            if(modules != null && modules.size() == 1){
+                model.addAttribute("module", modules.get(0));
+            }
+            ShopModuleItemExample e = new ShopModuleItemExample();
+            e.or().andModuleIdEqualTo(moduleId);
+            List<ShopModuleItem> items = shopModuleItemService.selectByExample(e);
+            model.addAttribute("items", items);
+            return thymeleaf("/coupon");
+        }else{
+            return thymeleaf("/index");
+        }
+    }
 
     /**
      * 加载商品列表, ajax请求
@@ -81,9 +109,9 @@ public class GoodsController extends BaseController {
      * @param request 查询条件
      * @return
      */
-    @RequestMapping(value = "/loadGoods", method = RequestMethod.POST)
+    @RequestMapping(value = "/loadCouponGoods", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> loadGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
+    public Map<String, Object> loadCouponGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
 
         String q = request.getParameter("q");
@@ -185,9 +213,9 @@ public class GoodsController extends BaseController {
 //        }
 
 //        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
-            Map<String, Object> m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
-            m.put("material_id", material_id);
-            return m;
+        Map<String, Object> m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+        m.put("material_id", material_id);
+        return m;
 //        }else{
 //            Map<String, Object> m = shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
 //            return m;
@@ -923,7 +951,7 @@ public class GoodsController extends BaseController {
         }else{
             model.addAttribute("menuName", "");
         }
-        return thymeleaf("/deq");
+        return thymeleaf("/a-deq");
     }
 
     /**
@@ -942,6 +970,12 @@ public class GoodsController extends BaseController {
         return thymeleaf("/tqg");
     }
 
+    @RequestMapping(value = "/loadTQGGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadTQGGoods(Long pageNum, Long pageSize, String sort, HttpServletRequest request) {
+        Map<String, Object> m = shopGoodsService.tbkJuTqgGet(pageNum, pageSize);
+        return m;
+    }
 
 
     // *******************************************************************************************************************************
@@ -986,8 +1020,6 @@ public class GoodsController extends BaseController {
     // 加载数据库商品 start *******************************************************************************************************
     @Autowired
     private ShopMenuService shopMenuService;
-    @Autowired
-    private ShopModuleService shopModuleService;
 
     @RequestMapping(value = "localGoods", method = RequestMethod.GET)
     public String localGoods(Model model, Long showId, HttpServletRequest request) {
