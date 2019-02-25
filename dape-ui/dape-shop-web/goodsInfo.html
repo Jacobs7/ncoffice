@@ -19,7 +19,9 @@
       <!--主图轮播-->
       <div class="weui-panel">
         <div class="swiper-container swiper-zhutu">
-          <div class="swiper-wrapper" id="picList"></div>
+          <div class="swiper-wrapper" id="picList">
+              <div class="swiper-slide" id="picMain"><div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div></div>
+          </div>
           <div class="swiper-pagination swiper-zhutu-pagination"></div>
         </div>
 
@@ -51,7 +53,7 @@
           <div class="weui-tab__bd">
             <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
               <div id="detailImgs">
-                  <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
               </div>
               <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:3rem;">------已经到底了------</div>
             </div>
@@ -124,12 +126,6 @@
   $(function() {
       FastClick.attach(document.body);
       loadInfo();
-      $(".swiper-zhutu").swiper({
-          loop: true,
-          paginationType:'fraction',
-          autoplay:5000
-      });
-
       // 返回顶部
       backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');

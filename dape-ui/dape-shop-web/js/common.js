@@ -309,7 +309,8 @@ function loadGoodsForMain(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.coupon_amount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img src="http:'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
                         // 根据店铺类型判断是天猫、淘宝
@@ -373,7 +374,8 @@ function loadLocalGoodsForMain(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img src="http:'+$this.pictUrl+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
                         // 根据店铺类型判断是天猫、淘宝
@@ -510,7 +512,8 @@ function loadGoodsForSearch(){
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
                     '<span class="quanFlag"><b>'+coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
-                    '<img src="'+$this.pict_url+'">' +
+                        '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                        '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                     '</div>' +
                     '<div class="protxt">' +
                     // 根据店铺类型判断是天猫、淘宝
@@ -551,13 +554,18 @@ function loadInfo(){
       numIid = item['num_iid'];
       // 商品图片
       pictUrl = item['pict_url'];
-      $('#picList').append('<div class="swiper-slide"><img src="'+pictUrl+'" /></div>');
+      $('#picMain').append('<img onload="imgLoadD(this)" style="display:none;" src="'+pictUrl+'" />');
       var small_images = item['small_images'];
       if(!!small_images && small_images['string'].length > 0){
         for(var i = 0; i < small_images['string'].length; i++){
-          $('#picList').append('<div class="swiper-slide"><img src="'+small_images['string'][i]+'" /></div>');
+          $('#picList').append('<div class="swiper-slide"><div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div><img onload="imgLoadD(this)" style="display:none;" src="'+small_images['string'][i]+'" /></div>');
         }
       }
+      $(".swiper-zhutu").swiper({
+          loop: true,
+          paginationType:'fraction',
+          autoplay:5000
+      });
       // 券
       $('#quanFlag').append('<b>￥'+coupon_amount+'</b>');
       userType = item['user_type'];
@@ -754,13 +762,12 @@ function toModulePage(id,url,platform){
 // 抓取商品详情
 function goodsTBDetail(){
 $.post('/goods/goodsTBTP',{itemId:numIid,platform:platform,userType:userType,clickUrl:click_url},function(data){
-    $('#detailImgs').find('.loadingImg').remove();
+    $('#detailImgs').find('.loading-d').remove();
         if(data.success){
             var imgsArr = data.imgsArr;
             $(imgsArr).each(function(){
                 $('#detailImgs').append('<img onload="imgLoadComplete(this)" src='+this+' />');
             });
-
         }
     });
 }
@@ -779,4 +786,13 @@ $.post('/goods/goodsTBPJ',{pjUrl:'https://rate.tmall.com/list_detail_rate.htm?it
             //console.log(data.TBPJ);
         }
     });
+}
+// 图片加载完成删除等待样式
+function imgLoadD(obj){
+    $(obj).parent().find('.loading-d').remove();
+    $(obj).show();
+}
+function imgLoadC(obj){
+    $(obj).parent().find('.loading-c').remove();
+    $(obj).show();
 }

@@ -22,7 +22,9 @@
       <!--主图轮播-->
       <div class="weui-panel">
         <div class="swiper-container swiper-zhutu">
-          <div class="swiper-wrapper" id="picList"><div class="swiper-slide"><img th:src="${uiPath + appName} + '/images/loading-max.gif'" /></div></div>
+          <div class="swiper-wrapper" id="picList">
+              <div class="swiper-slide" id="picMain"><div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div></div>
+          </div>
           <div class="swiper-pagination swiper-zhutu-pagination"></div>
         </div>
         <div class="weui-media-box_text detail-container">
@@ -38,7 +40,7 @@
             <a href="javascript:;">图文详情</a>
           </div>
           <div id="detailImgs">
-              <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
+              <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
           </div>
           <div class="weui-cells__title" style="text-align:center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:2rem;">------已经到底了------</div>
       </div>
@@ -79,14 +81,18 @@
 
 function loadPics(){
     $.post('/goods/goodsDetailTG',{itemId:itemId,platform:platform},function(data){
-        $('#picList').html('');
-        $('#detailImgs').html('');
         if(data.success){
             var pics = data.pics;
             var detailPics = data.detailPics;
-            $(pics).each(function(){
-                $('#picList').append('<div class="swiper-slide"><img src="'+this+'" /></div>');
-            });
+
+            for(var i = 0; i < pics.length; i++){
+                if(i == 0){
+                    $('#picMain').append('<img onload="imgLoadD(this)" style="display:none;" src="'+pics[i]+'" />');
+                }else{
+                    $('#picList').append('<div class="swiper-slide"><div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div><img onload="imgLoadD(this)" style="display:none;" src="'+pics[i]+'" /></div>');
+                }
+            }
+            $('#detailImgs').html('');
             $(detailPics).each(function(){
                 $('#detailImgs').append('<img onload="imgLoadComplete(this)" src='+this+' />');
             });
