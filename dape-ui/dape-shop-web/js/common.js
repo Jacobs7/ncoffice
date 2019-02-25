@@ -347,6 +347,65 @@ function loadCouponGoods(){
       $(".weui-loadmore").hide();
     });
 }
+
+// 首页加载商品
+function loadJhsGoods(){
+    $.post('/goods/loadCouponGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,material_id:material_id},function(data){
+      loading = false;
+      if(data.success){
+        var mapData = data.mapData;
+        if(mapData && mapData.length > 0){
+            $(mapData).each(function(){
+                $this = this;
+                // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
+                var tianmaoCss = 'icon-tianmao-18';
+                if($this.user_type == 0){
+                  tianmaoCss = 'icon-taobao-18';
+                }else if($this.user_type == 1){
+                  tianmaoCss = 'icon-tianmao-18';
+                }
+
+                $('#goodsUL').append('<li>' +
+                      //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
+                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
+                        '<div class="proimg">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
+                        '</div>' +
+                        '<div class="protxt">' +
+                        // 根据店铺类型判断是天猫、淘宝
+                          '<div class="name" style="position: relative;">' +
+                          '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
+                          '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
+                          '<div class="name" style="position: relative;"><p>' +
+                            '<em class="nowPrice">￥'+$this.orig_price+'</em>' +
+                            '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                            '</p></div>' +
+                          '<div class="return" style="margin-bottom: 3px;">' +
+                            '<div style="background-color: #dc2527;color: #fff;">标佣¥'+byFnc($this.orig_price,$this.commission_rate)+'</div>' +
+                            '<div style="color: #dc2527;">特佣¥'+tyFnc($this.orig_price,$this.commission_rate)+'</div>' +
+                            '</div>' +
+                          '</div>' +
+                        '</a>' +
+                      '</li>');
+            });
+        }else{
+            $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+            loading = true;
+        }
+      }else{
+        $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+        loading = true;
+        if(data.msg){
+          toast(data.msg);
+        }else{
+          toast('发送失败');
+        }
+      }
+
+      $(".weui-loadmore").hide();
+    });
+}
 // 淘抢购查询
 function loadGoodsForTQG(){
     $.post('/goods/loadTQGGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform},function(data){
@@ -819,7 +878,7 @@ function toModulePage(id,url,platform){
     if(id == 8){
         showKeFu(url);
     }else{
-        window.location.href = url + '?platform=' + platform;
+        window.location.href = url;
     }
 }
 // 抓取商品详情

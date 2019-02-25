@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="${module.name}"></title>
+<title>聚划算</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -30,20 +30,10 @@
 <header class="weui-header index-header" style="z-index:999;">
   <div class="weui-flex wy-iconlist-box" style="display: flex;margin-top: 0;margin-bottom:0;background-color: #DD2727;">
     <a class="func-back" href="javascript:history.back(-1);" style="margin-right: -24px;"><i class="icon24-zz item-back-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
-    <a href="javascript:;" id="menuNameA" th:onclick="${#lists.size(items)}>0?'deqFadeToggle()':''" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2" th:text="${module.name}"></a>
+    <a href="javascript:;" id="menuNameA" style="padding:11px 0 9px 0;flex: 0 0 auto;color:#fff;margin: 0 auto;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on2">聚划算</a>
     <a class="func-back" href="/" style="margin-left: -24px;"><i class="icon24-zz item-home-24" style="height: 1.1rem;margin-top:0.5rem;"></i></a>
   </div>
 </header>
-
-<div th:if="${#lists.size(items)} > 0" id="top-menu-box" class="top-menu-box-d" onclick="deqFadeToggle()" style="top: 2rem;display:none;">
-  <div th:each="item,itemStat:${items}" class="mine-module-i" style="flex: 0 0 25%;margin-left:-1px;">
-    <a th:href="'javascript:loadCoupons(' + ${item.materialId} + ')'" class="weui-tabbar__item">
-      <div th:classappend="${item.icon}" class="icon24"></div>
-      <p class="weui-tabbar__label" th:text="${item.name}"></p>
-    </a>
-  </div>
-</div>
-<div th:if="${#lists.size(items)} > 0" id="top-menu-box-mask" style="opacity:1;visibility:visible;display:none;margin-top:2.2rem;" class="weui-mask" onclick="deqFadeToggle()"></div>
 
 <!-- 返回顶部 -->
 <div class="detail-top" id="backTop">
@@ -89,7 +79,7 @@
         FastClick.attach(document.body);
         // 第一次加载数据
         $(".weui-loadmore").show();
-        loadCoupons(material_id);
+        loadJhsGoods();
         // 返回顶部
         backScroll('listwrap');
     });
@@ -99,18 +89,12 @@
     var pageSize = 20;
     var loading = false;
 
-    function loadCoupons(materialId){
-        material_id = materialId;
-        $('#goodsUL').html('');
-        loadCouponGoods();
-    }
-
     $("#listwrap").infinite().on("infinite", function () {
         if (loading) return;
         loading = true;
         pageNum++; //页数
         $('.weui-loadmore').show();
-        loadCouponGoods();
+        loadJhsGoods();
     });
 
 </script>
