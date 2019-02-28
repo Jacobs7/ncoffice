@@ -68,7 +68,7 @@ function cloneTxt(id){
 }
 // 自带的苹果手机会乱跳，自己实现一个
 function toast(txt){
-    var html = '<div class="weui-toast  weui-toast--visible"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">'+txt+'</p></div>';
+    var html = '<div class="weui-toast  weui-toast--visible" style="margin-left:0;"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">'+txt+'</p></div>';
     $('body').append(html);
     $('.weui-toast').fadeIn(100);
     setTimeout(function () {
