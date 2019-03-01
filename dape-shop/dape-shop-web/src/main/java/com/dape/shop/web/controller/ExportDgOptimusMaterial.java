@@ -153,20 +153,29 @@ public class ExportDgOptimusMaterial {
             }
             ps.setString(15,data.getString("coupon_start_fee"));
             String couponStartTime = data.getString("coupon_start_time");
-            Long dateMillis = null;
-            Matcher isNum = pattern.matcher(couponStartTime);
-            if(isNum.matches()){
-                dateMillis = Long.valueOf(couponStartTime);
-                ps.setTimestamp(16,new Timestamp(dateMillis));
+            if(StringUtils.isNotBlank(couponStartTime)){
+                Long dateMillis = null;
+                Matcher isNum = pattern.matcher(couponStartTime);
+                if(isNum.matches()){
+                    dateMillis = Long.valueOf(couponStartTime);
+                    ps.setTimestamp(16,new Timestamp(dateMillis));
+                }else{
+                    ps.setNull(16, Types.TIMESTAMP);
+                }
             }else{
                 ps.setNull(16, Types.TIMESTAMP);
             }
 
             String couponEndTime = data.getString("coupon_end_time");
-            isNum = pattern.matcher(couponEndTime);
-            if(isNum.matches()){
-                dateMillis = Long.valueOf(couponEndTime);
-                ps.setTimestamp(17,new Timestamp(dateMillis));
+            if(StringUtils.isNotBlank(couponEndTime)){
+                Long dateMillis = null;
+                Matcher isNum = pattern.matcher(couponEndTime);
+                if(isNum.matches()){
+                    dateMillis = Long.valueOf(couponEndTime);
+                    ps.setTimestamp(17,new Timestamp(dateMillis));
+                }else{
+                    ps.setNull(17, Types.TIMESTAMP);
+                }
             }else{
                 ps.setNull(17, Types.TIMESTAMP);
             }
