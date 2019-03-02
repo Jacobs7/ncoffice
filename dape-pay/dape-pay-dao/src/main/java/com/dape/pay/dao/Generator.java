@@ -14,7 +14,7 @@ public class Generator {
 
 	// 根据命名规范，只修改此常量值即可
 	private static String MODULE = "dape-pay";
-	private static String DATABASE = "dape";
+	private static String DATABASE = "dp-office-dev";
 	private static String TABLE_PREFIX = "pay_";
 	private static String PACKAGE_NAME = "com.dape.pay";
 	private static String JDBC_DRIVER = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.driver");
@@ -24,7 +24,6 @@ public class Generator {
 	// 需要insert后返回主键的表配置，key:表名,value:主键名
 	private static Map<String, String> LAST_INSERT_ID_TABLES = new HashMap<>();
 	static {
-
 	}
 
 	/**

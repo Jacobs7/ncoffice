@@ -5,6 +5,6 @@
           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- ApplicationContext -->
-    <bean id="springContextUtil" class="com.zheng.common.util.SpringContextUtil"></bean>
+    <bean id="springContextUtil" class="com.dape.common.util.SpringContextUtil"></bean>
 
 </beans>
