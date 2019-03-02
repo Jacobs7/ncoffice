@@ -68,7 +68,7 @@ function cloneTxt(id){
 }
 // 自带的苹果手机会乱跳，自己实现一个
 function toast(txt){
-    var html = '<div class="weui-toast  weui-toast--visible"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">'+txt+'</p></div>';
+    var html = '<div class="weui-toast  weui-toast--visible" style="margin-left:0;"><i class="weui-icon-success-no-circle weui-icon_toast"></i><p class="weui-toast_content">'+txt+'</p></div>';
     $('body').append(html);
     $('.weui-toast').fadeIn(100);
     setTimeout(function () {
@@ -309,7 +309,7 @@ function loadCouponGoods(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.coupon_amount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                           '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
@@ -369,7 +369,7 @@ function loadJhsGoods(){
                       //'<a href="/goods/goodsDetail?numIid='+$this.item_id+'&platform='+platform+'">' +
                       '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.item_id+','+platform+','+$this.commission_rate+','+$this.coupon_amount+',\'\',\'https:'+$this.click_url+'\',\''+$this.item_description+'\')">' +
                         '<div class="proimg">' +
-                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                           '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
@@ -378,8 +378,8 @@ function loadJhsGoods(){
                           '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
                           '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
                           '<div class="name" style="position: relative;"><p>' +
-                            '<em class="nowPrice">￥'+$this.orig_price+'</em>' +
-                            '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                           '拼团价:<em class="nowPrice">￥'+$this.jdd_price+'</em>' +
+                           '<span class="oldPrice">￥'+$this.orig_price+'</span>' +
                             '</p></div>' +
                           '<div class="return" style="margin-bottom: 3px;">' +
                             '<div style="background-color: #dc2527;color: #fff;">标佣¥'+byFnc($this.orig_price,$this.commission_rate)+'</div>' +
@@ -432,7 +432,7 @@ function loadGoodsForTQG(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                           '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
@@ -496,7 +496,7 @@ function loadLocalGoodsForMain(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                           '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
@@ -634,7 +634,7 @@ function loadGoodsForSearch(){
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
                     '<span class="quanFlag"><b>'+coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
-                        '<img onload="imgLoadC(this)" style="display:none;" src="http:'+$this.pict_url+'">' +
+                        '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                         '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                     '</div>' +
                     '<div class="protxt">' +

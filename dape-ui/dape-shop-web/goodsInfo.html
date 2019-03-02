@@ -45,10 +45,10 @@
       </div>
 
       <div class="weui-panel">
-        <div class="weui-tab" style="height:auto;">
+        <!--<div class="weui-tab" style="height:auto;">-->
           <div class="weui-navbar" style="height:2.1rem;">
-            <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
-            <a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>
+            <a style="width: 100%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
+            <!--<a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>-->
           </div>
           <div class="weui-tab__bd">
             <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
@@ -57,14 +57,14 @@
               </div>
               <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:3rem;">------已经到底了------</div>
             </div>
-            <div id="tab2" class="weui-tab__bd-item">
-              <div id="detailPj">
-                <img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />
-              </div>
-              <div class="weui-cells__title" style="text-align: center;line-height: 3rem;margin-bottom:3rem;">------已经到底了------</div>
-            </div>
+            <!--<div id="tab2" class="weui-tab__bd-item">-->
+              <!--<div id="detailPj">-->
+                <!--<img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />-->
+              <!--</div>-->
+              <!--<div class="weui-cells__title" style="text-align: center;line-height: 3rem;margin-bottom:3rem;">&#45;&#45;&#45;&#45;&#45;&#45;已经到底了&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
+            <!--</div>-->
           </div>
-        </div>
+        <!--</div>-->
       </div>
   </div>
 </div>
@@ -130,7 +130,7 @@
       backScroll('listwrap');
       txt = title + '\n----------\n券后￥'+zkPrice+'【优惠券'+coupon_amount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(item_description!=''?item_description+'\n----------\n':'');
       goodsTBDetail();//天猫详情
-      goodsTBPJ();//天猫评价
+      //goodsTBPJ();//天猫评价
   });
 
 </script>

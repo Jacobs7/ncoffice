@@ -301,6 +301,37 @@ index-search-c{flex: 0 0 20%;height:1.5rem;}
 .item-back-24 {background-position: -120px -80px;}
 .item-menu-24 {background-position: -120px -360px;}
 
+.icon18-mm{margin-bottom:-3px;display: inline-block;width: 18px;height: 18px;background: url(../images/quan-max-icons.png) no-repeat scroll 0 0;background-size: 300px 300px;position: relative;}
+.icon-girl-mm{background-position: -90px -90px;}
+.menuOn .icon-girl-mm{background-position: -90px -150px;}
+
+.icon-boy-mm{background-position: -150px -90px;}
+.menuOn .icon-boy-mm{background-position: -150px -150px;}
+
+.icon-shoe-mm{background-position: 0px -90px;}
+.menuOn .icon-shoe-mm{background-position: 0px -150px;}
+
+.icon-baby-mm{background-position: -90px -60px;}
+.menuOn .icon-baby-mm{background-position: -90px -120px;}
+
+.icon-bao-mm{background-position: -240px -90px;}
+.menuOn .icon-bao-mm{background-position: -240px -150px;}
+
+.icon-beauty-mm{background-position: -180px -90px;}
+.menuOn .icon-beauty-mm{background-position: -180px -150px;}
+
+.icon-eat-mm{background-position: -30px -60px;}
+.menuOn .icon-eat-mm{background-position: -30px -120px;}
+
+.icon-home-mm{background-position: -60px -60px;margin-bottom:-4px;}
+.menuOn .icon-home-mm{background-position: -60px -120px;margin-bottom:-4px;}
+
+.icon-huo-mm{background-position: -30px -90px;}
+.menuOn .icon-huo-mm{background-position: -30px -150px;}
+
+.icon-electron-mm{background-position: -60px -90px;}
+.menuOn .icon-electron-mm{background-position: -60px -150px;}
+
 .quanFlag {background: url(../images/flag-quan.png) no-repeat scroll 0 -8px;color: #fff;font-size: 12px;color:#ffce49;height: 27px;width: 22px;line-height: 13px;padding: 2px 0 5px;text-align: center;position: absolute;overflow: hidden;top: 0;right: 12px;z-index: 499;}
 .newFlag {position: absolute;top: 0;right: 34px;z-index: 498;}
 .puBody{background-color:#FAFAFC;position: relative;margin: 24px 3.5% 12px;border: 1px dashed #F54D23;text-align: center;padding: 12px 6px 3px;line-height: 24px;display: block;}
