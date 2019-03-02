@@ -16,6 +16,7 @@
     <module>dape-upms</module>
     <module>dape-cms</module>
     <module>dape-shop</module>
+    <module>dape-pay</module>
   </modules>
 
   <name>dape-office</name>
