@@ -22,7 +22,18 @@ public class UpmsSession extends SimpleSession {
         /**
          * 强制退出
          */
-        force_logout("强制退出");
+        force_logout("强制退出"),
+
+        /**
+         * loginFail
+         */
+        login_fail("用户名或密码有误"),
+
+        not_exit("用户不存在"),
+
+        loacd("用户已锁定");
+
+
 
         private final String info;
 

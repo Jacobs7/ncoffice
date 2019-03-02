@@ -86,11 +86,14 @@ public class ConsumerMessageListener implements MessageListener {
                             //验证用户名密码
                             subject.login(usernamePasswordToken);
                         } catch (UnknownAccountException e) {
+                            upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.not_exit.toString());
                             //return new UpmsResult(UpmsResultConstant.INVALID_USERNAME, "帐号不存在！");
                     } catch (IncorrectCredentialsException e) {
-                        // return new UpmsResult(UpmsResultConstant.INVALID_PASSWORD, "密码错误！");
+                            upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.login_fail.toString());
+                            //return new UpmsResult(UpmsResultConstant.INVALID_PASSWORD, "密码错误！");
                     } catch (LockedAccountException e) {
-                        //return new UpmsResult(UpmsResultConstant.INVALID_ACCOUNT, "帐号已锁定！");
+                            upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.loacd.toString());
+                            //return new UpmsResult(UpmsResultConstant.INVALID_ACCOUNT, "帐号已锁定！");
                     }
                     // 更新session状态
                     upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);

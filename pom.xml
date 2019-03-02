@@ -42,11 +42,11 @@
   <distributionManagement>
     <snapshotRepository>
       <id>snapshots</id>
-      <url>http://119.3.38.190:8086/nexus/content/repositories/snapshots</url>
+      <url>http://39.98.78.66:8081/repository/16office/</url>
     </snapshotRepository>
     <repository>
       <id>releases</id>
-      <url>http://119.3.38.190:8086/nexus/content/repositories/releases</url>
+      <url>http://39.98.78.66:8081/repository/16office/</url>
     </repository>
   </distributionManagement>
 
