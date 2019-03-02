@@ -17,7 +17,7 @@
     <!-- 引入jdbc配置文件 -->
     <!--<context:property-placeholder location="classpath:jdbc.properties" />-->
     <!-- 配置进行解密  -->
-    <bean id="propertyConfigurer" class="com.zheng.common.plugin.EncryptPropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="com.dape.common.plugin.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:jdbc.properties</value>
@@ -80,7 +80,7 @@
     </bean>
 
     <!-- 动态数据源 -->
-    <bean id="dataSource" class="com.zheng.common.db.DynamicDataSource">
+    <bean id="dataSource" class="com.dape.common.db.DynamicDataSource">
         <property name="targetDataSources">
             <map key-type="java.lang.String">
                 <!-- 可配置多个数据源 -->
@@ -95,7 +95,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath*:com/zheng/pay/dao/mapper/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath*:com/dape/pay/dao/mapper/*Mapper.xml"/>
     </bean>
     <!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
