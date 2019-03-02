@@ -26,11 +26,7 @@
             <version>1.0.0</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>dp.taobao</groupId>
-            <artifactId>taobao</artifactId>
-            <version>20190213</version>
-        </dependency>
+
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -41,6 +37,12 @@
             <artifactId>htmlunit</artifactId>
             <version>2.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.dp</groupId>
+            <artifactId>taobao</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

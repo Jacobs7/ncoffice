@@ -21,6 +21,13 @@
         <module name="dape-cms-web" />
         <module name="dape-common" />
         <module name="dape-lte" />
+        <module name="dape-pay-admin" />
+        <module name="dape-pay-common" />
+        <module name="dape-pay-dao" />
+        <module name="dape-pay-rpc-api" />
+        <module name="dape-pay-rpc-service" />
+        <module name="dape-pay-sdk" />
+        <module name="dape-pay-web" />
         <module name="dape-shop-admin" />
         <module name="dape-shop-common" />
         <module name="dape-shop-dao" />
@@ -36,7 +43,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="dape-pay" target="1.8" />
       <module name="dape-ui" target="1.7" />
       <module name="dape-upms-serverall" target="1.7" />
     </bytecodeTargetLevel>
