@@ -43,6 +43,8 @@ public class UpmsSessionDao extends CachingSessionDAO {
         return sessionId;
     }
 
+
+
     @Override
     protected Session doReadSession(Serializable sessionId) {
         String session = RedisUtil.get(DAPE_UPMS_SHIRO_SESSION_ID + "_" + sessionId);
@@ -165,6 +167,15 @@ public class UpmsSessionDao extends CachingSessionDAO {
         }
         session.setStatus(onlineStatus);
         RedisUtil.set(DAPE_UPMS_SHIRO_SESSION_ID + "_" + session.getId(), SerializableUtil.serialize(session), (int) session.getTimeout() / 1000);
+    }
+
+    public void loginfail(Serializable sessionId,String reason) {
+
+            // 会话增加强制退出属性标识，当此会话访问系统时，判断有该标识，则退出登录
+
+
+            RedisUtil.set(DAPE_UPMS_SHIRO_SESSION_ID + "_" + sessionId, reason, (int) 2);
+
     }
 
 }
