@@ -212,11 +212,11 @@ public class GoodsController extends BaseController {
             params.put("itemloc", itemloc);
         }
         String sort = request.getParameter("sort");
-        if(StringUtils.isNotBlank(sort)){
-            params.put("sort", sort);
-        }else{
-            params.put("sort", "tk_total_sales_des");
+        if(StringUtils.isBlank(sort)){
+            sort = "tk_total_sales_des";
         }
+        params.put("sort", sort);
+
         String material_id = request.getParameter("material_id");
         if(StringUtils.isNotBlank(material_id)){
             params.put("material_id", material_id);
@@ -238,13 +238,16 @@ public class GoodsController extends BaseController {
             JSONObject jsonObject = null;
             String title = null;
             pageSize = 100L;
+            params = new HashMap<String, Object>();
+            params.put("q", q);
+            params.put("platform", platform);
+            params.put("sort", sort);
             for(int i = 0; i < 10; i++) {
                 pageNum = pageNum + i;
                 long queryCount = pageNum * pageSize;
                 m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
                 m.put("pageNum", pageNum);
                 if ((boolean) m.get("success")) {
-                    Long total = (Long) m.get("total");
                     JSONArray mapData = (JSONArray) m.get("mapData");
                     for (int j = 0; j < mapData.size(); j++) {
                         jsonObject = mapData.getJSONObject(j);
@@ -262,9 +265,6 @@ public class GoodsController extends BaseController {
                         }
                     }
                     if (mapList.size() >= 20) {
-                        break;
-                    }
-                    if (queryCount >= total) {
                         break;
                     }
                 }else{
