@@ -89,12 +89,18 @@
     var platform = [[${platform}]];
     var material_id = [[${material_id}]];
     var has_coupon = [[${has_coupon}]];
+    var flag = false;
 
     $(function() {
       FastClick.attach(document.body);
       // 第一次加载数据
 
         $('#qTxt').val(q);
+
+        $('#qTxt').on("input",function(e){
+            flag = true;
+        });
+
         if(has_coupon == ''){
           has_coupon = true;
         }

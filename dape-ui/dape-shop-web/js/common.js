@@ -571,7 +571,15 @@ function sortPFnc(){
 }
 // 搜索按钮
 function searchPBtn(){
-    setJian(sort);
+    if($('#qTxt').val() == ''){
+        pageNum = 1;
+        $('#goodsUL').html('');
+    }else if(flag){
+        pageNum = 1;
+        $('#goodsUL').html('');
+    }
+    flag = false;
+    loadGoodsForSearch();
 }
 // 设置排序箭头
 function setJian(sort){
@@ -595,11 +603,6 @@ $('#sortDiv').find('.on').removeClass('on');
   }
     $('#goodsUL').html('');
     q = $('#qTxt').val();
-    if(q == ''){
-      cat = '16,30,50020808,50010788,1801,50012100,1625,50002768,50008163,50006842';
-    }else{
-      cat = '';
-    }
     loadGoodsForSearch();
 
 }
@@ -607,7 +610,7 @@ $('#sortDiv').find('.on').removeClass('on');
 function loadGoodsForSearch(){
     $(".weui-cells__title").remove();
     $(".weui-loadmore").show();
-    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:q,material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
+    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,q:$('#qTxt').val(),material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
       loading = false;
       if(data.success){
         var mapData = data.mapData;
@@ -625,7 +628,9 @@ function loadGoodsForSearch(){
                 commission_rate = 0;
 
                 commission_rate = $this.commission_rate / 100;
-
+                if(typeof($this.coupon_amount) == 'undefined'){
+                    $this.coupon_amount = 0;
+                }
                 var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
                 $('#goodsUL').append('<li>' +
                     //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
