@@ -101,6 +101,9 @@
         if(sort == ''){
           sort = 'tk_total_sales_des';
         }
+        if(q == '' && material_id == ''){
+            material_id = 13366;
+        }
       setJian(sort);
         // 返回顶部
         backScroll('listwrap');

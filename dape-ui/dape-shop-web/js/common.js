@@ -607,32 +607,31 @@ $('#sortDiv').find('.on').removeClass('on');
 function loadGoodsForSearch(){
     $(".weui-cells__title").remove();
     $(".weui-loadmore").show();
-    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:q,cat:cat,material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
+    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:q,material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
       loading = false;
       if(data.success){
         var mapData = data.mapData;
+        if(data.pageNum){
+            pageNum = data.pageNum + 1;
+        }
         if(mapData && mapData.length > 0){
 
-            var commission_rate,coupon_amount;
+            var commission_rate;
             $(mapData).each(function(){
                 $this = this;
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                 var tianmaoCss = 'icon-tianmao-18';
 
                 commission_rate = 0;
-                coupon_amount = 0;
 
-                  commission_rate = $this.commission_rate / 100;
-                  if(!!$this.coupon_info && $this.coupon_info != ''){
-                    coupon_amount = formatCouponInfo($this.coupon_info);
-                  }
+                commission_rate = $this.commission_rate / 100;
 
-                var zkPrice = jsSubtr($this.zk_final_price,coupon_amount);
+                var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
                 $('#goodsUL').append('<li>' +
                     //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
-                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
+                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\''+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
-                    '<span class="quanFlag"><b>'+coupon_amount+'</b><br>元券</span>' +
+                    '<span class="quanFlag"><b>'+$this.coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
                         '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                         '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
