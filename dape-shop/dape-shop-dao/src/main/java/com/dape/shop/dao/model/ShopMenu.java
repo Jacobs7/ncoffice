@@ -29,6 +29,8 @@ public class ShopMenu implements Serializable {
      */
     private String url;
 
+    private Integer materialId;
+
     /**
      * 图标
      *
@@ -108,6 +110,14 @@ public class ShopMenu implements Serializable {
         this.url = url;
     }
 
+    public Integer getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(Integer materialId) {
+        this.materialId = materialId;
+    }
+
     public String getIcon() {
         return icon;
     }
@@ -167,6 +177,7 @@ public class ShopMenu implements Serializable {
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", name=").append(name);
         sb.append(", url=").append(url);
+        sb.append(", materialId=").append(materialId);
         sb.append(", icon=").append(icon);
         sb.append(", img=").append(img);
         sb.append(", remark=").append(remark);
@@ -194,6 +205,7 @@ public class ShopMenu implements Serializable {
             && (this.getIsEnabled() == null ? other.getIsEnabled() == null : this.getIsEnabled().equals(other.getIsEnabled()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()))
+            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()))
             && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
             && (this.getImg() == null ? other.getImg() == null : this.getImg().equals(other.getImg()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
@@ -211,6 +223,7 @@ public class ShopMenu implements Serializable {
         result = prime * result + ((getIsEnabled() == null) ? 0 : getIsEnabled().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
+        result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
         result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());
         result = prime * result + ((getImg() == null) ? 0 : getImg().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());

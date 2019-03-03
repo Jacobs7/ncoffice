@@ -225,14 +225,58 @@ public class GoodsController extends BaseController {
 //            params.put("ip", ip);
 //        }
 
-//        if(StringUtils.isNotBlank(q) || StringUtils.isNotBlank(cat)){
-        Map<String, Object> m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
-        m.put("material_id", material_id);
+        Map<String, Object> m = null;
+        if(StringUtils.isNotBlank(q)){
+            for(ShopMenu shopMenu : IndexController.menus){
+                if(shopMenu.getName().equals(q.trim())){
+                    params.put("material_id", shopMenu.getMaterialId());
+                    m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+                    return m;
+                }
+            }
+            JSONArray mapList = new JSONArray();
+            JSONObject jsonObject = null;
+            String title = null;
+            pageSize = 100L;
+            for(int i = 0; i < 10; i++) {
+                pageNum = pageNum + i;
+                long queryCount = pageNum * pageSize;
+                m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+                m.put("pageNum", pageNum);
+                if ((boolean) m.get("success")) {
+                    Long total = (Long) m.get("total");
+                    JSONArray mapData = (JSONArray) m.get("mapData");
+                    for (int j = 0; j < mapData.size(); j++) {
+                        jsonObject = mapData.getJSONObject(j);
+                        title = jsonObject.getString("title");
+                        if (StringUtils.isNotBlank(title)) {
+                            if (q.length() > 20) {// 查询leng大于20时，equals判断
+                                if (title.trim().equals(q.trim())) {
+                                    mapList.add(jsonObject);
+                                }
+                            } else {// 查询leng大于20时，indexOf判断
+                                if (title.trim().indexOf(q.trim()) >= 0) {
+                                    mapList.add(jsonObject);
+                                }
+                            }
+                        }
+                    }
+                    if (mapList.size() >= 20) {
+                        break;
+                    }
+                    if (queryCount >= total) {
+                        break;
+                    }
+                }else{
+                    break;
+                }
+            }
+            m.put("mapData", mapList);
+        }else{// 如果查询为空，默认查综合
+            params.put("q", "综合");
+            m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+        }
         return m;
-//        }else{
-//            Map<String, Object> m = shopGoodsService.loadCouponGoods(pageNum, pageSize, params);
-//            return m;
-//        }
     }
 
     /**

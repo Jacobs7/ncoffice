@@ -7,6 +7,7 @@
     <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, is_enabled, name, url, icon, img, remark, sort, json, module_id
+    id, create_date, is_enabled, name, url, material_id, icon, img, remark, sort, json, 
+    module_id
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopMenuExample" resultMap="BaseResultMap">
     select
@@ -107,13 +109,15 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopMenu">
     insert into shop_menu (id, create_date, is_enabled, 
-      name, url, icon, img, 
-      remark, sort, json, 
-      module_id)
+      name, url, material_id, 
+      icon, img, remark, 
+      sort, json, module_id
+      )
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, 
-      #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR}, 
-      #{moduleId,jdbcType=BIGINT})
+      #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR}, #{moduleId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopMenu">
     insert into shop_menu
@@ -132,6 +136,9 @@
       </if>
       <if test="url != null">
         url,
+      </if>
+      <if test="materialId != null">
+        material_id,
       </if>
       <if test="icon != null">
         icon,
@@ -167,6 +174,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -212,6 +222,9 @@
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
       </if>
+      <if test="record.materialId != null">
+        material_id = #{record.materialId,jdbcType=INTEGER},
+      </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
       </if>
@@ -242,6 +255,7 @@
       is_enabled = #{record.isEnabled,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
+      material_id = #{record.materialId,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -266,6 +280,9 @@
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -294,6 +311,7 @@
       is_enabled = #{isEnabled,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
