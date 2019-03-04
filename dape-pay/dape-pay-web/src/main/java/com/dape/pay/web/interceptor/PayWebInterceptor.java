@@ -31,7 +31,7 @@ public class PayWebInterceptor extends HandlerInterceptorAdapter {
         }else{// 非登录相关，验证登录状态
             System.out.println("业务相关请求");
             if(StringUtils.isBlank(hasCode)){// 未登录重定向到登录页
-                response.sendRedirect("/login");// 重定向到登录页
+                response.sendRedirect("/login/login");// 重定向到登录页
             }
         }
 

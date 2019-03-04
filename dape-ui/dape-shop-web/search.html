@@ -83,25 +83,17 @@
 
 <script th:inline="javascript">
 
-    var q = [[${q}]];
-    var cat = '';
-    var sort = [[${sort}]];
-    var platform = [[${platform}]];
-    var material_id = [[${material_id}]];
-    var has_coupon = [[${has_coupon}]];
+    var q = [[${#strings.isEmpty(q)} ? '' : ${q}]];
+    var sort = [[${#strings.isEmpty(sort)} ? 'tk_total_sales_des' : ${sort}]];
+    var platform = parseInt([[${#strings.isEmpty(platform)} ? '2' : ${platform}]]);
+    var material_id = parseInt([[${#strings.isEmpty(material_id)} ? '13366' : ${material_id}]]);
+    var has_coupon = Boolean([[${#strings.isEmpty(has_coupon)} ? 'true' : ${has_coupon}]]);
 
     $(function() {
-      FastClick.attach(document.body);
-      // 第一次加载数据
-
+        FastClick.attach(document.body);
+        // 第一次加载数据
         $('#qTxt').val(q);
-        if(has_coupon == ''){
-          has_coupon = true;
-        }
-        if(sort == ''){
-          sort = 'tk_total_sales_des';
-        }
-      setJian(sort);
+        setJian(sort);
         // 返回顶部
         backScroll('listwrap');
     });
@@ -109,7 +101,6 @@
     var appURL = [[${uiPath}]] + [[${appName}]];
     var pageNum = 1;
     var pageSize = 20;
-    var cat = '';
     var loading = false;
 
     $("#listwrap").infinite().on("infinite", function () {

@@ -571,7 +571,10 @@ function sortPFnc(){
 }
 // 搜索按钮
 function searchPBtn(){
-    setJian(sort);
+    $('#listwrap').animate({scrollTop:0});
+    pageNum = 1;
+    $('#goodsUL').html('');
+    loadGoodsForSearch();
 }
 // 设置排序箭头
 function setJian(sort){
@@ -593,46 +596,45 @@ $('#sortDiv').find('.on').removeClass('on');
   }else if(sort == 'price_asc'){
     $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
   }
+    pageNum = 1;
     $('#goodsUL').html('');
     q = $('#qTxt').val();
-    if(q == ''){
-      cat = '16,30,50020808,50010788,1801,50012100,1625,50002768,50008163,50006842';
-    }else{
-      cat = '';
-    }
     loadGoodsForSearch();
 
 }
 // 查询页商品加载
+var i = 1;
 function loadGoodsForSearch(){
     $(".weui-cells__title").remove();
     $(".weui-loadmore").show();
-    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,q:q,cat:cat,material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
+    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,q:$('#qTxt').val(),has_coupon:has_coupon,sort:sort},function(data){
       loading = false;
+      $(".weui-loadmore").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>');
+      $(".weui-loadmore").hide();
       if(data.success){
         var mapData = data.mapData;
+        if(data.pageNum){
+            pageNum = data.pageNum + 1;
+        }
         if(mapData && mapData.length > 0){
-
-            var commission_rate,coupon_amount;
+            var commission_rate;
             $(mapData).each(function(){
                 $this = this;
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
                 var tianmaoCss = 'icon-tianmao-18';
 
                 commission_rate = 0;
-                coupon_amount = 0;
 
-                  commission_rate = $this.commission_rate / 100;
-                  if(!!$this.coupon_info && $this.coupon_info != ''){
-                    coupon_amount = formatCouponInfo($this.coupon_info);
-                  }
-
-                var zkPrice = jsSubtr($this.zk_final_price,coupon_amount);
+                commission_rate = $this.commission_rate / 100;
+                if(typeof($this.coupon_amount) == 'undefined'){
+                    $this.coupon_amount = 0;
+                }
+                var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
                 $('#goodsUL').append('<li>' +
                     //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
-                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
+                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
-                    '<span class="quanFlag"><b>'+coupon_amount+'</b><br>元券</span>' +
+                    '<span class="quanFlag"><b>'+$this.coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
                         '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
                         '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
@@ -656,15 +658,27 @@ function loadGoodsForSearch(){
                     '</li>');
             });
         }else{
-            $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
-            loading = true;
+            var qTxt = $('#qTxt').val();
+            var liNum = $('#goodsUL').find('li');
+            if(qTxt.length > 20 && liNum.length <= 0){
+                if(i < 20){
+                    i++;
+                    $(".weui-loadmore").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在第['+i+']次查找</div></span>');
+                    $('.weui-loadmore').show();
+                    loadGoodsForSearch();
+                }else{
+                    $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                    loading = true;
+                }
+            }else{
+                $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                loading = true;
+            }
         }
       }else{
         $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
       }
-
-      $(".weui-loadmore").hide();
     });
 }
 

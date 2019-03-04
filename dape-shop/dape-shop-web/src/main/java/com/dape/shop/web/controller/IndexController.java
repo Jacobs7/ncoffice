@@ -43,15 +43,20 @@ public class IndexController extends BaseController {
     @Autowired
     private ShopModuleService shopModuleService;
 
+    public static List<ShopMenu> menus = null;
+    public static List<ShopModule> modules = null;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model, Long showId, HttpServletRequest request) {
 
         /** 后面要放到缓存中 start */
         // 查询导航栏列表: 首页、男装、女装等
-        ShopMenuExample shopMenuE = new ShopMenuExample();
-        shopMenuE.or().andIsEnabledEqualTo(true);
-        shopMenuE.setOrderByClause("sort ASC");
-        List<ShopMenu> menus = shopMenuService.selectByExample(shopMenuE);
+        if(menus == null || menus.size() <= 0){
+            ShopMenuExample shopMenuE = new ShopMenuExample();
+            shopMenuE.or().andIsEnabledEqualTo(true);
+            shopMenuE.setOrderByClause("sort ASC");
+            menus = shopMenuService.selectByExample(shopMenuE);
+        }
         int size = 7;
         if(menus.size() < size){
             size = menus.size();
@@ -61,10 +66,12 @@ public class IndexController extends BaseController {
         model.addAttribute("showId", showId == null ? 1L : showId);
 
         // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
-        ShopModuleExample shopModuleE = new ShopModuleExample();
-        shopModuleE.or().andIsEnabledEqualTo(true);
-        shopModuleE.setOrderByClause("sort ASC");
-        List<ShopModule> modules = shopModuleService.selectByExample(shopModuleE);
+        if(modules == null || modules.size() <= 0){
+            ShopModuleExample shopModuleE = new ShopModuleExample();
+            shopModuleE.or().andIsEnabledEqualTo(true);
+            shopModuleE.setOrderByClause("sort ASC");
+            modules = shopModuleService.selectByExample(shopModuleE);
+        }
         model.addAttribute("modules", modules);
         /** 后面要放到缓存中 end */
 
@@ -72,8 +79,6 @@ public class IndexController extends BaseController {
         if(StringUtils.isNotBlank(material_id)){
             model.addAttribute("material_id", Long.valueOf(material_id));
         }else{
-//          高佣榜：综合:13366
-            // id网址：https://tbk.bbs.taobao.com/detail.html?appId=45301&postId=8576096
             model.addAttribute("material_id", 13366L);
         }
 

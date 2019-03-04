@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>DPOFFICE 2 | Log in</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <meta name="keywords" content=""/>
+  <meta name="description" content=""/>
+  <meta name="renderer" content="webkit"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="shortcut icon" href="favicon.ico" th:href="${uiPath} + ${appName} + '/favicon.ico'" />
+  <!--<link rel="stylesheet" href="css/bootstrap.min.css" th:href="${uiPath} + ${appName} + '/css/bootstrap.min.css'"/>-->
+  <!--[if lt IE 9]>
+  <!--<script src="js/vendor/html5shiv.js" th:src="${uiPath} + ${appName} + '/js/vendor/html5shiv.js'"></script>-->
+  <script src="js/vendor/respond.min.js" th:src="${uiPath} + ${appName} + '/js/vendor/respond.min.js'"></script>
+  <![endif]-->
+  <script type="text/javascript">
+        if (/msie [6|7|8]/i.test(navigator.userAgent)) {};
+  </script>
+  <!--<link rel="stylesheet" href="css/main.css" th:href="${uiPath} + ${appName} + '/css/main.css'"/>-->
+
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" th:href="${uiPath} + ${appName} + '/bower_components/bootstrap/dist/css/bootstrap.min.css'">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="${uiPath} + ${appName} + '/bower_components/font-awesome/css/font-awesome.min.css'">
+  <!-- Ionicons -->
+  <link rel="stylesheet" th:href="${uiPath} + ${appName} + '/bower_components/Ionicons/css/ionicons.min.css'">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="${uiPath} + ${appName} + '/dist/css/AdminLTE.min.css'">
+  <!-- iCheck -->
+  <link rel="stylesheet" th:href="${uiPath} + ${appName} + '/plugins/iCheck/square/blue.css'">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href="../../index2.html"><b>用户注册</b></a>
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg">注册新用户</p>
+
+    <form action="../../index.html" method="post">
+
+
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="全名">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="登录名">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="密码">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="确认密码">
+        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+      </div>
+
+
+      <!--<div class="row">-->
+      <!--<div class="col-xs-8">-->
+      <!--<div class="checkbox icheck">-->
+      <!--<label>-->
+      <!--<input type="checkbox"> I agree to the <a href="#">terms</a>-->
+      <!--</label>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+      <!--<div class="col-xs-4">-->
+      <!--<button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; /.col &ndash;&gt;-->
+      <!--</div>-->
+    </form>
+
+    <!--<div class="social-auth-links text-center">-->
+    <!--<p>- OR -</p>-->
+    <!--<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using-->
+    <!--Facebook</a>-->
+    <!--<a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using-->
+    <!--Google+</a>-->
+    <!--</div>-->
+
+    <a href="login.html" class="text-center">我已经有帐号</a>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery 3 -->
+<script src="${uiPath} + ${appName} + '/bower_components/jquery/dist/jquery.min.js'"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="${uiPath} + ${appName} + '/bower_components/bootstrap/dist/js/bootstrap.min.js'"></script>
+<!-- iCheck -->
+<script src="${uiPath} + ${appName} + '/plugins/iCheck/icheck.min.js'"></script>
+
+</body>
+</html>

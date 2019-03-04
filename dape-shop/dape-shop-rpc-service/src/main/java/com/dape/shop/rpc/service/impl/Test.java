@@ -1,8 +1,11 @@
 package com.dape.shop.rpc.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -23,9 +26,7 @@ import java.security.GeneralSecurityException;
 public class Test {
     public static void main(String[] args){
 
-        String url = "https://h5.m.taobao.com/awp/core/detail.htm?id=578128525322";
-//        String url = "https://h5.m.taobao.com/awp/core/detail.htm?id=581423267164";
-//        String url = "https://s.click.taobao.com/t?e=m%3D2%26s%3DAi5Sw%2BkW4GFw4vFB6t2Z2ueEDrYVVa64juWlisr3dOdyINtkUhsv0KKDmSVhUxeC4GdqFgUik8IUU8I5v72K82OfZmId5Ix3rivmRbl1tBoDfV6DIhLzDGLVpCiUCL%2BGZiqtwk9j5QPwdDmZ4my9rK9DD%2F200Ioy9OSfRI2eAoOkOrGae4DS5oO2CiNcVz0K95vlob%2FPOFC9lY%2FnJkvXISGFCzYOOqAQ&scm=1007.19011.125585.0_13366&pvid=1be5ae89-f3a1-4941-848a-a498e63994e5&app_pvid=59590_11.1.39.91_770_1550821077764&ptl=floorId:13366;pvid:1be5ae89-f3a1-4941-848a-a498e63994e5;app_pvid:59590_11.1.39.91_770_1550821077764&union_lens=lensId:0b01275b_0c87_1691423b399_6ba3";
+        String url = "https://s.click.taobao.com/t?e=m%3D2%26s%3DJkV3rSEFgylw4vFB6t2Z2ueEDrYVVa64Dne87AjQPk9yINtkUhsv0NUP6waUCNMvrT4N0ONO4g0UU8I5v72K82OfZmId5Ix3rivmRbl1tBoDfV6DIhLzDGLVpCiUCL%2BGZiqtwk9j5QPwdDmZ4my9rOiO4XFlbGgy1EwcTchYENqkOrGae4DS5oO2CiNcVz0K47NHbLd0vlhY0Qx4B3K%2BQSGFCzYOOqAQ&scm=1007.19011.125585.0_13366&pvid=8533572e-8e0e-401f-b9bf-d8c8f945c4c1&app_pvid=59590_11.176.156.116_372_1551335531985&ptl=floorId:13366;pvid:8533572e-8e0e-401f-b9bf-d8c8f945c4c1;app_pvid:59590_11.176.156.116_372_1551335531985&union_lens=lensId:0bb09c74_0bcb_16932cda689_2dc4";
 
 //        BrowserVersion b = BrowserVersion.getDefault();
         WebClient wc = new WebClient();
@@ -37,19 +38,20 @@ public class Test {
 
             wc.setUseInsecureSSL(true);
             wc.setJavaScriptEnabled(true); // 启用JS解释器，默认为true
+            wc.setAjaxController(new NicelyResynchronizingAjaxController());
             wc.setCssEnabled(false); // 禁用css支持
             wc.setThrowExceptionOnScriptError(false); // js运行错误时，是否抛出异常
             wc.setTimeout(100000); // 设置连接超时时间 ，这里是10S。如果为0，则无限期等待
+
             page = wc.getPage(url);
+
+//            wc.waitForBackgroundJavaScript(15000);
 
             pageXml = page.asXml();
 
-
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }finally {
             wc.closeAllWindows();
@@ -60,16 +62,29 @@ public class Test {
 
         String tmp = null;
 
+        String rateUrl = "https://rate.tmall.com/list_detail_rate.htm?";
+        String params = "";
+        String currentPage = "1";
         for (Element e : elScripts) {
             tmp = e.data().toString();
             tmp = tmp.replaceAll(" ","").replaceAll("\n", "");
-            if(tmp.indexOf("varg_config") >= 0){
-                tmp = tmp.substring(tmp.indexOf("descUrl")+7);
-                tmp = tmp.substring(1,tmp.indexOf(","));
-                tmp = tmp.substring(tmp.indexOf("'?'") +3, tmp.indexOf("':'"));
-                imgUrl = "http:" + tmp;
+            if(tmp.indexOf("rateConfig") >= 0){
+                tmp = tmp.substring(tmp.indexOf("rateConfig")+10);
+                tmp = tmp.substring(tmp.indexOf("{"),tmp.indexOf("}") + 1);
+                JSONObject jsonObject = JSONObject.parseObject(tmp);
+                String itemId = jsonObject.getString("itemId");
+                params += "itemId=" + itemId;
+                String spuId = jsonObject.getString("spuId");
+                params += "&spuId=" + spuId;
+                String sellerId = jsonObject.getString("sellerId");
+                params += "&sellerId=" + sellerId;
+                params += "&currentPage=" + currentPage;
+                System.out.println(tmp);
                 break;
             }
+        }
+        if(StringUtils.isBlank(params)){
+            return;
         }
         String respStr = null;
         HttpGet httpGet = null;
@@ -78,7 +93,7 @@ public class Test {
         try {
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
             httpClient = HttpClients.createDefault();
-            httpGet = new HttpGet(imgUrl);
+            httpGet = new HttpGet(rateUrl + params);
             httpGet.setConfig(requestConfig);
             httpResponse = httpClient.execute(httpGet);
 
@@ -102,13 +117,7 @@ public class Test {
             if(httpClient != null){try {httpClient.close();} catch(IOException e) {e.printStackTrace();}}
         }
 
-        doc = Jsoup.parse(respStr);
-        Elements imgs = doc.getElementsByTag("img");
-        for(Element img : imgs){
-            System.out.println(img.attr("src"));
-//            imgsArr.add(img.attr("data-ks-lazyload"));
-        }
-
+        System.out.println(respStr);
 
 //        if(imgUrl != null){
 //            try {
