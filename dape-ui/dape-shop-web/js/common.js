@@ -571,14 +571,9 @@ function sortPFnc(){
 }
 // 搜索按钮
 function searchPBtn(){
-    if($('#qTxt').val() == ''){
-        pageNum = 1;
-        $('#goodsUL').html('');
-    }else if(flag){
-        pageNum = 1;
-        $('#goodsUL').html('');
-    }
-    flag = false;
+    $('#listwrap').animate({scrollTop:0});
+    pageNum = 1;
+    $('#goodsUL').html('');
     loadGoodsForSearch();
 }
 // 设置排序箭头
@@ -601,24 +596,27 @@ $('#sortDiv').find('.on').removeClass('on');
   }else if(sort == 'price_asc'){
     $('#price_asc').append('<i class="icon18-zz icon-jian-18-2" style="margin-bottom:-3px;"></i>');
   }
+    pageNum = 1;
     $('#goodsUL').html('');
     q = $('#qTxt').val();
     loadGoodsForSearch();
 
 }
 // 查询页商品加载
+var i = 1;
 function loadGoodsForSearch(){
     $(".weui-cells__title").remove();
     $(".weui-loadmore").show();
-    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,q:$('#qTxt').val(),material_id:material_id,has_coupon:has_coupon,sort:sort},function(data){
+    $.post('/goods/loadSearchGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,q:$('#qTxt').val(),has_coupon:has_coupon,sort:sort},function(data){
       loading = false;
+      $(".weui-loadmore").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>');
+      $(".weui-loadmore").hide();
       if(data.success){
         var mapData = data.mapData;
         if(data.pageNum){
             pageNum = data.pageNum + 1;
         }
         if(mapData && mapData.length > 0){
-
             var commission_rate;
             $(mapData).each(function(){
                 $this = this;
@@ -660,15 +658,24 @@ function loadGoodsForSearch(){
                     '</li>');
             });
         }else{
-            $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
-            loading = true;
+            var qTxt = $('#qTxt').val();
+            var liNum = $('#goodsUL').find('li');
+            if(qTxt.length > 20 && liNum.length <= 0){
+                if(i < 10){
+                    i++;
+                    $(".weui-loadmore").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在第['+i+']次查找</div></span>');
+                    $('.weui-loadmore').show();
+                    loadGoodsForSearch();
+                }
+            }else{
+                $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                loading = true;
+            }
         }
       }else{
         $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
         loading = true;
       }
-
-      $(".weui-loadmore").hide();
     });
 }
 
