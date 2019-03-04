@@ -29,25 +29,24 @@ public class ExportDgOptimusMaterial {
 
 
         // 查询的物料ID
-        String hqzb = "hqzb|0:3756,1:3767,2:3758,3:3759,4:3762,5:3763,6:3764,7:3765,8:3760,9:3761,10:3766";//好券直播
-        String deq = "deq|0:9660,1:9658,2:9655,3:9656,4:9648,5:9653,6:9654,7:9652,8:9650,9:9649,10:9651";//大额券
-        String gyb = "gyb|0:13366,1:13367,2:13368,3:13369,4:13370,5:13371,6:13372,7:13373,8:13374,9:13375";//高佣榜
-        String ppq = "ppq|0:3786,1:3788,2:3792,3:3793,4:3796,5:3794,6:3790,7:3787,8:3789,9:3791,10:3795";//品牌券
+        String hqzb = "hqzb|1:3756,2:3767,3:3758,4:3759,5:3762,6:3763,7:3764,8:3765,9:3760,10:3761,11:3766";//好券直播
+        String deq = "deq|1:9660,2:9658,3:9655,4:9656,5:9648,6:9653,7:9654,8:9652,9:9650,10:9649,11:9651";//大额券
+        String gyb = "gyb|1:13366,2:13367,3:13368,4:13369,5:13370,6:13371,7:13372,8:13373,9:13374,10:13375";//高佣榜
+        String ppq = "ppq|1:3786,2:3788,3:3792,4:3793,5:3796,6:3794,7:3790,8:3787,9:3789,10:3791,11:3795";//品牌券
         String myzt = "myzt|1:4040,2:4041,3:4044,4:4042,5:4043,6:4045";
 
-        String[] types = {hqzb,deq,gyb,ppq,myzt};
+        String[] types1 = {hqzb,deq,gyb,ppq,myzt};
 
-        String jhs = "1:4071";
-        String yhh = "1:4092";
-        String clf = "1:4093";
-        String th = "1:4094";
+        String jhs = "jhs|1:4071";// 聚划算
+        String yhh = "yhh|1:4092";// 有好货
+        String clf = "clf|1:4093";// 潮流范
+        String th = "th|1:4094";// 特惠
 
-        String materialIds = "13366";
+        String[] types2 = {yhh,clf,th};
 
-                // 每页条数，开放平台要求最大100
+        // 每页条数，开放平台要求最大100
         Long pageSize = 100L;
 
-        String[] arr = materialIds.split(",");
         String url = "http://gw.api.taobao.com/router/rest";
         String appKey = "25632498";
         String secret = "51e06e43ebc6f093579131f6c7fcd568";
@@ -55,11 +54,15 @@ public class ExportDgOptimusMaterial {
         BigDecimal couponA = new BigDecimal("0");//券额大于等于10元的导入到数据库
         BigDecimal floatA = new BigDecimal("0");//券额占折扣价20%的导入到数据库
 
-        Map<String, Object> exportInfo = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, types, couponA, floatA);
+        Map<String, Object> exportInfo1 = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, types1, couponA, floatA, "", "_type");
+        Map<String, Object> exportInfo2 = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, types2, couponA, floatA, "is_", "");
 
         System.out.println();
         System.out.println("******************************  导入数据  **************************************");
-        for(Map.Entry<String, Object> map : exportInfo.entrySet()){
+        for(Map.Entry<String, Object> map : exportInfo1.entrySet()){
+            System.out.println(map.getValue());
+        }
+        for(Map.Entry<String, Object> map : exportInfo2.entrySet()){
             System.out.println(map.getValue());
         }
         System.out.println("******************************  导入数据  **************************************");
@@ -105,7 +108,7 @@ public class ExportDgOptimusMaterial {
     static Pattern pattern = Pattern.compile("[0-9]*");
 
 
-    public static boolean editGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType){
+    public static boolean editGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType, String prex, String sufx){
         boolean flag = false;
         Connection conn = getPool();
         String sql = "UPDATE shop_goods SET ";
@@ -127,7 +130,7 @@ public class ExportDgOptimusMaterial {
         sql += "new_user_price = ?,";
         sql += "commission = ?";//佣金
         if(StringUtils.isNotBlank(column)){
-            sql += "," + column + "_type = ?";
+            sql += "," + prex + column + sufx + " = ?";
         }
         sql += " WHERE item_id=?";
         PreparedStatement ps = null;
@@ -225,14 +228,14 @@ public class ExportDgOptimusMaterial {
         return flag;
     }
 
-    public static boolean addGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType){
+    public static boolean addGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType, String prex, String sufx){
         boolean flag = false;
 
         Connection conn = getPool();
 
         String sql = "INSERT INTO shop_goods(create_date,item_id,title,short_title,pict_url,small_images,click_url,zk_final_price,item_description,volume,coupon_share_url,coupon_amount,coupon_total_count,coupon_remain_count,coupon_start_fee,coupon_start_time,coupon_end_time,seller_id,shop_title,user_type,category_id,category_name,level_one_category_id,level_one_category_name,stock,sell_num,total_stock,ostime,oetime,jdd_num,jdd_price,orig_price,commission_rate,word_url,word,tmall_play_activity_info,uv_sum_pre_sale,x_id,new_user_price,material_id,commission,coupon_info,nick";
         if(StringUtils.isNotBlank(column)){
-            sql += "," + column + "_type";
+            sql += "," + prex + column + sufx;
         }
         sql += ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
         if(StringUtils.isNotBlank(column)){
@@ -429,7 +432,7 @@ public class ExportDgOptimusMaterial {
         return count;
     }
 
-    public static Map<String, Object> webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] arr, BigDecimal couponA, BigDecimal floatA){
+    public static Map<String, Object> webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] arr, BigDecimal couponA, BigDecimal floatA, String prex, String sufx){
 
         int addNum = 0;//记录保存到数据的总条数
         int editNum = 0;//修改的记录
@@ -538,14 +541,14 @@ public class ExportDgOptimusMaterial {
                                 if(count > 0) {
                                     // 更新子物料类型
                                     Integer materialTypeInt = Integer.valueOf(materialType);
-                                    boolean editR = editGoods(itemId,zkFinalPrice,couponAmount,zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN),materialId, data, materialTypeInt==0?"":column, materialTypeInt);
+                                    boolean editR = editGoods(itemId,zkFinalPrice,couponAmount,zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN),materialId, data, materialTypeInt==0?"":column, materialTypeInt, prex, sufx);
                                     if(editR){
                                         exportNum += 1;//记录导入总条数
                                         editNum += 1;
                                         System.out.println("更新条数：" + editNum + "，分类id：" + materialId + "，商品id" + itemId);
                                     }
                                 }else{// 新增
-                                    boolean addR = addGoods(itemId,zkFinalPrice, couponAmount, zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN), materialId, data, column, Integer.valueOf(materialType));// 添加到数据库
+                                    boolean addR = addGoods(itemId,zkFinalPrice, couponAmount, zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN), materialId, data, column, Integer.valueOf(materialType), prex, sufx);// 添加到数据库
                                     if(addR){
                                         exportNum += 1;//记录导入总条数
                                         addNum += 1;
