@@ -661,11 +661,14 @@ function loadGoodsForSearch(){
             var qTxt = $('#qTxt').val();
             var liNum = $('#goodsUL').find('li');
             if(qTxt.length > 20 && liNum.length <= 0){
-                if(i < 10){
+                if(i < 20){
                     i++;
                     $(".weui-loadmore").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在第['+i+']次查找</div></span>');
                     $('.weui-loadmore').show();
                     loadGoodsForSearch();
+                }else{
+                    $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                    loading = true;
                 }
             }else{
                 $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
