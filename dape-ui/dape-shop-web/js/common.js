@@ -634,7 +634,7 @@ function loadGoodsForSearch(){
                 var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
                 $('#goodsUL').append('<li>' +
                     //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
-                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\''+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
+                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
                     '<span class="quanFlag"><b>'+$this.coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
