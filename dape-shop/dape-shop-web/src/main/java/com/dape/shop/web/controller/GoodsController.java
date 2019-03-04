@@ -183,9 +183,15 @@ public class GoodsController extends BaseController {
     public Map<String, Object> loadSearchGoods(Long pageNum, Long pageSize, HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>();
 
+        Map<String, Object> m = null;
+
         String q = request.getParameter("q");
         if(StringUtils.isNotBlank(q)){
             params.put("q", q);
+        }else{
+            m = new HashMap<String, Object>();
+            m.put("success", false);
+            return m;
         }
         String cat = request.getParameter("cat");
         if(StringUtils.isNotBlank(cat)){
@@ -225,14 +231,17 @@ public class GoodsController extends BaseController {
 //            params.put("ip", ip);
 //        }
 
-        Map<String, Object> m = null;
         if(StringUtils.isNotBlank(q)){
             for(ShopMenu shopMenu : IndexController.menus){
                 if(shopMenu.getName().equals(q.trim())){
-                    params.put("material_id", shopMenu.getMaterialId());
+//                    params.put("material_id", shopMenu.getMaterialId());//添加物料id,排序无效
                     m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
                     return m;
                 }
+            }
+            if (q.length() <= 20) {// 查询leng大于20时，equals判断
+                m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
+                return m;
             }
             JSONArray mapList = new JSONArray();
             JSONObject jsonObject = null;
@@ -241,40 +250,39 @@ public class GoodsController extends BaseController {
             params = new HashMap<String, Object>();
             params.put("q", q);
             params.put("platform", platform);
-            params.put("sort", sort);
             for(int i = 0; i < 10; i++) {
-                pageNum = pageNum + i;
                 long queryCount = pageNum * pageSize;
+                System.out.println("pageNum:" + pageNum + ", pageSize:" + pageSize + ", queryCount:" + queryCount);
                 m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
                 m.put("pageNum", pageNum);
+                pageNum = pageNum + 1;
                 if ((boolean) m.get("success")) {
+                    Long total = -1L;
+                    if(m.get("total") != null && StringUtils.isNotBlank(m.get("total").toString())){
+                        total = (Long)m.get("total");
+                    }
                     JSONArray mapData = (JSONArray) m.get("mapData");
                     for (int j = 0; j < mapData.size(); j++) {
                         jsonObject = mapData.getJSONObject(j);
                         title = jsonObject.getString("title");
                         if (StringUtils.isNotBlank(title)) {
-                            if (q.length() > 20) {// 查询leng大于20时，equals判断
-                                if (title.trim().equals(q.trim())) {
-                                    mapList.add(jsonObject);
-                                }
-                            } else {// 查询leng大于20时，indexOf判断
-                                if (title.trim().indexOf(q.trim()) >= 0) {
-                                    mapList.add(jsonObject);
-                                }
+                            if (title.trim().equals(q.trim())) {
+                                mapList.add(jsonObject);
                             }
                         }
                     }
                     if (mapList.size() >= 20) {
                         break;
                     }
+                    if(total > 0 && queryCount > total){
+                        m.put("flag", true);// 标记已没有符合的记录
+                        return m;
+                    }
                 }else{
                     break;
                 }
             }
             m.put("mapData", mapList);
-        }else{// 如果查询为空，默认查综合
-            params.put("q", "综合");
-            m = shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
         }
         return m;
     }
@@ -661,32 +669,10 @@ public class GoodsController extends BaseController {
         String q = request.getParameter("q");
         if(StringUtils.isNotBlank(q)){
             model.addAttribute("q", q);
-        }else{
-            model.addAttribute("q", "");
         }
         String platform = request.getParameter("platform");
         if(StringUtils.isNotBlank(platform)){
             model.addAttribute("platform", platform);
-        }else{
-            model.addAttribute("platform", "");
-        }
-        String material_id = request.getParameter("material_id");
-        if(StringUtils.isNotBlank(material_id)){
-            model.addAttribute("material_id", material_id);
-        }else{
-            model.addAttribute("material_id", "");
-        }
-        String sort = request.getParameter("sort");
-        if(StringUtils.isNotBlank(sort)){
-            model.addAttribute("sort", sort);
-        }else{
-            model.addAttribute("sort", "");
-        }
-        String has_coupon = request.getParameter("has_coupon");
-        if(StringUtils.isNotBlank(has_coupon)){
-            model.addAttribute("has_coupon", has_coupon);
-        }else{
-            model.addAttribute("has_coupon", "");
         }
 
         return thymeleaf("/search");
