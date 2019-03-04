@@ -26,13 +26,22 @@ public class ExportDgOptimusMaterial {
         // 多线程导入商品到数据库 start *******************************************************************
 
         int totalPage = 500;//查询开放平台的总页数
-        // 查询的物料ID
-        String hqzb = "3756,3767,3764,3762,3760,3763,3761,3758,3766,3759,3765";//好券直播
-        String deq = "9660,9658,9654,9648,9650,9653,9649,9655,9651,9656,9652";//大额券
-        String gyb = "13366,13367,13372,13370,13374,13371,13375,13368,13376,13369,13373";//高佣榜
-        String ppq = "3786,3788,3790,3796,3789,3794,3791,3792,3795,3793,3787";//品牌券
 
-//        String materialIds = hqzb + "," + deq + "," + gyb + "," + ppq;
+
+        // 查询的物料ID
+        String hqzb = "hqzb|0:3756,1:3767,2:3758,3:3759,4:3762,5:3763,6:3764,7:3765,8:3760,9:3761,10:3766";//好券直播
+        String deq = "deq|0:9660,1:9658,2:9655,3:9656,4:9648,5:9653,6:9654,7:9652,8:9650,9:9649,10:9651";//大额券
+        String gyb = "gyb|0:13366,1:13367,2:13368,3:13369,4:13370,5:13371,6:13372,7:13373,8:13374,9:13375";//高佣榜
+        String ppq = "ppq|0:3786,1:3788,2:3792,3:3793,4:3796,5:3794,6:3790,7:3787,8:3789,9:3791,10:3795";//品牌券
+        String myzt = "myzt|1:4040,2:4041,3:4044,4:4042,5:4043,6:4045";
+
+        String[] types = {hqzb,deq,gyb,ppq,myzt};
+
+        String jhs = "1:4071";
+        String yhh = "1:4092";
+        String clf = "1:4093";
+        String th = "1:4094";
+
         String materialIds = "13366";
 
                 // 每页条数，开放平台要求最大100
@@ -43,10 +52,10 @@ public class ExportDgOptimusMaterial {
         String appKey = "25632498";
         String secret = "51e06e43ebc6f093579131f6c7fcd568";
         Long adzoneId = 96030450186L;
-        BigDecimal couponA = new BigDecimal("10");//券额大于等于10元的导入到数据库
-        BigDecimal floatA = new BigDecimal("0.2");//券额占折扣价20%的导入到数据库
+        BigDecimal couponA = new BigDecimal("0");//券额大于等于10元的导入到数据库
+        BigDecimal floatA = new BigDecimal("0");//券额占折扣价20%的导入到数据库
 
-        Map<String, Object> exportInfo = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, arr, couponA, floatA);
+        Map<String, Object> exportInfo = webExportTbkDgOptimusMaterial(totalPage, pageSize, url, appKey, secret, adzoneId, types, couponA, floatA);
 
         System.out.println();
         System.out.println("******************************  导入数据  **************************************");
@@ -96,12 +105,140 @@ public class ExportDgOptimusMaterial {
     static Pattern pattern = Pattern.compile("[0-9]*");
 
 
-    public static boolean addGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data){
+    public static boolean editGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType){
+        boolean flag = false;
+        Connection conn = getPool();
+        String sql = "UPDATE shop_goods SET ";
+        sql += "title = ?,";
+        sql += "short_title = ?,";
+        sql += "pict_url = ?,";
+        sql += "small_images = ?,";
+        sql += "click_url = ?,";
+        sql += "zk_final_price = ?,";
+        sql += "item_description = ?,";
+        sql += "volume = ?,";
+        sql += "coupon_share_url = ?,";
+        sql += "coupon_amount = ?,";
+        sql += "coupon_total_count = ?,";
+        sql += "coupon_remain_count = ?,";
+        sql += "coupon_start_time = ?,";
+        sql += "coupon_end_time = ?,";
+        sql += "commission_rate = ?,";
+        sql += "new_user_price = ?,";
+        sql += "commission = ?";//佣金
+        if(StringUtils.isNotBlank(column)){
+            sql += "," + column + "_type = ?";
+        }
+        sql += " WHERE item_id=?";
+        PreparedStatement ps = null;
+
+        JSONObject smallImagesObj = data.getJSONObject("small_images");//小图数组
+        String small_images = "";
+        if(smallImagesObj != null){
+            JSONArray smalls = smallImagesObj.getJSONArray("string");
+            if(smalls != null && smalls.size() > 0){
+                for(int m = 0; m < smalls.size(); m++){
+                    small_images += smalls.getString(m);
+                    if(m < smalls.size()){
+                        small_images += ",";
+                    }
+                }
+            }
+        }
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,data.getString("title"));
+            ps.setString(2,data.getString("short_title"));
+            ps.setString(3,data.getString("pict_url"));
+            ps.setString(4,small_images);
+            ps.setString(5,data.getString("click_url"));
+            ps.setBigDecimal(6,zkFinalPrice);
+            ps.setString(7,data.getString("item_description"));
+            ps.setInt(8,data.getInteger("volume"));
+            ps.setString(9,data.getString("coupon_share_url"));
+            ps.setBigDecimal(10,couponAmount);
+            if(data.containsKey("coupon_total_count")){
+                ps.setInt(11,data.getInteger("coupon_total_count"));
+            }else{
+                ps.setNull(11,Types.INTEGER);
+            }
+            if(data.containsKey("coupon_remain_count")){
+                ps.setInt(12,data.getInteger("coupon_remain_count"));
+            }else{
+                ps.setNull(12,Types.INTEGER);
+            }
+            String couponStartTime = data.getString("coupon_start_time");
+            if(StringUtils.isNotBlank(couponStartTime)){
+                Long dateMillis = null;
+                Matcher isNum = pattern.matcher(couponStartTime);
+                if(isNum.matches()){
+                    dateMillis = Long.valueOf(couponStartTime);
+                    ps.setTimestamp(13,new Timestamp(dateMillis));
+                }else{
+                    ps.setNull(13, Types.TIMESTAMP);
+                }
+            }else{
+                ps.setNull(13, Types.TIMESTAMP);
+            }
+            String couponEndTime = data.getString("coupon_end_time");
+            if(StringUtils.isNotBlank(couponEndTime)){
+                Long dateMillis = null;
+                Matcher isNum = pattern.matcher(couponEndTime);
+                if(isNum.matches()){
+                    dateMillis = Long.valueOf(couponEndTime);
+                    ps.setTimestamp(14,new Timestamp(dateMillis));
+                }else{
+                    ps.setNull(14, Types.TIMESTAMP);
+                }
+            }else{
+                ps.setNull(14, Types.TIMESTAMP);
+            }
+            ps.setString(15,data.getString("commission_rate"));
+            ps.setString(16,data.getString("new_user_price"));
+            ps.setBigDecimal(17,commission);
+            int index = 18;
+            if(StringUtils.isNotBlank(column)){
+                ps.setInt(index,materialType);
+                index++;
+            }
+            ps.setString(index,itemId);
+
+            ps.execute();
+
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if(ps!=null){
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null){
+                pools.add(conn);
+            }
+        }
+
+        return flag;
+    }
+
+    public static boolean addGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String column, Integer materialType){
         boolean flag = false;
 
         Connection conn = getPool();
 
-        String sql = "INSERT INTO shop_goods(create_date,item_id,title,short_title,pict_url,small_images,click_url,zk_final_price,item_description,volume,coupon_share_url,coupon_amount,coupon_total_count,coupon_remain_count,coupon_start_fee,coupon_start_time,coupon_end_time,seller_id,shop_title,user_type,category_id,category_name,level_one_category_id,level_one_category_name,stock,sell_num,total_stock,ostime,oetime,jdd_num,jdd_price,orig_price,commission_rate,word_url,word,tmall_play_activity_info,uv_sum_pre_sale,x_id,new_user_price,material_id,commission,coupon_info,nick) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO shop_goods(create_date,item_id,title,short_title,pict_url,small_images,click_url,zk_final_price,item_description,volume,coupon_share_url,coupon_amount,coupon_total_count,coupon_remain_count,coupon_start_fee,coupon_start_time,coupon_end_time,seller_id,shop_title,user_type,category_id,category_name,level_one_category_id,level_one_category_name,stock,sell_num,total_stock,ostime,oetime,jdd_num,jdd_price,orig_price,commission_rate,word_url,word,tmall_play_activity_info,uv_sum_pre_sale,x_id,new_user_price,material_id,commission,coupon_info,nick";
+        if(StringUtils.isNotBlank(column)){
+            sql += "," + column + "_type";
+        }
+        sql += ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+        if(StringUtils.isNotBlank(column)){
+            sql += ",?";
+        }
+        sql += ")";
 
         PreparedStatement ps = null;
 
@@ -227,6 +364,10 @@ public class ExportDgOptimusMaterial {
             ps.setString(42,data.getString("coupon_info"));
             ps.setString(43,data.getString("nick"));
 
+            if(StringUtils.isNotBlank(column)){
+                ps.setInt(44, materialType);
+            }
+
             ps.executeUpdate();
 
             flag = true;
@@ -284,9 +425,10 @@ public class ExportDgOptimusMaterial {
         return count;
     }
 
-    public static Map<String, Object> webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] materialIds, BigDecimal couponA, BigDecimal floatA){
+    public static Map<String, Object> webExportTbkDgOptimusMaterial(int totalPage, Long pageSize, String url, String appKey, String secret, Long adzoneId, String[] arr, BigDecimal couponA, BigDecimal floatA){
 
-        int saveNum = 0;//记录保存到数据的总条数
+        int addNum = 0;//记录保存到数据的总条数
+        int editNum = 0;//修改的记录
 
         if(couponA == null){
             couponA = new BigDecimal("20");//券额大于19的保存到数据库
@@ -304,102 +446,129 @@ public class ExportDgOptimusMaterial {
         int exportNum = 0;
 
         // 循环类目
-        material:for(String item : materialIds){
+        arrLoop:for(String item : arr){
 
-            Long materialId = null;
-            try{
-                materialId = Long.valueOf(item);
-            }catch (Exception e){
-                continue material;
+            String[] materials = item.split("\\|");
+            if(materials.length != 2){
+                continue arrLoop;
             }
-
-            requestNum = 0;
-            queryNum = 0;
-            exportNum = 0;
-            // 查询页数
-            query:for(int i = 0; i < totalPage; i++){
-
-                req = new TbkDgOptimusMaterialRequest();
-                req.setPageSize(pageSize);
-                req.setAdzoneId(adzoneId);
-                req.setPageNo(Long.valueOf(i));
-                req.setMaterialId(materialId);
-
-                try {
-                    TbkDgOptimusMaterialResponse rsp = client.execute(req);
-                    String resultJson = rsp.getBody();
-
-                    System.out.println(resultJson);
-
-                    requestNum += 1;//请求总次数
-
-                    // 返回结果转json
-                    JSONObject jsonObject = JSON.parseObject(resultJson);
-                    JSONObject tbkDgOptimusMaterialResponse = jsonObject.getJSONObject("tbk_dg_optimus_material_response");// 各个接口的结果集字段不一样
-                    JSONObject errorResponse = jsonObject.getJSONObject("error_response");
-
-                    if(errorResponse != null){//返回错误
-                        String subMsg = errorResponse.getString("sub_msg");
-                        if(subMsg.equals("无结果")){
-                            break query;
-                        }
-
-                    }else if(tbkDgOptimusMaterialResponse != null){//查询成功
-                        String requestId = tbkDgOptimusMaterialResponse.getString("request_id");
-                        JSONObject resultList = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
-                        JSONArray mapData = resultList.getJSONArray("map_data");
-                        if(mapData == null || mapData.size() <= 0){
-                            break query;
-                        }
-                        queryNum += mapData.size();//记录查询总条数
-                        save:for(int j = 0; j < mapData.size(); j++){
-                            JSONObject data = mapData.getJSONObject(j);
-
-                            String zkFinalPriceStr = data.getString("zk_final_price");//折扣价(未摔扣减券额)
-                            String couponAmountStr = data.getString("coupon_amount");//折扣价(未摔扣减券额)
-                            BigDecimal zkFinalPrice = new BigDecimal(zkFinalPriceStr);
-                            BigDecimal couponAmount = new BigDecimal(couponAmountStr);
-
-                            if(couponAmount.divide(zkFinalPrice, 2, BigDecimal.ROUND_HALF_DOWN).compareTo(floatA) == -1 && couponAmount.compareTo(couponA) == -1){
-                                continue save;
-                            }
-
-                            String commissionRateStr = data.getString("commission_rate");
-                            BigDecimal commissionRate = new BigDecimal("0");
-                            if(StringUtils.isNotBlank(commissionRateStr)){
-                                commissionRate = new BigDecimal(commissionRateStr);
-                            }
-
-                            String itemId = data.getString("item_id");
-                            int count = countGoodsItemId(itemId);//验证数据是否已存在商品item_id
-                            if(count > 0) {
-                                continue save;
-                            }
-
-                            boolean addR = addGoods(itemId,zkFinalPrice, couponAmount, zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN), materialId, data);// 添加到数据库
-                            if(addR){
-                                exportNum += 1;//记录导入总条数
-                                saveNum += 1;
-                                System.out.println("导入条数：" + saveNum + "，分类id：" + materialId + "，商品id" + itemId);
-                            }
-                        }
-                    }
-
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                    System.out.println("***************************************  异常[请求] start  ***************************************************************");
-                    System.out.println("异常[请求]：导入条数：" + saveNum + ", 请求次数：" + requestNum + "，分类id：" + materialId);
-                    System.out.println("***************************************  异常[请求] end  ***************************************************************");
-                    break;
-                } catch (Exception e1){
-                    e1.printStackTrace();
-                    System.out.println("***************************************  异常[其它] start  ***************************************************************");
-                    System.out.println("异常[其它]：" + saveNum + ", 请求次数：" + requestNum + "，分类id：" + materialId);
-                    System.out.println("***************************************  异常[其它] end  ***************************************************************");
-                    break;
+            String column = materials[0];
+            String typeMaterialStr = materials[1];
+            String[] typeMaterials = typeMaterialStr.split(",");
+            if(typeMaterials.length <= 0){
+                continue arrLoop;
+            }
+            typeLoop:for(String typeMaterial : typeMaterials){
+                String[] tempArr = typeMaterial.split(":");
+                if(tempArr.length != 2){
+                    continue typeLoop;
                 }
+                String materialType = tempArr[0];
+                String materialIdStr = tempArr[1];
+                Long materialId = null;
+                try{
+                    materialId = Long.valueOf(materialIdStr);
+                }catch (Exception e){
+                    continue typeLoop;
+                }
+
+                requestNum = 0;
+                queryNum = 0;
+                exportNum = 0;
+
+                Long pageNo = 1L;
+                importLoop:while(true){
+                    req = new TbkDgOptimusMaterialRequest();
+                    req.setPageSize(pageSize);
+                    req.setAdzoneId(adzoneId);
+                    req.setPageNo(pageNo);
+                    req.setMaterialId(materialId);
+
+                    try {
+                        TbkDgOptimusMaterialResponse rsp = client.execute(req);
+                        String resultJson = rsp.getBody();
+
+                        System.out.println(resultJson);
+
+                        requestNum += 1;//请求总次数
+
+                        // 返回结果转json
+                        JSONObject jsonObject = JSON.parseObject(resultJson);
+                        JSONObject tbkDgOptimusMaterialResponse = jsonObject.getJSONObject("tbk_dg_optimus_material_response");// 各个接口的结果集字段不一样
+                        JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+                        if(errorResponse != null){//返回错误
+                            String subMsg = errorResponse.getString("sub_msg");
+                            if(subMsg.equals("无结果")){// 无结果跳出当前循环
+                                break importLoop;
+                            }
+
+                        }else if(tbkDgOptimusMaterialResponse != null){//查询成功
+                            String requestId = tbkDgOptimusMaterialResponse.getString("request_id");
+                            JSONObject resultList = tbkDgOptimusMaterialResponse.getJSONObject("result_list");
+                            JSONArray mapData = resultList.getJSONArray("map_data");
+                            if(mapData == null || mapData.size() <= 0){// 无结果跳出当前循环
+                                break importLoop;
+                            }
+                            queryNum += mapData.size();//记录查询总条数
+                            save:for(int j = 0; j < mapData.size(); j++){
+                                JSONObject data = mapData.getJSONObject(j);
+
+                                String zkFinalPriceStr = data.getString("zk_final_price");//折扣价(未摔扣减券额)
+                                String couponAmountStr = data.getString("coupon_amount");//折扣价(未摔扣减券额)
+                                BigDecimal zkFinalPrice = new BigDecimal(zkFinalPriceStr);
+                                BigDecimal couponAmount = new BigDecimal(couponAmountStr);
+
+                                if(couponAmount.divide(zkFinalPrice, 2, BigDecimal.ROUND_HALF_DOWN).compareTo(floatA) == -1 && couponAmount.compareTo(couponA) == -1){
+                                    continue save;
+                                }
+
+                                String commissionRateStr = data.getString("commission_rate");
+                                BigDecimal commissionRate = new BigDecimal("0");
+                                if(StringUtils.isNotBlank(commissionRateStr)){
+                                    commissionRate = new BigDecimal(commissionRateStr);
+                                }
+
+                                String itemId = data.getString("item_id");
+                                int count = countGoodsItemId(itemId);//验证数据是否已存在商品item_id
+                                if(count > 0) {
+                                    // 更新子物料类型
+                                    Integer materialTypeInt = Integer.valueOf(materialType);
+                                    boolean editR = editGoods(itemId,zkFinalPrice,couponAmount,zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN),materialId, data, materialTypeInt==0?"":column, materialTypeInt);
+                                    if(editR){
+                                        exportNum += 1;//记录导入总条数
+                                        editNum += 1;
+                                        System.out.println("更新条数：" + editNum + "，分类id：" + materialId + "，商品id" + itemId);
+                                    }
+                                }else{// 新增
+                                    boolean addR = addGoods(itemId,zkFinalPrice, couponAmount, zkFinalPrice.subtract(couponAmount).multiply(commissionRate).divide(new BigDecimal("100"), 2, BigDecimal.ROUND_DOWN), materialId, data, column, Integer.valueOf(materialType));// 添加到数据库
+                                    if(addR){
+                                        exportNum += 1;//记录导入总条数
+                                        addNum += 1;
+                                        System.out.println("导入条数：" + addNum + "，分类id：" + materialId + "，商品id" + itemId);
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (ApiException e) {
+                        e.printStackTrace();
+                        System.out.println("***************************************  异常[请求] start  ***************************************************************");
+                        System.out.println("异常[请求]：导入条数：" + addNum + ", 请求次数：" + requestNum + "，分类id：" + materialId);
+                        System.out.println("***************************************  异常[请求] end  ***************************************************************");
+                        break;
+                    } catch (Exception e1){
+                        e1.printStackTrace();
+                        System.out.println("***************************************  异常[其它] start  ***************************************************************");
+                        System.out.println("异常[其它]：" + addNum + ", 请求次数：" + requestNum + "，分类id：" + materialId);
+                        System.out.println("***************************************  异常[其它] end  ***************************************************************");
+                        break;
+                    }
+                    pageNo++;
+                }
+                exportInfo.put("LM_" + materialId, materialId + "：[请求次数：" + requestNum + "，查询总数：" + queryNum + "，导入总条数：" + exportNum + "]");
+
             }
-            exportInfo.put("LM_" + materialId, materialId + "：[请求次数：" + requestNum + "，查询总数：" + queryNum + "，导入总条数：" + exportNum + "]");
         }
         return exportInfo;
     }

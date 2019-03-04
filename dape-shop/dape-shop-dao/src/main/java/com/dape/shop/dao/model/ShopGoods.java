@@ -308,7 +308,70 @@ public class ShopGoods implements Serializable {
      *
      * @mbg.generated
      */
-    private Long materialId;
+    private String materialId;
+
+    /**
+     * 好券直播类别
+     *
+     * @mbg.generated
+     */
+    private Integer hqzbType;
+
+    /**
+     * 大额券类别
+     *
+     * @mbg.generated
+     */
+    private Integer deqType;
+
+    /**
+     * 高佣榜类别
+     *
+     * @mbg.generated
+     */
+    private Integer gybType;
+
+    /**
+     * 品牌券类别
+     *
+     * @mbg.generated
+     */
+    private Integer ppqType;
+
+    /**
+     * 母婴主题类别
+     *
+     * @mbg.generated
+     */
+    private Integer myztType;
+
+    /**
+     * 是否聚划算，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer isJhs;
+
+    /**
+     * 是否有好货，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer isYhh;
+
+    /**
+     * 是否潮流范，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer isClf;
+
+    /**
+     * 是否特惠，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer isTh;
 
     private static final long serialVersionUID = 1L;
 
@@ -664,12 +727,84 @@ public class ShopGoods implements Serializable {
         this.newUserPrice = newUserPrice;
     }
 
-    public Long getMaterialId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(Long materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
+    }
+
+    public Integer getHqzbType() {
+        return hqzbType;
+    }
+
+    public void setHqzbType(Integer hqzbType) {
+        this.hqzbType = hqzbType;
+    }
+
+    public Integer getDeqType() {
+        return deqType;
+    }
+
+    public void setDeqType(Integer deqType) {
+        this.deqType = deqType;
+    }
+
+    public Integer getGybType() {
+        return gybType;
+    }
+
+    public void setGybType(Integer gybType) {
+        this.gybType = gybType;
+    }
+
+    public Integer getPpqType() {
+        return ppqType;
+    }
+
+    public void setPpqType(Integer ppqType) {
+        this.ppqType = ppqType;
+    }
+
+    public Integer getMyztType() {
+        return myztType;
+    }
+
+    public void setMyztType(Integer myztType) {
+        this.myztType = myztType;
+    }
+
+    public Integer getIsJhs() {
+        return isJhs;
+    }
+
+    public void setIsJhs(Integer isJhs) {
+        this.isJhs = isJhs;
+    }
+
+    public Integer getIsYhh() {
+        return isYhh;
+    }
+
+    public void setIsYhh(Integer isYhh) {
+        this.isYhh = isYhh;
+    }
+
+    public Integer getIsClf() {
+        return isClf;
+    }
+
+    public void setIsClf(Integer isClf) {
+        this.isClf = isClf;
+    }
+
+    public Integer getIsTh() {
+        return isTh;
+    }
+
+    public void setIsTh(Integer isTh) {
+        this.isTh = isTh;
     }
 
     @Override
@@ -723,6 +858,15 @@ public class ShopGoods implements Serializable {
         sb.append(", xId=").append(xId);
         sb.append(", newUserPrice=").append(newUserPrice);
         sb.append(", materialId=").append(materialId);
+        sb.append(", hqzbType=").append(hqzbType);
+        sb.append(", deqType=").append(deqType);
+        sb.append(", gybType=").append(gybType);
+        sb.append(", ppqType=").append(ppqType);
+        sb.append(", myztType=").append(myztType);
+        sb.append(", isJhs=").append(isJhs);
+        sb.append(", isYhh=").append(isYhh);
+        sb.append(", isClf=").append(isClf);
+        sb.append(", isTh=").append(isTh);
         sb.append("]");
         return sb.toString();
     }
@@ -783,7 +927,16 @@ public class ShopGoods implements Serializable {
             && (this.getUvSumPreSale() == null ? other.getUvSumPreSale() == null : this.getUvSumPreSale().equals(other.getUvSumPreSale()))
             && (this.getxId() == null ? other.getxId() == null : this.getxId().equals(other.getxId()))
             && (this.getNewUserPrice() == null ? other.getNewUserPrice() == null : this.getNewUserPrice().equals(other.getNewUserPrice()))
-            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()));
+            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()))
+            && (this.getHqzbType() == null ? other.getHqzbType() == null : this.getHqzbType().equals(other.getHqzbType()))
+            && (this.getDeqType() == null ? other.getDeqType() == null : this.getDeqType().equals(other.getDeqType()))
+            && (this.getGybType() == null ? other.getGybType() == null : this.getGybType().equals(other.getGybType()))
+            && (this.getPpqType() == null ? other.getPpqType() == null : this.getPpqType().equals(other.getPpqType()))
+            && (this.getMyztType() == null ? other.getMyztType() == null : this.getMyztType().equals(other.getMyztType()))
+            && (this.getIsJhs() == null ? other.getIsJhs() == null : this.getIsJhs().equals(other.getIsJhs()))
+            && (this.getIsYhh() == null ? other.getIsYhh() == null : this.getIsYhh().equals(other.getIsYhh()))
+            && (this.getIsClf() == null ? other.getIsClf() == null : this.getIsClf().equals(other.getIsClf()))
+            && (this.getIsTh() == null ? other.getIsTh() == null : this.getIsTh().equals(other.getIsTh()));
     }
 
     @Override
@@ -835,6 +988,15 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((getxId() == null) ? 0 : getxId().hashCode());
         result = prime * result + ((getNewUserPrice() == null) ? 0 : getNewUserPrice().hashCode());
         result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
+        result = prime * result + ((getHqzbType() == null) ? 0 : getHqzbType().hashCode());
+        result = prime * result + ((getDeqType() == null) ? 0 : getDeqType().hashCode());
+        result = prime * result + ((getGybType() == null) ? 0 : getGybType().hashCode());
+        result = prime * result + ((getPpqType() == null) ? 0 : getPpqType().hashCode());
+        result = prime * result + ((getMyztType() == null) ? 0 : getMyztType().hashCode());
+        result = prime * result + ((getIsJhs() == null) ? 0 : getIsJhs().hashCode());
+        result = prime * result + ((getIsYhh() == null) ? 0 : getIsYhh().hashCode());
+        result = prime * result + ((getIsClf() == null) ? 0 : getIsClf().hashCode());
+        result = prime * result + ((getIsTh() == null) ? 0 : getIsTh().hashCode());
         return result;
     }
 }
