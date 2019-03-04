@@ -319,7 +319,11 @@ public class ExportDgOptimusMaterial {
 
             ps.setString(18,data.getString("seller_id"));
             ps.setString(19,data.getString("shop_title"));
-            ps.setInt(20,data.getInteger("user_type"));
+            if(data.containsKey("user_type")){
+                ps.setInt(20,data.getInteger("user_type"));
+            }else{
+                ps.setNull(20,Types.INTEGER);
+            }
             ps.setString(21,data.getString("category_id"));
             ps.setString(22,data.getString("category_name"));
             ps.setString(23,data.getString("level_one_category_id"));
