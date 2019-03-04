@@ -17,7 +17,7 @@
 <div class="w-container" id="listwrap">
   <div class="w-main">
       <div class="weui-flex wy-iconlist-box" style="position: relative;">
-        <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="${menu.url + menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="flex:0 0 12.5%;"></a>
+        <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="${menu.url + menu.id}" th:text="${menu.name}" th:classappend="${showId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="padding-left:5px;padding-right:5px;"></a>
         <a href="javascript:;" onclick="menuPopup(this)" class="menuIcon"><i class="icon24-zz item-menu-24"></i></a>
       </div>
       <!--图标分类-->
@@ -61,7 +61,7 @@
 </header>
 
 <!-- 菜单 -->
-<div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()">
+<div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()" style="height:80%;overflow-y:scroll;">
   <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toNewUrl(this,\''+${menu.url}+${menu.id}+'\')'" th:classappend="${showId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;">
     <i th:classappend="${menu.icon}" class="icon18-mm"></i>
     <em th:text="${menu.name}"></em>
