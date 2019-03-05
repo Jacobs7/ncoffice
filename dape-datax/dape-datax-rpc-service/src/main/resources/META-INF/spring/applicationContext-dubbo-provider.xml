@@ -7,7 +7,7 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
 
-    <dubbo:application name="dape-upms-rpc-service"/>
+    <dubbo:application name="dape-datax-rpc-service"/>
 
     <dubbo:registry address="zookeeper://zkserver:2181"/>
 
