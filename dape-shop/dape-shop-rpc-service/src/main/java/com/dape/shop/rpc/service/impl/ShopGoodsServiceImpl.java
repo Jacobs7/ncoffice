@@ -9,6 +9,7 @@ import com.dape.shop.dao.mapper.ShopGoodsMapper;
 import com.dape.shop.dao.model.ShopGoods;
 import com.dape.shop.dao.model.ShopGoodsExample;
 import com.dape.shop.rpc.api.ShopGoodsService;
+import com.dape.shop.rpc.mapper.ShopGoodsSelfMapper;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -21,12 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +41,9 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
 
     @Autowired
     ShopGoodsMapper shopGoodsMapper;
+
+    @Autowired
+    ShopGoodsSelfMapper shopGoodsSelfMapper;
 
     private final static Long ADZONE_ID = 96030450186L;
 
@@ -523,5 +525,10 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Integer updateGoodsByCouponEndTime() {
+        return shopGoodsSelfMapper.updateGoodsByCouponEndTime();
     }
 }

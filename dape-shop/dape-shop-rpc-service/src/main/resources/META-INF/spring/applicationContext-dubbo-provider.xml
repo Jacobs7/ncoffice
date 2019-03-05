@@ -49,4 +49,7 @@
     <bean id="shopModuleItemServiceImpl" class="com.dape.shop.rpc.service.impl.ShopModuleItemServiceImpl"/>
     <dubbo:service interface="com.dape.shop.rpc.api.ShopModuleItemService" ref="shopModuleItemServiceImpl" timeout="10000"/>
 
+    <bean id="shopMaterialImportServiceImpl" class="com.dape.shop.rpc.service.impl.ShopMaterialImportServiceImpl"/>
+    <dubbo:service interface="com.dape.shop.rpc.api.ShopMaterialImportService" ref="shopMaterialImportServiceImpl" timeout="10000"/>
+
 </beans>

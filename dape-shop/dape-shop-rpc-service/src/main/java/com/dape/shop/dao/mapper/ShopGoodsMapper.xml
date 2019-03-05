@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopGoods">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
     <result column="item_id" jdbcType="VARCHAR" property="itemId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
@@ -52,10 +54,10 @@
     <result column="gyb_type" jdbcType="INTEGER" property="gybType" />
     <result column="ppq_type" jdbcType="INTEGER" property="ppqType" />
     <result column="myzt_type" jdbcType="INTEGER" property="myztType" />
-    <result column="is_jhs" jdbcType="INTEGER" property="isJhs" />
-    <result column="is_yhh" jdbcType="INTEGER" property="isYhh" />
-    <result column="is_clf" jdbcType="INTEGER" property="isClf" />
-    <result column="is_th" jdbcType="INTEGER" property="isTh" />
+    <result column="jhs_type" jdbcType="INTEGER" property="jhsType" />
+    <result column="yhh_type" jdbcType="INTEGER" property="yhhType" />
+    <result column="clf_type" jdbcType="INTEGER" property="clfType" />
+    <result column="th_type" jdbcType="INTEGER" property="thType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -116,14 +118,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, item_id, title, short_title, pict_url, small_images, click_url, 
-    zk_final_price, item_description, volume, coupon_click_url, coupon_amount, coupon_total_count, 
-    coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, coupon_info, 
-    coupon_share_url, seller_id, shop_title, nick, user_type, category_id, category_name, 
-    level_one_category_id, level_one_category_name, stock, sell_num, total_stock, ostime, 
-    oetime, jdd_num, jdd_price, orig_price, commission_rate, commission, word_url, word, 
-    tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, material_id, hqzb_type, 
-    deq_type, gyb_type, ppq_type, myzt_type, is_jhs, is_yhh, is_clf, is_th
+    id, create_date, modify_date, is_enabled, item_id, title, short_title, pict_url, 
+    small_images, click_url, zk_final_price, item_description, volume, coupon_click_url, 
+    coupon_amount, coupon_total_count, coupon_remain_count, coupon_start_fee, coupon_start_time, 
+    coupon_end_time, coupon_info, coupon_share_url, seller_id, shop_title, nick, user_type, 
+    category_id, category_name, level_one_category_id, level_one_category_name, stock, 
+    sell_num, total_stock, ostime, oetime, jdd_num, jdd_price, orig_price, commission_rate, 
+    commission, word_url, word, tmall_play_activity_info, uv_sum_pre_sale, x_id, new_user_price, 
+    material_id, hqzb_type, deq_type, gyb_type, ppq_type, myzt_type, jhs_type, yhh_type, 
+    clf_type, th_type
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopGoodsExample" resultMap="BaseResultMap">
     select
@@ -156,42 +159,44 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopGoods">
-    insert into shop_goods (id, create_date, item_id, 
-      title, short_title, pict_url, 
-      small_images, click_url, zk_final_price, 
-      item_description, volume, coupon_click_url, 
-      coupon_amount, coupon_total_count, coupon_remain_count, 
-      coupon_start_fee, coupon_start_time, coupon_end_time, 
-      coupon_info, coupon_share_url, seller_id, 
-      shop_title, nick, user_type, 
-      category_id, category_name, level_one_category_id, 
-      level_one_category_name, stock, sell_num, 
-      total_stock, ostime, oetime, 
-      jdd_num, jdd_price, orig_price, 
-      commission_rate, commission, word_url, 
-      word, tmall_play_activity_info, uv_sum_pre_sale, 
-      x_id, new_user_price, material_id, 
-      hqzb_type, deq_type, gyb_type, 
-      ppq_type, myzt_type, is_jhs, 
-      is_yhh, is_clf, is_th)
-    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{itemId,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, 
-      #{smallImages,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, 
-      #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, 
-      #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
-      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, 
-      #{couponInfo,jdbcType=VARCHAR}, #{couponShareUrl,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, 
-      #{shopTitle,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
-      #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, 
-      #{levelOneCategoryName,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{totalStock,jdbcType=INTEGER}, #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, 
-      #{jddNum,jdbcType=INTEGER}, #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, 
-      #{commissionRate,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, #{wordUrl,jdbcType=VARCHAR}, 
-      #{word,jdbcType=VARCHAR}, #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, 
-      #{xId,jdbcType=VARCHAR}, #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, 
-      #{hqzbType,jdbcType=INTEGER}, #{deqType,jdbcType=INTEGER}, #{gybType,jdbcType=INTEGER}, 
-      #{ppqType,jdbcType=INTEGER}, #{myztType,jdbcType=INTEGER}, #{isJhs,jdbcType=INTEGER}, 
-      #{isYhh,jdbcType=INTEGER}, #{isClf,jdbcType=INTEGER}, #{isTh,jdbcType=INTEGER})
+    insert into shop_goods (id, create_date, modify_date, 
+      is_enabled, item_id, title, 
+      short_title, pict_url, small_images, 
+      click_url, zk_final_price, item_description, 
+      volume, coupon_click_url, coupon_amount, 
+      coupon_total_count, coupon_remain_count, coupon_start_fee, 
+      coupon_start_time, coupon_end_time, coupon_info, 
+      coupon_share_url, seller_id, shop_title, 
+      nick, user_type, category_id, 
+      category_name, level_one_category_id, level_one_category_name, 
+      stock, sell_num, total_stock, 
+      ostime, oetime, jdd_num, 
+      jdd_price, orig_price, commission_rate, 
+      commission, word_url, word, 
+      tmall_play_activity_info, uv_sum_pre_sale, x_id, 
+      new_user_price, material_id, hqzb_type, 
+      deq_type, gyb_type, ppq_type, 
+      myzt_type, jhs_type, yhh_type, 
+      clf_type, th_type)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{isEnabled,jdbcType=BIT}, #{itemId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
+      #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, #{itemDescription,jdbcType=VARCHAR}, 
+      #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, #{couponAmount,jdbcType=DECIMAL}, 
+      #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, #{couponStartFee,jdbcType=VARCHAR}, 
+      #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, #{couponInfo,jdbcType=VARCHAR}, 
+      #{couponShareUrl,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, 
+      #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{categoryId,jdbcType=VARCHAR}, 
+      #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, #{levelOneCategoryName,jdbcType=VARCHAR}, 
+      #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{totalStock,jdbcType=INTEGER}, 
+      #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, #{jddNum,jdbcType=INTEGER}, 
+      #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, #{commissionRate,jdbcType=VARCHAR}, 
+      #{commission,jdbcType=DECIMAL}, #{wordUrl,jdbcType=VARCHAR}, #{word,jdbcType=VARCHAR}, 
+      #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, #{xId,jdbcType=VARCHAR}, 
+      #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, #{hqzbType,jdbcType=INTEGER}, 
+      #{deqType,jdbcType=INTEGER}, #{gybType,jdbcType=INTEGER}, #{ppqType,jdbcType=INTEGER}, 
+      #{myztType,jdbcType=INTEGER}, #{jhsType,jdbcType=INTEGER}, #{yhhType,jdbcType=INTEGER}, 
+      #{clfType,jdbcType=INTEGER}, #{thType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods
@@ -201,6 +206,12 @@
       </if>
       <if test="createDate != null">
         create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
       </if>
       <if test="itemId != null">
         item_id,
@@ -346,17 +357,17 @@
       <if test="myztType != null">
         myzt_type,
       </if>
-      <if test="isJhs != null">
-        is_jhs,
+      <if test="jhsType != null">
+        jhs_type,
       </if>
-      <if test="isYhh != null">
-        is_yhh,
+      <if test="yhhType != null">
+        yhh_type,
       </if>
-      <if test="isClf != null">
-        is_clf,
+      <if test="clfType != null">
+        clf_type,
       </if>
-      <if test="isTh != null">
-        is_th,
+      <if test="thType != null">
+        th_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -365,6 +376,12 @@
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
       </if>
       <if test="itemId != null">
         #{itemId,jdbcType=VARCHAR},
@@ -510,17 +527,17 @@
       <if test="myztType != null">
         #{myztType,jdbcType=INTEGER},
       </if>
-      <if test="isJhs != null">
-        #{isJhs,jdbcType=INTEGER},
+      <if test="jhsType != null">
+        #{jhsType,jdbcType=INTEGER},
       </if>
-      <if test="isYhh != null">
-        #{isYhh,jdbcType=INTEGER},
+      <if test="yhhType != null">
+        #{yhhType,jdbcType=INTEGER},
       </if>
-      <if test="isClf != null">
-        #{isClf,jdbcType=INTEGER},
+      <if test="clfType != null">
+        #{clfType,jdbcType=INTEGER},
       </if>
-      <if test="isTh != null">
-        #{isTh,jdbcType=INTEGER},
+      <if test="thType != null">
+        #{thType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -538,6 +555,12 @@
       </if>
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
       </if>
       <if test="record.itemId != null">
         item_id = #{record.itemId,jdbcType=VARCHAR},
@@ -683,17 +706,17 @@
       <if test="record.myztType != null">
         myzt_type = #{record.myztType,jdbcType=INTEGER},
       </if>
-      <if test="record.isJhs != null">
-        is_jhs = #{record.isJhs,jdbcType=INTEGER},
+      <if test="record.jhsType != null">
+        jhs_type = #{record.jhsType,jdbcType=INTEGER},
       </if>
-      <if test="record.isYhh != null">
-        is_yhh = #{record.isYhh,jdbcType=INTEGER},
+      <if test="record.yhhType != null">
+        yhh_type = #{record.yhhType,jdbcType=INTEGER},
       </if>
-      <if test="record.isClf != null">
-        is_clf = #{record.isClf,jdbcType=INTEGER},
+      <if test="record.clfType != null">
+        clf_type = #{record.clfType,jdbcType=INTEGER},
       </if>
-      <if test="record.isTh != null">
-        is_th = #{record.isTh,jdbcType=INTEGER},
+      <if test="record.thType != null">
+        th_type = #{record.thType,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -704,6 +727,8 @@
     update shop_goods
     set id = #{record.id,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      is_enabled = #{record.isEnabled,jdbcType=BIT},
       item_id = #{record.itemId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       short_title = #{record.shortTitle,jdbcType=VARCHAR},
@@ -752,10 +777,10 @@
       gyb_type = #{record.gybType,jdbcType=INTEGER},
       ppq_type = #{record.ppqType,jdbcType=INTEGER},
       myzt_type = #{record.myztType,jdbcType=INTEGER},
-      is_jhs = #{record.isJhs,jdbcType=INTEGER},
-      is_yhh = #{record.isYhh,jdbcType=INTEGER},
-      is_clf = #{record.isClf,jdbcType=INTEGER},
-      is_th = #{record.isTh,jdbcType=INTEGER}
+      jhs_type = #{record.jhsType,jdbcType=INTEGER},
+      yhh_type = #{record.yhhType,jdbcType=INTEGER},
+      clf_type = #{record.clfType,jdbcType=INTEGER},
+      th_type = #{record.thType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -765,6 +790,12 @@
     <set>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
       </if>
       <if test="itemId != null">
         item_id = #{itemId,jdbcType=VARCHAR},
@@ -910,17 +941,17 @@
       <if test="myztType != null">
         myzt_type = #{myztType,jdbcType=INTEGER},
       </if>
-      <if test="isJhs != null">
-        is_jhs = #{isJhs,jdbcType=INTEGER},
+      <if test="jhsType != null">
+        jhs_type = #{jhsType,jdbcType=INTEGER},
       </if>
-      <if test="isYhh != null">
-        is_yhh = #{isYhh,jdbcType=INTEGER},
+      <if test="yhhType != null">
+        yhh_type = #{yhhType,jdbcType=INTEGER},
       </if>
-      <if test="isClf != null">
-        is_clf = #{isClf,jdbcType=INTEGER},
+      <if test="clfType != null">
+        clf_type = #{clfType,jdbcType=INTEGER},
       </if>
-      <if test="isTh != null">
-        is_th = #{isTh,jdbcType=INTEGER},
+      <if test="thType != null">
+        th_type = #{thType,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -928,6 +959,8 @@
   <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopGoods">
     update shop_goods
     set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      is_enabled = #{isEnabled,jdbcType=BIT},
       item_id = #{itemId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       short_title = #{shortTitle,jdbcType=VARCHAR},
@@ -976,10 +1009,10 @@
       gyb_type = #{gybType,jdbcType=INTEGER},
       ppq_type = #{ppqType,jdbcType=INTEGER},
       myzt_type = #{myztType,jdbcType=INTEGER},
-      is_jhs = #{isJhs,jdbcType=INTEGER},
-      is_yhh = #{isYhh,jdbcType=INTEGER},
-      is_clf = #{isClf,jdbcType=INTEGER},
-      is_th = #{isTh,jdbcType=INTEGER}
+      jhs_type = #{jhsType,jdbcType=INTEGER},
+      yhh_type = #{yhhType,jdbcType=INTEGER},
+      clf_type = #{clfType,jdbcType=INTEGER},
+      th_type = #{thType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

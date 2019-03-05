@@ -64,6 +64,7 @@
                                     <table tableName="shop_cash_flow" domainObjectName="ShopCashFlow"></table>
                                                 <table tableName="shop_detail_img_url" domainObjectName="ShopDetailImgUrl"></table>
                                                 <table tableName="shop_goods" domainObjectName="ShopGoods"></table>
+                                                <table tableName="shop_material_import" domainObjectName="ShopMaterialImport"></table>
                                                 <table tableName="shop_menu" domainObjectName="ShopMenu"></table>
                                                 <table tableName="shop_module" domainObjectName="ShopModule"></table>
                                                 <table tableName="shop_module_item" domainObjectName="ShopModuleItem"></table>
