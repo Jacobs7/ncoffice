@@ -18,14 +18,10 @@
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-datax-rpc-api</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.dape</groupId>
-            <artifactId>dape-datax-common</artifactId>
-            <version>1.0</version>
-        </dependency>
+        <!-- zheng-upms-client -->
 
         <dependency>
             <groupId>com.dape</groupId>
@@ -49,6 +45,14 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <!-- zheng-upms-client -->
+        <dependency>
+            <groupId>com.dape</groupId>
+            <artifactId>dape-upms-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+
 
 
     </dependencies>
