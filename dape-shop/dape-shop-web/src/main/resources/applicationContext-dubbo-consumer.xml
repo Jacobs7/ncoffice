@@ -38,6 +38,8 @@
 
     <dubbo:reference id="shopModuleItemService" interface="com.dape.shop.rpc.api.ShopModuleItemService" mock="true"/>
 
-    <dubbo:reference id="shopMaterialImportService" interface="com.dape.shop.rpc.api.ShopMaterialImportService" mock="true"/>
+    <dubbo:reference id="shopMaterialImportService" interface="com.dape.shop.rpc.api.ShopMaterialImportService" mock="true">
+        <dubbo:method name="importGoodsByMaterial" async="true" />
+    </dubbo:reference>
 
 </beans>

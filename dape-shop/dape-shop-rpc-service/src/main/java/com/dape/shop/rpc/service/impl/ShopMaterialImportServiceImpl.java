@@ -1,6 +1,5 @@
 package com.dape.shop.rpc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dape.common.annotation.BaseService;
@@ -12,11 +11,6 @@ import com.dape.shop.dao.model.ShopGoodsExample;
 import com.dape.shop.dao.model.ShopMaterialImport;
 import com.dape.shop.dao.model.ShopMaterialImportExample;
 import com.dape.shop.rpc.api.ShopMaterialImportService;
-import com.taobao.api.ApiException;
-import com.taobao.api.DefaultTaobaoClient;
-import com.taobao.api.TaobaoClient;
-import com.taobao.api.request.TbkDgOptimusMaterialRequest;
-import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,18 +114,23 @@ public class ShopMaterialImportServiceImpl extends BaseServiceImpl<ShopMaterialI
                 goods.setCouponTotalCount(data.getInteger("coupon_total_count"));//券总量
                 goods.setCouponRemainCount(data.getInteger("coupon_remain_count"));//优惠券剩余量
                 goods.setCouponStartFee(data.getString("coupon_start_fee"));//券起用门槛,满X元可用
-                String couponStartTime = data.getString("coupon_start_time");
-                Long dateMillis = null;
-                Matcher isNum = pattern.matcher(couponStartTime);
-                if(isNum.matches()){
-                    dateMillis = Long.valueOf(couponStartTime);
-                    goods.setCouponStartTime(new Date(dateMillis));//优惠券开始时间
+                if(data.containsKey("coupon_start_time")){
+                    String couponStartTime = data.getString("coupon_start_time");
+                    Long dateMillis = null;
+                    Matcher isNum = pattern.matcher(couponStartTime);
+                    if(isNum.matches()){
+                        dateMillis = Long.valueOf(couponStartTime);
+                        goods.setCouponStartTime(new Date(dateMillis));//优惠券开始时间
+                    }
                 }
-                String couponEndTime = data.getString("coupon_end_time");
-                isNum = pattern.matcher(couponEndTime);
-                if(isNum.matches()){
-                    dateMillis = Long.valueOf(couponEndTime);
-                    goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                if(data.containsKey("coupon_end_time")){
+                    String couponEndTime = data.getString("coupon_end_time");
+                    Long dateMillis = null;
+                    Matcher isNum = pattern.matcher(couponEndTime);
+                    if(isNum.matches()){
+                        dateMillis = Long.valueOf(couponEndTime);
+                        goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                    }
                 }
                 goods.setSellerId(data.getString("seller_id"));//卖家id
                 goods.setShopTitle(data.getString("shop_title"));//店铺名称
@@ -224,12 +221,14 @@ public class ShopMaterialImportServiceImpl extends BaseServiceImpl<ShopMaterialI
                 goods.setCouponAmount(couponAmount);//券额
                 goods.setCouponTotalCount(data.getInteger("coupon_total_count"));//券总量
                 goods.setCouponRemainCount(data.getInteger("coupon_remain_count"));//优惠券剩余量
-                String couponEndTime = data.getString("coupon_end_time");
-                Long dateMillis = null;
-                Matcher isNum = pattern.matcher(couponEndTime);
-                if(isNum.matches()){
-                    dateMillis = Long.valueOf(couponEndTime);
-                    goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                if(data.containsKey("coupon_end_time")){
+                    String couponEndTime = data.getString("coupon_end_time");
+                    Long dateMillis = null;
+                    Matcher isNum = pattern.matcher(couponEndTime);
+                    if(isNum.matches()){
+                        dateMillis = Long.valueOf(couponEndTime);
+                        goods.setCouponEndTime(new Date(dateMillis));//优惠券结束时间
+                    }
                 }
                 goods.setStock(data.getInteger("stock"));//拼团：剩余库存
                 goods.setSellNum(data.getInteger("sell_num"));//拼团：已售数量
