@@ -11,5 +11,33 @@
 
     <artifactId>dape-datax-rpc-api</artifactId>
 
+    <packaging>jar</packaging>
 
+    <version>1.0.0</version>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.dape</groupId>
+            <artifactId>dape-datax-dao</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>dape-datax-rpc-api</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
 </project>
