@@ -41,4 +41,9 @@ public class ShopGoodsServiceMock extends BaseServiceMock<ShopGoodsMapper, ShopG
     public Map<String, Object> tbkJuTqgGet(Long pageNum, Long pageSize) {
         return null;
     }
+
+    @Override
+    public Integer updateGoodsByCouponEndTime() {
+        return 0;
+    }
 }

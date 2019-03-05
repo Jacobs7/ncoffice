@@ -71,4 +71,10 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      * @return
      */
     public Map<String, Object> tbkJuTqgGet(Long pageNum, Long pageSize);
+
+    /**
+     * 修改券失效商品状态
+     * @return
+     */
+    public Integer updateGoodsByCouponEndTime();
 }

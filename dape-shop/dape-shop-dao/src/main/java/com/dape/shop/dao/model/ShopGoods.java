@@ -9,6 +9,10 @@ public class ShopGoods implements Serializable {
 
     private Date createDate;
 
+    private Date modifyDate;
+
+    private Boolean isEnabled;
+
     /**
      * 商品ID
      *
@@ -308,7 +312,70 @@ public class ShopGoods implements Serializable {
      *
      * @mbg.generated
      */
-    private Long materialId;
+    private String materialId;
+
+    /**
+     * 好券直播类别
+     *
+     * @mbg.generated
+     */
+    private Integer hqzbType;
+
+    /**
+     * 大额券类别
+     *
+     * @mbg.generated
+     */
+    private Integer deqType;
+
+    /**
+     * 高佣榜类别
+     *
+     * @mbg.generated
+     */
+    private Integer gybType;
+
+    /**
+     * 品牌券类别
+     *
+     * @mbg.generated
+     */
+    private Integer ppqType;
+
+    /**
+     * 母婴主题类别
+     *
+     * @mbg.generated
+     */
+    private Integer myztType;
+
+    /**
+     * 是否聚划算，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer jhsType;
+
+    /**
+     * 是否有好货，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer yhhType;
+
+    /**
+     * 是否潮流范，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer clfType;
+
+    /**
+     * 是否特惠，0否，1是
+     *
+     * @mbg.generated
+     */
+    private Integer thType;
 
     private static final long serialVersionUID = 1L;
 
@@ -326,6 +393,22 @@ public class ShopGoods implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     public String getItemId() {
@@ -664,12 +747,84 @@ public class ShopGoods implements Serializable {
         this.newUserPrice = newUserPrice;
     }
 
-    public Long getMaterialId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(Long materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
+    }
+
+    public Integer getHqzbType() {
+        return hqzbType;
+    }
+
+    public void setHqzbType(Integer hqzbType) {
+        this.hqzbType = hqzbType;
+    }
+
+    public Integer getDeqType() {
+        return deqType;
+    }
+
+    public void setDeqType(Integer deqType) {
+        this.deqType = deqType;
+    }
+
+    public Integer getGybType() {
+        return gybType;
+    }
+
+    public void setGybType(Integer gybType) {
+        this.gybType = gybType;
+    }
+
+    public Integer getPpqType() {
+        return ppqType;
+    }
+
+    public void setPpqType(Integer ppqType) {
+        this.ppqType = ppqType;
+    }
+
+    public Integer getMyztType() {
+        return myztType;
+    }
+
+    public void setMyztType(Integer myztType) {
+        this.myztType = myztType;
+    }
+
+    public Integer getJhsType() {
+        return jhsType;
+    }
+
+    public void setJhsType(Integer jhsType) {
+        this.jhsType = jhsType;
+    }
+
+    public Integer getYhhType() {
+        return yhhType;
+    }
+
+    public void setYhhType(Integer yhhType) {
+        this.yhhType = yhhType;
+    }
+
+    public Integer getClfType() {
+        return clfType;
+    }
+
+    public void setClfType(Integer clfType) {
+        this.clfType = clfType;
+    }
+
+    public Integer getThType() {
+        return thType;
+    }
+
+    public void setThType(Integer thType) {
+        this.thType = thType;
     }
 
     @Override
@@ -680,6 +835,8 @@ public class ShopGoods implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", createDate=").append(createDate);
+        sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", isEnabled=").append(isEnabled);
         sb.append(", itemId=").append(itemId);
         sb.append(", title=").append(title);
         sb.append(", shortTitle=").append(shortTitle);
@@ -723,6 +880,15 @@ public class ShopGoods implements Serializable {
         sb.append(", xId=").append(xId);
         sb.append(", newUserPrice=").append(newUserPrice);
         sb.append(", materialId=").append(materialId);
+        sb.append(", hqzbType=").append(hqzbType);
+        sb.append(", deqType=").append(deqType);
+        sb.append(", gybType=").append(gybType);
+        sb.append(", ppqType=").append(ppqType);
+        sb.append(", myztType=").append(myztType);
+        sb.append(", jhsType=").append(jhsType);
+        sb.append(", yhhType=").append(yhhType);
+        sb.append(", clfType=").append(clfType);
+        sb.append(", thType=").append(thType);
         sb.append("]");
         return sb.toString();
     }
@@ -741,6 +907,8 @@ public class ShopGoods implements Serializable {
         ShopGoods other = (ShopGoods) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
+            && (this.getModifyDate() == null ? other.getModifyDate() == null : this.getModifyDate().equals(other.getModifyDate()))
+            && (this.getIsEnabled() == null ? other.getIsEnabled() == null : this.getIsEnabled().equals(other.getIsEnabled()))
             && (this.getItemId() == null ? other.getItemId() == null : this.getItemId().equals(other.getItemId()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
             && (this.getShortTitle() == null ? other.getShortTitle() == null : this.getShortTitle().equals(other.getShortTitle()))
@@ -783,7 +951,16 @@ public class ShopGoods implements Serializable {
             && (this.getUvSumPreSale() == null ? other.getUvSumPreSale() == null : this.getUvSumPreSale().equals(other.getUvSumPreSale()))
             && (this.getxId() == null ? other.getxId() == null : this.getxId().equals(other.getxId()))
             && (this.getNewUserPrice() == null ? other.getNewUserPrice() == null : this.getNewUserPrice().equals(other.getNewUserPrice()))
-            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()));
+            && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()))
+            && (this.getHqzbType() == null ? other.getHqzbType() == null : this.getHqzbType().equals(other.getHqzbType()))
+            && (this.getDeqType() == null ? other.getDeqType() == null : this.getDeqType().equals(other.getDeqType()))
+            && (this.getGybType() == null ? other.getGybType() == null : this.getGybType().equals(other.getGybType()))
+            && (this.getPpqType() == null ? other.getPpqType() == null : this.getPpqType().equals(other.getPpqType()))
+            && (this.getMyztType() == null ? other.getMyztType() == null : this.getMyztType().equals(other.getMyztType()))
+            && (this.getJhsType() == null ? other.getJhsType() == null : this.getJhsType().equals(other.getJhsType()))
+            && (this.getYhhType() == null ? other.getYhhType() == null : this.getYhhType().equals(other.getYhhType()))
+            && (this.getClfType() == null ? other.getClfType() == null : this.getClfType().equals(other.getClfType()))
+            && (this.getThType() == null ? other.getThType() == null : this.getThType().equals(other.getThType()));
     }
 
     @Override
@@ -792,6 +969,8 @@ public class ShopGoods implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
+        result = prime * result + ((getModifyDate() == null) ? 0 : getModifyDate().hashCode());
+        result = prime * result + ((getIsEnabled() == null) ? 0 : getIsEnabled().hashCode());
         result = prime * result + ((getItemId() == null) ? 0 : getItemId().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
         result = prime * result + ((getShortTitle() == null) ? 0 : getShortTitle().hashCode());
@@ -835,6 +1014,15 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((getxId() == null) ? 0 : getxId().hashCode());
         result = prime * result + ((getNewUserPrice() == null) ? 0 : getNewUserPrice().hashCode());
         result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
+        result = prime * result + ((getHqzbType() == null) ? 0 : getHqzbType().hashCode());
+        result = prime * result + ((getDeqType() == null) ? 0 : getDeqType().hashCode());
+        result = prime * result + ((getGybType() == null) ? 0 : getGybType().hashCode());
+        result = prime * result + ((getPpqType() == null) ? 0 : getPpqType().hashCode());
+        result = prime * result + ((getMyztType() == null) ? 0 : getMyztType().hashCode());
+        result = prime * result + ((getJhsType() == null) ? 0 : getJhsType().hashCode());
+        result = prime * result + ((getYhhType() == null) ? 0 : getYhhType().hashCode());
+        result = prime * result + ((getClfType() == null) ? 0 : getClfType().hashCode());
+        result = prime * result + ((getThType() == null) ? 0 : getThType().hashCode());
         return result;
     }
 }

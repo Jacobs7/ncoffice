@@ -229,6 +229,126 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andModifyDateIsNull() {
+            addCriterion("modify_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateIsNotNull() {
+            addCriterion("modify_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateEqualTo(Date value) {
+            addCriterion("modify_date =", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotEqualTo(Date value) {
+            addCriterion("modify_date <>", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateGreaterThan(Date value) {
+            addCriterion("modify_date >", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("modify_date >=", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateLessThan(Date value) {
+            addCriterion("modify_date <", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateLessThanOrEqualTo(Date value) {
+            addCriterion("modify_date <=", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateIn(List<Date> values) {
+            addCriterion("modify_date in", values, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotIn(List<Date> values) {
+            addCriterion("modify_date not in", values, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateBetween(Date value1, Date value2) {
+            addCriterion("modify_date between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotBetween(Date value1, Date value2) {
+            addCriterion("modify_date not between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledIsNull() {
+            addCriterion("is_enabled is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledIsNotNull() {
+            addCriterion("is_enabled is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledEqualTo(Boolean value) {
+            addCriterion("is_enabled =", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledNotEqualTo(Boolean value) {
+            addCriterion("is_enabled <>", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledGreaterThan(Boolean value) {
+            addCriterion("is_enabled >", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_enabled >=", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledLessThan(Boolean value) {
+            addCriterion("is_enabled <", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_enabled <=", value, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledIn(List<Boolean> values) {
+            addCriterion("is_enabled in", values, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledNotIn(List<Boolean> values) {
+            addCriterion("is_enabled not in", values, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_enabled between", value1, value2, "isEnabled");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEnabledNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_enabled not between", value1, value2, "isEnabled");
+            return (Criteria) this;
+        }
+
         public Criteria andItemIdIsNull() {
             addCriterion("item_id is null");
             return (Criteria) this;
@@ -3039,53 +3159,603 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdEqualTo(Long value) {
+        public Criteria andMaterialIdEqualTo(String value) {
             addCriterion("material_id =", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdNotEqualTo(Long value) {
+        public Criteria andMaterialIdNotEqualTo(String value) {
             addCriterion("material_id <>", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdGreaterThan(Long value) {
+        public Criteria andMaterialIdGreaterThan(String value) {
             addCriterion("material_id >", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andMaterialIdGreaterThanOrEqualTo(String value) {
             addCriterion("material_id >=", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdLessThan(Long value) {
+        public Criteria andMaterialIdLessThan(String value) {
             addCriterion("material_id <", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdLessThanOrEqualTo(Long value) {
+        public Criteria andMaterialIdLessThanOrEqualTo(String value) {
             addCriterion("material_id <=", value, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdIn(List<Long> values) {
+        public Criteria andMaterialIdLike(String value) {
+            addCriterion("material_id like", value, "materialId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaterialIdNotLike(String value) {
+            addCriterion("material_id not like", value, "materialId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMaterialIdIn(List<String> values) {
             addCriterion("material_id in", values, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdNotIn(List<Long> values) {
+        public Criteria andMaterialIdNotIn(List<String> values) {
             addCriterion("material_id not in", values, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdBetween(Long value1, Long value2) {
+        public Criteria andMaterialIdBetween(String value1, String value2) {
             addCriterion("material_id between", value1, value2, "materialId");
             return (Criteria) this;
         }
 
-        public Criteria andMaterialIdNotBetween(Long value1, Long value2) {
+        public Criteria andMaterialIdNotBetween(String value1, String value2) {
             addCriterion("material_id not between", value1, value2, "materialId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeIsNull() {
+            addCriterion("hqzb_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeIsNotNull() {
+            addCriterion("hqzb_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeEqualTo(Integer value) {
+            addCriterion("hqzb_type =", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeNotEqualTo(Integer value) {
+            addCriterion("hqzb_type <>", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeGreaterThan(Integer value) {
+            addCriterion("hqzb_type >", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hqzb_type >=", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeLessThan(Integer value) {
+            addCriterion("hqzb_type <", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("hqzb_type <=", value, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeIn(List<Integer> values) {
+            addCriterion("hqzb_type in", values, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeNotIn(List<Integer> values) {
+            addCriterion("hqzb_type not in", values, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeBetween(Integer value1, Integer value2) {
+            addCriterion("hqzb_type between", value1, value2, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andHqzbTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("hqzb_type not between", value1, value2, "hqzbType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeIsNull() {
+            addCriterion("deq_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeIsNotNull() {
+            addCriterion("deq_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeEqualTo(Integer value) {
+            addCriterion("deq_type =", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeNotEqualTo(Integer value) {
+            addCriterion("deq_type <>", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeGreaterThan(Integer value) {
+            addCriterion("deq_type >", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("deq_type >=", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeLessThan(Integer value) {
+            addCriterion("deq_type <", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("deq_type <=", value, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeIn(List<Integer> values) {
+            addCriterion("deq_type in", values, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeNotIn(List<Integer> values) {
+            addCriterion("deq_type not in", values, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeBetween(Integer value1, Integer value2) {
+            addCriterion("deq_type between", value1, value2, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeqTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("deq_type not between", value1, value2, "deqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeIsNull() {
+            addCriterion("gyb_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeIsNotNull() {
+            addCriterion("gyb_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeEqualTo(Integer value) {
+            addCriterion("gyb_type =", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeNotEqualTo(Integer value) {
+            addCriterion("gyb_type <>", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeGreaterThan(Integer value) {
+            addCriterion("gyb_type >", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("gyb_type >=", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeLessThan(Integer value) {
+            addCriterion("gyb_type <", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("gyb_type <=", value, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeIn(List<Integer> values) {
+            addCriterion("gyb_type in", values, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeNotIn(List<Integer> values) {
+            addCriterion("gyb_type not in", values, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeBetween(Integer value1, Integer value2) {
+            addCriterion("gyb_type between", value1, value2, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGybTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("gyb_type not between", value1, value2, "gybType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeIsNull() {
+            addCriterion("ppq_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeIsNotNull() {
+            addCriterion("ppq_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeEqualTo(Integer value) {
+            addCriterion("ppq_type =", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeNotEqualTo(Integer value) {
+            addCriterion("ppq_type <>", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeGreaterThan(Integer value) {
+            addCriterion("ppq_type >", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ppq_type >=", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeLessThan(Integer value) {
+            addCriterion("ppq_type <", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("ppq_type <=", value, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeIn(List<Integer> values) {
+            addCriterion("ppq_type in", values, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeNotIn(List<Integer> values) {
+            addCriterion("ppq_type not in", values, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeBetween(Integer value1, Integer value2) {
+            addCriterion("ppq_type between", value1, value2, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPpqTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("ppq_type not between", value1, value2, "ppqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeIsNull() {
+            addCriterion("myzt_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeIsNotNull() {
+            addCriterion("myzt_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeEqualTo(Integer value) {
+            addCriterion("myzt_type =", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeNotEqualTo(Integer value) {
+            addCriterion("myzt_type <>", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeGreaterThan(Integer value) {
+            addCriterion("myzt_type >", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("myzt_type >=", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeLessThan(Integer value) {
+            addCriterion("myzt_type <", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("myzt_type <=", value, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeIn(List<Integer> values) {
+            addCriterion("myzt_type in", values, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeNotIn(List<Integer> values) {
+            addCriterion("myzt_type not in", values, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeBetween(Integer value1, Integer value2) {
+            addCriterion("myzt_type between", value1, value2, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMyztTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("myzt_type not between", value1, value2, "myztType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeIsNull() {
+            addCriterion("jhs_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeIsNotNull() {
+            addCriterion("jhs_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeEqualTo(Integer value) {
+            addCriterion("jhs_type =", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeNotEqualTo(Integer value) {
+            addCriterion("jhs_type <>", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeGreaterThan(Integer value) {
+            addCriterion("jhs_type >", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("jhs_type >=", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeLessThan(Integer value) {
+            addCriterion("jhs_type <", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("jhs_type <=", value, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeIn(List<Integer> values) {
+            addCriterion("jhs_type in", values, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeNotIn(List<Integer> values) {
+            addCriterion("jhs_type not in", values, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeBetween(Integer value1, Integer value2) {
+            addCriterion("jhs_type between", value1, value2, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andJhsTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("jhs_type not between", value1, value2, "jhsType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeIsNull() {
+            addCriterion("yhh_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeIsNotNull() {
+            addCriterion("yhh_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeEqualTo(Integer value) {
+            addCriterion("yhh_type =", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeNotEqualTo(Integer value) {
+            addCriterion("yhh_type <>", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeGreaterThan(Integer value) {
+            addCriterion("yhh_type >", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("yhh_type >=", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeLessThan(Integer value) {
+            addCriterion("yhh_type <", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("yhh_type <=", value, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeIn(List<Integer> values) {
+            addCriterion("yhh_type in", values, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeNotIn(List<Integer> values) {
+            addCriterion("yhh_type not in", values, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeBetween(Integer value1, Integer value2) {
+            addCriterion("yhh_type between", value1, value2, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andYhhTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("yhh_type not between", value1, value2, "yhhType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeIsNull() {
+            addCriterion("clf_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeIsNotNull() {
+            addCriterion("clf_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeEqualTo(Integer value) {
+            addCriterion("clf_type =", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeNotEqualTo(Integer value) {
+            addCriterion("clf_type <>", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeGreaterThan(Integer value) {
+            addCriterion("clf_type >", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("clf_type >=", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeLessThan(Integer value) {
+            addCriterion("clf_type <", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("clf_type <=", value, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeIn(List<Integer> values) {
+            addCriterion("clf_type in", values, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeNotIn(List<Integer> values) {
+            addCriterion("clf_type not in", values, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeBetween(Integer value1, Integer value2) {
+            addCriterion("clf_type between", value1, value2, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andClfTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("clf_type not between", value1, value2, "clfType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeIsNull() {
+            addCriterion("th_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeIsNotNull() {
+            addCriterion("th_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeEqualTo(Integer value) {
+            addCriterion("th_type =", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeNotEqualTo(Integer value) {
+            addCriterion("th_type <>", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeGreaterThan(Integer value) {
+            addCriterion("th_type >", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("th_type >=", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeLessThan(Integer value) {
+            addCriterion("th_type <", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("th_type <=", value, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeIn(List<Integer> values) {
+            addCriterion("th_type in", values, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeNotIn(List<Integer> values) {
+            addCriterion("th_type not in", values, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeBetween(Integer value1, Integer value2) {
+            addCriterion("th_type between", value1, value2, "thType");
+            return (Criteria) this;
+        }
+
+        public Criteria andThTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("th_type not between", value1, value2, "thType");
             return (Criteria) this;
         }
     }

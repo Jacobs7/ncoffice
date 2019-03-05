@@ -1320,7 +1320,7 @@ public class GoodsController extends BaseController {
                             goods.setUvSumPreSale(data.getInteger("uv_sum_pre_sale"));//预售数量
                             goods.setxId(data.getString("x_id"));//物料块id(测试中请勿使用)
                             goods.setNewUserPrice(data.getString("new_user_price"));//新人价
-                            goods.setMaterialId(materialId);
+                            goods.setMaterialId(item);
 
                             int result = shopGoodsService.insert(goods);
                             saveNum += 1;
