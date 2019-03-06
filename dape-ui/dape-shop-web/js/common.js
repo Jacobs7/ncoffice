@@ -472,7 +472,7 @@ function loadGoodsForTQG(){
 }
 // 首页加载数据库商品
 function loadLocalGoodsForMain(){
-    $.post('/goods/loadLocalGoods',{pageNum:pageNum,pageSize:pageSize,platform:platform,materialId:material_id},function(data){
+    $.post('/goods/loadLocalGoods',{pageNum:pageNum,pageSize:pageSize,type:type,field:field,title:title,sort:sort,des:des},function(data){
       loading = false;
       if(data.success){
         var mapData = data.data;
@@ -496,7 +496,7 @@ function loadLocalGoodsForMain(){
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
-                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
+                          '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pictUrl+'">' +
                           '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
                         '</div>' +
                         '<div class="protxt">' +
@@ -884,6 +884,11 @@ function deqFadeToggle(){
     }
 }
 function toNewUrl(obj, url){
+    $('#top-menu-box').find('.menuOn').removeClass('menuOn');
+    $(obj).addClass('menuOn');
+    window.location.href = url;
+}
+function toLocalNewUrl(obj, url){
     $('#top-menu-box').find('.menuOn').removeClass('menuOn');
     $(obj).addClass('menuOn');
     window.location.href = url;
