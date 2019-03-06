@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dape.datax.dao.mapper.DataxSourceTypeMapper">
   <resultMap id="BaseResultMap" type="com.dape.datax.dao.model.DataxSourceType">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="tname" jdbcType="VARCHAR" property="tname" />
-    <result column="str" jdbcType="VARCHAR" property="str" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="driver_str" jdbcType="VARCHAR" property="driverStr" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, tname, str
+    id, driver_str, driver_name
   </sql>
   <select id="selectByExample" parameterType="com.dape.datax.dao.model.DataxSourceTypeExample" resultMap="BaseResultMap">
     select
@@ -81,6 +81,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from datax_source_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from datax_source_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.dape.datax.dao.model.DataxSourceTypeExample">
     delete from datax_source_type
     <if test="_parameter != null">
@@ -88,9 +98,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dape.datax.dao.model.DataxSourceType">
-    insert into datax_source_type (id, tname, str
+    insert into datax_source_type (id, driver_str, driver_name
       )
-    values (#{id,jdbcType=INTEGER}, #{tname,jdbcType=VARCHAR}, #{str,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{driverStr,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.dape.datax.dao.model.DataxSourceType">
@@ -99,22 +109,22 @@
       <if test="id != null">
         id,
       </if>
-      <if test="tname != null">
-        tname,
+      <if test="driverStr != null">
+        driver_str,
       </if>
-      <if test="str != null">
-        str,
+      <if test="driverName != null">
+        driver_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="tname != null">
-        #{tname,jdbcType=VARCHAR},
+      <if test="driverStr != null">
+        #{driverStr,jdbcType=VARCHAR},
       </if>
-      <if test="str != null">
-        #{str,jdbcType=VARCHAR},
+      <if test="driverName != null">
+        #{driverName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -130,11 +140,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.tname != null">
-        tname = #{record.tname,jdbcType=VARCHAR},
+      <if test="record.driverStr != null">
+        driver_str = #{record.driverStr,jdbcType=VARCHAR},
       </if>
-      <if test="record.str != null">
-        str = #{record.str,jdbcType=VARCHAR},
+      <if test="record.driverName != null">
+        driver_name = #{record.driverName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -144,11 +154,29 @@
   <update id="updateByExample" parameterType="map">
     update datax_source_type
     set id = #{record.id,jdbcType=INTEGER},
-      tname = #{record.tname,jdbcType=VARCHAR},
-      str = #{record.str,jdbcType=VARCHAR}
+      driver_str = #{record.driverStr,jdbcType=VARCHAR},
+      driver_name = #{record.driverName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.datax.dao.model.DataxSourceType">
+    update datax_source_type
+    <set>
+      <if test="driverStr != null">
+        driver_str = #{driverStr,jdbcType=VARCHAR},
+      </if>
+      <if test="driverName != null">
+        driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dape.datax.dao.model.DataxSourceType">
+    update datax_source_type
+    set driver_str = #{driverStr,jdbcType=VARCHAR},
+      driver_name = #{driverName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>
