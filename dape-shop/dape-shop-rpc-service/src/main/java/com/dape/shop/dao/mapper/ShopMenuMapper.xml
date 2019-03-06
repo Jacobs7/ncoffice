@@ -14,6 +14,7 @@
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="json" jdbcType="VARCHAR" property="json" />
     <result column="module_id" jdbcType="BIGINT" property="moduleId" />
+    <result column="local_type" jdbcType="INTEGER" property="localType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, create_date, is_enabled, name, url, material_id, icon, img, remark, sort, json, 
-    module_id
+    module_id, local_type
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopMenuExample" resultMap="BaseResultMap">
     select
@@ -111,13 +112,13 @@
     insert into shop_menu (id, create_date, is_enabled, 
       name, url, material_id, 
       icon, img, remark, 
-      sort, json, module_id
-      )
+      sort, json, module_id, 
+      local_type)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, 
       #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER}, 
       #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR}, #{moduleId,jdbcType=BIGINT}
-      )
+      #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR}, #{moduleId,jdbcType=BIGINT}, 
+      #{localType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopMenu">
     insert into shop_menu
@@ -158,6 +159,9 @@
       <if test="moduleId != null">
         module_id,
       </if>
+      <if test="localType != null">
+        local_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -195,6 +199,9 @@
       </if>
       <if test="moduleId != null">
         #{moduleId,jdbcType=BIGINT},
+      </if>
+      <if test="localType != null">
+        #{localType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -243,6 +250,9 @@
       <if test="record.moduleId != null">
         module_id = #{record.moduleId,jdbcType=BIGINT},
       </if>
+      <if test="record.localType != null">
+        local_type = #{record.localType,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +271,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER},
       json = #{record.json,jdbcType=VARCHAR},
-      module_id = #{record.moduleId,jdbcType=BIGINT}
+      module_id = #{record.moduleId,jdbcType=BIGINT},
+      local_type = #{record.localType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +313,9 @@
       <if test="moduleId != null">
         module_id = #{moduleId,jdbcType=BIGINT},
       </if>
+      <if test="localType != null">
+        local_type = #{localType,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -317,7 +331,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
       json = #{json,jdbcType=VARCHAR},
-      module_id = #{moduleId,jdbcType=BIGINT}
+      module_id = #{moduleId,jdbcType=BIGINT},
+      local_type = #{localType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

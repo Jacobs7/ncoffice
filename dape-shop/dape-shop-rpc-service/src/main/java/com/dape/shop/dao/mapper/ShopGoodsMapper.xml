@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="desc_img_date" jdbcType="TIMESTAMP" property="descImgDate" />
     <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
     <result column="item_id" jdbcType="VARCHAR" property="itemId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -118,8 +119,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, modify_date, is_enabled, item_id, title, short_title, pict_url, 
-    small_images, click_url, zk_final_price, item_description, volume, coupon_click_url, 
+    id, create_date, modify_date, desc_img_date, is_enabled, item_id, title, short_title, 
+    pict_url, small_images, click_url, zk_final_price, item_description, volume, coupon_click_url, 
     coupon_amount, coupon_total_count, coupon_remain_count, coupon_start_fee, coupon_start_time, 
     coupon_end_time, coupon_info, coupon_share_url, seller_id, shop_title, nick, user_type, 
     category_id, category_name, level_one_category_id, level_one_category_name, stock, 
@@ -160,43 +161,45 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods (id, create_date, modify_date, 
-      is_enabled, item_id, title, 
-      short_title, pict_url, small_images, 
-      click_url, zk_final_price, item_description, 
-      volume, coupon_click_url, coupon_amount, 
-      coupon_total_count, coupon_remain_count, coupon_start_fee, 
-      coupon_start_time, coupon_end_time, coupon_info, 
-      coupon_share_url, seller_id, shop_title, 
-      nick, user_type, category_id, 
-      category_name, level_one_category_id, level_one_category_name, 
-      stock, sell_num, total_stock, 
-      ostime, oetime, jdd_num, 
-      jdd_price, orig_price, commission_rate, 
-      commission, word_url, word, 
-      tmall_play_activity_info, uv_sum_pre_sale, x_id, 
-      new_user_price, material_id, hqzb_type, 
-      deq_type, gyb_type, ppq_type, 
-      myzt_type, jhs_type, yhh_type, 
-      clf_type, th_type)
+      desc_img_date, is_enabled, item_id, 
+      title, short_title, pict_url, 
+      small_images, click_url, zk_final_price, 
+      item_description, volume, coupon_click_url, 
+      coupon_amount, coupon_total_count, coupon_remain_count, 
+      coupon_start_fee, coupon_start_time, coupon_end_time, 
+      coupon_info, coupon_share_url, seller_id, 
+      shop_title, nick, user_type, 
+      category_id, category_name, level_one_category_id, 
+      level_one_category_name, stock, sell_num, 
+      total_stock, ostime, oetime, 
+      jdd_num, jdd_price, orig_price, 
+      commission_rate, commission, word_url, 
+      word, tmall_play_activity_info, uv_sum_pre_sale, 
+      x_id, new_user_price, material_id, 
+      hqzb_type, deq_type, gyb_type, 
+      ppq_type, myzt_type, jhs_type, 
+      yhh_type, clf_type, th_type
+      )
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{isEnabled,jdbcType=BIT}, #{itemId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
-      #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, #{itemDescription,jdbcType=VARCHAR}, 
-      #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, #{couponAmount,jdbcType=DECIMAL}, 
-      #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, #{couponStartFee,jdbcType=VARCHAR}, 
-      #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, #{couponInfo,jdbcType=VARCHAR}, 
-      #{couponShareUrl,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, 
-      #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{categoryId,jdbcType=VARCHAR}, 
-      #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, #{levelOneCategoryName,jdbcType=VARCHAR}, 
-      #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{totalStock,jdbcType=INTEGER}, 
-      #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, #{jddNum,jdbcType=INTEGER}, 
-      #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, #{commissionRate,jdbcType=VARCHAR}, 
-      #{commission,jdbcType=DECIMAL}, #{wordUrl,jdbcType=VARCHAR}, #{word,jdbcType=VARCHAR}, 
-      #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, #{xId,jdbcType=VARCHAR}, 
-      #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, #{hqzbType,jdbcType=INTEGER}, 
-      #{deqType,jdbcType=INTEGER}, #{gybType,jdbcType=INTEGER}, #{ppqType,jdbcType=INTEGER}, 
-      #{myztType,jdbcType=INTEGER}, #{jhsType,jdbcType=INTEGER}, #{yhhType,jdbcType=INTEGER}, 
-      #{clfType,jdbcType=INTEGER}, #{thType,jdbcType=INTEGER})
+      #{descImgDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, #{itemId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, 
+      #{smallImages,jdbcType=VARCHAR}, #{clickUrl,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=DECIMAL}, 
+      #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, #{couponClickUrl,jdbcType=VARCHAR}, 
+      #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
+      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, 
+      #{couponInfo,jdbcType=VARCHAR}, #{couponShareUrl,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, 
+      #{shopTitle,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, 
+      #{levelOneCategoryName,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{totalStock,jdbcType=INTEGER}, #{ostime,jdbcType=VARCHAR}, #{oetime,jdbcType=VARCHAR}, 
+      #{jddNum,jdbcType=INTEGER}, #{jddPrice,jdbcType=VARCHAR}, #{origPrice,jdbcType=VARCHAR}, 
+      #{commissionRate,jdbcType=VARCHAR}, #{commission,jdbcType=DECIMAL}, #{wordUrl,jdbcType=VARCHAR}, 
+      #{word,jdbcType=VARCHAR}, #{tmallPlayActivityInfo,jdbcType=VARCHAR}, #{uvSumPreSale,jdbcType=INTEGER}, 
+      #{xId,jdbcType=VARCHAR}, #{newUserPrice,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, 
+      #{hqzbType,jdbcType=INTEGER}, #{deqType,jdbcType=INTEGER}, #{gybType,jdbcType=INTEGER}, 
+      #{ppqType,jdbcType=INTEGER}, #{myztType,jdbcType=INTEGER}, #{jhsType,jdbcType=INTEGER}, 
+      #{yhhType,jdbcType=INTEGER}, #{clfType,jdbcType=INTEGER}, #{thType,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopGoods">
     insert into shop_goods
@@ -209,6 +212,9 @@
       </if>
       <if test="modifyDate != null">
         modify_date,
+      </if>
+      <if test="descImgDate != null">
+        desc_img_date,
       </if>
       <if test="isEnabled != null">
         is_enabled,
@@ -379,6 +385,9 @@
       </if>
       <if test="modifyDate != null">
         #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="descImgDate != null">
+        #{descImgDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isEnabled != null">
         #{isEnabled,jdbcType=BIT},
@@ -559,6 +568,9 @@
       <if test="record.modifyDate != null">
         modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.descImgDate != null">
+        desc_img_date = #{record.descImgDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.isEnabled != null">
         is_enabled = #{record.isEnabled,jdbcType=BIT},
       </if>
@@ -728,6 +740,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      desc_img_date = #{record.descImgDate,jdbcType=TIMESTAMP},
       is_enabled = #{record.isEnabled,jdbcType=BIT},
       item_id = #{record.itemId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
@@ -793,6 +806,9 @@
       </if>
       <if test="modifyDate != null">
         modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="descImgDate != null">
+        desc_img_date = #{descImgDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isEnabled != null">
         is_enabled = #{isEnabled,jdbcType=BIT},
@@ -960,6 +976,7 @@
     update shop_goods
     set create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      desc_img_date = #{descImgDate,jdbcType=TIMESTAMP},
       is_enabled = #{isEnabled,jdbcType=BIT},
       item_id = #{itemId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},

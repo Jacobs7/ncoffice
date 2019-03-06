@@ -228,6 +228,66 @@ public class ShopDetailImgUrlExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andModifyDateIsNull() {
+            addCriterion("modify_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateIsNotNull() {
+            addCriterion("modify_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateEqualTo(Date value) {
+            addCriterion("modify_date =", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotEqualTo(Date value) {
+            addCriterion("modify_date <>", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateGreaterThan(Date value) {
+            addCriterion("modify_date >", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("modify_date >=", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateLessThan(Date value) {
+            addCriterion("modify_date <", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateLessThanOrEqualTo(Date value) {
+            addCriterion("modify_date <=", value, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateIn(List<Date> values) {
+            addCriterion("modify_date in", values, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotIn(List<Date> values) {
+            addCriterion("modify_date not in", values, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateBetween(Date value1, Date value2) {
+            addCriterion("modify_date between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andModifyDateNotBetween(Date value1, Date value2) {
+            addCriterion("modify_date not between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
         public Criteria andItemIdIsNull() {
             addCriterion("item_id is null");
             return (Criteria) this;

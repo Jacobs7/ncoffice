@@ -515,6 +515,7 @@ public class GoodsController extends BaseController {
             if(StringUtils.isNotBlank(imgUrl)){
                 ShopDetailImgUrl shopDetailImgUrl = new ShopDetailImgUrl();
                 shopDetailImgUrl.setCreateDate(new Date());
+                shopDetailImgUrl.setModifyDate(new Date());
                 shopDetailImgUrl.setItemId(itemId);
                 shopDetailImgUrl.setImgUrl(imgUrl);
                 shopDetailImgUrlService.insert(shopDetailImgUrl);
@@ -1064,44 +1065,38 @@ public class GoodsController extends BaseController {
     @Autowired
     private ShopMenuService shopMenuService;
 
+    public static List<ShopMenu> menus = new ArrayList<ShopMenu>();
+    public static List<ShopModule> modules = new ArrayList<ShopModule>();
+
     @RequestMapping(value = "localGoods", method = RequestMethod.GET)
-    public String localGoods(Model model, Long showId, HttpServletRequest request) {
+    public String localGoods(Model model, Long sId, Integer type, HttpServletRequest request) {
 
         /** 后面要放到缓存中 start */
-        // 查询导航栏列表: 首页、男装、女装等
-        ShopMenuExample shopMenuE = new ShopMenuExample();
-        shopMenuE.or().andIsEnabledEqualTo(true);
-        shopMenuE.setOrderByClause("sort ASC");
-        List<ShopMenu> menus = shopMenuService.selectByExample(shopMenuE);
+        if(menus.size() <= 0){
+            // 查询导航栏列表: 首页、男装、女装等
+            ShopMenuExample shopMenuE = new ShopMenuExample();
+            shopMenuE.or().andIsEnabledEqualTo(true);
+            shopMenuE.setOrderByClause("sort ASC");
+            menus = shopMenuService.selectByExample(shopMenuE);
+        }
         int size = 7;
         if(menus.size() < size){
             size = menus.size();
         }
         model.addAttribute("menus", menus);
         model.addAttribute("menusSize", size);
-        model.addAttribute("showId", showId == null ? 1L : showId);
+        model.addAttribute("sId", sId == null ? 1L : sId);
+        model.addAttribute("type", type == null ? 1 : type);
 
         // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
-        ShopModuleExample shopModuleE = new ShopModuleExample();
-        shopModuleE.or().andIsEnabledEqualTo(true);
-        shopModuleE.setOrderByClause("sort ASC");
-        List<ShopModule> modules = shopModuleService.selectByExample(shopModuleE);
+        if(modules.size() <= 0){
+            ShopModuleExample shopModuleE = new ShopModuleExample();
+            shopModuleE.or().andIsEnabledEqualTo(true);
+            shopModuleE.setOrderByClause("sort ASC");
+            modules = shopModuleService.selectByExample(shopModuleE);
+        }
         model.addAttribute("modules", modules);
         /** 后面要放到缓存中 end */
-
-        String material_id = request.getParameter("material_id");
-        if(StringUtils.isNotBlank(material_id)){
-            model.addAttribute("material_id", Long.valueOf(material_id));
-        }else{
-            model.addAttribute("material_id", 13366L);
-        }
-
-        String platform = request.getParameter("platform");
-        if(StringUtils.isNotBlank(platform)){
-            model.addAttribute("platform", platform);
-        }else{
-            model.addAttribute("platform", 2);
-        }
 
         return thymeleaf("/index_local");
     }
@@ -1110,18 +1105,95 @@ public class GoodsController extends BaseController {
      * 加载数据库商品, ajax请求
      * @param pageNum 第几页
      * @param pageSize 每页多少条
-     * @param shopGoods 查询条件
      * @return
      */
     @RequestMapping(value = "/loadLocalGoods", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> loadLocalGoods(Integer pageNum, Integer pageSize, ShopGoods shopGoods) {
+    public Map<String, Object> loadLocalGoods(Integer pageNum, Integer pageSize, Integer type, String field, String sort, String des, String title) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("success", false);
 
         ShopGoodsExample example = new ShopGoodsExample();
         ShopGoodsExample.Criteria criteria = example.createCriteria();
-        criteria.andMaterialIdEqualTo(shopGoods.getMaterialId());
+        if(StringUtils.isNotBlank(title)){
+            criteria.andTitleLike(title);
+        }
+        if(StringUtils.isNotBlank(field)){
+            if(field.equals("hqzb")){
+                if(type == null || type == 1){
+                    criteria.andHqzbTypeGreaterThan(0);
+                }else{
+                    criteria.andHqzbTypeEqualTo(type);
+                }
+            }else if(field.equals("deq")){
+                if(type == null || type == 1){
+                    criteria.andDeqTypeGreaterThan(0);
+                }else{
+                    criteria.andDeqTypeEqualTo(type);
+                }
+            }else if(field.equals("gyb")){
+                if(type == null || type == 1){
+                    criteria.andGybTypeGreaterThan(0);
+                }else{
+                    criteria.andGybTypeEqualTo(type);
+                }
+            }else if(field.equals("ppq")){
+                if(type == null || type == 1){
+                    criteria.andPpqTypeGreaterThan(0);
+                }else{
+                    criteria.andPpqTypeEqualTo(type);
+                }
+            }else if(field.equals("myzt")){
+                if(type == null || type == 1){
+                    criteria.andMyztTypeGreaterThan(0);
+                }else{
+                    criteria.andMyztTypeEqualTo(type);
+                }
+            }else if(field.equals("jhs")){
+                if(type == null || type == 1){
+                    criteria.andJhsTypeGreaterThan(0);
+                }else{
+                    criteria.andJhsTypeEqualTo(type);
+                }
+            }else if(field.equals("yhh")){
+                if(type == null || type == 1){
+                    criteria.andYhhTypeGreaterThan(0);
+                }else{
+                    criteria.andYhhTypeEqualTo(type);
+                }
+            }else if(field.equals("clf")){
+                if(type == null || type == 1){
+                    criteria.andClfTypeGreaterThan(0);
+                }else{
+                    criteria.andClfTypeEqualTo(type);
+                }
+            }else if(field.equals("th")){
+                if(type == null || type == 1){
+                    criteria.andThTypeGreaterThan(0);
+                }else{
+                    criteria.andThTypeEqualTo(type);
+                }
+            }
+        }
+        if(StringUtils.isNotBlank(sort)){
+            String order = "";
+            if(sort.equals("volume")){
+                order = "volume ";
+            }else if(sort.equals("price")){
+                order = "zk_final_price ";
+            }else{
+                order = "modify_date ";
+            }
+            if(StringUtils.isNotBlank(des) && des.equals("asc")){
+                order += "asc";
+            }else{
+                order += "desc";
+            }
+            example.setOrderByClause(order);
+        }else{
+            example.setOrderByClause("modify_date asc");
+        }
+
         List<ShopGoods> goods = shopGoodsService.selectByExampleForStartPage(example, pageNum, pageSize);
         params.put("data", goods);
         params.put("success", true);
