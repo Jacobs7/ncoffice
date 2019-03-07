@@ -10,13 +10,21 @@ public interface DataxTaskMapper {
 
     int deleteByExample(DataxTaskExample example);
 
+    int deleteByPrimaryKey(Integer id);
+
     int insert(DataxTask record);
 
     int insertSelective(DataxTask record);
 
     List<DataxTask> selectByExample(DataxTaskExample example);
 
+    DataxTask selectByPrimaryKey(Integer id);
+
     int updateByExampleSelective(@Param("record") DataxTask record, @Param("example") DataxTaskExample example);
 
     int updateByExample(@Param("record") DataxTask record, @Param("example") DataxTaskExample example);
+
+    int updateByPrimaryKeySelective(DataxTask record);
+
+    int updateByPrimaryKey(DataxTask record);
 }

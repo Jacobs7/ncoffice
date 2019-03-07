@@ -10,13 +10,21 @@ public interface DataxSourceTypeMapper {
 
     int deleteByExample(DataxSourceTypeExample example);
 
+    int deleteByPrimaryKey(Integer id);
+
     int insert(DataxSourceType record);
 
     int insertSelective(DataxSourceType record);
 
     List<DataxSourceType> selectByExample(DataxSourceTypeExample example);
 
+    DataxSourceType selectByPrimaryKey(Integer id);
+
     int updateByExampleSelective(@Param("record") DataxSourceType record, @Param("example") DataxSourceTypeExample example);
 
     int updateByExample(@Param("record") DataxSourceType record, @Param("example") DataxSourceTypeExample example);
+
+    int updateByPrimaryKeySelective(DataxSourceType record);
+
+    int updateByPrimaryKey(DataxSourceType record);
 }
