@@ -492,7 +492,7 @@ function loadLocalGoodsForMain(){
                 var newIcon = '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">';
 
                 $('#goodsUL').append('<li>' +
-                      '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.itemId+','+platform+','+$this.commissionRate+','+$this.couponAmount+',\'https:'+$this.couponShareUrl+'\',\'https:'+$this.clickUrl+'\',\''+$this.itemDescription+'\')">' +
+                      '<a href="/goods/localGoodsDetail?itemId='+$this.itemId+'&platform='+platform+'">' +
                         newIcon +
                         '<span class="quanFlag"><div><b>'+$this.couponAmount+'</b></div><div style="white-space:nowrap;color:#fff;">元券</div></span>' +
                         '<div class="proimg">' +
@@ -706,7 +706,7 @@ function loadInfo(){
       $('#quanFlag').append('<b>￥'+coupon_amount+'</b>');
       userType = item['user_type'];
       if(userType == 0){// 淘宝图标
-        $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
+        $('#itemTitle').append('<i class="icon18-zz icon-taobao-18"></i>');
       }else if(userType == 1){// 天猫图标
         $('#itemTitle').append('<i class="icon18-zz icon-tianmao-18"></i>');
       }
@@ -828,8 +828,32 @@ function haibao() {
         }else{
             createHaiBao();
         }
-
   }
+}
+// 数据库商品生成海报
+function localHaibao() {
+    var url = coupon_share_url;
+    if(url == ''){
+      url = click_url;
+    }
+    if(tkl == ''){
+        $.post('/goods/goodsTPwd',{url:url,text:title},function(data){
+            $.hideLoading();
+            if(data.success){
+                tkl = data.model;
+                tklTxt = txt+tkl+'复制这条信息，打开手机淘宝即可领券';
+                createHaiBao();
+            }else{
+                if(data.msg){
+                    toast(data.msg);
+                }else{
+                    toast('生成海报失败');
+                }
+            }
+        });
+    }else{
+        createHaiBao();
+    }
 }
 function createHaiBao(){
     var dialogId = 'haibao';
@@ -888,12 +912,7 @@ function toNewUrl(obj, url){
     $(obj).addClass('menuOn');
     window.location.href = url;
 }
-function toLocalNewUrl(obj, url){
-    $('#top-menu-box').find('.menuOn').removeClass('menuOn');
-    $(obj).addClass('menuOn');
-    window.location.href = url;
-}
-function toModulePage(id,url,platform){
+function toModulePage(id,url){
     if(id == 8){
         showKeFu(url);
     }else{

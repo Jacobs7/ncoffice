@@ -23,7 +23,7 @@
       <!--图标分类-->
       <div class="weui-panel index-module">
         <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
-          <a href="javascript:;" th:onclick="'toModulePage('+${module.id} + ',\''+${module.url} + '\',2)'" class="wy-links-iconlist">
+          <a href="javascript:;" th:onclick="'toModulePage('+${module.id} + ',\'/goods/localCoupon?i='+${module.id}+'&t=1&p='+${platform}+'\')'" class="wy-links-iconlist">
             <div class="img">
               <!--<img th:src="${uiPath + appName} + ${module.icon}" />-->
               <i th:classappend="${module.icon}" class="icon36-zz"></i>
@@ -62,7 +62,7 @@
 
 <!-- 菜单 -->
 <div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()">
-  <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toLocalNewUrl(this,\'/goods/localGoods?sId='+${menu.id}+'&type='+${menu.localType}+'\')'" th:classappend="${sId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;" th:text="${menu.name}"></a>
+  <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toNewUrl(this,\'/goods/localGoods?sId='+${menu.id}+'&type='+${menu.localType}+'\')'" th:classappend="${sId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;" th:text="${menu.name}"></a>
 </div>
 <div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="hideMenuPopup()"></div>
 
@@ -73,7 +73,7 @@
 
 <!-- 底部导航 -->
 <div class="weui-tabbar wy-foot-menu">
-  <a href="/" class="weui-tabbar__item on">
+  <a href="/goods/localGoods" class="weui-tabbar__item on">
     <i class="icon18-zz icon-quan-18-2"></i>
     <p class="weui-tabbar__label">活动券</p>
   </a>
@@ -106,6 +106,7 @@
     var sort = '';
     var des = '';
     var title = '';
+    var platform = [[${platform}]];
 
     $(function() {
         FastClick.attach(document.body);
