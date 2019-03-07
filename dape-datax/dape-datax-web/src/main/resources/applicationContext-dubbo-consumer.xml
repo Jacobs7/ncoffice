@@ -7,17 +7,21 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
 
-    <dubbo:application name="dape-datax-server"/>
+    <dubbo:application name="dape-datax-web"/>
 
-    <dubbo:registry file="./dape-datax-server-dubbo.cache" address="zookeeper://zkserver:2181"/>
+    <dubbo:registry file="./dape-datax-web-dubbo.cache" address="zookeeper://zkserver:2181"/>
 
     <!-- 订阅服务 -->
     <dubbo:consumer check="false"/>
 
-    <!-- 系统 -->
-    <dubbo:reference id="dataxTaskService" interface="com.dape.datax.rpc.api.DataxTaskService" mock="true"/>
-    <!-- 组织 -->
+    <!-- 文章 -->
     <dubbo:reference id="dataxSourceTypeService" interface="com.dape.datax.rpc.api.DataxSourceTypeService" mock="true"/>
+    <!-- 类目 -->
+    <dubbo:reference id="dataxTaskService" interface="com.dape.datax.rpc.api.DataxTaskService" mock="true"/>
+    <!-- 评论 -->
+
+    <!-- 接口服务 -->
+    <dubbo:reference id="upmsApiService" interface="com.dape.upms.rpc.api.UpmsApiService" mock="true"/>
 
 
 </beans>

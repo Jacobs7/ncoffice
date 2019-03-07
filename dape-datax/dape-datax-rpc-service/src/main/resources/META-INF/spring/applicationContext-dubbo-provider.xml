@@ -23,6 +23,9 @@
     <bean id="dataxSourceTypeService" class="com.dape.datax.rpc.service.impl.DataxSourceTypeServiceImpl"/>
     <dubbo:service interface="com.dape.datax.rpc.api.DataxSourceTypeService" ref="dataxSourceTypeService" timeout="10000"/>
 
+    <bean id="dataxApplySourceServiceImpl" class="com.dape.datax.rpc.service.impl.DataxApplySourceServiceImpl"/>
+    <dubbo:service interface="com.dape.datax.rpc.api.DataxApplySourceService" ref="dataxApplySourceServiceImpl" timeout="10000"/>
+
 
 
 

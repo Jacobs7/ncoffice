@@ -18,9 +18,9 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="dadtax:dataxSource:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增类目</a></shiro:hasPermission>
-		<shiro:hasPermission name="dadtax:dataxSource:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑类目</a></shiro:hasPermission>
-		<shiro:hasPermission name="dadtax:dataxSource:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除类目</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:sourceType:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增类目</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:sourceType:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑类目</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:sourceType:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除类目</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -30,7 +30,7 @@ var $table = $('#table');
 $(function() {
 	// bootstrap table初始化
 	$table.bootstrapTable({
-		url: '${basePath}/manage/dataSource/list',
+		url: '${basePath}/manage/dataSourceType/list',
 		height: getHeight(),
 		striped: true,
 		search: true,
@@ -51,10 +51,10 @@ $(function() {
 		maintainSelected: true,
 		toolbar: '#toolbar',
 		columns: [
-			{field: 'ck', checkbox: true},
+			{field: 'id', checkbox: true},
 			{field: 'id', title: '编号', sortable: true, align: 'center'},
-			{field: 'str', title: '上级编号'},
-			{field: 'tname', title: '图标', sortable: true, align: 'center', formatter: 'iconFormatter'},
+			{field: 'driverStr', title: '连接'},
+			{field: 'driverName', title: '图标', sortable: true, align: 'center', formatter: 'iconFormatter'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});

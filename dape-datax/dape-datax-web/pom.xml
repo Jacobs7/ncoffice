@@ -82,7 +82,7 @@
     </profiles>
 
     <build>
-        <finalName>dape-datax-server</finalName>
+        <finalName>dape-datax-web</finalName>
         <filters>
             <filter>src/main/resources/profiles/${env}.properties</filter>
         </filters>

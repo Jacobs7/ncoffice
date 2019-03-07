@@ -2,20 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dape.datax.dao.mapper.DataxTaskMapper">
   <resultMap id="BaseResultMap" type="com.dape.datax.dao.model.DataxTask">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tname" jdbcType="VARCHAR" property="tname" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="from_data_url" jdbcType="VARCHAR" property="fromDataUrl" />
-    <result column="to_data_url" jdbcType="VARCHAR" property="toDataUrl" />
-    <result column="from_type_id" jdbcType="INTEGER" property="fromTypeId" />
-    <result column="to_type_id" jdbcType="INTEGER" property="toTypeId" />
-    <result column="from_username" jdbcType="VARCHAR" property="fromUsername" />
-    <result column="to_username" jdbcType="VARCHAR" property="toUsername" />
-    <result column="from_pwd" jdbcType="VARCHAR" property="fromPwd" />
-    <result column="to_pwd" jdbcType="VARCHAR" property="toPwd" />
-    <result column="from_prot" jdbcType="VARCHAR" property="fromProt" />
-    <result column="to_port" jdbcType="VARCHAR" property="toPort" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="task_file_name" jdbcType="VARCHAR" property="taskFileName" />
+    <result column="tfrequency" jdbcType="VARCHAR" property="tfrequency" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,8 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_user, create_time, from_data_url, to_data_url, from_type_id, to_type_id, 
-    from_username, to_username, from_pwd, to_pwd, from_prot, to_port
+    id, tname, create_user, create_time, task_file_name, tfrequency, file_path
   </sql>
   <select id="selectByExample" parameterType="com.dape.datax.dao.model.DataxTaskExample" resultMap="BaseResultMap">
     select
@@ -93,6 +85,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from datax_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from datax_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.dape.datax.dao.model.DataxTaskExample">
     delete from datax_task
     <if test="_parameter != null">
@@ -100,16 +102,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dape.datax.dao.model.DataxTask">
-    insert into datax_task (id, name, create_user, 
-      create_time, from_data_url, to_data_url, 
-      from_type_id, to_type_id, from_username, 
-      to_username, from_pwd, to_pwd, 
-      from_prot, to_port)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{fromDataUrl,jdbcType=VARCHAR}, #{toDataUrl,jdbcType=VARCHAR}, 
-      #{fromTypeId,jdbcType=INTEGER}, #{toTypeId,jdbcType=INTEGER}, #{fromUsername,jdbcType=VARCHAR}, 
-      #{toUsername,jdbcType=VARCHAR}, #{fromPwd,jdbcType=VARCHAR}, #{toPwd,jdbcType=VARCHAR}, 
-      #{fromProt,jdbcType=VARCHAR}, #{toPort,jdbcType=VARCHAR})
+    insert into datax_task (id, tname, create_user, 
+      create_time, task_file_name, tfrequency, 
+      file_path)
+    values (#{id,jdbcType=INTEGER}, #{tname,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{taskFileName,jdbcType=VARCHAR}, #{tfrequency,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.datax.dao.model.DataxTask">
     insert into datax_task
@@ -117,8 +115,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="tname != null">
+        tname,
       </if>
       <if test="createUser != null">
         create_user,
@@ -126,79 +124,37 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="fromDataUrl != null">
-        from_data_url,
+      <if test="taskFileName != null">
+        task_file_name,
       </if>
-      <if test="toDataUrl != null">
-        to_data_url,
+      <if test="tfrequency != null">
+        tfrequency,
       </if>
-      <if test="fromTypeId != null">
-        from_type_id,
-      </if>
-      <if test="toTypeId != null">
-        to_type_id,
-      </if>
-      <if test="fromUsername != null">
-        from_username,
-      </if>
-      <if test="toUsername != null">
-        to_username,
-      </if>
-      <if test="fromPwd != null">
-        from_pwd,
-      </if>
-      <if test="toPwd != null">
-        to_pwd,
-      </if>
-      <if test="fromProt != null">
-        from_prot,
-      </if>
-      <if test="toPort != null">
-        to_port,
+      <if test="filePath != null">
+        file_path,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="tname != null">
+        #{tname,jdbcType=VARCHAR},
       </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="fromDataUrl != null">
-        #{fromDataUrl,jdbcType=VARCHAR},
+      <if test="taskFileName != null">
+        #{taskFileName,jdbcType=VARCHAR},
       </if>
-      <if test="toDataUrl != null">
-        #{toDataUrl,jdbcType=VARCHAR},
+      <if test="tfrequency != null">
+        #{tfrequency,jdbcType=VARCHAR},
       </if>
-      <if test="fromTypeId != null">
-        #{fromTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="toTypeId != null">
-        #{toTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="fromUsername != null">
-        #{fromUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="toUsername != null">
-        #{toUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="fromPwd != null">
-        #{fromPwd,jdbcType=VARCHAR},
-      </if>
-      <if test="toPwd != null">
-        #{toPwd,jdbcType=VARCHAR},
-      </if>
-      <if test="fromProt != null">
-        #{fromProt,jdbcType=VARCHAR},
-      </if>
-      <if test="toPort != null">
-        #{toPort,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -214,44 +170,23 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.tname != null">
+        tname = #{record.tname,jdbcType=VARCHAR},
       </if>
       <if test="record.createUser != null">
         create_user = #{record.createUser,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        create_time = #{record.createTime,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromDataUrl != null">
-        from_data_url = #{record.fromDataUrl,jdbcType=VARCHAR},
+      <if test="record.taskFileName != null">
+        task_file_name = #{record.taskFileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.toDataUrl != null">
-        to_data_url = #{record.toDataUrl,jdbcType=VARCHAR},
+      <if test="record.tfrequency != null">
+        tfrequency = #{record.tfrequency,jdbcType=VARCHAR},
       </if>
-      <if test="record.fromTypeId != null">
-        from_type_id = #{record.fromTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.toTypeId != null">
-        to_type_id = #{record.toTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.fromUsername != null">
-        from_username = #{record.fromUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="record.toUsername != null">
-        to_username = #{record.toUsername,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fromPwd != null">
-        from_pwd = #{record.fromPwd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.toPwd != null">
-        to_pwd = #{record.toPwd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fromProt != null">
-        from_prot = #{record.fromProt,jdbcType=VARCHAR},
-      </if>
-      <if test="record.toPort != null">
-        to_port = #{record.toPort,jdbcType=VARCHAR},
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -261,22 +196,49 @@
   <update id="updateByExample" parameterType="map">
     update datax_task
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      tname = #{record.tname,jdbcType=VARCHAR},
       create_user = #{record.createUser,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      from_data_url = #{record.fromDataUrl,jdbcType=VARCHAR},
-      to_data_url = #{record.toDataUrl,jdbcType=VARCHAR},
-      from_type_id = #{record.fromTypeId,jdbcType=INTEGER},
-      to_type_id = #{record.toTypeId,jdbcType=INTEGER},
-      from_username = #{record.fromUsername,jdbcType=VARCHAR},
-      to_username = #{record.toUsername,jdbcType=VARCHAR},
-      from_pwd = #{record.fromPwd,jdbcType=VARCHAR},
-      to_pwd = #{record.toPwd,jdbcType=VARCHAR},
-      from_prot = #{record.fromProt,jdbcType=VARCHAR},
-      to_port = #{record.toPort,jdbcType=VARCHAR}
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      task_file_name = #{record.taskFileName,jdbcType=VARCHAR},
+      tfrequency = #{record.tfrequency,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.datax.dao.model.DataxTask">
+    update datax_task
+    <set>
+      <if test="tname != null">
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="taskFileName != null">
+        task_file_name = #{taskFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="tfrequency != null">
+        tfrequency = #{tfrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dape.datax.dao.model.DataxTask">
+    update datax_task
+    set tname = #{tname,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      task_file_name = #{taskFileName,jdbcType=VARCHAR},
+      tfrequency = #{tfrequency,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

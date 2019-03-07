@@ -9,6 +9,8 @@ import com.dape.datax.dao.model.DataxSourceTypeExample;
 * 降级实现DataxSourceTypeService接口
 * Created by dape on 2019/3/3.
 */
-public class DataxSourceTypeServiceMock extends BaseServiceMock<DataxSourceTypeMapper, DataxSourceType, DataxSourceTypeExample> implements DataxSourceTypeService {
+public class DataxSourceTypeServiceMock extends BaseServiceMock<
+
+        DataxSourceTypeMapper, DataxSourceType, DataxSourceTypeExample> implements DataxSourceTypeService {
 
 }

@@ -12,7 +12,7 @@
         <persistence strategy="localTempSwap"/>
     </defaultCache>
     <cache
-            name="dape-upms-server-ehcache"
+            name="dape-datax-web-ehcache"
             eternal="false"
             timeToIdleSeconds="120"
             timeToLiveSeconds="300"
