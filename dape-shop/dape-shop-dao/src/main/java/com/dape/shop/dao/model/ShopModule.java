@@ -18,6 +18,13 @@ public class ShopModule implements Serializable {
     private String name;
 
     /**
+     * 拼音缩写
+     *
+     * @mbg.generated
+     */
+    private String pyShort;
+
+    /**
      * 版块链接
      *
      * @mbg.generated
@@ -93,6 +100,14 @@ public class ShopModule implements Serializable {
         this.name = name;
     }
 
+    public String getPyShort() {
+        return pyShort;
+    }
+
+    public void setPyShort(String pyShort) {
+        this.pyShort = pyShort;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -151,6 +166,7 @@ public class ShopModule implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", name=").append(name);
+        sb.append(", pyShort=").append(pyShort);
         sb.append(", url=").append(url);
         sb.append(", icon=").append(icon);
         sb.append(", img=").append(img);
@@ -177,6 +193,7 @@ public class ShopModule implements Serializable {
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
             && (this.getIsEnabled() == null ? other.getIsEnabled() == null : this.getIsEnabled().equals(other.getIsEnabled()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getPyShort() == null ? other.getPyShort() == null : this.getPyShort().equals(other.getPyShort()))
             && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()))
             && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
             && (this.getImg() == null ? other.getImg() == null : this.getImg().equals(other.getImg()))
@@ -193,6 +210,7 @@ public class ShopModule implements Serializable {
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getIsEnabled() == null) ? 0 : getIsEnabled().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getPyShort() == null) ? 0 : getPyShort().hashCode());
         result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
         result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());
         result = prime * result + ((getImg() == null) ? 0 : getImg().hashCode());

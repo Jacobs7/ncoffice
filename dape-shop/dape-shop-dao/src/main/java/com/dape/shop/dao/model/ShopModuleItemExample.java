@@ -488,6 +488,66 @@ public class ShopModuleItemExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andLocalTypeIsNull() {
+            addCriterion("local_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeIsNotNull() {
+            addCriterion("local_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeEqualTo(Integer value) {
+            addCriterion("local_type =", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeNotEqualTo(Integer value) {
+            addCriterion("local_type <>", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeGreaterThan(Integer value) {
+            addCriterion("local_type >", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("local_type >=", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeLessThan(Integer value) {
+            addCriterion("local_type <", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("local_type <=", value, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeIn(List<Integer> values) {
+            addCriterion("local_type in", values, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeNotIn(List<Integer> values) {
+            addCriterion("local_type not in", values, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeBetween(Integer value1, Integer value2) {
+            addCriterion("local_type between", value1, value2, "localType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocalTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("local_type not between", value1, value2, "localType");
+            return (Criteria) this;
+        }
+
         public Criteria andIconIsNull() {
             addCriterion("icon is null");
             return (Criteria) this;

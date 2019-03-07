@@ -46,6 +46,13 @@ public class ShopMaterialImport implements Serializable {
     private String remark;
 
     /**
+     * 导入频次，1:按天，2:按小时，3:按分
+     *
+     * @mbg.generated
+     */
+    private Integer importRate;
+
+    /**
      * 排序
      *
      * @mbg.generated
@@ -139,6 +146,14 @@ public class ShopMaterialImport implements Serializable {
         this.remark = remark;
     }
 
+    public Integer getImportRate() {
+        return importRate;
+    }
+
+    public void setImportRate(Integer importRate) {
+        this.importRate = importRate;
+    }
+
     public Integer getSort() {
         return sort;
     }
@@ -185,6 +200,7 @@ public class ShopMaterialImport implements Serializable {
         sb.append(", materialId=").append(materialId);
         sb.append(", filterCat=").append(filterCat);
         sb.append(", remark=").append(remark);
+        sb.append(", importRate=").append(importRate);
         sb.append(", sort=").append(sort);
         sb.append(", fieldName=").append(fieldName);
         sb.append(", lastImportDate=").append(lastImportDate);
@@ -213,6 +229,7 @@ public class ShopMaterialImport implements Serializable {
             && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()))
             && (this.getFilterCat() == null ? other.getFilterCat() == null : this.getFilterCat().equals(other.getFilterCat()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
+            && (this.getImportRate() == null ? other.getImportRate() == null : this.getImportRate().equals(other.getImportRate()))
             && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()))
             && (this.getFieldName() == null ? other.getFieldName() == null : this.getFieldName().equals(other.getFieldName()))
             && (this.getLastImportDate() == null ? other.getLastImportDate() == null : this.getLastImportDate().equals(other.getLastImportDate()))
@@ -231,6 +248,7 @@ public class ShopMaterialImport implements Serializable {
         result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
         result = prime * result + ((getFilterCat() == null) ? 0 : getFilterCat().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
+        result = prime * result + ((getImportRate() == null) ? 0 : getImportRate().hashCode());
         result = prime * result + ((getSort() == null) ? 0 : getSort().hashCode());
         result = prime * result + ((getFieldName() == null) ? 0 : getFieldName().hashCode());
         result = prime * result + ((getLastImportDate() == null) ? 0 : getLastImportDate().hashCode());

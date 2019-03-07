@@ -18,9 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.DateUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,13 +47,15 @@ public class ShopMaterialImportServiceImpl extends BaseServiceImpl<ShopMaterialI
     ShopGoodsMapper shopGoodsMapper;
 
     @Override
-    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate) {
+    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate, Integer importRate) {
         int addNum = 0;// 新增条数
         int editNum = 0;// 编辑条数
         int failAddNum = 0;// 新增失败条数
         int failEditNum = 0;// 修改失败条数
         int filterNum = 0;// 过滤条数
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = format.format(new Date());
         Pattern pattern = Pattern.compile("[0-9]*");// 验证数字正则
 
         for(int i = 0; i < mapData.size(); i++){
@@ -196,10 +201,16 @@ public class ShopMaterialImportServiceImpl extends BaseServiceImpl<ShopMaterialI
                     failAddNum++;
                     e.printStackTrace();
                 }
-            }else{// 存在修改
+            }else{// 按天更新，或，按小时更新(1点－5点之间修改)
                 try{
                     List<ShopGoods> goodsList = shopGoodsMapper.selectByExample(sgE);
                     ShopGoods goods = goodsList.get(0);
+
+                    // 如果最后修改时间是当前日期的，不修改
+                    if(nowDate.equals(format.format(goods.getModifyDate()))){
+                        continue;
+                    }
+
                     goods.setModifyDate(new Date());
                     goods.setIsEnabled(true);
                     goods.setTitle(data.getString("title"));//标题

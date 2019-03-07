@@ -8,6 +8,7 @@
     <result column="module_id" jdbcType="BIGINT" property="moduleId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="material_id" jdbcType="VARCHAR" property="materialId" />
+    <result column="local_type" jdbcType="INTEGER" property="localType" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, is_enabled, module_id, name, material_id, icon, remark, sort
+    id, create_date, is_enabled, module_id, name, material_id, local_type, icon, remark, 
+    sort
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopModuleItemExample" resultMap="BaseResultMap">
     select
@@ -106,10 +108,12 @@
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopModuleItem">
     insert into shop_module_item (id, create_date, is_enabled, 
       module_id, name, material_id, 
-      icon, remark, sort)
+      local_type, icon, remark, 
+      sort)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, 
       #{moduleId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, 
-      #{icon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
+      #{localType,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopModuleItem">
     insert into shop_module_item
@@ -131,6 +135,9 @@
       </if>
       <if test="materialId != null">
         material_id,
+      </if>
+      <if test="localType != null">
+        local_type,
       </if>
       <if test="icon != null">
         icon,
@@ -160,6 +167,9 @@
       </if>
       <if test="materialId != null">
         #{materialId,jdbcType=VARCHAR},
+      </if>
+      <if test="localType != null">
+        #{localType,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -199,6 +209,9 @@
       <if test="record.materialId != null">
         material_id = #{record.materialId,jdbcType=VARCHAR},
       </if>
+      <if test="record.localType != null">
+        local_type = #{record.localType,jdbcType=INTEGER},
+      </if>
       <if test="record.icon != null">
         icon = #{record.icon,jdbcType=VARCHAR},
       </if>
@@ -221,6 +234,7 @@
       module_id = #{record.moduleId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       material_id = #{record.materialId,jdbcType=VARCHAR},
+      local_type = #{record.localType,jdbcType=INTEGER},
       icon = #{record.icon,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER}
@@ -246,6 +260,9 @@
       <if test="materialId != null">
         material_id = #{materialId,jdbcType=VARCHAR},
       </if>
+      <if test="localType != null">
+        local_type = #{localType,jdbcType=INTEGER},
+      </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
@@ -265,6 +282,7 @@
       module_id = #{moduleId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       material_id = #{materialId,jdbcType=VARCHAR},
+      local_type = #{localType,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER}

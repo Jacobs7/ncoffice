@@ -18,5 +18,5 @@ public interface ShopMaterialImportService extends BaseService<ShopMaterialImpor
      * @param shopMaterialImport
      * @return
      */
-    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate);
+    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate, Integer importRate);
 }
