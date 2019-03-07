@@ -5,9 +5,19 @@ import java.io.Serializable;
 public class DataxSourceType implements Serializable {
     private Integer id;
 
-    private String tname;
+    /**
+     * 源对应连接字符串
+     *
+     * @mbg.generated
+     */
+    private String driverStr;
 
-    private String str;
+    /**
+     * 源名称
+     *
+     * @mbg.generated
+     */
+    private String driverName;
 
     private static final long serialVersionUID = 1L;
 
@@ -19,20 +29,20 @@ public class DataxSourceType implements Serializable {
         this.id = id;
     }
 
-    public String getTname() {
-        return tname;
+    public String getDriverStr() {
+        return driverStr;
     }
 
-    public void setTname(String tname) {
-        this.tname = tname;
+    public void setDriverStr(String driverStr) {
+        this.driverStr = driverStr;
     }
 
-    public String getStr() {
-        return str;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setStr(String str) {
-        this.str = str;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
     @Override
@@ -42,8 +52,8 @@ public class DataxSourceType implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", tname=").append(tname);
-        sb.append(", str=").append(str);
+        sb.append(", driverStr=").append(driverStr);
+        sb.append(", driverName=").append(driverName);
         sb.append("]");
         return sb.toString();
     }
@@ -61,8 +71,8 @@ public class DataxSourceType implements Serializable {
         }
         DataxSourceType other = (DataxSourceType) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTname() == null ? other.getTname() == null : this.getTname().equals(other.getTname()))
-            && (this.getStr() == null ? other.getStr() == null : this.getStr().equals(other.getStr()));
+            && (this.getDriverStr() == null ? other.getDriverStr() == null : this.getDriverStr().equals(other.getDriverStr()))
+            && (this.getDriverName() == null ? other.getDriverName() == null : this.getDriverName().equals(other.getDriverName()));
     }
 
     @Override
@@ -70,8 +80,8 @@ public class DataxSourceType implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTname() == null) ? 0 : getTname().hashCode());
-        result = prime * result + ((getStr() == null) ? 0 : getStr().hashCode());
+        result = prime * result + ((getDriverStr() == null) ? 0 : getDriverStr().hashCode());
+        result = prime * result + ((getDriverName() == null) ? 0 : getDriverName().hashCode());
         return result;
     }
 }
