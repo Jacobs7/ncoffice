@@ -40,12 +40,9 @@
         </dependency>
         <!-- tbschedule -->
         <dependency>
-            <groupId>com.taobao.pamirs.schedule</groupId>
-            <artifactId>tbschedule</artifactId>
-            <version>3.2.8-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/tbschedule-3.2.8-SNAPSHOT.jar
-            </systemPath>
+            <groupId>com.dape</groupId>
+            <artifactId>dape-shop-common</artifactId>
+
         </dependency>
         <!-- rocketmq -->
         <dependency>
@@ -53,6 +50,8 @@
             <artifactId>rocketmq-client</artifactId>
             <version>3.6.2.Final</version>
         </dependency>
+
+
     </dependencies>
 
     <profiles>

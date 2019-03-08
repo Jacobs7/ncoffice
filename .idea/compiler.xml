@@ -20,6 +20,11 @@
         <module name="dape-cms-search" />
         <module name="dape-cms-web" />
         <module name="dape-common" />
+        <module name="dape-datax-common" />
+        <module name="dape-datax-dao" />
+        <module name="dape-datax-rpc-api" />
+        <module name="dape-datax-rpc-service" />
+        <module name="dape-datax-web" />
         <module name="dape-lte" />
         <module name="dape-pay-admin" />
         <module name="dape-pay-common" />

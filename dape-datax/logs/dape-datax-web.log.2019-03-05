@@ -1,0 +1,449 @@
+2019-03-05 23:16:45 [ INFO ] [ ?.java :?(?)]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2019-03-05 23:16:56 [ WARN ] [ AbstractApplicationContext.java :550(refresh)]  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'securityManager' while setting bean property 'securityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2019-03-05 23:16:56 [ ERROR ] [ DefaultSingletonBeanRegistry.java :581(destroyBean)]  Destroy method on bean with name 'org.springframework.context.annotation.internalScheduledAnnotationProcessor' threw an exception
+java.lang.IllegalStateException: ApplicationEventMulticaster not initialized - call 'refresh' before multicasting events via the context: Root WebApplicationContext: startup date [Tue Mar 05 23:16:45 CST 2019]; root of context hierarchy
+	at org.springframework.context.support.AbstractApplicationContext.getApplicationEventMulticaster(AbstractApplicationContext.java:404)
+	at org.springframework.context.support.ApplicationListenerDetector.postProcessBeforeDestruction(ApplicationListenerDetector.java:97)
+	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:253)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:578)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:554)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingleton(DefaultListableBeanFactory.java:961)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingletons(DefaultSingletonBeanRegistry.java:523)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingletons(DefaultListableBeanFactory.java:968)
+	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1033)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:555)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.eclipse.jetty.server.handler.ContextHandler.callContextInitialized(ContextHandler.java:800)
+	at org.eclipse.jetty.servlet.ServletContextHandler.callContextInitialized(ServletContextHandler.java:444)
+	at org.eclipse.jetty.server.handler.ContextHandler.startContext(ContextHandler.java:791)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:294)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1349)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:296)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1342)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:741)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:505)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:365)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.handler.ContextHandlerCollection.doStart(ContextHandlerCollection.java:163)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.server.Server.start(Server.java:387)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.Server.doStart(Server.java:354)
+	at org.eclipse.jetty.maven.plugin.JettyServer.doStart(JettyServer.java:73)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.startJetty(AbstractJettyMojo.java:534)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.execute(AbstractJettyMojo.java:357)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.execute(JettyRunMojo.java:167)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:207)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:863)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:288)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+	at org.codehaus.classworlds.Launcher.main(Launcher.java:47)
+2019-03-05 23:16:56 [ ERROR ] [ ContextLoader.java :350(initWebApplicationContext)]  Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'securityManager' while setting bean property 'securityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:359)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:108)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1531)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:235)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:702)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:527)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.eclipse.jetty.server.handler.ContextHandler.callContextInitialized(ContextHandler.java:800)
+	at org.eclipse.jetty.servlet.ServletContextHandler.callContextInitialized(ServletContextHandler.java:444)
+	at org.eclipse.jetty.server.handler.ContextHandler.startContext(ContextHandler.java:791)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:294)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1349)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:296)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1342)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:741)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:505)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:365)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.handler.ContextHandlerCollection.doStart(ContextHandlerCollection.java:163)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.server.Server.start(Server.java:387)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.Server.doStart(Server.java:354)
+	at org.eclipse.jetty.maven.plugin.JettyServer.doStart(JettyServer.java:73)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.startJetty(AbstractJettyMojo.java:534)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.execute(AbstractJettyMojo.java:357)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.execute(JettyRunMojo.java:167)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:207)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:863)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:288)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+	at org.codehaus.classworlds.Launcher.main(Launcher.java:47)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:359)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:108)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveManagedList(BeanDefinitionValueResolver.java:382)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:157)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1531)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:351)
+	... 68 more
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:351)
+	... 80 more
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1486)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 90 more
+2019-03-05 23:19:11 [ INFO ] [ ?.java :?(?)]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2019-03-05 23:19:21 [ WARN ] [ AbstractApplicationContext.java :550(refresh)]  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'securityManager' while setting bean property 'securityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2019-03-05 23:19:21 [ ERROR ] [ DefaultSingletonBeanRegistry.java :581(destroyBean)]  Destroy method on bean with name 'org.springframework.context.annotation.internalScheduledAnnotationProcessor' threw an exception
+java.lang.IllegalStateException: ApplicationEventMulticaster not initialized - call 'refresh' before multicasting events via the context: Root WebApplicationContext: startup date [Tue Mar 05 23:19:11 CST 2019]; root of context hierarchy
+	at org.springframework.context.support.AbstractApplicationContext.getApplicationEventMulticaster(AbstractApplicationContext.java:404)
+	at org.springframework.context.support.ApplicationListenerDetector.postProcessBeforeDestruction(ApplicationListenerDetector.java:97)
+	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:253)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:578)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:554)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingleton(DefaultListableBeanFactory.java:961)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingletons(DefaultSingletonBeanRegistry.java:523)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingletons(DefaultListableBeanFactory.java:968)
+	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1033)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:555)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.eclipse.jetty.server.handler.ContextHandler.callContextInitialized(ContextHandler.java:800)
+	at org.eclipse.jetty.servlet.ServletContextHandler.callContextInitialized(ServletContextHandler.java:444)
+	at org.eclipse.jetty.server.handler.ContextHandler.startContext(ContextHandler.java:791)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:294)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1349)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:296)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1342)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:741)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:505)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:365)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.handler.ContextHandlerCollection.doStart(ContextHandlerCollection.java:163)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.server.Server.start(Server.java:387)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.Server.doStart(Server.java:354)
+	at org.eclipse.jetty.maven.plugin.JettyServer.doStart(JettyServer.java:73)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.startJetty(AbstractJettyMojo.java:534)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.execute(AbstractJettyMojo.java:357)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.execute(JettyRunMojo.java:167)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:207)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:863)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:288)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+	at org.codehaus.classworlds.Launcher.main(Launcher.java:47)
+2019-03-05 23:19:21 [ ERROR ] [ ContextLoader.java :350(initWebApplicationContext)]  Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'shiroFilter' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'securityManager' while setting bean property 'securityManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:359)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:108)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1531)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:235)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:702)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:527)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:443)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:325)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:107)
+	at org.eclipse.jetty.server.handler.ContextHandler.callContextInitialized(ContextHandler.java:800)
+	at org.eclipse.jetty.servlet.ServletContextHandler.callContextInitialized(ServletContextHandler.java:444)
+	at org.eclipse.jetty.server.handler.ContextHandler.startContext(ContextHandler.java:791)
+	at org.eclipse.jetty.servlet.ServletContextHandler.startContext(ServletContextHandler.java:294)
+	at org.eclipse.jetty.webapp.WebAppContext.startWebapp(WebAppContext.java:1349)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.startWebapp(JettyWebAppContext.java:296)
+	at org.eclipse.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1342)
+	at org.eclipse.jetty.server.handler.ContextHandler.doStart(ContextHandler.java:741)
+	at org.eclipse.jetty.webapp.WebAppContext.doStart(WebAppContext.java:505)
+	at org.eclipse.jetty.maven.plugin.JettyWebAppContext.doStart(JettyWebAppContext.java:365)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.handler.ContextHandlerCollection.doStart(ContextHandlerCollection.java:163)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.start(ContainerLifeCycle.java:132)
+	at org.eclipse.jetty.server.Server.start(Server.java:387)
+	at org.eclipse.jetty.util.component.ContainerLifeCycle.doStart(ContainerLifeCycle.java:114)
+	at org.eclipse.jetty.server.handler.AbstractHandler.doStart(AbstractHandler.java:61)
+	at org.eclipse.jetty.server.Server.doStart(Server.java:354)
+	at org.eclipse.jetty.maven.plugin.JettyServer.doStart(JettyServer.java:73)
+	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.startJetty(AbstractJettyMojo.java:534)
+	at org.eclipse.jetty.maven.plugin.AbstractJettyMojo.execute(AbstractJettyMojo.java:357)
+	at org.eclipse.jetty.maven.plugin.JettyRunMojo.execute(JettyRunMojo.java:167)
+	at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:134)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:207)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:153)
+	at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:145)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:116)
+	at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:80)
+	at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build(SingleThreadedBuilder.java:51)
+	at org.apache.maven.lifecycle.internal.LifecycleStarter.execute(LifecycleStarter.java:128)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:307)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:193)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:106)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:863)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:288)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:199)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+	at org.codehaus.classworlds.Launcher.main(Launcher.java:47)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'securityManager' defined in URL [jar:file:/D:/Maven/com/dape/dape-upms-client/1.0/dape-upms-client-1.0.jar!/applicationContext-shiro.xml]: Cannot resolve reference to bean 'upmsRealm' while setting bean property 'realms' with key [0]; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:359)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:108)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveManagedList(BeanDefinitionValueResolver.java:382)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:157)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1531)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1276)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:351)
+	... 68 more
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'upmsRealm': Unsatisfied dependency expressed through field 'upmsApiService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:351)
+	... 80 more
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.dape.upms.rpc.api.UpmsApiService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1486)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 90 more
+2019-03-05 23:21:25 [ INFO ] [ ?.java :?(?)]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2019-03-05 23:21:37 [ INFO ] [ ZkEventThread.java :64(run)]  Starting ZkClient event thread.
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:zookeeper.version=3.3.3-1073969, built on 02/23/2011 22:27 GMT
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:host.name=DESKTOP-IQDCDG3
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.version=1.8.0_181
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.vendor=Oracle Corporation
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.home=D:\Program Files\Java\jdk1.8.0_181\jre
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.class.path=D:\Program Files\apache-maven-3.3.9\apache-maven-3.3.9\boot\plexus-classworlds-2.5.2.jar;D:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\lib\idea_rt.jar
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.library.path=D:\Program Files\Java\jdk1.8.0_181\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\MySQL\MySQL Utilities 1.6\;D:\Program Files\TortoiseSVN\bin;D:\Program Files\apache-maven-3.3.9\apache-maven-3.3.9\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;d:\Program Files\Git\cmd;D:\Program Files\nodejs\;D:\Program Files\gradle-4.5.1\bin;C:\Users\DP\AppData\Local\Microsoft\WindowsApps;C:\Users\DP\AppData\Roaming\npm;;.
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.io.tmpdir=C:\Users\DP\AppData\Local\Temp\
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.compiler=<NA>
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.name=Windows 10
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.arch=amd64
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.version=10.0
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.name=DP
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.home=C:\Users\DP
+2019-03-05 23:21:37 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.dir=D:\IntelliWorkSpace\dapeoffice\dape-datax\dape-datax-web
+2019-03-05 23:21:37 [ INFO ] [ ZooKeeper.java :373(<init>)]  Initiating client connection, connectString=zkserver:2181 sessionTimeout=30000 watcher=org.I0Itec.zkclient.ZkClient@3973f4f2
+2019-03-05 23:21:37 [ INFO ] [ ClientCnxn$SendThread.java :1041(startConnect)]  Opening socket connection to server zkserver/127.0.0.1:2181
+2019-03-05 23:21:37 [ INFO ] [ ClientCnxn$SendThread.java :949(primeConnection)]  Socket connection established to zkserver/127.0.0.1:2181, initiating session
+2019-03-05 23:21:37 [ INFO ] [ ClientCnxn$SendThread.java :738(readConnectResult)]  Session establishment complete on server zkserver/127.0.0.1:2181, sessionid = 0x1694bd9fd180019, negotiated timeout = 30000
+2019-03-05 23:21:37 [ INFO ] [ ZkClient.java :449(processStateChanged)]  zookeeper state changed (SyncConnected)
+2019-03-05 23:21:37 [ INFO ] [ AbstractRegistry.java :293(register)]   [DUBBO] Register: consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=consumers&check=false&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:37 [ INFO ] [ AbstractRegistry.java :316(subscribe)]   [DUBBO] Subscribe: consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:37 [ INFO ] [ AbstractRegistry.java :404(notify)]   [DUBBO] Notify urls for subscribe url consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970, urls: [dubbo://192.168.4.112:30881/com.dape.upms.rpc.api.UpmsApiService?anyhost=true&application=dape-upms-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&pid=4544&side=provider&timeout=10000&timestamp=1551796796743, empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=configurators&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970, empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:37 [ INFO ] [ AbstractClient.java :275(connect)]   [DUBBO] Successed connect to server /192.168.4.112:30881 from NettyClient 192.168.4.112 using dubbo version 2.5.6, channel is NettyChannel [channel=[id: 0x02183bca, /192.168.4.112:50086 => /192.168.4.112:30881]], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:37 [ INFO ] [ AbstractClient.java :93(<init>)]   [DUBBO] Start NettyClient DESKTOP-IQDCDG3/192.168.4.112 connect to the server /192.168.4.112:30881, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:37 [ INFO ] [ ReferenceConfig.java :410(createProxy)]   [DUBBO] Refer dubbo service com.dape.upms.rpc.api.UpmsApiService from url zookeeper://zkserver:2181/com.alibaba.dubbo.registry.RegistryService?anyhost=true&application=dape-datax-web&check=false&default.check=false&dubbo=2.5.6&generic=false&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&remote.timestamp=1551796796743&revision=1.0&side=consumer&timeout=10000&timestamp=1551799296970, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:21:39 [ INFO ] [ Version.java :17(<clinit>)]  HV000001: Hibernate Validator 5.2.2.Final
+2019-03-05 23:21:41 [ INFO ] [ DocumentationPluginsBootstrapper.java :84(onApplicationEvent)]  Context refreshed
+2019-03-05 23:21:41 [ INFO ] [ DocumentationPluginsBootstrapper.java :87(onApplicationEvent)]  Found 1 custom documentation plugin(s)
+2019-03-05 23:21:41 [ INFO ] [ ApiListingReferenceScanner.java :44(scan)]  Scanning for api listing references
+2019-03-05 23:22:53 [ INFO ] [ ?.java :?(?)]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2019-03-05 23:23:04 [ INFO ] [ AbstractRegistry.java :223(loadProperties)]   [DUBBO] Load registry store file .\dape-datax-web-dubbo.cache, data: {com.dape.upms.rpc.api.UpmsApiService=empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=configurators&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970 empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=19296&revision=1.0&side=consumer&timestamp=1551799296970 dubbo://192.168.4.112:30881/com.dape.upms.rpc.api.UpmsApiService?anyhost=true&application=dape-upms-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&pid=4544&side=provider&timeout=10000&timestamp=1551796796743}, dubbo version: 2.5.6, current host: 127.0.0.1
+2019-03-05 23:23:04 [ INFO ] [ ZkEventThread.java :64(run)]  Starting ZkClient event thread.
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:zookeeper.version=3.3.3-1073969, built on 02/23/2011 22:27 GMT
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:host.name=DESKTOP-IQDCDG3
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.version=1.8.0_181
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.vendor=Oracle Corporation
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.home=D:\Program Files\Java\jdk1.8.0_181\jre
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.class.path=D:\Program Files\apache-maven-3.3.9\apache-maven-3.3.9\boot\plexus-classworlds-2.5.2.jar;D:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\lib\idea_rt.jar
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.library.path=D:\Program Files\Java\jdk1.8.0_181\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\MySQL\MySQL Utilities 1.6\;D:\Program Files\TortoiseSVN\bin;D:\Program Files\apache-maven-3.3.9\apache-maven-3.3.9\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;d:\Program Files\Git\cmd;D:\Program Files\nodejs\;D:\Program Files\gradle-4.5.1\bin;C:\Users\DP\AppData\Local\Microsoft\WindowsApps;C:\Users\DP\AppData\Roaming\npm;;.
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.io.tmpdir=C:\Users\DP\AppData\Local\Temp\
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:java.compiler=<NA>
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.name=Windows 10
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.arch=amd64
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:os.version=10.0
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.name=DP
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.home=C:\Users\DP
+2019-03-05 23:23:04 [ INFO ] [ Environment.java :97(logEnv)]  Client environment:user.dir=D:\IntelliWorkSpace\dapeoffice\dape-datax\dape-datax-web
+2019-03-05 23:23:04 [ INFO ] [ ZooKeeper.java :373(<init>)]  Initiating client connection, connectString=zkserver:2181 sessionTimeout=30000 watcher=org.I0Itec.zkclient.ZkClient@20c9e41f
+2019-03-05 23:23:04 [ INFO ] [ ClientCnxn$SendThread.java :1041(startConnect)]  Opening socket connection to server zkserver/127.0.0.1:2181
+2019-03-05 23:23:04 [ INFO ] [ ClientCnxn$SendThread.java :949(primeConnection)]  Socket connection established to zkserver/127.0.0.1:2181, initiating session
+2019-03-05 23:23:04 [ INFO ] [ ClientCnxn$SendThread.java :738(readConnectResult)]  Session establishment complete on server zkserver/127.0.0.1:2181, sessionid = 0x1694bd9fd18001a, negotiated timeout = 30000
+2019-03-05 23:23:04 [ INFO ] [ ZkClient.java :449(processStateChanged)]  zookeeper state changed (SyncConnected)
+2019-03-05 23:23:04 [ INFO ] [ AbstractRegistry.java :293(register)]   [DUBBO] Register: consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=consumers&check=false&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&revision=1.0&side=consumer&timestamp=1551799384641, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:04 [ INFO ] [ AbstractRegistry.java :316(subscribe)]   [DUBBO] Subscribe: consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&revision=1.0&side=consumer&timestamp=1551799384641, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:04 [ INFO ] [ AbstractRegistry.java :404(notify)]   [DUBBO] Notify urls for subscribe url consumer://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&revision=1.0&side=consumer&timestamp=1551799384641, urls: [dubbo://192.168.4.112:30881/com.dape.upms.rpc.api.UpmsApiService?anyhost=true&application=dape-upms-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&pid=4544&side=provider&timeout=10000&timestamp=1551796796743, empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=configurators&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&revision=1.0&side=consumer&timestamp=1551799384641, empty://192.168.4.112/com.dape.upms.rpc.api.UpmsApiService?application=dape-datax-web&category=routers&default.check=false&dubbo=2.5.6&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&revision=1.0&side=consumer&timestamp=1551799384641], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:05 [ INFO ] [ AbstractClient.java :275(connect)]   [DUBBO] Successed connect to server /192.168.4.112:30881 from NettyClient 192.168.4.112 using dubbo version 2.5.6, channel is NettyChannel [channel=[id: 0x3d80b7ba, /192.168.4.112:50125 => /192.168.4.112:30881]], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:05 [ INFO ] [ AbstractClient.java :93(<init>)]   [DUBBO] Start NettyClient DESKTOP-IQDCDG3/192.168.4.112 connect to the server /192.168.4.112:30881, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:05 [ INFO ] [ ReferenceConfig.java :410(createProxy)]   [DUBBO] Refer dubbo service com.dape.upms.rpc.api.UpmsApiService from url zookeeper://zkserver:2181/com.alibaba.dubbo.registry.RegistryService?anyhost=true&application=dape-datax-web&check=false&default.check=false&dubbo=2.5.6&generic=false&interface=com.dape.upms.rpc.api.UpmsApiService&methods=selectUpmsOrganizationByExample,insertUpmsLogSelective,selectUpmsRoleByUpmsUserId,selectUpmsRolePermisstionByUpmsRoleId,selectUpmsSystemByExample,selectUpmsPermissionByUpmsUserIdByCache,selectUpmsUserByUsername,selectUpmsRoleByUpmsUserIdByCache,selectUpmsPermissionByUpmsUserId,selectUpmsUserPermissionByUpmsUserId&mock=true&pid=15344&remote.timestamp=1551796796743&revision=1.0&side=consumer&timeout=10000&timestamp=1551799384641, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ AbstractRegistry.java :293(register)]   [DUBBO] Register: consumer://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=consumers&check=false&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ AbstractRegistry.java :316(subscribe)]   [DUBBO] Subscribe: consumer://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ AbstractRegistry.java :404(notify)]   [DUBBO] Notify urls for subscribe url consumer://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, urls: [dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,insertSelective,countByExample,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&pid=11064&side=provider&timeout=10000&timestamp=1551796905128, empty://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=configurators&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, empty://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=routers&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ AbstractClient.java :275(connect)]   [DUBBO] Successed connect to server /192.168.4.112:30885 from NettyClient 192.168.4.112 using dubbo version 2.5.6, channel is NettyChannel [channel=[id: 0x02130710, /192.168.4.112:50134 => /192.168.4.112:30885]], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ AbstractClient.java :93(<init>)]   [DUBBO] Start NettyClient DESKTOP-IQDCDG3/192.168.4.112 connect to the server /192.168.4.112:30885, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ ReferenceConfig.java :410(createProxy)]   [DUBBO] Refer dubbo service com.dape.datax.rpc.api.DataxSourceTypeService from url zookeeper://zkserver:2181/com.alibaba.dubbo.registry.RegistryService?anyhost=true&application=dape-datax-web&check=false&default.check=false&dubbo=2.5.6&generic=false&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&remote.timestamp=1551796905128&revision=1.0.0&side=consumer&timeout=10000&timestamp=1551799387259, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:07 [ INFO ] [ Version.java :17(<clinit>)]  HV000001: Hibernate Validator 5.2.2.Final
+2019-03-05 23:23:09 [ INFO ] [ DocumentationPluginsBootstrapper.java :84(onApplicationEvent)]  Context refreshed
+2019-03-05 23:23:09 [ INFO ] [ DocumentationPluginsBootstrapper.java :87(onApplicationEvent)]  Found 1 custom documentation plugin(s)
+2019-03-05 23:23:09 [ INFO ] [ ApiListingReferenceScanner.java :44(scan)]  Scanning for api listing references
+2019-03-05 23:23:09 [ INFO ] [ CachingOperationNameGenerator.java :40(startingWith)]  Generating unique operation named: indexUsingGET_1
+2019-03-05 23:23:34 [ INFO ] [ DubboProtocol$1.java :122(disconnected)]   [DUBBO] disconected from /192.168.4.112:30885,url:dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-web&check=false&codec=dubbo&default.check=false&dubbo=2.5.6&generic=false&heartbeat=60000&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,insertSelective,countByExample,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&remote.timestamp=1551796905128&revision=1.0.0&side=consumer&timeout=10000&timestamp=1551799387259, dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:36 [ WARN ] [ AbstractClient$1.java :172(run)]   [DUBBO] client reconnect to 192.168.4.112:30885 find error . url: dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-web&check=false&codec=dubbo&default.check=false&dubbo=2.5.6&generic=false&heartbeat=60000&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,insertSelective,countByExample,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&remote.timestamp=1551796905128&revision=1.0.0&side=consumer&timeout=10000&timestamp=1551799387259, dubbo version: 2.5.6, current host: 192.168.4.112
+com.alibaba.dubbo.remoting.RemotingException: client(url: dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-web&check=false&codec=dubbo&default.check=false&dubbo=2.5.6&generic=false&heartbeat=60000&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,insertSelective,countByExample,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&remote.timestamp=1551796905128&revision=1.0.0&side=consumer&timeout=10000&timestamp=1551799387259) failed to connect to server /192.168.4.112:30885, error message is:Connection refused: no further information
+	at com.alibaba.dubbo.remoting.transport.netty.NettyClient.doConnect(NettyClient.java:124)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient.connect(AbstractClient.java:268)
+	at com.alibaba.dubbo.remoting.transport.AbstractClient$1.run(AbstractClient.java:157)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:717)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.connect(NioClientSocketPipelineSink.java:384)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.processSelectedKeys(NioClientSocketPipelineSink.java:354)
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink$Boss.run(NioClientSocketPipelineSink.java:276)
+	... 3 more
+2019-03-05 23:23:53 [ INFO ] [ NettyClient.java :101(doConnect)]   [DUBBO] Close old netty channel [id: 0x02130710, /192.168.4.112:50134 :> /192.168.4.112:30885] on create new netty channel [id: 0x721305bd, /192.168.4.112:50189 => /192.168.4.112:30885], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:53 [ INFO ] [ AbstractClient.java :275(connect)]   [DUBBO] Successed connect to server /192.168.4.112:30885 from NettyClient 192.168.4.112 using dubbo version 2.5.6, channel is NettyChannel [channel=[id: 0x721305bd, /192.168.4.112:50189 => /192.168.4.112:30885]], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:53 [ INFO ] [ AbstractRegistry.java :404(notify)]   [DUBBO] Notify urls for subscribe url consumer://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, urls: [dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&pid=7320&side=provider&timeout=10000&timestamp=1551799433406, dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,insertSelective,countByExample,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&pid=11064&side=provider&timeout=10000&timestamp=1551796905128], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:23:56 [ INFO ] [ AbstractRegistry.java :404(notify)]   [DUBBO] Notify urls for subscribe url consumer://192.168.4.112/com.dape.datax.rpc.api.DataxSourceTypeService?application=dape-datax-web&category=providers,configurators,routers&default.check=false&dubbo=2.5.6&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectFirstByExampleWithBLOBs,selectByExampleForOffsetPage,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&mock=true&pid=15344&revision=1.0.0&side=consumer&timestamp=1551799387259, urls: [dubbo://192.168.4.112:30885/com.dape.datax.rpc.api.DataxSourceTypeService?anyhost=true&application=dape-datax-rpc-service&dubbo=2.5.6&generic=false&interface=com.dape.datax.rpc.api.DataxSourceTypeService&methods=selectByExample,countByExample,insertSelective,selectByExampleForStartPage,updateByPrimaryKeySelective,selectByExampleWithBLOBs,insert,selectByExampleForOffsetPage,selectFirstByExampleWithBLOBs,updateByExampleWithBLOBs,selectByExampleWithBLOBsForOffsetPage,updateByPrimaryKeyWithBLOBs,updateByExample,selectByPrimaryKey,updateByExampleSelective,deleteByExample,initMapper,updateByPrimaryKey,deleteByPrimaryKeys,deleteByPrimaryKey,selectByExampleWithBLOBsForStartPage,selectFirstByExample&pid=7320&side=provider&timeout=10000&timestamp=1551799433406], dubbo version: 2.5.6, current host: 192.168.4.112
+2019-03-05 23:24:17 [ WARN ] [ DispatcherServlet.java :1172(noHandlerFound)]  No mapping found for HTTP request with URI [/manage/datasource/index] in DispatcherServlet with name 'springMVC'
+2019-03-05 23:24:21 [ WARN ] [ DispatcherServlet.java :1172(noHandlerFound)]  No mapping found for HTTP request with URI [/manage/datasource/index] in DispatcherServlet with name 'springMVC'
+2019-03-05 23:27:12 [ WARN ] [ DispatcherServlet.java :1172(noHandlerFound)]  No mapping found for HTTP request with URI [/manage/datasource/index] in DispatcherServlet with name 'springMVC'

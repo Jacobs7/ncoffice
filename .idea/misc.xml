@@ -7,6 +7,7 @@
     <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-job" />
     <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-search" />
     <file type="web" url="file://$PROJECT_DIR$/dape-cms/dape-cms-web" />
+    <file type="web" url="file://$PROJECT_DIR$/dape-datax/dape-datax-web" />
     <file type="web" url="file://$PROJECT_DIR$/dape-pay/dape-pay-admin" />
     <file type="web" url="file://$PROJECT_DIR$/dape-pay/dape-pay-web" />
     <file type="web" url="file://$PROJECT_DIR$/dape-shop/dape-shop-admin" />
@@ -20,13 +21,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/daped-atax/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/dape-ui/pom.xml" />
-        <option value="$PROJECT_DIR$/dape-upms/dape-upms-serverall/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">

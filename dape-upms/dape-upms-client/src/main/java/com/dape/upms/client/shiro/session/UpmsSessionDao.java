@@ -174,7 +174,7 @@ public class UpmsSessionDao extends CachingSessionDAO {
             // 会话增加强制退出属性标识，当此会话访问系统时，判断有该标识，则退出登录
 
 
-            RedisUtil.set(DAPE_UPMS_SHIRO_SESSION_ID + "_" + sessionId, reason, (int) 2);
+            RedisUtil.set(DAPE_UPMS_SHIRO_SESSION_ID + "_" + sessionId, reason, (int) 5);
 
     }
 

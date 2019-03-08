@@ -7,6 +7,7 @@ import com.dape.cms.common.constant.CmsResultConstant;
 import com.dape.cms.dao.model.*;
 import com.dape.common.base.BaseController;
 import com.dape.common.util.JmsUtil;
+import com.dape.common.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
@@ -55,7 +56,7 @@ public class CmsController extends BaseController {
      * ********************/
     @RequestMapping(value = "/checkUserLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Object checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
+    public void checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
 
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
@@ -65,8 +66,13 @@ public class CmsController extends BaseController {
         loginUser.put("pwd",password);
 
         JmsUtil.sendMessage(jmsTemplate,destination, JSON.toJSONString(loginUser));
+
         System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
 
-        return new CmsResult(CmsResultConstant.SUCCESS, 0);
+        String allStr = RedisUtil.get("*");
+
+        System.out.println("我是从redis 中读取的消息:"+allStr);
+
+        //return new CmsResult(CmsResultConstant.SUCCESS, 0);
     }
 }

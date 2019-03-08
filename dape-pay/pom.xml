@@ -17,6 +17,8 @@
         <maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
     </properties>
 
+    <url>http://www.example.com</url>
+
     <modules>
         <module>dape-pay-common</module>
         <module>dape-pay-dao</module>
@@ -26,4 +28,38 @@
         <module>dape-pay-web</module>
         <module>dape-pay-admin</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.dape</groupId>
+                <artifactId>dape-pay-common</artifactId>
+                <version>1.0.0</version>
+                <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>com.dape</groupId>
+                <artifactId>dape-pay-dao</artifactId>
+                <version>${project.version}</version>
+                <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

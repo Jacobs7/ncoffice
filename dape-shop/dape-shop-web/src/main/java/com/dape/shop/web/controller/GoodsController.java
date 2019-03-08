@@ -117,9 +117,9 @@ public class GoodsController extends BaseController {
      */
     @RequestMapping(value = "/jhs", method = RequestMethod.GET)
     public String jhs(Integer p, String m, Model model, HttpServletRequest request) {
-            model.addAttribute("p", p);
-            model.addAttribute("m", m);
-            return thymeleaf("/jhs");
+        model.addAttribute("p", p);
+        model.addAttribute("m", m);
+        return thymeleaf("/jhs");
     }
 
     /**

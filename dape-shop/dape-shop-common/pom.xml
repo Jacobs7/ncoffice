@@ -38,15 +38,11 @@
             <version>2.9</version>
         </dependency>
         <dependency>
-            <groupId>dp.taobao</groupId>
-            <artifactId>taobao</artifactId>
-            <version>20190213</version>
+            <groupId>com.fentao</groupId>
+            <artifactId>fentao</artifactId>
+            <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.hynnet</groupId>
-            <artifactId>jxl</artifactId>
-            <version>2.6.12.1</version>
-        </dependency>
+
     </dependencies>
 
     <build>

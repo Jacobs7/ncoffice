@@ -17,10 +17,11 @@
     <module>dape-cms</module>
     <module>dape-shop</module>
     <module>dape-pay</module>
+    <module>dape-datax</module>
   </modules>
 
   <name>dape-office</name>
-  <url>http://maven.apache.org</url>
+
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

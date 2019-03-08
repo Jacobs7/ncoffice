@@ -31,7 +31,7 @@ public class UpmsSession extends SimpleSession {
 
         not_exit("用户不存在"),
 
-        loacd("用户已锁定");
+        loacked("用户已锁定");
 
 
 

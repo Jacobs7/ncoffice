@@ -12,7 +12,7 @@ function cmsLogin(){
     var pwd = $("#password").val();
     console.log("username="+userName+"and pwd="+pwd);
 
-    $.post("/cms/checkUserLogin",{"username":userName,"password":pwd},function(data){
+        $.post("/cms/checkUserLogin",{"username":userName,"password":pwd},function(data){
 
 
     });
