@@ -1,36 +1,51 @@
 package com.dape.datax.dao.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class DataxTask implements Serializable {
     private Integer id;
 
-    private String name;
+    /**
+     * 任务名称
+     *
+     * @mbg.generated
+     */
+    private String tname;
 
+    /**
+     * 创建用户
+     *
+     * @mbg.generated
+     */
     private String createUser;
 
-    private Date createTime;
+    /**
+     * 创建时间
+     *
+     * @mbg.generated
+     */
+    private String createTime;
 
-    private String fromDataUrl;
+    /**
+     * 文件名称
+     *
+     * @mbg.generated
+     */
+    private String taskFileName;
 
-    private String toDataUrl;
+    /**
+     * 频率
+     *
+     * @mbg.generated
+     */
+    private String tfrequency;
 
-    private Integer fromTypeId;
-
-    private Integer toTypeId;
-
-    private String fromUsername;
-
-    private String toUsername;
-
-    private String fromPwd;
-
-    private String toPwd;
-
-    private String fromProt;
-
-    private String toPort;
+    /**
+     * job 文件路径
+     *
+     * @mbg.generated
+     */
+    private String filePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,12 +57,12 @@ public class DataxTask implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTname() {
+        return tname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTname(String tname) {
+        this.tname = tname;
     }
 
     public String getCreateUser() {
@@ -58,92 +73,36 @@ public class DataxTask implements Serializable {
         this.createUser = createUser;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public String getFromDataUrl() {
-        return fromDataUrl;
+    public String getTaskFileName() {
+        return taskFileName;
     }
 
-    public void setFromDataUrl(String fromDataUrl) {
-        this.fromDataUrl = fromDataUrl;
+    public void setTaskFileName(String taskFileName) {
+        this.taskFileName = taskFileName;
     }
 
-    public String getToDataUrl() {
-        return toDataUrl;
+    public String getTfrequency() {
+        return tfrequency;
     }
 
-    public void setToDataUrl(String toDataUrl) {
-        this.toDataUrl = toDataUrl;
+    public void setTfrequency(String tfrequency) {
+        this.tfrequency = tfrequency;
     }
 
-    public Integer getFromTypeId() {
-        return fromTypeId;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFromTypeId(Integer fromTypeId) {
-        this.fromTypeId = fromTypeId;
-    }
-
-    public Integer getToTypeId() {
-        return toTypeId;
-    }
-
-    public void setToTypeId(Integer toTypeId) {
-        this.toTypeId = toTypeId;
-    }
-
-    public String getFromUsername() {
-        return fromUsername;
-    }
-
-    public void setFromUsername(String fromUsername) {
-        this.fromUsername = fromUsername;
-    }
-
-    public String getToUsername() {
-        return toUsername;
-    }
-
-    public void setToUsername(String toUsername) {
-        this.toUsername = toUsername;
-    }
-
-    public String getFromPwd() {
-        return fromPwd;
-    }
-
-    public void setFromPwd(String fromPwd) {
-        this.fromPwd = fromPwd;
-    }
-
-    public String getToPwd() {
-        return toPwd;
-    }
-
-    public void setToPwd(String toPwd) {
-        this.toPwd = toPwd;
-    }
-
-    public String getFromProt() {
-        return fromProt;
-    }
-
-    public void setFromProt(String fromProt) {
-        this.fromProt = fromProt;
-    }
-
-    public String getToPort() {
-        return toPort;
-    }
-
-    public void setToPort(String toPort) {
-        this.toPort = toPort;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     @Override
@@ -153,19 +112,12 @@ public class DataxTask implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", tname=").append(tname);
         sb.append(", createUser=").append(createUser);
         sb.append(", createTime=").append(createTime);
-        sb.append(", fromDataUrl=").append(fromDataUrl);
-        sb.append(", toDataUrl=").append(toDataUrl);
-        sb.append(", fromTypeId=").append(fromTypeId);
-        sb.append(", toTypeId=").append(toTypeId);
-        sb.append(", fromUsername=").append(fromUsername);
-        sb.append(", toUsername=").append(toUsername);
-        sb.append(", fromPwd=").append(fromPwd);
-        sb.append(", toPwd=").append(toPwd);
-        sb.append(", fromProt=").append(fromProt);
-        sb.append(", toPort=").append(toPort);
+        sb.append(", taskFileName=").append(taskFileName);
+        sb.append(", tfrequency=").append(tfrequency);
+        sb.append(", filePath=").append(filePath);
         sb.append("]");
         return sb.toString();
     }
@@ -183,19 +135,12 @@ public class DataxTask implements Serializable {
         }
         DataxTask other = (DataxTask) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getTname() == null ? other.getTname() == null : this.getTname().equals(other.getTname()))
             && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getFromDataUrl() == null ? other.getFromDataUrl() == null : this.getFromDataUrl().equals(other.getFromDataUrl()))
-            && (this.getToDataUrl() == null ? other.getToDataUrl() == null : this.getToDataUrl().equals(other.getToDataUrl()))
-            && (this.getFromTypeId() == null ? other.getFromTypeId() == null : this.getFromTypeId().equals(other.getFromTypeId()))
-            && (this.getToTypeId() == null ? other.getToTypeId() == null : this.getToTypeId().equals(other.getToTypeId()))
-            && (this.getFromUsername() == null ? other.getFromUsername() == null : this.getFromUsername().equals(other.getFromUsername()))
-            && (this.getToUsername() == null ? other.getToUsername() == null : this.getToUsername().equals(other.getToUsername()))
-            && (this.getFromPwd() == null ? other.getFromPwd() == null : this.getFromPwd().equals(other.getFromPwd()))
-            && (this.getToPwd() == null ? other.getToPwd() == null : this.getToPwd().equals(other.getToPwd()))
-            && (this.getFromProt() == null ? other.getFromProt() == null : this.getFromProt().equals(other.getFromProt()))
-            && (this.getToPort() == null ? other.getToPort() == null : this.getToPort().equals(other.getToPort()));
+            && (this.getTaskFileName() == null ? other.getTaskFileName() == null : this.getTaskFileName().equals(other.getTaskFileName()))
+            && (this.getTfrequency() == null ? other.getTfrequency() == null : this.getTfrequency().equals(other.getTfrequency()))
+            && (this.getFilePath() == null ? other.getFilePath() == null : this.getFilePath().equals(other.getFilePath()));
     }
 
     @Override
@@ -203,19 +148,12 @@ public class DataxTask implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getTname() == null) ? 0 : getTname().hashCode());
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getFromDataUrl() == null) ? 0 : getFromDataUrl().hashCode());
-        result = prime * result + ((getToDataUrl() == null) ? 0 : getToDataUrl().hashCode());
-        result = prime * result + ((getFromTypeId() == null) ? 0 : getFromTypeId().hashCode());
-        result = prime * result + ((getToTypeId() == null) ? 0 : getToTypeId().hashCode());
-        result = prime * result + ((getFromUsername() == null) ? 0 : getFromUsername().hashCode());
-        result = prime * result + ((getToUsername() == null) ? 0 : getToUsername().hashCode());
-        result = prime * result + ((getFromPwd() == null) ? 0 : getFromPwd().hashCode());
-        result = prime * result + ((getToPwd() == null) ? 0 : getToPwd().hashCode());
-        result = prime * result + ((getFromProt() == null) ? 0 : getFromProt().hashCode());
-        result = prime * result + ((getToPort() == null) ? 0 : getToPort().hashCode());
+        result = prime * result + ((getTaskFileName() == null) ? 0 : getTaskFileName().hashCode());
+        result = prime * result + ((getTfrequency() == null) ? 0 : getTfrequency().hashCode());
+        result = prime * result + ((getFilePath() == null) ? 0 : getFilePath().hashCode());
         return result;
     }
 }

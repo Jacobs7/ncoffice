@@ -1,6 +1,10 @@
 package com.dape.datax.web.controller.manage;
 
+import com.baidu.unbiz.fluentvalidator.ComplexResult;
+import com.baidu.unbiz.fluentvalidator.FluentValidator;
+import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.dape.common.base.BaseController;
+import com.dape.common.validator.LengthValidator;
 import com.dape.datax.common.constant.DataxResult;
 import com.dape.datax.common.constant.DataxResultConstant;
 import com.dape.datax.dao.model.DataxSourceType;
@@ -36,7 +40,7 @@ public class DataSourceTypeController extends BaseController {
         return "/manage/datasource/index.jsp";
     }
 
-    @ApiOperation(value = "用户列表")
+    @ApiOperation(value = "类型列表")
     @RequiresPermissions("datax:sourceType:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -63,6 +67,70 @@ public class DataSourceTypeController extends BaseController {
         return result;
     }
 
+
+
+    @ApiOperation(value = "修改文章")
+    @RequiresPermissions("datax:sourceType:update")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+        DataxSourceTypeExample dataxSourceTypeExample = new DataxSourceTypeExample();
+        dataxSourceTypeExample.setOrderByClause("ctime desc");
+        //List<DataxSourceType> dataxSourceTypeList = dataxSourceTypeService.selectByExample(dataxSourceTypeExample);
+        DataxSourceType dataxSourceType = dataxSourceTypeService.selectByPrimaryKey(id);
+        //modelMap.put("cmsTopics", dataxSourceTypeList);
+        modelMap.put("dataSourceType", dataxSourceType);
+        return "/manage/datasource/update.jsp";
+    }
+
+    @ApiOperation(value="新增源类型弹出框")
+    @RequiresPermissions("datax:sourceType:create")
+    @RequestMapping(value="/create",method = RequestMethod.GET)
+    public String create(ModelMap modelMap) {
+        DataxSourceTypeExample dataxSourceTypeExample = new DataxSourceTypeExample();
+        dataxSourceTypeExample.setOrderByClause("id desc");
+        List<DataxSourceType> dataxSourceTypes = dataxSourceTypeService.selectByExample(dataxSourceTypeExample);
+        modelMap.put("dataxSourceType", dataxSourceTypes);
+        return "/manage/datasource/create.jsp";
+    }
+
+    @ApiOperation(value = "新增文章实际业务")
+    @RequiresPermissions("datax:sourceType:create")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    public Object create(DataxSourceType dataxSourceType) {
+        ComplexResult result = FluentValidator.checkAll()
+                .on(dataxSourceType.getDriverName(), new LengthValidator(1, 200, "标题"))
+                .doValidate()
+                .result(ResultCollectors.toComplex());
+        if (!result.isSuccess()) {
+            return new DataxResult(DataxResultConstant.FAILED.INVALID_LENGTH, result.getErrors());
+        }
+        long time = System.currentTimeMillis();
+        dataxSourceType.setDriverName(dataxSourceType.getDriverName());
+        dataxSourceType.setDriverStr(dataxSourceType.getDriverStr());
+
+        int count = dataxSourceTypeService.insertSelective(dataxSourceType);
+
+        return new DataxResult(DataxResultConstant.SUCCESS, count);
+    }
+
+    @ApiOperation(value = "修改源类型")
+    @RequiresPermissions("datax:sourceType:update")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, DataxSourceType dataxSourceType) {
+        ComplexResult result = FluentValidator.checkAll()
+                .on(dataxSourceType.getDriverName(), new LengthValidator(1, 200, "标题"))
+                .doValidate()
+                .result(ResultCollectors.toComplex());
+        if (!result.isSuccess()) {
+            return new DataxResult(DataxResultConstant.INVALID_LENGTH, result.getErrors());
+        }
+        dataxSourceType.setId(id);
+        int count = dataxSourceTypeService.updateByPrimaryKeySelective(dataxSourceType);
+        return new DataxResult(DataxResultConstant.SUCCESS, count);
+    }
+
     @ApiOperation(value = "删除文章")
     @RequiresPermissions("datax:sourceType:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
@@ -72,16 +140,6 @@ public class DataSourceTypeController extends BaseController {
         return new DataxResult(DataxResultConstant.FAILED.SUCCESS, count);
     }
 
-    @ApiOperation(value = "修改文章")
-    @RequiresPermissions("datax:sourceType:update")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
-        DataxSourceTypeExample cmsTopicExample = new DataxSourceTypeExample();
-        cmsTopicExample.setOrderByClause("ctime desc");
-        List<DataxSourceType> cmsTopics = dataxSourceTypeService.selectByExample(cmsTopicExample);
-        DataxSourceType article = dataxSourceTypeService.selectByPrimaryKey(id);
-        modelMap.put("cmsTopics", cmsTopics);
-        modelMap.put("article", article);
-        return "/manage/article/update.jsp";
-    }
+
+
 }

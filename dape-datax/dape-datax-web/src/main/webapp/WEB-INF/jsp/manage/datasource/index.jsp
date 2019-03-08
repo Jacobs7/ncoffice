@@ -51,10 +51,10 @@ $(function() {
 		maintainSelected: true,
 		toolbar: '#toolbar',
 		columns: [
-			{field: 'id', checkbox: true},
+			{field: 'ck', checkbox: true},
 			{field: 'id', title: '编号', sortable: true, align: 'center'},
-			{field: 'driverStr', title: '连接'},
-			{field: 'driverName', title: '图标', sortable: true, align: 'center', formatter: 'iconFormatter'},
+			{field: 'driverStr', title: '连接', sortable: true},
+			{field: 'driverName', title: '名称', sortable: true},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
@@ -84,8 +84,8 @@ var createDialog;
 function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
-		title: '新增类目',
-		content: 'url:${basePath}/manage/dataxSource/create',
+		title: '新增源类型',
+		content: 'url:${basePath}/manage/dataSourceType/create',
 		onContentReady: function () {
 			initMaterialInput();
 		}
@@ -95,6 +95,7 @@ function createAction() {
 var updateDialog;
 function updateAction() {
 	var rows = $table.bootstrapTable('getSelections');
+	console.log(rows[0].id)
 	if (rows.length != 1) {
 		$.confirm({
 			title: false,
@@ -111,8 +112,8 @@ function updateAction() {
 	} else {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
-			title: '编辑类目',
-			content: 'url:${basePath}/manage/dataxSource/update/' + rows[0].categoryId,
+			title: '编辑源类型',
+			content: 'url:${basePath}/manage/dataSourceType/update/' + rows[0].id,
 			onContentReady: function () {
 				initMaterialInput();
 			}
@@ -141,7 +142,7 @@ function deleteAction() {
 			type: 'red',
 			animationSpeed: 300,
 			title: false,
-			content: '确认删除该类目吗？',
+			content: '确认删除该类目吗？${basePath}',
 			buttons: {
 				confirm: {
 					text: '确认',
@@ -149,11 +150,11 @@ function deleteAction() {
 					action: function () {
 						var ids = new Array();
 						for (var i in rows) {
-							ids.push(rows[i].categoryId);
+							ids.push(rows[i].id);
 						}
 						$.ajax({
 							type: 'get',
-							url: '${basePath}/manage/dataxSource/delete/' + ids.join("-"),
+							url: '${basePath}/manage/dataSourceType/delete/' + ids.join("-"),
 							success: function(result) {
 								if (result.code != 1) {
 									if (result.data instanceof Array) {

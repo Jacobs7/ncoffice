@@ -18,7 +18,7 @@ public class TaskController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
-    @Autowired DataxSourceTypeService dataxSourceTypeService;
+
 
 
 }

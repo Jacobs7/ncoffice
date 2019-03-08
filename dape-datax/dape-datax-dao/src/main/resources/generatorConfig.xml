@@ -61,7 +61,8 @@
         <javaClientGenerator targetPackage="com.dape.datax.dao.mapper" targetProject="D:/IntelliWorkSpace/dapeoffice/dape-datax/dape-datax-dao/src/main/java" type="XMLMAPPER" />
 
         <!-- 需要映射的表 -->
-                                    <table tableName="datax_source_type" domainObjectName="DataxSourceType"></table>
+                                    <table tableName="datax_apply_source" domainObjectName="DataxApplySource"></table>
+                                                <table tableName="datax_source_type" domainObjectName="DataxSourceType"></table>
                                                 <table tableName="datax_task" domainObjectName="DataxTask"></table>
                         </context>
 </generatorConfiguration>

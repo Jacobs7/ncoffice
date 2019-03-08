@@ -15,9 +15,11 @@
     <dubbo:consumer check="false"/>
 
     <!-- 文章 -->
-    <dubbo:reference id="dataxSourceTypeService" interface="com.dape.datax.rpc.api.DataxSourceTypeService" mock="true"/>
+    <dubbo:reference id="dataxSourceTypeService" interface="com.dape.datax.rpc.api.DataxSourceTypeService" mock="true" />
     <!-- 类目 -->
-    <dubbo:reference id="dataxTaskService" interface="com.dape.datax.rpc.api.DataxTaskService" mock="true"/>
+    <dubbo:reference id="dataxTaskService" interface="com.dape.datax.rpc.api.DataxTaskService" mock="true" />
+    <!-- 评论 -->
+    <dubbo:reference id="dataxApplySource" interface="com.dape.datax.rpc.api.DataxApplySourceService" mock="true" />
     <!-- 评论 -->
 
     <!-- 接口服务 -->

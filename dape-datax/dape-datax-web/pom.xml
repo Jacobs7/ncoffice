@@ -82,7 +82,7 @@
     </profiles>
 
     <build>
-        <finalName>dape-datax-web</finalName>
+        <finalName>dape-cms-admin</finalName>
         <filters>
             <filter>src/main/resources/profiles/${env}.properties</filter>
         </filters>
@@ -105,7 +105,7 @@
                         <contextPath>/</contextPath>
                     </webApp>
                     <httpConnector>
-                        <port>4444</port>
+                        <port>2222</port>
                     </httpConnector>
                     <reload>automatic</reload>
                 </configuration>

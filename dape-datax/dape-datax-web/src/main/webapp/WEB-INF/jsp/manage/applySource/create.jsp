@@ -9,13 +9,35 @@
 <div id="dataSourceType" class="crudDialog">
 	<form id="createForm" method="post">
 		<div class="form-group">
-			<label for="driverName">名称</label>
-			<input id="driverName" type="text" class="form-control" name="driverName" maxlength="50">
+			<label for="linkIp">IP</label>
+			<input id="linkIp" type="text" class="form-control" name="linkIp" maxlength="20" />
 		</div>
+
 		<div class="form-group">
-			<label for="driverStr">连接</label>
-			<input id="driverStr" type="text" class="form-control" name="driverStr" maxlength="50">
+			<label for="dbUser">用户</label>
+			<input id="dbUser" type="text" class="form-control" name="dbUser" maxlength="5" />
 		</div>
+
+		<div class="form-group">
+			<label for="dbPwd">密码</label>
+			<input id="dbPwd" type="text" class="form-control" name="dbPwd" maxlength="5" />
+		</div>
+
+		<div class="form-group">
+			<label for="dbPort">端口</label>
+			<input id="dbPort" type="text" class="form-control" name="dbPort" maxlength="5" />
+		</div>
+
+		<div class="form-group">
+			<label for="typeId">类型</label>
+			<input id="typeId" type="text" class="form-control" name="typeId" maxlength="5"/>
+		</div>
+
+		<div class="form-group">
+			<label for="taskId">任务</label>
+			<input id="taskId" type="text" class="form-control" name="taskId" maxlength="5" />
+		</div>
+
 
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
