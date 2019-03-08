@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dape.shop.dao.model.ShopDetailImgUrl">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="item_id" jdbcType="VARCHAR" property="itemId" />
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
   </resultMap>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, item_id, img_url
+    id, create_date, modify_date, item_id, img_url
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopDetailImgUrlExample" resultMap="BaseResultMap">
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopDetailImgUrl">
-    insert into shop_detail_img_url (id, create_date, item_id, 
-      img_url)
-    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{itemId,jdbcType=VARCHAR}, 
-      #{imgUrl,jdbcType=VARCHAR})
+    insert into shop_detail_img_url (id, create_date, modify_date, 
+      item_id, img_url)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{itemId,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopDetailImgUrl">
     insert into shop_detail_img_url
@@ -112,6 +113,9 @@
       </if>
       <if test="createDate != null">
         create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
       </if>
       <if test="itemId != null">
         item_id,
@@ -126,6 +130,9 @@
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="itemId != null">
         #{itemId,jdbcType=VARCHAR},
@@ -150,6 +157,9 @@
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.itemId != null">
         item_id = #{record.itemId,jdbcType=VARCHAR},
       </if>
@@ -165,6 +175,7 @@
     update shop_detail_img_url
     set id = #{record.id,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       item_id = #{record.itemId,jdbcType=VARCHAR},
       img_url = #{record.imgUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -176,6 +187,9 @@
     <set>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="itemId != null">
         item_id = #{itemId,jdbcType=VARCHAR},
@@ -189,6 +203,7 @@
   <update id="updateByPrimaryKey" parameterType="com.dape.shop.dao.model.ShopDetailImgUrl">
     update shop_detail_img_url
     set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       item_id = #{itemId,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

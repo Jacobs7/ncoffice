@@ -11,6 +11,13 @@ public class ShopGoods implements Serializable {
 
     private Date modifyDate;
 
+    /**
+     * 详情url最后抓取时间
+     *
+     * @mbg.generated
+     */
+    private Date descImgDate;
+
     private Boolean isEnabled;
 
     /**
@@ -401,6 +408,14 @@ public class ShopGoods implements Serializable {
 
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
+    }
+
+    public Date getDescImgDate() {
+        return descImgDate;
+    }
+
+    public void setDescImgDate(Date descImgDate) {
+        this.descImgDate = descImgDate;
     }
 
     public Boolean getIsEnabled() {
@@ -836,6 +851,7 @@ public class ShopGoods implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", descImgDate=").append(descImgDate);
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", itemId=").append(itemId);
         sb.append(", title=").append(title);
@@ -908,6 +924,7 @@ public class ShopGoods implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
             && (this.getModifyDate() == null ? other.getModifyDate() == null : this.getModifyDate().equals(other.getModifyDate()))
+            && (this.getDescImgDate() == null ? other.getDescImgDate() == null : this.getDescImgDate().equals(other.getDescImgDate()))
             && (this.getIsEnabled() == null ? other.getIsEnabled() == null : this.getIsEnabled().equals(other.getIsEnabled()))
             && (this.getItemId() == null ? other.getItemId() == null : this.getItemId().equals(other.getItemId()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
@@ -970,6 +987,7 @@ public class ShopGoods implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getModifyDate() == null) ? 0 : getModifyDate().hashCode());
+        result = prime * result + ((getDescImgDate() == null) ? 0 : getDescImgDate().hashCode());
         result = prime * result + ((getIsEnabled() == null) ? 0 : getIsEnabled().hashCode());
         result = prime * result + ((getItemId() == null) ? 0 : getItemId().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());

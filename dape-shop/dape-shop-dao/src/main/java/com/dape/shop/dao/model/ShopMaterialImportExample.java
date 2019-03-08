@@ -628,6 +628,66 @@ public class ShopMaterialImportExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andImportRateIsNull() {
+            addCriterion("import_rate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateIsNotNull() {
+            addCriterion("import_rate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateEqualTo(Integer value) {
+            addCriterion("import_rate =", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateNotEqualTo(Integer value) {
+            addCriterion("import_rate <>", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateGreaterThan(Integer value) {
+            addCriterion("import_rate >", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("import_rate >=", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateLessThan(Integer value) {
+            addCriterion("import_rate <", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateLessThanOrEqualTo(Integer value) {
+            addCriterion("import_rate <=", value, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateIn(List<Integer> values) {
+            addCriterion("import_rate in", values, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateNotIn(List<Integer> values) {
+            addCriterion("import_rate not in", values, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateBetween(Integer value1, Integer value2) {
+            addCriterion("import_rate between", value1, value2, "importRate");
+            return (Criteria) this;
+        }
+
+        public Criteria andImportRateNotBetween(Integer value1, Integer value2) {
+            addCriterion("import_rate not between", value1, value2, "importRate");
+            return (Criteria) this;
+        }
+
         public Criteria andSortIsNull() {
             addCriterion("sort is null");
             return (Criteria) this;

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>宝贝详情</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <!--产品详情-->
+      <!--主图轮播-->
+      <div class="weui-panel">
+        <div class="swiper-container swiper-zhutu">
+          <div class="swiper-wrapper" id="picList">
+              <div class="swiper-slide" id="picMain">
+                  <img onload="imgLoadD(this)" style="display:none;" th:src="${goods.pictUrl}" />
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+              </div>
+              <div class="swiper-slide" th:each="smallImg:${#strings.listSplit(goods.smallImages,',')}">
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+                  <img th:src="${smallImg}" onload="imgLoadD(this)" style="display:none;" />
+              </div>
+          </div>
+          <div class="swiper-pagination swiper-zhutu-pagination"></div>
+        </div>
+
+        <div class="weui-media-box_text detail-container">
+          <div class="detail-quan"><span class="quanFlag" style="width: 40px;">优惠券<br><b id="quanAmountB" th:text="'¥'+${#numbers.formatDecimal(goods.couponAmount,1,0)}"></b></span></div>
+          <div class="detail-title" th:switch="${goods.userType}">
+              <i th:case="0" class="icon18-zz icon-taobao-18"></i>
+              <i th:case="1" class="icon18-zz icon-tianmao-18"></i>
+              <em id="titleEm" style="padding:1.1rem;" th:text="${goods.title}"></em>
+          </div>
+          <div class="detail-price-c" >
+              <em id="zkPriceEm" class="num" style="font-size: 0.95rem;font-weight: bold;" th:text="'¥'+${goods.zkFinalPrice - goods.couponAmount}"></em>
+              <em class="detail-price-s" th:text="'原价'+${goods.zkFinalPrice}"></em>
+              <em class="detail-price-v" th:text="'月销量'+${goods.volume}"></em>
+          </div>
+          <div class="detail-return">
+            标准佣金&nbsp;¥<em th:text="${#numbers.formatDecimal(goods.commission * 0.35,1,2)}">0.00</em> ｜ 特权佣金&nbsp;¥<em th:text="${#numbers.formatDecimal(goods.commission * 0.5,1,2)}">0.00</em><a href="javascript:showKeFu('/upload/kefu.jpg')">如何升特权?</a>
+          </div>
+          <div class="detail-return-txt">
+            以实际佣金为准，卖家修改佣金24小时内同步到平台
+          </div>
+        </div>
+      </div>
+
+      <div class="weui-panel">
+        <!-- 推荐理由 -->
+          <div class="detail-tj-title">推荐理由</div>
+          <div class="detail-tj-content" th:text="${#strings.isEmpty(goods.itemDescription)}?'无':${goods.itemDescription}"></div>
+      </div>
+
+      <div class="weui-panel">
+        <!--<div class="weui-tab" style="height:auto;">-->
+          <div class="weui-navbar" style="height:2.1rem;">
+            <a style="width: 100%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
+            <!--<a style="width: 50%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit" href="#tab2">用户评价</a>-->
+          </div>
+          <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+              <div id="detailImgs">
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+              </div>
+              <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:3rem;">------已经到底了------</div>
+            </div>
+            <!--<div id="tab2" class="weui-tab__bd-item">-->
+              <!--<div id="detailPj">-->
+                <!--<img class="loadingImg" width="100%" th:src="${uiPath + appName} + '/images/loading-max.gif'" />-->
+              <!--</div>-->
+              <!--<div class="weui-cells__title" style="text-align: center;line-height: 3rem;margin-bottom:3rem;">&#45;&#45;&#45;&#45;&#45;&#45;已经到底了&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
+            <!--</div>-->
+          </div>
+        <!--</div>-->
+      </div>
+  </div>
+</div>
+
+<!-- 返回上页、查询页链接 -->
+<div class="index-header">
+    <div class="detail-back" style="left:0.5rem;top: 0.5rem;" onclick="javascript:history.back(-1);"><img style="margin: 20% auto auto 15%;" th:src="${uiPath} + ${appName} + '/images/icon-back_white.png'" /></div>
+    <div class="detail-back" style="right:0.5rem;top: 0.5rem;" onclick="$('#searchForm').submit()"><img style="margin: 20% auto auto 20%;" th:src="${uiPath} + ${appName} + '/images/icon-search_white.png'" /></div>
+</div>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/goods/localGoods" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label">商城首页</p>
+  </a>
+
+  <a href="javascript:;" onclick="qiangquan()" class="weui-tabbar__item yellow-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">去抢券</p>
+  </a>
+  <a href="javascript:;" onclick="localHaibao()" class="weui-tabbar__item red-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">生成推广海报</p>
+  </a>
+</div>
+
+<div id="toastContainer" th:text="${goods.couponShareUrl}"></div>
+
+<script th:inline="javascript">
+
+  var title = [[${goods.title}]];
+  var zkFinalPrice = [[${goods.zkFinalPrice}]];
+  var couponAmount = [[${goods.couponAmount}]];
+  var userType = [[${goods.userType}]];
+  var coupon_share_url = [['https:'+${goods.couponShareUrl}]];
+  var click_url = [['https:'+${goods.clickUrl}]];
+  var itemDescription = [[${#strings.isEmpty(goods.itemDescription)} ? '' : ${goods.itemDescription}]];
+  var tkl = '';
+  var platform = parseInt([[${#strings.isEmpty(platform)} ? '2' : ${platform}]]);
+  var numIid = [[${goods.itemId}]];
+  var pictUrl = [['https:'+${goods.pictUrl}]];
+  var freeShipment = false;
+  var volume = [[${goods.volume}]];
+  var coupon_amount = [[${goods.couponAmount}]];
+  $(function() {
+      FastClick.attach(document.body);
+      $(".swiper-zhutu").swiper({
+          loop: true,
+          paginationType:'fraction',
+          autoplay:5000
+      });
+      // 返回顶部
+      backScroll('listwrap');
+      txt = title + '\n----------\n券后'+$('#zkPriceEm').text()+'【优惠券'+couponAmount+'元】\n原价￥'+zkFinalPrice + (userType==0?'【淘宝】':userType==1?'【天猫】':'')+'\n----------\n'+(itemDescription!=''?itemDescription+'\n----------\n':'');
+      goodsTBDetail();//天猫详情
+      //goodsTBPJ();//天猫评价
+  });
+
+</script>
+
+</body>
+</html>

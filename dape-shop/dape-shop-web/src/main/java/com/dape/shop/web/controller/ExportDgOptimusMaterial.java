@@ -3,19 +3,23 @@ package com.dape.shop.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dape.shop.dao.model.ShopGoods;
-import com.dape.shop.dao.model.ShopGoodsExample;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.TbkDgOptimusMaterialRequest;
 import com.taobao.api.response.TbkDgOptimusMaterialResponse;
+import jxl.*;
+import jxl.read.biff.BiffException;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +27,112 @@ public class ExportDgOptimusMaterial {
 
     public static void main(String[] args){
 
+        // 导入excel到数据库
+        List<String[]> datas = readExcel("D:\\zheng\\精选优质商品清单(内含优惠券)-2019-03-08.xls", 0, 1);
+        importExcelToDB(datas);
+
+        // 通过物料id导入商品到数据库
+//        importByMaterialId();
+    }
+
+    public static void importExcelToDB(List<String[]> datas){
+        int addNum = 0;
+        int editNum = 0;
+        for(String[] row : datas){
+            String itemId = row[0];
+            int count = countGoodsItemId(itemId);//验证数据是否已存在商品item_id
+            if(count > 0) {
+                boolean editR = editGoodsForExcel(row);// 添加到数据库
+                if(editR){
+                    editNum+=1;
+                    System.out.println("更新：" + itemId);
+                }
+            }else{
+                // 新增
+                boolean addR = addGoodsForExcel(row);// 添加到数据库
+                if(addR){
+                    addNum += 1;
+                    System.out.println("新增：" + itemId);
+                }
+            }
+        }
+        System.out.println("新增条数：" + addNum + "，更新条数：" + editNum);
+    }
+
+    /**
+     *
+     * @param excelPath 文件路径
+     * @param sheetIndex sheet页
+     * @param row 从第几行开始读，从0开始
+     */
+    public static List<String[]> readExcel(String excelPath, int sheetIndex, int row){
+        List<String[]> list = new ArrayList<String[]>();
+        SimpleDateFormat ksdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Workbook wb = null;
+        InputStream is = null;
+        try {
+            is = new FileInputStream(new File(excelPath));
+            wb = Workbook.getWorkbook(is);
+
+            Sheet[] sheets = wb.getSheets();
+            if (sheets != null && sheets.length > sheetIndex) {
+                Sheet sheet = sheets[sheetIndex];
+
+                int rowNum = sheet.getRows();
+                System.out.println("数据总条数 [ " + rowNum + "]");
+
+                for (int i = 0; i < rowNum; i++) {
+                    if(i < row){
+                        continue;
+                    }
+
+                    Cell[] cells = sheet.getRow(i);
+                    if (cells != null && cells.length > 0) {
+                        String[] datas = new String[cells.length];
+                        int j = 0;
+                        boolean result = false;
+                        for (Cell cell : cells) {
+                            String cellValue = "";
+                            if (CellType.DATE.equals(cell.getType())) {
+                                DateCell dateCell = (DateCell) cell;
+                                java.util.Date date = dateCell.getDate();
+                                cellValue = ksdate.format(dateCell.getDate());
+                            } else {
+                                cellValue = cell.getContents();
+                            }
+                            if (StringUtils.isNotEmpty(cellValue)) {
+                                result = true;
+                            }
+                            datas[j] = cellValue;
+                            j++;
+                        }
+                        if (result) {
+                            list.add(datas);
+                        }
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        } catch (BiffException e) {
+            throw new IllegalStateException(e);
+        } finally {
+            if (wb != null) {
+                wb.close();
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return list;
+    }
+
+    public static void importByMaterialId(){
         // 多线程导入商品到数据库 start *******************************************************************
 
         int totalPage = 500;//查询开放平台的总页数
@@ -108,6 +218,35 @@ public class ExportDgOptimusMaterial {
 
     static Pattern pattern = Pattern.compile("[0-9]*");
 
+    public static boolean delGoods(String itemId){
+        boolean flag = false;
+        Connection conn = getPool();
+        String sql = "DELETE FROM shop_goods WHERE item_id = ?";
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,itemId);
+            ps.execute();
+
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(ps!=null){
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null){
+                pools.add(conn);
+            }
+        }
+
+        return flag;
+    }
 
     public static boolean editGoods(String itemId, BigDecimal zkFinalPrice, BigDecimal couponAmount, BigDecimal commission, Long materialId, JSONObject data, String fileName, Integer materialType){
         boolean flag = false;
@@ -165,7 +304,7 @@ public class ExportDgOptimusMaterial {
             if(data.containsKey("coupon_total_count")){
                 ps.setInt(11,data.getInteger("coupon_total_count"));
             }else{
-                ps.setNull(11,Types.INTEGER);
+                ps.setNull(11, Types.INTEGER);
             }
             if(data.containsKey("coupon_remain_count")){
                 ps.setInt(12,data.getInteger("coupon_remain_count"));
@@ -375,6 +514,111 @@ public class ExportDgOptimusMaterial {
             if(StringUtils.isNotBlank(fileName)){
                 ps.setInt(44, materialType);
             }
+
+            ps.executeUpdate();
+
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if(ps!=null){
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null){
+                pools.add(conn);
+            }
+        }
+        return flag;
+    }
+
+    public static boolean editGoodsForExcel(String[] row){
+        boolean flag = false;
+
+        Connection conn = getPool();
+        String sql = "UPDATE shop_goods SET ";
+        sql += "title = ?,";
+        sql += "pict_url = ?,";
+        sql += "click_url = ?,";
+        sql += "zk_final_price = ?,";
+        sql += "volume = ?,";
+        sql += "coupon_share_url = ?,";
+        sql += "coupon_total_count = ?,";
+        sql += "coupon_remain_count = ?,";
+        sql += "coupon_start_time = ?,";
+        sql += "coupon_end_time = ?,";
+        sql += "commission_rate = ?,";
+        sql += "commission = ?";//佣金
+        sql += " WHERE item_id=?";
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1,row[1]);
+            ps.setString(2,row[2]);
+            ps.setString(3,row[5]);
+            ps.setBigDecimal(4,new BigDecimal(row[6]));
+            ps.setInt(5,Integer.valueOf(row[7]));
+            ps.setString(6,row[21]);
+            ps.setInt(7,Integer.valueOf(row[15]));
+            ps.setInt(8,Integer.valueOf(row[16]));
+            ps.setString(9,row[18]);
+            ps.setString(10,row[19]);
+            ps.setBigDecimal(11,new BigDecimal(row[8]));
+            ps.setBigDecimal(12,new BigDecimal(row[9]));
+            ps.setBigDecimal(13,new BigDecimal(row[0]));
+
+            ps.execute();
+
+            flag = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public static boolean addGoodsForExcel(String[] row){
+        boolean flag = false;
+
+        Connection conn = getPool();
+
+        String sql = "INSERT INTO shop_goods(create_date,modify_date,is_enabled," +
+                "item_id,title,pict_url,click_url,zk_final_price,volume,coupon_share_url,coupon_total_count,coupon_remain_count,coupon_start_time,coupon_end_time," +
+                "seller_id,shop_title,user_type,level_one_category_name,commission_rate,commission,coupon_info,nick) "
+            + "VALUES(now(),now(),1,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,row[0]);
+            ps.setString(2,row[1]);
+            ps.setString(3,row[2]);
+            ps.setString(4,row[5]);
+            ps.setBigDecimal(5,new BigDecimal(row[6]));
+            ps.setInt(6,Integer.valueOf(row[7]));
+            ps.setString(7,row[21]);
+            ps.setInt(8,Integer.valueOf(row[15]));
+            ps.setInt(9,Integer.valueOf(row[16]));
+            ps.setString(10,row[18]);
+            ps.setString(11,row[19]);
+            ps.setString(12,row[11]);
+            ps.setString(13,row[12]);
+            if(row[13].equals("天猫")){
+                ps.setInt(14,1);
+            }else if(row[13].equals("淘宝")){
+                ps.setInt(14,0);
+            }else{
+                ps.setNull(14, Types.INTEGER);
+            }
+            ps.setString(15,row[4]);
+            ps.setString(16,row[8]);
+            ps.setBigDecimal(17,new BigDecimal(row[9]));
+            ps.setString(18,row[17]);
+            ps.setString(19,row[10]);
 
             ps.executeUpdate();
 

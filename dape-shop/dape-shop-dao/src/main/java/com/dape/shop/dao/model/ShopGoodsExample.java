@@ -289,6 +289,66 @@ public class ShopGoodsExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andDescImgDateIsNull() {
+            addCriterion("desc_img_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateIsNotNull() {
+            addCriterion("desc_img_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateEqualTo(Date value) {
+            addCriterion("desc_img_date =", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateNotEqualTo(Date value) {
+            addCriterion("desc_img_date <>", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateGreaterThan(Date value) {
+            addCriterion("desc_img_date >", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("desc_img_date >=", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateLessThan(Date value) {
+            addCriterion("desc_img_date <", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateLessThanOrEqualTo(Date value) {
+            addCriterion("desc_img_date <=", value, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateIn(List<Date> values) {
+            addCriterion("desc_img_date in", values, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateNotIn(List<Date> values) {
+            addCriterion("desc_img_date not in", values, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateBetween(Date value1, Date value2) {
+            addCriterion("desc_img_date between", value1, value2, "descImgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescImgDateNotBetween(Date value1, Date value2) {
+            addCriterion("desc_img_date not between", value1, value2, "descImgDate");
+            return (Criteria) this;
+        }
+
         public Criteria andIsEnabledIsNull() {
             addCriterion("is_enabled is null");
             return (Criteria) this;

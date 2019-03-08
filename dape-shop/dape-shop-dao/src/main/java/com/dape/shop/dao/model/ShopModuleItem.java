@@ -27,6 +27,13 @@ public class ShopModuleItem implements Serializable {
     private String materialId;
 
     /**
+     * 本地所属类型，女装、男装等
+     *
+     * @mbg.generated
+     */
+    private Integer localType;
+
+    /**
      * 图标
      *
      * @mbg.generated
@@ -97,6 +104,14 @@ public class ShopModuleItem implements Serializable {
         this.materialId = materialId;
     }
 
+    public Integer getLocalType() {
+        return localType;
+    }
+
+    public void setLocalType(Integer localType) {
+        this.localType = localType;
+    }
+
     public String getIcon() {
         return icon;
     }
@@ -133,6 +148,7 @@ public class ShopModuleItem implements Serializable {
         sb.append(", moduleId=").append(moduleId);
         sb.append(", name=").append(name);
         sb.append(", materialId=").append(materialId);
+        sb.append(", localType=").append(localType);
         sb.append(", icon=").append(icon);
         sb.append(", remark=").append(remark);
         sb.append(", sort=").append(sort);
@@ -158,6 +174,7 @@ public class ShopModuleItem implements Serializable {
             && (this.getModuleId() == null ? other.getModuleId() == null : this.getModuleId().equals(other.getModuleId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getMaterialId() == null ? other.getMaterialId() == null : this.getMaterialId().equals(other.getMaterialId()))
+            && (this.getLocalType() == null ? other.getLocalType() == null : this.getLocalType().equals(other.getLocalType()))
             && (this.getIcon() == null ? other.getIcon() == null : this.getIcon().equals(other.getIcon()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()));
@@ -173,6 +190,7 @@ public class ShopModuleItem implements Serializable {
         result = prime * result + ((getModuleId() == null) ? 0 : getModuleId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getMaterialId() == null) ? 0 : getMaterialId().hashCode());
+        result = prime * result + ((getLocalType() == null) ? 0 : getLocalType().hashCode());
         result = prime * result + ((getIcon() == null) ? 0 : getIcon().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getSort() == null) ? 0 : getSort().hashCode());

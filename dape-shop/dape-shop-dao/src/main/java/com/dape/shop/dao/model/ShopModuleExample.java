@@ -358,6 +358,76 @@ public class ShopModuleExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andPyShortIsNull() {
+            addCriterion("py_short is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortIsNotNull() {
+            addCriterion("py_short is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortEqualTo(String value) {
+            addCriterion("py_short =", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortNotEqualTo(String value) {
+            addCriterion("py_short <>", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortGreaterThan(String value) {
+            addCriterion("py_short >", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortGreaterThanOrEqualTo(String value) {
+            addCriterion("py_short >=", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortLessThan(String value) {
+            addCriterion("py_short <", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortLessThanOrEqualTo(String value) {
+            addCriterion("py_short <=", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortLike(String value) {
+            addCriterion("py_short like", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortNotLike(String value) {
+            addCriterion("py_short not like", value, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortIn(List<String> values) {
+            addCriterion("py_short in", values, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortNotIn(List<String> values) {
+            addCriterion("py_short not in", values, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortBetween(String value1, String value2) {
+            addCriterion("py_short between", value1, value2, "pyShort");
+            return (Criteria) this;
+        }
+
+        public Criteria andPyShortNotBetween(String value1, String value2) {
+            addCriterion("py_short not between", value1, value2, "pyShort");
+            return (Criteria) this;
+        }
+
         public Criteria andUrlIsNull() {
             addCriterion("url is null");
             return (Criteria) this;

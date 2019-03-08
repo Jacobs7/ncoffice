@@ -6,6 +6,7 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="py_short" jdbcType="VARCHAR" property="pyShort" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="img" jdbcType="VARCHAR" property="img" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, create_date, is_enabled, name, url, icon, img, remark, sort, json
+    id, create_date, is_enabled, name, py_short, url, icon, img, remark, sort, json
   </sql>
   <select id="selectByExample" parameterType="com.dape.shop.dao.model.ShopModuleExample" resultMap="BaseResultMap">
     select
@@ -106,11 +107,13 @@
   </delete>
   <insert id="insert" parameterType="com.dape.shop.dao.model.ShopModule">
     insert into shop_module (id, create_date, is_enabled, 
-      name, url, icon, img, 
-      remark, sort, json)
+      name, py_short, url, 
+      icon, img, remark, 
+      sort, json)
     values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{isEnabled,jdbcType=BIT}, 
-      #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{pyShort,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{json,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dape.shop.dao.model.ShopModule">
     insert into shop_module
@@ -126,6 +129,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="pyShort != null">
+        py_short,
       </if>
       <if test="url != null">
         url,
@@ -158,6 +164,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pyShort != null">
+        #{pyShort,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -200,6 +209,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.pyShort != null">
+        py_short = #{record.pyShort,jdbcType=VARCHAR},
+      </if>
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
       </if>
@@ -229,6 +241,7 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       is_enabled = #{record.isEnabled,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
+      py_short = #{record.pyShort,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       icon = #{record.icon,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
@@ -250,6 +263,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pyShort != null">
+        py_short = #{pyShort,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
@@ -277,6 +293,7 @@
     set create_date = #{createDate,jdbcType=TIMESTAMP},
       is_enabled = #{isEnabled,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
+      py_short = #{pyShort,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},

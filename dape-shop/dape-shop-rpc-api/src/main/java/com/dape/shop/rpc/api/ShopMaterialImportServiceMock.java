@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class ShopMaterialImportServiceMock extends BaseServiceMock<ShopMaterialImportMapper, ShopMaterialImport, ShopMaterialImportExample> implements ShopMaterialImportService {
 
     @Override
-    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate) {
+    public Integer[] importGoodsByMaterial(ShopMaterialImport shopMaterialImport, JSONArray mapData, BigDecimal tbkCouponAmount, BigDecimal tbkCouponRate, Integer importRate) {
         return null;
     }
 }

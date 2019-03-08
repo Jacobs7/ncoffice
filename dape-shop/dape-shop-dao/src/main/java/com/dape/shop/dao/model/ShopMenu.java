@@ -68,6 +68,13 @@ public class ShopMenu implements Serializable {
      */
     private Long moduleId;
 
+    /**
+     * 本地类型，和shop_material_import表对应
+     *
+     * @mbg.generated
+     */
+    private Integer localType;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -166,6 +173,14 @@ public class ShopMenu implements Serializable {
         this.moduleId = moduleId;
     }
 
+    public Integer getLocalType() {
+        return localType;
+    }
+
+    public void setLocalType(Integer localType) {
+        this.localType = localType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -184,6 +199,7 @@ public class ShopMenu implements Serializable {
         sb.append(", sort=").append(sort);
         sb.append(", json=").append(json);
         sb.append(", moduleId=").append(moduleId);
+        sb.append(", localType=").append(localType);
         sb.append("]");
         return sb.toString();
     }
@@ -211,7 +227,8 @@ public class ShopMenu implements Serializable {
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()))
             && (this.getJson() == null ? other.getJson() == null : this.getJson().equals(other.getJson()))
-            && (this.getModuleId() == null ? other.getModuleId() == null : this.getModuleId().equals(other.getModuleId()));
+            && (this.getModuleId() == null ? other.getModuleId() == null : this.getModuleId().equals(other.getModuleId()))
+            && (this.getLocalType() == null ? other.getLocalType() == null : this.getLocalType().equals(other.getLocalType()));
     }
 
     @Override
@@ -230,6 +247,7 @@ public class ShopMenu implements Serializable {
         result = prime * result + ((getSort() == null) ? 0 : getSort().hashCode());
         result = prime * result + ((getJson() == null) ? 0 : getJson().hashCode());
         result = prime * result + ((getModuleId() == null) ? 0 : getModuleId().hashCode());
+        result = prime * result + ((getLocalType() == null) ? 0 : getLocalType().hashCode());
         return result;
     }
 }

@@ -23,7 +23,7 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
     public Map<String, Object> loadGoods(Long pageNum, Long pageSize, Map<String, Object> params);
 
     /**
-     * 好券清单API【导购】：查询接口
+     * 通用物料搜索API（导购）
      * @param pageNum
      * @param pageSize
      * @param params
@@ -32,7 +32,7 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
     public Map<String, Object> loadCouponGoodsBySeach(Long pageNum, Long pageSize, Map<String, Object> params);
 
     /**
-     * 好券清单API【导购】：根据物料ID加载接口
+     * 淘宝客物料下行-导购
      * @param pageNum
      * @param pageSize
      * @param params
@@ -77,4 +77,13 @@ public interface ShopGoodsService extends BaseService<ShopGoods, ShopGoodsExampl
      * @return
      */
     public Integer updateGoodsByCouponEndTime();
+
+    /**
+     * 好券清单API【导购】
+     * @param pageNum
+     * @param pageSize
+     * @param params
+     * @return
+     */
+    public Map<String, Object> tbkDgItemCouponGet(Long pageNum, Long pageSize, Map<String, Object> params);
 }
