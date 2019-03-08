@@ -682,6 +682,151 @@ function loadGoodsForSearch(){
     });
 }
 
+function loadSearchGoodsBak(){
+    $.post('/goods/loadSearchGoodsBak',{
+        pageNum:pageNum,
+        pageSize:pageSize,
+        q:$('#qTxt').val(),
+        c:c,
+        p:p,
+        hc:hc,
+        str:str,
+        etr:etr,
+        nfs:nfs,
+        np:np,
+        loc:loc,
+        s:s,
+        d:d,
+        ml:ml,
+        m:m
+        },function(data){
+          loading = false;
+          if(data.success){
+                var mapData = data.mapData;
+                if(mapData && mapData.length > 0){
+                    var commission_rate;
+                    $(mapData).each(function(){
+                        $this = this;
+                        // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
+                        var taobaoIcon = '';
+                        if($this.user_type == 0){
+                            taobaoIcon = '<i class="icon18-zz icon-taobao-18" style="margin-right: 5px;"></i>';
+                        }else if($this.user_type == 1){
+                            taobaoIcon = '<i class="icon18-zz icon-tianmao-18" style="margin-right: 5px;"></i>';
+                        }
+
+                        commission_rate = 0;
+
+                        commission_rate = $this.commission_rate / 100;
+                        if(typeof($this.coupon_amount) == 'undefined'){
+                            $this.coupon_amount = 0;
+                        }
+                        var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
+                        $('#goodsUL').append('<li>' +
+                            //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
+                            '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+p+','+commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
+                            '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
+                            '<span class="quanFlag"><b>'+$this.coupon_amount+'</b><br>元券</span>' +
+                            '<div class="proimg">' +
+                                '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
+                                '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
+                            '</div>' +
+                            '<div class="protxt">' +
+                            // 根据店铺类型判断是天猫、淘宝
+                            '<div class="name" style="position: relative;">' +
+                            taobaoIcon +
+                            '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
+                            '<div class="name" style="position: relative;"><p>' +
+                            '<em class="nowPrice">￥'+zkPrice+'</em>' +
+                            '<span class="oldPrice">￥'+$this.zk_final_price+'</span>' +
+                            '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                            '</p></div>' +
+                            '<div class="return" style="margin-bottom: 3px;">' +
+                            '<div style="background-color: #d02c37;color: #fff;">标佣¥'+byFnc(zkPrice,commission_rate)+'</div>' +
+                            '<div style="color: #d02c37;">特佣¥'+tyFnc(zkPrice,commission_rate)+'</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                    });
+                }else{
+                    $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                    loading = true;
+                }
+          }else{
+                $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                loading = true;
+          }
+    });
+}
+function loadHqqdGoods(){
+    $.post('/goods/loadHqqd',{
+        pageNum:pageNum,
+        pageSize:pageSize,
+        q:$('#qTxt').val(),
+        c:c,
+        p:p
+        },function(data){
+          loading = false;
+          if(data.success){
+                var tbkCoupon = data.tbkCoupon;
+                if(tbkCoupon && tbkCoupon.length > 0){
+                    var commission_rate;
+                    $(tbkCoupon).each(function(){
+                        $this = this;
+                        // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
+                        var taobaoIcon = '';
+                        if($this.user_type == 0){
+                            taobaoIcon = '<i class="icon18-zz icon-taobao-18" style="margin-right: 5px;"></i>';
+                        }else if($this.user_type == 1){
+                            taobaoIcon = '<i class="icon18-zz icon-tianmao-18" style="margin-right: 5px;"></i>';
+                        }
+
+                        commission_rate = 0;
+
+                        commission_rate = $this.commission_rate;
+                        if(typeof($this.coupon_amount) == 'undefined'){
+                            $this.coupon_amount = 0;
+                        }
+                        var coupon_amount = formatCouponInfo($this.coupon_info);
+                        var zkPrice = jsSubtr($this.zk_final_price,coupon_amount);
+                        $('#goodsUL').append('<li>' +
+                            //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
+                            '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+p+','+commission_rate+','+coupon_amount+',\''+$this.coupon_click_url+'\',\''+$this.item_url+'\',\'\')">' +
+                            '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
+                            '<span class="quanFlag"><b>'+coupon_amount+'</b><br>元券</span>' +
+                            '<div class="proimg">' +
+                                '<img onload="imgLoadC(this)" style="display:none;" src="'+$this.pict_url+'">' +
+                                '<div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div>'+
+                            '</div>' +
+                            '<div class="protxt">' +
+                            // 根据店铺类型判断是天猫、淘宝
+                            '<div class="name" style="position: relative;">' +
+                            taobaoIcon +
+                            '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
+                            '<div class="name" style="position: relative;"><p>' +
+                            '<em class="nowPrice">￥'+zkPrice+'</em>' +
+                            '<span class="oldPrice">￥'+$this.zk_final_price+'</span>' +
+                            '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
+                            '</p></div>' +
+                            '<div class="return" style="margin-bottom: 3px;">' +
+                            '<div style="background-color: #d02c37;color: #fff;">标佣¥'+byFnc(zkPrice,commission_rate)+'</div>' +
+                            '<div style="color: #d02c37;">特佣¥'+tyFnc(zkPrice,commission_rate)+'</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>');
+                    });
+                }else{
+                    $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                    loading = true;
+                }
+          }else{
+                $(".w-main").append('<div class="weui-cells__title" style="text-align: center;margin-bottom:5rem;">已无更多数据</div>');
+                loading = true;
+          }
+    });
+}
 // 详情页加载商品
 function loadInfo(){
     if(!!goodsDetail && goodsDetail.length > 0){

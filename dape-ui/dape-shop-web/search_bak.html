@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>搜索宝贝</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath} + ${appName} + '/css/style.css'">
+  <style>.weui-panel.weui-panel:after{border-bottom:none;}</style>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <div id="sortDiv" class="weui-flex wy-iconlist-box" style="display: flex;">
+        <a style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">综合</a>
+        <a style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">销量</a>
+        <a style="padding:11px 0 9px 0;flex: 0 0 33%;" class="weui-navbar__item proinfo-tab-tit" href="javascript:">价格</a>
+      </div>
+      <!--数据列表-->
+      <div class="weui-panel">
+        <ul id="goodsUL" class="wy-pro-list clear"></ul>
+      </div>
+      <div class="weui-loadmore" style="margin-bottom:3.5rem;height:1rem">
+        <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+      </div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+  <div class="weui-search-bar index-search-bar">
+    <div class="weui-search-bar__box index-search-box">
+        <i class="weui-icon-search"></i>
+        <input type="search" name="q" th:value="${q}" id="qTxt" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
+    </div>
+    <div class="index-search-c">
+      <a href="javascript:void(0);" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+    </div>
+  </div>
+</header>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="${uiPath} + ${appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath} + ${appName} + '/js/common.js'"></script>
+
+<script th:inline="javascript">
+
+    var q = [[${#strings.isEmpty(q)} ? '' : ${q}]];
+    var c = [[${#strings.isEmpty(cat)} ? '' : ${cat}]];
+    var s = [[${#strings.isEmpty(s)} ? '' : ${s}]];
+    var d = [[${#strings.isEmpty(d)} ? '' : ${d}]];
+    var hc = [[${#strings.isEmpty(hc)} ? 'true' : ${hc}]];
+    var str = [[${#strings.isEmpty(str)} ? '850' : ${str}]];
+    var etr = [[${#strings.isEmpty(etr)} ? '' : ${etr}]];
+    var m = [[${#strings.isEmpty(m)} ? '' : ${m}]];
+    var loc = [[${#strings.isEmpty(loc)} ? '' : ${loc}]];
+    var p = parseInt([[${#strings.isEmpty(p)} ? '2' : ${p}]]);
+    var ml = [[${#strings.isEmpty(ml)} ? '' : ${ml}]];
+    var nfs = [[${#strings.isEmpty(nfs)} ? '' : ${nfs}]];
+    var np = [[${#strings.isEmpty(np)} ? '' : ${np}]];
+
+    $(function() {
+        FastClick.attach(document.body);
+        // 第一次加载数据
+        // 返回顶部
+        if(q == '' && c == ''){
+            // 女装/男装/女鞋/男鞋/箱包/服饰配件/童装/美容护肤/居家日用/零食
+            c = '16,30,50006843,50011740,50006842,50010404,50008165,1801,21,50002766';
+        }
+        loadSearchGoodsBak();
+        backScroll('listwrap');
+    });
+
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    var pageNum = 1;
+    var pageSize = 20;
+    var loading = false;
+
+    $("#listwrap").infinite().on("infinite", function () {
+        if (loading) return;
+        loading = true;
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        loadSearchGoodsBak();
+    });
+
+</script>
+</body>
+</html>
