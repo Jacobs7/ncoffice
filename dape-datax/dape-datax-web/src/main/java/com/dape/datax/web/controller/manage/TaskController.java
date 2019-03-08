@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Api(value = "任务管理", description = "任务管理")
-@RequestMapping("/manage/dataSourceType")
+@RequestMapping("/manage/task")
 @Controller
 public class TaskController extends BaseController {
 
