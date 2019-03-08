@@ -621,7 +621,12 @@ function loadGoodsForSearch(){
             $(mapData).each(function(){
                 $this = this;
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
-                var tianmaoCss = 'icon-tianmao-18';
+                var taobaoIcon = '';
+                if($this.user_type == 0){
+                    taobaoIcon = '<i class="icon18-zz icon-taobao-18" style="margin-right: 5px;"></i>';
+                }else if($this.user_type == 1){
+                    taobaoIcon = '<i class="icon18-zz icon-tianmao-18" style="margin-right: 5px;"></i>';
+                }
 
                 commission_rate = 0;
 
@@ -642,7 +647,7 @@ function loadGoodsForSearch(){
                     '<div class="protxt">' +
                     // 根据店铺类型判断是天猫、淘宝
                     '<div class="name" style="position: relative;">' +
-                    '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
+                    taobaoIcon +
                     '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
                     '<div class="name" style="position: relative;"><p>' +
                     '<em class="nowPrice">￥'+zkPrice+'</em>' +
