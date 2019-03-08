@@ -1035,6 +1035,52 @@ public class GoodsController extends BaseController {
         return m;
     }
 
+    /**
+     * 转向好券清单
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/hqqd", method = RequestMethod.GET)
+    public String hqqd(Model model, HttpServletRequest request) {
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            model.addAttribute("q", q);
+        }
+        String c = request.getParameter("c");
+        if(StringUtils.isNotBlank(c)){
+            model.addAttribute("c", c);
+        }
+        String p = request.getParameter("p");
+        if(StringUtils.isNotBlank(p)){
+            model.addAttribute("p", p);
+        }
+        return thymeleaf("/hqqd");
+    }
+
+    /**
+     * 加载好券清单列表
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/loadHqqd", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadHqqd(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String c = request.getParameter("c");
+        if(StringUtils.isNotBlank(c)){
+            params.put("c", c);
+        }
+        String p = request.getParameter("p");
+        if(StringUtils.isNotBlank(p)){
+            params.put("p", p);
+        }
+        return shopGoodsService.tbkDgItemCouponGet(pageNum, pageSize, params);
+    }
+
 
     // *******************************************************************************************************************************
 
@@ -1289,6 +1335,139 @@ public class GoodsController extends BaseController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 商品分类查询（备份）
+     * @param request 查询条件
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/toSearchBak", method = RequestMethod.GET)
+    public String toSearchBak(HttpServletRequest request, Model model) {
+
+        String q = request.getParameter("q");//查询词
+        if (StringUtils.isNotBlank(q)) {
+            model.addAttribute("q", q);
+        }
+        String c = request.getParameter("c");//淘宝类目
+        if (StringUtils.isNotBlank(c)) {
+            model.addAttribute("c", c);
+        }
+        String s = request.getParameter("s");//排序
+        if (StringUtils.isNotBlank(s)) {
+            model.addAttribute("s", s);
+        }
+        String d = request.getParameter("d");//升序、降序
+        if (StringUtils.isNotBlank(d)) {
+            model.addAttribute("d", d);
+        }
+        String hc = request.getParameter("hc");//是否有优惠券
+        if (StringUtils.isNotBlank(hc)) {
+            model.addAttribute("hc", hc);
+        }
+        String str = request.getParameter("str");//佣金比率下限
+        if (StringUtils.isNotBlank(str)) {
+            model.addAttribute("str", str);
+        }
+        String etr = request.getParameter("etr");//佣金比率上限
+        if (StringUtils.isNotBlank(hc)) {
+            model.addAttribute("etr", etr);
+        }
+        String p = request.getParameter("p");//链接形式：1：PC，2：无线，默认：１
+        if (StringUtils.isNotBlank(p)) {
+            model.addAttribute("p", p);
+        }
+        String m = request.getParameter("m");//官方的物料Id
+        if (StringUtils.isNotBlank(m)) {
+            model.addAttribute("m", m);
+        }
+        String loc = request.getParameter("loc");//商品筛选-所在地，例：杭州
+        if (StringUtils.isNotBlank(loc)) {
+            model.addAttribute("loc", loc);
+        }
+        String ml = request.getParameter("ml");//商品筛选-是否天猫商品。true表示属于天猫商品，false或不设置表示不限
+        if (StringUtils.isNotBlank(ml)) {
+            model.addAttribute("ml", ml);
+        }
+        String nfs = request.getParameter("nfs");//是否包邮，true or false
+        if (StringUtils.isNotBlank(nfs)) {
+            model.addAttribute("nfs", nfs);
+        }
+        String np = request.getParameter("np");//是否加入消费者保障，true or false
+        if (StringUtils.isNotBlank(np)) {
+            model.addAttribute("np", np);
+        }
+
+        return thymeleaf("/search_bak");
+    }
+
+    /**
+     * 加载商品列表, ajax请求
+     * @param pageNum 第几页
+     * @param pageSize 每页多少条
+     * @param request 查询条件
+     * @return
+     */
+    @RequestMapping(value = "/loadSearchGoodsBak", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadSearchGoodsBak(Long pageNum, Long pageSize, HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        String q = request.getParameter("q");
+        if(StringUtils.isNotBlank(q)){
+            params.put("q", q);
+        }
+        String c = request.getParameter("c");
+        if(StringUtils.isNotBlank(c)){
+            params.put("cat", c);
+        }
+        String p = request.getParameter("p");
+        if(StringUtils.isNotBlank(p)){
+            params.put("platform", p);
+        }
+        String hc = request.getParameter("hc");
+        if(StringUtils.isNotBlank(hc)){
+            params.put("has_coupon", hc);
+        }
+        String str = request.getParameter("str");
+        if(StringUtils.isNotBlank(str)){
+            params.put("start_tk_rate", str);
+        }
+        String etr = request.getParameter("etr");
+        if(StringUtils.isNotBlank(etr)){
+            params.put("end_tk_rate", etr);
+        }
+        String nfs = request.getParameter("nfs");
+        if(StringUtils.isNotBlank(nfs)){
+            params.put("need_free_shipment", nfs);
+        }
+        String np = request.getParameter("np");
+        if(StringUtils.isNotBlank(np)){
+            params.put("need_prepay", np);
+        }
+        String loc = request.getParameter("loc");
+        if(StringUtils.isNotBlank(loc)){
+            params.put("itemloc", loc);
+        }
+        String ml = request.getParameter("ml");
+        if(StringUtils.isNotBlank(ml)){
+            params.put("is_tmall", ml);
+        }
+        String s = request.getParameter("s");
+        if(StringUtils.isNotBlank(s)){
+            String d = request.getParameter("d");
+            if(StringUtils.isNotBlank(d)){
+                params.put("sort", s + d);
+            }else{
+                params.put("sort", s + "_des");
+            }
+        }
+        String m = request.getParameter("m");
+        if(StringUtils.isNotBlank(m)){
+            params.put("material_id", m);
+        }
+        return shopGoodsService.loadCouponGoodsBySeach(pageNum, pageSize, params);
     }
     // 加载数据库商品 end *******************************************************************************************************
 

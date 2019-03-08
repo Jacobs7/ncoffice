@@ -53,64 +53,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         if(tobaoClient == null){
 
             // 正式环境
-            tobaoClient = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
-        }
-    }
-
-    public static void main(String[] args){
-
-        try {
-
-            // mm_323040055_331400082_96030450186
-            TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
-
-
-//            TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
-//            req.setUserId("123");
-//            req.setText("雨伞男女全自动开收大号双人三折折叠加固晴雨两用学生加大号定制");
-//            req.setUrl("https://uland.taobao.com/coupon/edetail?e=kU1HVf9BxHYNfLV8niU3RwXoB%2BDaBK5LQS0Flu%2FfbSp4QsdWMikAalrisGmre1Id522H2TxuqpIJs1xX5zzxBxtTvtpwq94UTSvQvC0XMdUyi8r%2FB5H5eHl3bPxl2zv9iHBrMsahiyvIxzSW1FdMgZbV2%2BrO1tknA8r4sORx2%2FLKhCDdY44lU3cfn8oOafsLFF6O9STo8Qg7mmMWJDI59WUFFgz3RBVH&&app_pvid=59590_11.23.60.3_70141_1550392042601&ptl=floorId:2836;app_pvid:59590_11.23.60.3_70141_1550392042601;tpp_pvid:100_11.139.177.84_32849_6991550392042606598&xId=bUVQ5IkDtYIGtzLLfTUHpVSCSRka4jpY7dTgJw9Do2djpvkpc9WBxkjFhCDoRWPVtLLVZM6qHRRzmilUY1b3cN&union_lens=lensId:0b173c03_0c11_168fa9124ab_05f7");
-//            req.setExt("{aaa:1}");
-
-//            req.setNumIids("584574208203");
-
-//            TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
-//            req.setPageSize(20L);
-//            req.setAdzoneId(96030450186L);
-//            req.setPageNo(1L);
-////            req.setMaterialId(123L);
-//            req.setItemId(578586247457L);
-//            TbkDgOptimusMaterialResponse rsp = client.execute(req);
-
-            TbkJuTqgGetRequest req = new TbkJuTqgGetRequest();
-            req.setAdzoneId(ADZONE_ID);
-            req.setFields("click_url,pic_url,reserve_price,zk_final_price,total_amount,sold_num,title,category_name,start_time,end_time");
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String date = format.format(new Date());
-            format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                Date start = format.parse(date + " 00:00:00");
-                req.setStartTime(start);
-                Date end = format.parse(date + " 23:59:59");
-                req.setEndTime(end);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            req.setPageNo(1L);
-            req.setPageSize(40L);
-            TbkJuTqgGetResponse rsp = client.execute(req);
-
-//            TbkItemidCouponGetRequest req = new TbkItemidCouponGetRequest();
-//            req.setPlatform(1L);
-//            req.setPid("mm_123_123_123");
-//            req.setNumIids("123,456");
-//            TbkItemidCouponGetResponse rsp = client.execute(req);
-
-            System.out.println("*********************");
-            System.out.println(rsp.getBody());
-            System.out.println("*********************");
-        } catch (ApiException e) {
-            e.printStackTrace();
+            tobaoClient = new DefaultTaobaoClient("https://eco.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
         }
     }
 
@@ -190,6 +133,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("success", false);
 
+        DefaultTaobaoClient client = new DefaultTaobaoClient("https://eco.taobao.com/router/rest", "25632498", "51e06e43ebc6f093579131f6c7fcd568");
         TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
 
         req.setAdzoneId(ADZONE_ID);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
@@ -219,6 +163,15 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
             if (params.containsKey("itemloc")) {//所在地，例：杭州
                 req.setItemloc(params.get("itemloc").toString());
             }
+            if (params.containsKey("start_tk_rate")) {//佣金率下限
+                req.setStartTkRate(Long.valueOf(params.get("start_tk_rate").toString()));
+            }
+            if (params.containsKey("end_tk_rate")) {//佣金率上限
+                req.setEndTkRate(Long.valueOf(params.get("end_tk_rate").toString()));
+            }
+            if (params.containsKey("is_tmall")) {//是否商城商品
+                req.setIsTmall(Boolean.valueOf(params.get("is_tmall").toString()));
+            }
             if (params.containsKey("sort")) {//排序
                 req.setSort(params.get("sort").toString());//排序_des（降序），排序_asc（升序），销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price）
             }
@@ -233,7 +186,7 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
         try {
 
             // 调用接口
-            TbkDgMaterialOptionalResponse rsp = tobaoClient.execute(req);
+            TbkDgMaterialOptionalResponse rsp = client.execute(req);
             String resultJson = rsp.getBody();
 
             // 返回结果转json
@@ -531,5 +484,60 @@ public class ShopGoodsServiceImpl extends BaseServiceImpl<ShopGoodsMapper, ShopG
     @Override
     public Integer updateGoodsByCouponEndTime() {
         return shopGoodsSelfMapper.updateGoodsByCouponEndTime();
+    }
+
+    @Override
+    public Map<String, Object> tbkDgItemCouponGet(Long pageNum, Long pageSize, Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+
+        TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+
+        req.setAdzoneId(ADZONE_ID);//推广位：要在阿里妈妈后台获取，mm_xxx_xxx_xxx的第三位
+
+        if(params != null) {
+            if (params.containsKey("platform")) {
+                req.setPlatform(Long.valueOf(params.get("platform").toString()));
+            }
+            if (params.containsKey("cat")) {
+                req.setCat(params.get("cat").toString());
+            }
+            if (params.containsKey("q")) {
+                req.setQ(params.get("q").toString());
+            }
+        }
+
+        // 设置pageNum、pageSize
+        req.setPageNo(pageNum);
+        req.setPageSize(pageSize);
+        try {
+
+            // 调用接口
+            TbkDgItemCouponGetResponse rsp = tobaoClient.execute(req);
+            String resultJson = rsp.getBody();
+
+            // 返回结果转json
+            JSONObject jsonObject = JSON.parseObject(resultJson);
+            JSONObject tbkDgItemCouponGetResponse = jsonObject.getJSONObject("tbk_dg_item_coupon_get_response");// 各个接口的结果集字段不一样
+            JSONObject errorResponse = jsonObject.getJSONObject("error_response");
+
+            if(errorResponse != null){//返回错误
+                String subMsg = errorResponse.getString("sub_msg");
+                result.put("msg", subMsg);
+            }else if(tbkDgItemCouponGetResponse != null){//查询成功
+                Long total_results = tbkDgItemCouponGetResponse.getLong("total_results");
+                result.put("total", total_results);
+                String request_id = tbkDgItemCouponGetResponse.getString("request_id");
+                result.put("requestId", request_id);
+                JSONObject results = tbkDgItemCouponGetResponse.getJSONObject("results");
+                JSONArray tbkCoupon = results.getJSONArray("tbk_coupon");
+                result.put("tbkCoupon", tbkCoupon);
+                result.put("success", true);
+            }
+
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

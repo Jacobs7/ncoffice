@@ -57,7 +57,7 @@ public class ImportTBKGoodsTaskImpl {
     /**
      * 根据物料id从淘宝客获取商品写本地文件,按天更新
      */
-    @Scheduled(cron = "0 35 4,10,15,23 * * ?")
+//    @Scheduled(cron = "0 35 4,10,15,23 * * ?")
     public void importGoodsDays() {
 
         // 查询需要导入的类目
@@ -75,7 +75,7 @@ public class ImportTBKGoodsTaskImpl {
     /**
      * 根据物料id从淘宝客获取商品写本地文件,按小时更新
      */
-    @Scheduled(cron = "0 35 3,5,9,11,13,16,17,21 * * ?")
+//    @Scheduled(cron = "0 35 3,5,9,11,13,16,17,21 * * ?")
     public void importGoodsHours() {
 
         // 查询需要导入的类目
@@ -93,7 +93,7 @@ public class ImportTBKGoodsTaskImpl {
     /**
      * 文件中的商品导入到数据库中
      */
-    @Scheduled(cron = "0 40 0/1 * * ?")
+//    @Scheduled(cron = "0 40 0/1 * * ?")
     public void importGoodsToDB() {
         if(StringUtils.isBlank(importTxtPath)){
             importTxtPath = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/");
