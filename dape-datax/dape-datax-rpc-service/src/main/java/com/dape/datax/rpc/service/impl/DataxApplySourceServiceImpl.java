@@ -23,7 +23,7 @@ public class DataxApplySourceServiceImpl extends BaseServiceImpl<DataxApplySourc
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataxApplySourceServiceImpl.class);
 
+
     @Autowired
     DataxApplySourceMapper dataxApplySourceMapper;
-
 }
