@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dape.datax.dao.mapper.DataxApplySourceMapper">
   <resultMap id="BaseResultMap" type="com.dape.datax.dao.model.DataxApplySource">
-    <result column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="link_ip" jdbcType="VARCHAR" property="linkIp" />
     <result column="db_user" jdbcType="VARCHAR" property="dbUser" />
     <result column="db_pwd" jdbcType="VARCHAR" property="dbPwd" />
@@ -86,6 +86,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from datax_apply_source
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from datax_apply_source
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.dape.datax.dao.model.DataxApplySourceExample">
     delete from datax_apply_source
     <if test="_parameter != null">
@@ -206,6 +216,44 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.datax.dao.model.DataxApplySource">
+    update datax_apply_source
+    <set>
+      <if test="linkIp != null">
+        link_ip = #{linkIp,jdbcType=VARCHAR},
+      </if>
+      <if test="dbUser != null">
+        db_user = #{dbUser,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPwd != null">
+        db_pwd = #{dbPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="dbPort != null">
+        db_port = #{dbPort,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dape.datax.dao.model.DataxApplySource">
+    update datax_apply_source
+    set link_ip = #{linkIp,jdbcType=VARCHAR},
+      db_user = #{dbUser,jdbcType=VARCHAR},
+      db_pwd = #{dbPwd,jdbcType=VARCHAR},
+      db_port = #{dbPort,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>
