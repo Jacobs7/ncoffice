@@ -55,6 +55,9 @@
 
 
 
+
+
+
     </dependencies>
 
     <profiles>
@@ -105,7 +108,7 @@
                         <contextPath>/</contextPath>
                     </webApp>
                     <httpConnector>
-                        <port>2222</port>
+                        <port>4444</port>
                     </httpConnector>
                     <reload>automatic</reload>
                 </configuration>

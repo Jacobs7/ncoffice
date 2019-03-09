@@ -49,17 +49,31 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/dataSourceType/create',
+        url: '${basePath}/manage/applySource/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
-            if ($('#name').val() == '') {
-                $('#name').focus();
+            if ($('#linkIp').val() == '') {
+                $('#linkIp').focus();
                 return false;
             }
-            if ($('#alias').val() == '') {
-                $('#alias').focus();
+            if ($('#dbUser').val() == '') {
+                $('#dbUser').focus();
                 return false;
             }
+			if ($('#dbPwd').val() == '') {
+				$('#dbPwd').focus();
+				return false;
+			}
+			if ($('#dbPort').val() == '') {
+				$('#dbPort').focus();
+				return false;
+			}
+			if ($('#typeId').val() == '') {
+				$('#typeId').focus();
+				return false;
+			}
+
+
         },
         success: function(result) {
 			if (result.code != 1) {

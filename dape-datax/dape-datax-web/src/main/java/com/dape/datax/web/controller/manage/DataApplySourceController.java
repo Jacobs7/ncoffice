@@ -42,7 +42,7 @@ public class DataApplySourceController extends BaseController {
         return "/manage/applySource/index.jsp";
     }
 
-    @ApiOperation(value = "类型列表")
+    @ApiOperation(value = "应用源列表")
     @RequiresPermissions("datax:applySource:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
@@ -52,17 +52,17 @@ public class DataApplySourceController extends BaseController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-        DataxApplySourceExample dataxSourceTypeExample = new DataxApplySourceExample();
+        DataxApplySourceExample dataxApplySourceExample = new DataxApplySourceExample();
 
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            dataxSourceTypeExample.setOrderByClause(sort + " " + order);
+            dataxApplySourceExample.setOrderByClause(sort + " " + order);
         }
         if (StringUtils.isNotBlank(search)) {
-            // dataxSourceTypeExample.or().andDriverNameLike("%" + search + "%");
+             dataxApplySourceExample.or().andLinkIpLike("%" + search + "%");
         }
 
-        List<DataxApplySource> rows = dataxApplySourceService.selectByExampleForOffsetPage(dataxSourceTypeExample, offset, limit);
-        long total = dataxApplySourceService.countByExample(dataxSourceTypeExample);
+        List<DataxApplySource> rows = dataxApplySourceService.selectByExampleForOffsetPage(dataxApplySourceExample, offset, limit);
+        long total = dataxApplySourceService.countByExample(dataxApplySourceExample);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
@@ -71,17 +71,37 @@ public class DataApplySourceController extends BaseController {
 
 
 
-    @ApiOperation(value = "修改文章")
+    @ApiOperation(value = "修改文章页面跳转")
     @RequiresPermissions("datax:applySource:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
-        DataxApplySourceExample dataxSourceTypeExample = new DataxApplySourceExample();
-        dataxSourceTypeExample.setOrderByClause("ctime desc");
-        //List<DataxApplySource> dataxSourceTypeList = dataxApplySourceService.selectByExample(dataxSourceTypeExample);
+//        DataxApplySourceExample dataxApplySourceExample = new DataxApplySourceExample();
+//        dataxApplySourceExample.setOrderByClause("id desc");
+//        List<DataxApplySource> dataxSourceTypeList = dataxApplySourceService.selectByExample(dataxApplySourceExample);
         DataxApplySource dataxApplySource = dataxApplySourceService.selectByPrimaryKey(id);
         //modelMap.put("cmsTopics", dataxSourceTypeList);
         modelMap.put("applySource", dataxApplySource);
         return "/manage/applySource/update.jsp";
+    }
+
+    @ApiOperation(value = "修改源类型")
+    @RequiresPermissions("datax:applySource:update")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, DataxApplySource dataxApplySource) {
+        ComplexResult result = FluentValidator.checkAll()
+                .on(dataxApplySource.getDbPort(), new LengthValidator(1, 5, "端口"))
+                .on(dataxApplySource.getLinkIp(), new LengthValidator(7, 15, "IP"))
+                .on(dataxApplySource.getDbPwd(), new LengthValidator(1, 36, "密码"))
+                .on(dataxApplySource.getDbUser(), new LengthValidator(1, 36, "用户名"))
+                .doValidate()
+                .result(ResultCollectors.toComplex());
+        if (!result.isSuccess()) {
+            return new DataxResult(DataxResultConstant.INVALID_LENGTH, result.getErrors());
+        }
+        dataxApplySource.setId(id);
+        int count = dataxApplySourceService.updateByPrimaryKeySelective(dataxApplySource);
+        return new DataxResult(DataxResultConstant.SUCCESS, count);
     }
 
     @ApiOperation(value="新增源类型弹出框")
@@ -124,25 +144,7 @@ public class DataApplySourceController extends BaseController {
         return new DataxResult(DataxResultConstant.SUCCESS, count);
     }
 
-    @ApiOperation(value = "修改源类型")
-    @RequiresPermissions("datax:applySource:update")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public Object update(@PathVariable("id") int id, DataxApplySource dataxApplySource) {
-        ComplexResult result = FluentValidator.checkAll()
-                .on(dataxApplySource.getDbPort(), new LengthValidator(1, 5, "端口"))
-                .on(dataxApplySource.getLinkIp(), new LengthValidator(7, 15, "IP"))
-                .on(dataxApplySource.getDbPwd(), new LengthValidator(1, 36, "密码"))
-                .on(dataxApplySource.getDbUser(), new LengthValidator(1, 36, "用户名"))
-                .doValidate()
-                .result(ResultCollectors.toComplex());
-        if (!result.isSuccess()) {
-            return new DataxResult(DataxResultConstant.INVALID_LENGTH, result.getErrors());
-        }
-        dataxApplySource.setId(id);
-        int count = dataxApplySourceService.updateByPrimaryKeySelective(dataxApplySource);
-        return new DataxResult(DataxResultConstant.SUCCESS, count);
-    }
+
 
     @ApiOperation(value = "删除文章")
     @RequiresPermissions("datax:applySource:delete")

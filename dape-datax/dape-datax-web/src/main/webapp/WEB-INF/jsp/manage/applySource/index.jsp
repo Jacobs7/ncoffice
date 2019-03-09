@@ -120,7 +120,7 @@
 		} else {
 			updateDialog = $.dialog({
 				animationSpeed: 300,
-				title: '编辑源类型',
+				title: '编辑应用源',
 				content: 'url:${basePath}/manage/applySource/update/' + rows[0].id,
 				onContentReady: function () {
 					initMaterialInput();

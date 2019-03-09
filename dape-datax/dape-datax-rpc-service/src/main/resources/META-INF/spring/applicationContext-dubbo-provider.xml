@@ -16,15 +16,15 @@
     <!--<dubbo:monitor protocol="registry"/>-->
 
     <!-- 系统 -->
-    <bean id="dataxTaskService" class="com.dape.datax.rpc.service.impl.DataxTaskServiceImpl"/>
-    <dubbo:service interface="com.dape.datax.rpc.api.DataxTaskService" ref="dataxTaskService" timeout="10000"/>
+    <bean id="dataxTaskServiceImpl" class="com.dape.datax.rpc.service.impl.DataxTaskServiceImpl"/>
+    <dubbo:service interface="com.dape.datax.rpc.api.DataxTaskService" ref="dataxTaskServiceImpl" timeout="10000"/>
 
     <!-- 组织 -->
-    <bean id="dataxSourceTypeService" class="com.dape.datax.rpc.service.impl.DataxSourceTypeServiceImpl"/>
-    <dubbo:service interface="com.dape.datax.rpc.api.DataxSourceTypeService" ref="dataxSourceTypeService" timeout="10000"/>
+    <bean id="dataxSourceTypeServiceImpl" class="com.dape.datax.rpc.service.impl.DataxSourceTypeServiceImpl"/>
+    <dubbo:service interface="com.dape.datax.rpc.api.DataxSourceTypeService" ref="dataxSourceTypeServiceImpl" timeout="10000"/>
 
-    <bean id="dataxApplySourceService" class="com.dape.datax.rpc.service.impl.DataxApplySourceServiceImpl"/>
-    <dubbo:service interface="com.dape.datax.rpc.api.DataxApplySourceService" ref="dataxApplySourceService" timeout="10000"/>
+    <bean id="dataxApplySourceServiceImpl" class="com.dape.datax.rpc.service.impl.DataxApplySourceServiceImpl"/>
+    <dubbo:service interface="com.dape.datax.rpc.api.DataxApplySourceService" ref="dataxApplySourceServiceImpl" timeout="10000"/>
 
 
 

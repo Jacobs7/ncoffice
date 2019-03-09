@@ -10,6 +10,7 @@
 	<form id="updateForm" method="post">
 
 		<div class="form-group">
+
 			<label for="linkIp">IP</label>
 			<input id="linkIp" type="text" class="form-control" name="linkIp" maxlength="20" value="${applySource.linkIp}">
 		</div>
