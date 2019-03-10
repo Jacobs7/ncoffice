@@ -6,7 +6,7 @@ import com.dape.datax.dao.model.DataxTaskExample;
 
 /**
 * DataxTaskService接口
-* Created by dape on 2019/3/3.
+* Created by dape on 2019/3/9.
 */
 public interface DataxTaskService extends BaseService<DataxTask, DataxTaskExample> {
 

@@ -70,7 +70,7 @@
 	function actionFormatter(value, row, index) {
 		return [
 			'<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-			'<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>',
+
 			'<a class="connect" href="javascript:;" onclick="connectAction()" data-toggle="tooltip" title="Connect"><i class="glyphicon glyphicon-play"></i></a>'
 		].join('');
 	}

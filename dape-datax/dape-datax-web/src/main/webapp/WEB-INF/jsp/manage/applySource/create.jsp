@@ -29,8 +29,14 @@
 		</div>
 
 		<div class="form-group">
-			<label for="typeId">类型</label>
-			<input id="typeId" type="text" class="form-control" name="typeId" maxlength="5"/>
+			<div class="fg-line">
+				<select id="typeId" name="typeId" style="width: 100%">
+					<option value="0">源类型</option>
+					<c:forEach var="type" items="${dataxSourceType}">
+						<option value="${type.id}">${type.driverName}</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 
 		<div class="form-group">

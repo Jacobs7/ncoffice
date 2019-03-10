@@ -7,7 +7,7 @@ import com.dape.datax.dao.model.DataxApplySourceExample;
 
 /**
 * 降级实现DataxApplySourceService接口
-* Created by dape on 2019/3/6.
+* Created by dape on 2019/3/9.
 */
 public class DataxApplySourceServiceMock extends BaseServiceMock<DataxApplySourceMapper, DataxApplySource, DataxApplySourceExample> implements DataxApplySourceService {
 

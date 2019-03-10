@@ -7,7 +7,7 @@ import com.dape.datax.dao.model.DataxTaskExample;
 
 /**
 * 降级实现DataxTaskService接口
-* Created by dape on 2019/3/3.
+* Created by dape on 2019/3/9.
 */
 public class DataxTaskServiceMock extends BaseServiceMock<DataxTaskMapper, DataxTask, DataxTaskExample> implements DataxTaskService {
 

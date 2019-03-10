@@ -9,7 +9,10 @@ import com.dape.datax.common.constant.DataxResult;
 import com.dape.datax.common.constant.DataxResultConstant;
 import com.dape.datax.dao.model.DataxApplySource;
 import com.dape.datax.dao.model.DataxApplySourceExample;
+import com.dape.datax.dao.model.DataxSourceType;
+import com.dape.datax.dao.model.DataxSourceTypeExample;
 import com.dape.datax.rpc.api.DataxApplySourceService;
+import com.dape.datax.rpc.api.DataxSourceTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +37,9 @@ public class DataApplySourceController extends BaseController {
 
     @Autowired
     private DataxApplySourceService dataxApplySourceService;
+
+    @Autowired
+    private DataxSourceTypeService dataxSourceTypeService;
 
     @ApiOperation(value = "首页跳转")
     @RequiresPermissions("datax:applySource:read")
@@ -75,11 +81,13 @@ public class DataApplySourceController extends BaseController {
     @RequiresPermissions("datax:applySource:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
-//        DataxApplySourceExample dataxApplySourceExample = new DataxApplySourceExample();
-//        dataxApplySourceExample.setOrderByClause("id desc");
-//        List<DataxApplySource> dataxSourceTypeList = dataxApplySourceService.selectByExample(dataxApplySourceExample);
+        //页面初始化数据  源类型
+        DataxSourceTypeExample dataxSourceTypeExample = new DataxSourceTypeExample();
+        dataxSourceTypeExample.setOrderByClause("id desc");
+        List<DataxSourceType> dataxSourceTypeList = dataxSourceTypeService.selectByExample(dataxSourceTypeExample);
+
         DataxApplySource dataxApplySource = dataxApplySourceService.selectByPrimaryKey(id);
-        //modelMap.put("cmsTopics", dataxSourceTypeList);
+        modelMap.put("sourceType", dataxSourceTypeList);
         modelMap.put("applySource", dataxApplySource);
         return "/manage/applySource/update.jsp";
     }
@@ -104,13 +112,14 @@ public class DataApplySourceController extends BaseController {
         return new DataxResult(DataxResultConstant.SUCCESS, count);
     }
 
-    @ApiOperation(value="新增源类型弹出框")
+    @ApiOperation(value="新增应用源弹出框")
     @RequiresPermissions("datax:applySource:create")
     @RequestMapping(value="/create",method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
-        DataxApplySourceExample dataxApplySourceExample = new DataxApplySourceExample();
-        //dataxSourceTypeExample.setOrderByClause("ctime desc");
-        List<DataxApplySource> dataxSourceTypes = dataxApplySourceService.selectByExample(dataxApplySourceExample);
+        //应用源关联数据源类型
+        DataxSourceTypeExample dataxSourceTypeExample = new DataxSourceTypeExample();
+        dataxSourceTypeExample.setOrderByClause("id desc");
+        List<DataxSourceType> dataxSourceTypes = dataxSourceTypeService.selectByExample(dataxSourceTypeExample);
         modelMap.put("dataxSourceType", dataxSourceTypes);
         return "/manage/applySource/create.jsp";
     }

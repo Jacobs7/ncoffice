@@ -6,7 +6,7 @@ import com.dape.datax.dao.model.DataxSourceTypeExample;
 
 /**
 * DataxSourceTypeService接口
-* Created by dape on 2019/3/3.
+* Created by dape on 2019/3/9.
 */
 public interface DataxSourceTypeService extends BaseService<DataxSourceType, DataxSourceTypeExample> {
 
