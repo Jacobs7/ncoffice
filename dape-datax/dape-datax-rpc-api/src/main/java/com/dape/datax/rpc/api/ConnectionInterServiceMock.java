@@ -12,7 +12,7 @@ import org.apache.hadoop.fs.FileSystem;
 
 import java.sql.Connection;
 
-public class ConnectionInterServiceMock extends BaseServiceMock<DataxApplySourceMapper, DataxApplySource, DataxApplySourceExample> implements ConnectionInterService{
+public class ConnectionInterServiceMock implements ConnectionInterService{
 
     @Override
     public Connection getMySqlConnection(DataxApplySource applySource) {

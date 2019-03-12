@@ -11,7 +11,7 @@ import org.apache.hadoop.fs.FileSystem;
 
 import java.sql.Connection;
 
-public interface ConnectionInterService extends BaseService<DataxApplySource, DataxApplySourceExample> {
+public interface ConnectionInterService{
 
     Connection getMySqlConnection(DataxApplySource applySource);
 

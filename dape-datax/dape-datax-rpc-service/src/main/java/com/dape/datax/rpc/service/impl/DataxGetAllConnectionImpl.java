@@ -21,8 +21,7 @@ import java.sql.Connection;
 
 @Service
 @Transactional
-@BaseService
-public class DataxGetAllConnectionImpl extends BaseServiceImpl<DataxApplySourceMapper, DataxApplySource, DataxApplySourceExample> implements ConnectionInterService{
+public class DataxGetAllConnectionImpl implements ConnectionInterService{
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataxSourceTypeServiceImpl.class);
