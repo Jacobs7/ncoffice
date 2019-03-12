@@ -11,6 +11,7 @@ import com.dape.datax.dao.model.DataxApplySource;
 import com.dape.datax.dao.model.DataxApplySourceExample;
 import com.dape.datax.dao.model.DataxSourceType;
 import com.dape.datax.dao.model.DataxSourceTypeExample;
+import com.dape.datax.rpc.api.ConnectionInterService;
 import com.dape.datax.rpc.api.DataxApplySourceService;
 import com.dape.datax.rpc.api.DataxSourceTypeService;
 import io.swagger.annotations.Api;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +42,9 @@ public class DataApplySourceController extends BaseController {
 
     @Autowired
     private DataxSourceTypeService dataxSourceTypeService;
+
+    @Autowired
+    private ConnectionInterService ConnectionInterService;
 
     @ApiOperation(value = "首页跳转")
     @RequiresPermissions("datax:applySource:read")
@@ -158,10 +163,41 @@ public class DataApplySourceController extends BaseController {
     @ApiOperation(value = "删除文章")
     @RequiresPermissions("datax:applySource:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
-    @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
         int count = dataxApplySourceService.deleteByPrimaryKeys(ids);
         return new DataxResult(DataxResultConstant.FAILED.SUCCESS, count);
     }
+
+    @ApiOperation(value = "连接应用源")
+    @RequiresPermissions("datax:applySource:connect")
+    @RequestMapping(value = "/connect/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public Object connect(@PathVariable("id") int id){
+
+
+
+        DataxApplySource dataxApplySource = dataxApplySourceService.selectByPrimaryKey(id);
+
+        Connection connection = ConnectionInterService.getMySqlConnection(dataxApplySource);
+
+        if(connection != null){
+            return new DataxResult(DataxResultConstant.SUCCESS, "Connection Successful");
+        }
+
+
+        return new DataxResult(DataxResultConstant.FAILED, "error:");
+
+
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//            return new DataxResult(DataxResultConstant.FAILED, "error:"+e.getMessage());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return new DataxResult(DataxResultConstant.FAILED, "error:"+e.getMessage());
+//        }
+
+
+    }
+
 
 }

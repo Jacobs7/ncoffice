@@ -10,7 +10,7 @@
         <!--<property name="brokerURL" value="${AvtiveMQ.brokerURL}"/>-->
         <!--<property name="useAsyncSend" value="true"/>-->
     <!--</bean>-->
-    <!--<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">-->
+    <!--<bean id="connectionFactory" class="org.springframework.jms.com.dape.datax.rpc.api.connection.CachingConnectionFactory">-->
         <!--<property name="targetConnectionFactory" ref="activeMqConnectionFactory"/>-->
         <!--<property name="sessionCacheSize" value="100"/>-->
     <!--</bean>-->

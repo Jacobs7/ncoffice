@@ -17,17 +17,17 @@
 
 		<div class="form-group">
 			<label for="dbUser">用户</label>
-			<input id="dbUser" type="text" class="form-control" name="dbUser" maxlength="5" value="${applySource.dbUser}">
+			<input id="dbUser" type="text" class="form-control" name="dbUser" maxlength="20" value="${applySource.dbUser}">
 		</div>
 
 		<div class="form-group">
 			<label for="dbPwd">密码</label>
-			<input id="dbPwd" type="text" class="form-control" name="dbPwd" maxlength="5" value="${applySource.dbPwd}">
+			<input id="dbPwd" type="text" class="form-control" name="dbPwd" maxlength="20" value="${applySource.dbPwd}">
 		</div>
 
 		<div class="form-group">
 			<label for="dbPort">端口</label>
-			<input id="dbPort" type="text" class="form-control" name="dbPort" maxlength="5" value="${applySource.dbPort}">
+			<input id="dbPort" type="text" class="form-control" name="dbPort" maxlength="20" value="${applySource.dbPort}">
 		</div>
 
 		<div class="form-group">

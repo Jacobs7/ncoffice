@@ -15,12 +15,12 @@
 
 		<div class="form-group">
 			<label for="dbUser">用户</label>
-			<input id="dbUser" type="text" class="form-control" name="dbUser" maxlength="5" />
+			<input id="dbUser" type="text" class="form-control" name="dbUser" maxlength="20" />
 		</div>
 
 		<div class="form-group">
 			<label for="dbPwd">密码</label>
-			<input id="dbPwd" type="text" class="form-control" name="dbPwd" maxlength="5" />
+			<input id="dbPwd" type="text" class="form-control" name="dbPwd" maxlength="20" />
 		</div>
 
 		<div class="form-group">

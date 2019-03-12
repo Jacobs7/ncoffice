@@ -18,9 +18,10 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="datax:applySource:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增类目</a></shiro:hasPermission>
-		<shiro:hasPermission name="datax:applySource:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑类目</a></shiro:hasPermission>
-		<shiro:hasPermission name="datax:applySource:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除类目</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:applySource:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增源</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:applySource:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑源</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:applySource:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除源</a></shiro:hasPermission>
+		<shiro:hasPermission name="datax:applySource:connect"><a class="waves-effect waves-button" href="javascript:;" onclick="connnectAction()"><i class="zmdi zmdi-close"></i> 连接源</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -70,8 +71,7 @@
 	function actionFormatter(value, row, index) {
 		return [
 			'<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-
-			'<a class="connect" href="javascript:;" onclick="connectAction()" data-toggle="tooltip" title="Connect"><i class="glyphicon glyphicon-play"></i></a>'
+			'<a class="connect" href="javascript:;" onclick="connnectAction()" data-toggle="tooltip" title="Connect"><i class="glyphicon glyphicon-play"></i></a>'
 		].join('');
 	}
 	// 格式化图标
@@ -81,12 +81,44 @@
 	// 格式化类型
 	function typeFormatter(value, row, index) {
 		if (value == 1) {
-			return '<span class="label label-primary">普通</span>';
+			return '<span class="label label-primary">OK</span>';
 		}
-		if (value == 2) {
-			return '<span class="label label-danger">热门</span>';
+		if (value == 0) {
+			return '<span class="label label-danger">Fail</span>';
 		}
 	}
+
+	var connectDialog;
+	function connnectAction() {
+
+		var rows = $table.bootstrapTable('getSelections');
+
+
+		$.ajax({
+			type:'get',
+			url: '${basePath}/manage/applySource/connect/'+rows[0].id,
+			success:function(result){
+
+				$.confirm({
+					theme: 'dark',
+					animation: 'rotateX',
+					closeAnimation: 'rotateX',
+					title: false,
+					content: result.data,
+					buttons: {
+						confirm: {
+							text: '确认',
+							btnClass: 'waves-effect waves-button waves-light'
+						}
+					}
+				});
+			}
+
+		});
+
+
+	}
+
 	// 新增
 	var createDialog;
 	function createAction() {
@@ -103,7 +135,7 @@
 	var updateDialog;
 	function updateAction() {
 		var rows = $table.bootstrapTable('getSelections');
-		console.log(rows[0].id)
+
 		if (rows.length != 1) {
 			$.confirm({
 				title: false,
