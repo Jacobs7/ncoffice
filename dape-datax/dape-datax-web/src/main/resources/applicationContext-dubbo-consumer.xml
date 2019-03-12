@@ -25,5 +25,8 @@
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.dape.upms.rpc.api.UpmsApiService" mock="true"/>
 
+    <!-- 接口服务 -->
+    <dubbo:reference id="connectionInterService" interface="com.dape.datax.rpc.api.ConnectionInterService" mock="true"/>
+
 
 </beans>

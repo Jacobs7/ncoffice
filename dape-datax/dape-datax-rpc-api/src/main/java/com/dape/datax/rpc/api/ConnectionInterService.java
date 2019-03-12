@@ -2,14 +2,16 @@ package com.dape.datax.rpc.api;
 
 import com.aliyun.oss.OSSClient;
 
+import com.dape.common.base.BaseService;
 import com.dape.datax.dao.model.DataxApplySource;
+import com.dape.datax.dao.model.DataxApplySourceExample;
 import com.mongodb.MongoClient;
 import net.spy.memcached.MemcachedClient;
 import org.apache.hadoop.fs.FileSystem;
 
 import java.sql.Connection;
 
-public interface ConnectionInterService {
+public interface ConnectionInterService extends BaseService<DataxApplySource, DataxApplySourceExample> {
 
     Connection getMySqlConnection(DataxApplySource applySource);
 
