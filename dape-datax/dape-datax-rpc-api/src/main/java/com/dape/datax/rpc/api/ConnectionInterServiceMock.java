@@ -1,7 +1,10 @@
 package com.dape.datax.rpc.api;
 
 import com.aliyun.oss.OSSClient;
+import com.dape.common.base.BaseServiceMock;
+import com.dape.datax.dao.mapper.DataxApplySourceMapper;
 import com.dape.datax.dao.model.DataxApplySource;
+import com.dape.datax.dao.model.DataxApplySourceExample;
 import com.dape.datax.rpc.api.ConnectionInterService;
 import com.mongodb.MongoClient;
 import net.spy.memcached.MemcachedClient;
@@ -9,7 +12,7 @@ import org.apache.hadoop.fs.FileSystem;
 
 import java.sql.Connection;
 
-public class ConnectionInterServiceMock implements ConnectionInterService {
+public class ConnectionInterServiceMock implements ConnectionInterService{
 
     @Override
     public Connection getMySqlConnection(DataxApplySource applySource) {

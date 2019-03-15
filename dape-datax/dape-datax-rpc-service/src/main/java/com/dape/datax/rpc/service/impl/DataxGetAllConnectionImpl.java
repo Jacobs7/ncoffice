@@ -3,7 +3,10 @@ package com.dape.datax.rpc.service.impl;
 import com.aliyun.oss.OSSClient;
 
 import com.dape.common.annotation.BaseService;
+import com.dape.common.base.BaseServiceImpl;
+import com.dape.datax.dao.mapper.DataxApplySourceMapper;
 import com.dape.datax.dao.model.DataxApplySource;
+import com.dape.datax.dao.model.DataxApplySourceExample;
 import com.dape.datax.rpc.api.ConnectionInterService;
 import com.mongodb.MongoClient;
 import net.spy.memcached.MemcachedClient;
@@ -18,7 +21,6 @@ import java.sql.Connection;
 
 @Service
 @Transactional
-@BaseService
 public class DataxGetAllConnectionImpl implements ConnectionInterService{
 
 
