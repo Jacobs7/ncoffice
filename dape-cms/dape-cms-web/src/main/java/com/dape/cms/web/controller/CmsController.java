@@ -69,7 +69,7 @@ public class CmsController extends BaseController {
 
         System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
 
-        String allStr = RedisUtil.get("*");
+        String allStr = RedisUtil.get("dp");
 
         System.out.println("我是从redis 中读取的消息:"+allStr);
 

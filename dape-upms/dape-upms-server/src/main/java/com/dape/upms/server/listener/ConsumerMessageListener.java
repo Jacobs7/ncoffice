@@ -72,7 +72,8 @@ public class ConsumerMessageListener implements MessageListener {
                     String sessionId = session.getId().toString();
                     // 判断是否已登录，如果已登录，则回跳，防止重复登录
                     String hasCode = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
-
+                    RedisUtil.lpush("123", sessionId.toString());
+                    RedisUtil.set("234", ""+sessionId.toString());
                     // code校验值
                     if (StringUtils.isBlank(hasCode)) {
                         // 使用shiro认证
@@ -85,6 +86,7 @@ public class ConsumerMessageListener implements MessageListener {
                             }
                             //验证用户名密码
                             subject.login(usernamePasswordToken);
+                            RedisUtil.lpush("123", sessionId.toString());
                         } catch (UnknownAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.not_exit.toString());
 
