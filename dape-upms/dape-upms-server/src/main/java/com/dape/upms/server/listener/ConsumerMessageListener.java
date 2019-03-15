@@ -95,7 +95,7 @@ public class ConsumerMessageListener implements MessageListener {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.loacked.toString());
 
                     }
-                    // 更新session状态
+//                    更新session状态
 //                    upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);
 //                        // 全局会话sessionId列表，供会话管理
 //                        RedisUtil.lpush(DAPE_UPMS_SERVER_SESSION_IDS, sessionId.toString());
