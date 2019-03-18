@@ -618,6 +618,7 @@ function loadGoodsForSearch(){
         }
         if(mapData && mapData.length > 0){
             var commission_rate;
+            var coupon_share_url;
             $(mapData).each(function(){
                 $this = this;
                 // 天猫:icon-tianmao-18, 淘宝:icon-taobao-18, 京东:icon-jingdong-18, 拼多多:icon-pinduoduo-18
@@ -631,13 +632,17 @@ function loadGoodsForSearch(){
                 commission_rate = 0;
 
                 commission_rate = $this.commission_rate / 100;
+
                 if(typeof($this.coupon_amount) == 'undefined'){
                     $this.coupon_amount = 0;
+                    coupon_share_url = '';
+                }else{
+                    coupon_share_url = 'https:'+$this.coupon_share_url;
                 }
                 var zkPrice = jsSubtr($this.zk_final_price,$this.coupon_amount);
                 $('#goodsUL').append('<li>' +
                     //'<a href="/goods/goodsDetail?numIid='+num_iid+'&platform='+platform+'">' +
-                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\'https:'+$this.coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
+                    '<a href="javascript:void(0)" onclick="postGoodsDetail('+$this.num_iid+','+platform+','+commission_rate+','+$this.coupon_amount+',\''+coupon_share_url+'\',\'https:'+$this.url+'\',\'\')">' +
                     '<img src="'+appURL+'/images/flag-new-3.png" height="32" class="newFlag" style="display: block;">' +
                     '<span class="quanFlag"><b>'+$this.coupon_amount+'</b><br>元券</span>' +
                     '<div class="proimg">' +
