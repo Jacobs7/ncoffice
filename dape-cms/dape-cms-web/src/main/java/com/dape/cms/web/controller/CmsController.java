@@ -8,6 +8,8 @@ import com.dape.cms.dao.model.*;
 import com.dape.common.base.BaseController;
 import com.dape.common.util.JmsUtil;
 import com.dape.common.util.RedisUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
@@ -28,6 +30,14 @@ import static com.dape.common.base.BaseController.thymeleaf;
 @Controller
 @RequestMapping(value = "/cms")
 public class CmsController extends BaseController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmsController.class);
+    // 全局会话key
+    private final static String DAPE_UPMS_SERVER_SESSION_ID = "dape-upms-server-session-id";
+    // 全局会话key列表
+    private final static String DAPE_UPMS_SERVER_SESSION_IDS = "dape-upms-server-session-ids";
+    // code key
+    private final static String DAPE_UPMS_SERVER_CODE = "dape-upms-server-code";
 
     //MQ 消息发送者
     @Autowired JmsTemplate jmsTemplate;
@@ -58,6 +68,8 @@ public class CmsController extends BaseController {
     @ResponseBody
     public void checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
 
+        String sessionId = request.getSession().getId().toString();
+
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -69,7 +81,7 @@ public class CmsController extends BaseController {
 
         System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
 
-        String allStr = RedisUtil.get("dp");
+        String allStr = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error");
 
         System.out.println("我是从redis 中读取的消息:"+allStr);
 

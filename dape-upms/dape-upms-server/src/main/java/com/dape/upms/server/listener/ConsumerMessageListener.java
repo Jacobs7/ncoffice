@@ -60,20 +60,28 @@ public class ConsumerMessageListener implements MessageListener {
                     JSONObject jsonObject = JSON.parseObject(text);
                     String username = jsonObject.get("username").toString();
                     String password = jsonObject.get("pwd").toString();
-                    //String rememberMe = request.getParameter("rememberMe");
-                    if (StringUtils.isBlank(username)) {
+                    String rememberme = jsonObject.get("rememberMe").toString();
 
-                    }
-                    if (StringUtils.isBlank(password)) {
-
-                    }
                     Subject subject = SecurityUtils.getSubject();
                     Session session = subject.getSession();
                     String sessionId = session.getId().toString();
+
+                    // 默认验证帐号密码正确，创建code
+                    String code = UUID.randomUUID().toString();
+
+                    if (StringUtils.isBlank(username)) {
+                        //redis 写入错误提示 并设置redis内保存时间
+                        RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", "userNameEmpty", (int) 3);
+                    }
+                    if (StringUtils.isBlank(password)) {
+                        //redis 写入错误提示 并设置redis内保存时间
+                        RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", "passwordEmpty", (int) 3);
+                    }
+
+
                     // 判断是否已登录，如果已登录，则回跳，防止重复登录
                     String hasCode = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
-                    RedisUtil.lpush("123", sessionId.toString());
-                    RedisUtil.set("234", ""+sessionId.toString());
+
                     // code校验值
                     if (StringUtils.isBlank(hasCode)) {
                         // 使用shiro认证
@@ -86,27 +94,30 @@ public class ConsumerMessageListener implements MessageListener {
                             }
                             //验证用户名密码
                             subject.login(usernamePasswordToken);
-                            RedisUtil.lpush("123", sessionId.toString());
+
                         } catch (UnknownAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.not_exit.toString());
-
-                    } catch (IncorrectCredentialsException e) {
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.not_exit.toString(), (int) 3);
+                            throw new Exception("");
+                        } catch (IncorrectCredentialsException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.login_fail.toString());
-
-                    } catch (LockedAccountException e) {
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.login_fail.toString(), (int) 3);
+                            throw new Exception("");
+                        } catch (LockedAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.loacked.toString());
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.loacked.toString(), (int) 3);
+                            throw new Exception("");
+                        }
+                        //更新session状态
+                        upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);
+//                      // 全局会话sessionId列表，供会话管理
+                        RedisUtil.lpush(DAPE_UPMS_SERVER_SESSION_IDS, sessionId.toString());
+//                      // 默认验证帐号密码正确，创建code
 
-                    }
-//                    更新session状态
-//                    upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);
-//                        // 全局会话sessionId列表，供会话管理
-//                        RedisUtil.lpush(DAPE_UPMS_SERVER_SESSION_IDS, sessionId.toString());
-//                        // 默认验证帐号密码正确，创建code
-//                        String code = UUID.randomUUID().toString();
-//                        // 全局会话的code
-//                        RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
-//                        // code校验值
-//                        RedisUtil.set(DAPE_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
+//                      // 全局会话的code
+                        RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
+//                      // code校验值
+                        RedisUtil.set(DAPE_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
                     }
 
                 } catch (Exception e) {

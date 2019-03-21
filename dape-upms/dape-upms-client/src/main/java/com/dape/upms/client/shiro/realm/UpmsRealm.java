@@ -81,6 +81,8 @@ public class UpmsRealm extends AuthorizingRealm {
             return new SimpleAuthenticationInfo(username, password, getName());
         }
 
+
+
         // 查询用户信息
         UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
 

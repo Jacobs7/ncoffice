@@ -55,7 +55,10 @@ public class IndexController extends BaseController {
             ShopMenuExample shopMenuE = new ShopMenuExample();
             shopMenuE.or().andIsEnabledEqualTo(true);
             shopMenuE.setOrderByClause("sort ASC");
-            menus = shopMenuService.selectByExample(shopMenuE);
+
+                menus = shopMenuService.selectByExample(shopMenuE);
+
+
         }
         int size = 7;
         if(menus.size() < size){
