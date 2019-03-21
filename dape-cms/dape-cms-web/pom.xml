@@ -48,6 +48,13 @@
             <artifactId>rocketmq-client</artifactId>
             <version>3.6.2.Final</version>
         </dependency>
+
+        <!-- zheng-upms-client -->
+        <dependency>
+            <groupId>com.dape</groupId>
+            <artifactId>dape-upms-client</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <profiles>
