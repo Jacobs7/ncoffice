@@ -97,15 +97,15 @@ public class ConsumerMessageListener implements MessageListener {
 
                         } catch (UnknownAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.not_exit.toString());
-                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.not_exit.toString(), (int) 3);
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.not_exit.toString(), (int) 10);
                             throw new Exception("");
                         } catch (IncorrectCredentialsException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.login_fail.toString());
-                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.login_fail.toString(), (int) 3);
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.login_fail.toString(), (int) 10);
                             throw new Exception("");
                         } catch (LockedAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.loacked.toString());
-                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.loacked.toString(), (int) 3);
+                            RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.loacked.toString(), (int) 10);
                             throw new Exception("");
                         }
                         //更新session状态
