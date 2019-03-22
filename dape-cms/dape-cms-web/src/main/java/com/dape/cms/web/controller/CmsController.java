@@ -8,6 +8,7 @@ import com.dape.cms.dao.model.*;
 import com.dape.common.base.BaseController;
 import com.dape.common.util.JmsUtil;
 import com.dape.common.util.RedisUtil;
+import com.dape.common.util.SerializeUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +71,7 @@ public class CmsController extends BaseController {
      * ********************/
     @RequestMapping(value = "/checkUserLogin", method = RequestMethod.POST)
     @ResponseBody
-    public String checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
+    public Map<String,Object> checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
 
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
@@ -87,16 +89,15 @@ public class CmsController extends BaseController {
 
         JmsUtil.sendMessage(jmsTemplate,destination, JSON.toJSONString(loginUser));
 
-        System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
-
-        System.out.println("cms shiro sessionid->"+sessionId);
-        String allStrError = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error");
+        String allStrError =RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error");
         String allStrOK = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
 
-        System.out.println("check str :"+DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
-        System.out.println("我是从redis 中读取的消息Error--->:"+allStrError);
-        System.out.println("我是从redis 中读取的消息OK---->:"+allStrOK);
 
-        return  thymeleaf("/index");
+
+        Map resultMap = new HashMap();
+        resultMap.put("success",allStrOK);
+        resultMap.put("fail",""+allStrError);
+
+        return resultMap;
     }
 }

@@ -13,7 +13,7 @@ function cmsLogin(){
     console.log("username="+userName+"and pwd="+pwd);
 
         $.post("/cms/checkUserLogin",{"username":userName,"password":pwd,"rememberMe":true},function(data){
-
-
-    });
+            console.log(data)
+            //window.location.href ="http://localhost:2224";
+        });
 }
