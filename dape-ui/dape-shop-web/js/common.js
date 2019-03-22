@@ -502,7 +502,6 @@ function loadLocalGoodsForMain(){
                         '<div class="protxt">' +
                         // 根据店铺类型判断是天猫、淘宝
                           '<div class="name" style="position: relative;">' +
-                          '<i class="icon18-zz '+tianmaoCss+'" style="margin-right: 5px;"></i>' +
                           '<em style="position: absolute;top: -1px;">'+$this.title+'</em></div>' +
                           '<div class="name" style="position: relative;"><p>' +
                             '<em class="nowPrice">￥'+zkPrice+'</em>' +
