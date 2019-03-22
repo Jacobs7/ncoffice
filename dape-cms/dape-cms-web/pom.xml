@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>dape-cms-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>dape-cms-web Maven Webapp</name>
     <url>http://www.zhangshuzheng.cn</url>

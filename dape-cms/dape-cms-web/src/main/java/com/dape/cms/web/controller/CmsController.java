@@ -69,7 +69,7 @@ public class CmsController extends BaseController {
      * ********************/
     @RequestMapping(value = "/checkUserLogin", method = RequestMethod.POST)
     @ResponseBody
-    public void checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
+    public String checkUserLogin(HttpServletRequest request, HttpServletResponse response, Model model){
 
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
@@ -82,16 +82,21 @@ public class CmsController extends BaseController {
         loginUser.put("username",userName);
         loginUser.put("pwd",password);
         loginUser.put("rememberMe",password);
+        loginUser.put("webSessionId",sessionId);
+
 
         JmsUtil.sendMessage(jmsTemplate,destination, JSON.toJSONString(loginUser));
 
         System.out.println("controller中进入  JSON字符串    --->"+JSON.toJSONString(loginUser));
 
+        System.out.println("cms shiro sessionid->"+sessionId);
         String allStrError = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error");
         String allStrOK = RedisUtil.get(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
-        System.out.println("我是从redis 中读取的消息:"+allStrError);
-        System.out.println("我是从redis 中读取的消息:"+allStrOK);
 
-        //return new CmsResult(CmsResultConstant.SUCCESS, 0);
+        System.out.println("check str :"+DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId);
+        System.out.println("我是从redis 中读取的消息Error--->:"+allStrError);
+        System.out.println("我是从redis 中读取的消息OK---->:"+allStrOK);
+
+        return  thymeleaf("/index");
     }
 }
