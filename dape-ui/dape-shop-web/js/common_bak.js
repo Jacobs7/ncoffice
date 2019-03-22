@@ -509,6 +509,10 @@ function loadLocalGoodsForMain(){
                             '<span class="oldPrice">￥'+$this.zkFinalPrice+'</span>' +
                             '<small class="monthOrderNum">月销'+$this.volume+'件</small>' +
                             '</p></div>' +
+                          '<div class="return" style="margin-bottom: 3px;">' +
+                            '<div style="background-color: #dc2527;color: #fff;">标佣¥'+byFnc(zkPrice,$this.commissionRate)+'</div>' +
+                            '<div style="color: #dc2527;">特佣¥'+tyFnc(zkPrice,$this.commissionRate)+'</div>' +
+                            '</div>' +
                           '</div>' +
                         '</a>' +
                       '</li>');
