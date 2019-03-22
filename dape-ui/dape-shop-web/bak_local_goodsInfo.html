@@ -50,6 +50,12 @@
               <em class="detail-price-s" th:text="'原价'+${goods.zkFinalPrice}"></em>
               <em class="detail-price-v" th:text="'月销量'+${goods.volume}"></em>
           </div>
+          <div class="detail-return">
+            标准佣金&nbsp;¥<em th:text="${#numbers.formatDecimal(goods.commission * 0.35,1,2)}">0.00</em> ｜ 特权佣金&nbsp;¥<em th:text="${#numbers.formatDecimal(goods.commission * 0.5,1,2)}">0.00</em><a href="javascript:showKeFu('/upload/kefu.jpg')">如何升特权?</a>
+          </div>
+          <div class="detail-return-txt">
+            以实际佣金为准，卖家修改佣金24小时内同步到平台
+          </div>
         </div>
       </div>
 
@@ -103,11 +109,11 @@
     <p class="weui-tabbar__label">商城首页</p>
   </a>
 
-  <a href="javascript:;" onclick="" class="weui-tabbar__item yellow-color open-popup">
-    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">加入购物车</p>
+  <a href="javascript:;" onclick="qiangquan()" class="weui-tabbar__item yellow-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">去抢券</p>
   </a>
-  <a href="javascript:;" onclick="" class="weui-tabbar__item red-color open-popup">
-    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">立即购买</p>
+  <a href="javascript:;" onclick="localHaibao()" class="weui-tabbar__item red-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">生成推广海报</p>
   </a>
 </div>
 
