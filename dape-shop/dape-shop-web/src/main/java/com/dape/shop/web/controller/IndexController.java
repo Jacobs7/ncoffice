@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,22 +44,76 @@ public class IndexController extends BaseController {
     @Autowired
     private ShopModuleService shopModuleService;
 
-    public static List<ShopMenu> menus = null;
-    public static List<ShopModule> modules = null;
+    public static List<ShopMenu> menus = new ArrayList<ShopMenu>();
+    public static List<ShopModule> modules = new ArrayList<ShopModule>();
 
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public String index(Model model, Long showId, HttpServletRequest request) {
+//
+//        /** 后面要放到缓存中 start */
+//        // 查询导航栏列表: 首页、男装、女装等
+//        if(menus == null || menus.size() <= 0){
+//            ShopMenuExample shopMenuE = new ShopMenuExample();
+//            shopMenuE.or().andIsEnabledEqualTo(true);
+//            shopMenuE.setOrderByClause("sort ASC");
+//
+//                menus = shopMenuService.selectByExample(shopMenuE);
+//
+//
+//        }
+//        int size = 7;
+//        if(menus.size() < size){
+//            size = menus.size();
+//        }
+//        model.addAttribute("menus", menus);
+//        model.addAttribute("menusSize", size);
+//        model.addAttribute("showId", showId == null ? 1L : showId);
+//
+//        // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
+//        if(modules == null || modules.size() <= 0){
+//            ShopModuleExample shopModuleE = new ShopModuleExample();
+//            shopModuleE.or().andIsEnabledEqualTo(true);
+//            shopModuleE.setOrderByClause("sort ASC");
+//            modules = shopModuleService.selectByExample(shopModuleE);
+//        }
+//        model.addAttribute("modules", modules);
+//        /** 后面要放到缓存中 end */
+//
+//        String material_id = request.getParameter("material_id");
+//        if(StringUtils.isNotBlank(material_id)){
+//            model.addAttribute("material_id", Long.valueOf(material_id));
+//        }else{
+//            model.addAttribute("material_id", 13366L);
+//        }
+//
+//        String platform = request.getParameter("platform");
+//        if(StringUtils.isNotBlank(platform)){
+//            model.addAttribute("platform", platform);
+//        }else{
+//            model.addAttribute("platform", 2);
+//        }
+//
+//        return thymeleaf("/index");
+//    }
+
+    /**
+     * 转向数据库商品-首页
+     * @param model
+     * @param sId
+     * @param type
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model, Long showId, HttpServletRequest request) {
+    public String localGoods(Model model, Long sId, Integer type, HttpServletRequest request) {
 
         /** 后面要放到缓存中 start */
-        // 查询导航栏列表: 首页、男装、女装等
-        if(menus == null || menus.size() <= 0){
+        if(menus.size() <= 0){
+            // 查询导航栏列表: 首页、男装、女装等
             ShopMenuExample shopMenuE = new ShopMenuExample();
             shopMenuE.or().andIsEnabledEqualTo(true);
             shopMenuE.setOrderByClause("sort ASC");
-
-                menus = shopMenuService.selectByExample(shopMenuE);
-
-
+            menus = shopMenuService.selectByExample(shopMenuE);
         }
         int size = 7;
         if(menus.size() < size){
@@ -66,10 +121,11 @@ public class IndexController extends BaseController {
         }
         model.addAttribute("menus", menus);
         model.addAttribute("menusSize", size);
-        model.addAttribute("showId", showId == null ? 1L : showId);
+        model.addAttribute("sId", sId == null ? 1L : sId);
+        model.addAttribute("type", type == null ? 1 : type);
 
         // 查询模块列表: 淘抢购、聚划算、拼多多、京东等
-        if(modules == null || modules.size() <= 0){
+        if(modules.size() <= 0){
             ShopModuleExample shopModuleE = new ShopModuleExample();
             shopModuleE.or().andIsEnabledEqualTo(true);
             shopModuleE.setOrderByClause("sort ASC");
@@ -78,13 +134,6 @@ public class IndexController extends BaseController {
         model.addAttribute("modules", modules);
         /** 后面要放到缓存中 end */
 
-        String material_id = request.getParameter("material_id");
-        if(StringUtils.isNotBlank(material_id)){
-            model.addAttribute("material_id", Long.valueOf(material_id));
-        }else{
-            model.addAttribute("material_id", 13366L);
-        }
-
         String platform = request.getParameter("platform");
         if(StringUtils.isNotBlank(platform)){
             model.addAttribute("platform", platform);
@@ -92,7 +141,7 @@ public class IndexController extends BaseController {
             model.addAttribute("platform", 2);
         }
 
-        return thymeleaf("/index");
+        return thymeleaf("/local_index");
     }
 
     /**
