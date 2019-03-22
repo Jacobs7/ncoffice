@@ -39,11 +39,9 @@
         </div>
 
         <div class="weui-media-box_text detail-container">
-          <div class="detail-quan"><span class="quanFlag" style="width: 40px;">优惠券<br><b id="quanAmountB" th:text="'¥'+${#numbers.formatDecimal(goods.couponAmount,1,0)}"></b></span></div>
+          <div class="detail-quan" style="bottom:2.5rem;"><span class="quanFlag" style="width: 40px;">优惠券<br><b id="quanAmountB" th:text="'¥'+${#numbers.formatDecimal(goods.couponAmount,1,0)}"></b></span></div>
           <div class="detail-title" th:switch="${goods.userType}">
-              <i th:case="0" class="icon18-zz icon-taobao-18"></i>
-              <i th:case="1" class="icon18-zz icon-tianmao-18"></i>
-              <em id="titleEm" style="padding:1.1rem;" th:text="${goods.title}"></em>
+              <em id="titleEm" th:text="${goods.title}"></em>
           </div>
           <div class="detail-price-c" >
               <em id="zkPriceEm" class="num" style="font-size: 0.95rem;font-weight: bold;" th:text="'¥'+${goods.zkFinalPrice - goods.couponAmount}"></em>
