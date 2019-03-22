@@ -61,10 +61,12 @@ public class ConsumerMessageListener implements MessageListener {
                     String username = jsonObject.get("username").toString();
                     String password = jsonObject.get("pwd").toString();
                     String rememberme = jsonObject.get("rememberMe").toString();
+                    String sessionId = jsonObject.get("webSessionId").toString();
 
                     Subject subject = SecurityUtils.getSubject();
-                    Session session = subject.getSession();
-                    String sessionId = session.getId().toString();
+                    //Session session = subject.getSession();
+                    //String sessionId = session.getId().toString();
+                    System.out.println("upms shiro sessionid->"+sessionId);
 
                     // 默认验证帐号密码正确，创建code
                     String code = UUID.randomUUID().toString();
@@ -98,15 +100,15 @@ public class ConsumerMessageListener implements MessageListener {
                         } catch (UnknownAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.not_exit.toString());
                             RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.not_exit.toString(), (int) 10);
-                            throw new Exception("");
+
                         } catch (IncorrectCredentialsException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.login_fail.toString());
                             RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.login_fail.toString(), (int) 10);
-                            throw new Exception("");
+
                         } catch (LockedAccountException e) {
                             upmsSessionDao.loginfail(sessionId, UpmsSession.OnlineStatus.loacked.toString());
                             RedisUtil.set(DAPE_UPMS_SERVER_SESSION_ID + "_" + sessionId + "_error", ""+UpmsSession.OnlineStatus.loacked.toString(), (int) 10);
-                            throw new Exception("");
+
                         }
                         //更新session状态
                         upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);

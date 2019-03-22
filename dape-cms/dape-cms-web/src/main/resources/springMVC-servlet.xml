@@ -20,7 +20,10 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
+
 	<context:property-placeholder location="classpath:config.properties"/>
+
+
 
 	<!-- thymeleaf视图 -->
 	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
