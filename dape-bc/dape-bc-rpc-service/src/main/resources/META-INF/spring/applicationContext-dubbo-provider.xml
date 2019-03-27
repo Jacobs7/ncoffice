@@ -21,4 +21,7 @@
 
     <bean id="bcModuleServiceImpl" class="com.dape.bc.rpc.service.impl.BcModuleServiceImpl"/>
     <dubbo:service interface="com.dape.bc.rpc.api.BcModuleService" ref="bcModuleServiceImpl" timeout="10000"/>
+
+    <bean id="upmsUserServiceImpl" class="com.dape.bc.rpc.service.impl.UpmsUserServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.UpmsUserService" ref="upmsUserServiceImpl" timeout="10000"/>
 </beans>

@@ -17,5 +17,6 @@
     <dubbo:reference id="bcGoodsService" interface="com.dape.bc.rpc.api.BcGoodsService" mock="true"/>
     <dubbo:reference id="bcMenuService" interface="com.dape.bc.rpc.api.BcMenuService" mock="true"/>
     <dubbo:reference id="bcModuleService" interface="com.dape.bc.rpc.api.BcModuleService" mock="true"/>
+    <dubbo:reference id="upmsUserService" interface="com.dape.bc.rpc.api.UpmsUserService" mock="true"/>
 
 </beans>
