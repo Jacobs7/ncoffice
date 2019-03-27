@@ -15,4 +15,10 @@
 
     <bean id="bcGoodsServiceImpl" class="com.dape.bc.rpc.service.impl.BcGoodsServiceImpl"/>
     <dubbo:service interface="com.dape.bc.rpc.api.BcGoodsService" ref="bcGoodsServiceImpl" timeout="10000"/>
+
+    <bean id="bcMenuServiceImpl" class="com.dape.bc.rpc.service.impl.BcMenuServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.BcMenuService" ref="bcMenuServiceImpl" timeout="10000"/>
+
+    <bean id="bcModuleServiceImpl" class="com.dape.bc.rpc.service.impl.BcModuleServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.BcModuleService" ref="bcModuleServiceImpl" timeout="10000"/>
 </beans>
