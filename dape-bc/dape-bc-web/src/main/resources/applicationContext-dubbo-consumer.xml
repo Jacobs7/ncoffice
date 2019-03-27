@@ -14,4 +14,6 @@
     <!-- 订阅服务 -->
     <dubbo:consumer check="false"/>
 
+    <dubbo:reference id="bcGoodsService" interface="com.dape.bc.rpc.api.BcGoodsService" mock="true"/>
+
 </beans>

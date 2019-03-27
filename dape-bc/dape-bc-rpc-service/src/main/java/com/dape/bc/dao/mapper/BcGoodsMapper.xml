@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dape.bc.dao.mapper.BcGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.dape.bc.dao.model.BcGoods">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="is_enabled" jdbcType="BIT" property="isEnabled" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="short_title" jdbcType="VARCHAR" property="shortTitle" />
+    <result column="pict_url" jdbcType="VARCHAR" property="pictUrl" />
+    <result column="small_images" jdbcType="VARCHAR" property="smallImages" />
+    <result column="zk_final_price" jdbcType="DECIMAL" property="zkFinalPrice" />
+    <result column="item_description" jdbcType="VARCHAR" property="itemDescription" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="coupon_amount" jdbcType="DECIMAL" property="couponAmount" />
+    <result column="coupon_total_count" jdbcType="INTEGER" property="couponTotalCount" />
+    <result column="coupon_remain_count" jdbcType="INTEGER" property="couponRemainCount" />
+    <result column="coupon_start_fee" jdbcType="VARCHAR" property="couponStartFee" />
+    <result column="coupon_start_time" jdbcType="TIMESTAMP" property="couponStartTime" />
+    <result column="coupon_end_time" jdbcType="TIMESTAMP" property="couponEndTime" />
+    <result column="coupon_info" jdbcType="VARCHAR" property="couponInfo" />
+    <result column="seller_id" jdbcType="VARCHAR" property="sellerId" />
+    <result column="shop_title" jdbcType="VARCHAR" property="shopTitle" />
+    <result column="nick" jdbcType="VARCHAR" property="nick" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="level_one_category_id" jdbcType="VARCHAR" property="levelOneCategoryId" />
+    <result column="level_one_category_name" jdbcType="VARCHAR" property="levelOneCategoryName" />
+    <result column="desc_imgs" jdbcType="VARCHAR" property="descImgs" />
+    <result column="hqzb_type" jdbcType="INTEGER" property="hqzbType" />
+    <result column="deq_type" jdbcType="INTEGER" property="deqType" />
+    <result column="gyb_type" jdbcType="INTEGER" property="gybType" />
+    <result column="ppq_type" jdbcType="INTEGER" property="ppqType" />
+    <result column="myzt_type" jdbcType="INTEGER" property="myztType" />
+    <result column="jhs_type" jdbcType="INTEGER" property="jhsType" />
+    <result column="yhh_type" jdbcType="INTEGER" property="yhhType" />
+    <result column="clf_type" jdbcType="INTEGER" property="clfType" />
+    <result column="th_type" jdbcType="INTEGER" property="thType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_date, modify_date, is_enabled, item_id, title, short_title, pict_url, 
+    small_images, zk_final_price, item_description, volume, coupon_amount, coupon_total_count, 
+    coupon_remain_count, coupon_start_fee, coupon_start_time, coupon_end_time, coupon_info, 
+    seller_id, shop_title, nick, user_type, category_id, category_name, level_one_category_id, 
+    level_one_category_name, desc_imgs, hqzb_type, deq_type, gyb_type, ppq_type, myzt_type, 
+    jhs_type, yhh_type, clf_type, th_type
+  </sql>
+  <select id="selectByExample" parameterType="com.dape.bc.dao.model.BcGoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bc_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bc_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bc_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dape.bc.dao.model.BcGoodsExample">
+    delete from bc_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dape.bc.dao.model.BcGoods">
+    insert into bc_goods (id, create_date, modify_date, 
+      is_enabled, item_id, title, 
+      short_title, pict_url, small_images, 
+      zk_final_price, item_description, volume, 
+      coupon_amount, coupon_total_count, coupon_remain_count, 
+      coupon_start_fee, coupon_start_time, coupon_end_time, 
+      coupon_info, seller_id, shop_title, 
+      nick, user_type, category_id, 
+      category_name, level_one_category_id, level_one_category_name, 
+      desc_imgs, hqzb_type, deq_type, 
+      gyb_type, ppq_type, myzt_type, 
+      jhs_type, yhh_type, clf_type, 
+      th_type)
+    values (#{id,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{isEnabled,jdbcType=BIT}, #{itemId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{shortTitle,jdbcType=VARCHAR}, #{pictUrl,jdbcType=VARCHAR}, #{smallImages,jdbcType=VARCHAR}, 
+      #{zkFinalPrice,jdbcType=DECIMAL}, #{itemDescription,jdbcType=VARCHAR}, #{volume,jdbcType=INTEGER}, 
+      #{couponAmount,jdbcType=DECIMAL}, #{couponTotalCount,jdbcType=INTEGER}, #{couponRemainCount,jdbcType=INTEGER}, 
+      #{couponStartFee,jdbcType=VARCHAR}, #{couponStartTime,jdbcType=TIMESTAMP}, #{couponEndTime,jdbcType=TIMESTAMP}, 
+      #{couponInfo,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, #{shopTitle,jdbcType=VARCHAR}, 
+      #{nick,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{categoryId,jdbcType=VARCHAR}, 
+      #{categoryName,jdbcType=VARCHAR}, #{levelOneCategoryId,jdbcType=VARCHAR}, #{levelOneCategoryName,jdbcType=VARCHAR}, 
+      #{descImgs,jdbcType=VARCHAR}, #{hqzbType,jdbcType=INTEGER}, #{deqType,jdbcType=INTEGER}, 
+      #{gybType,jdbcType=INTEGER}, #{ppqType,jdbcType=INTEGER}, #{myztType,jdbcType=INTEGER}, 
+      #{jhsType,jdbcType=INTEGER}, #{yhhType,jdbcType=INTEGER}, #{clfType,jdbcType=INTEGER}, 
+      #{thType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dape.bc.dao.model.BcGoods">
+    insert into bc_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="shortTitle != null">
+        short_title,
+      </if>
+      <if test="pictUrl != null">
+        pict_url,
+      </if>
+      <if test="smallImages != null">
+        small_images,
+      </if>
+      <if test="zkFinalPrice != null">
+        zk_final_price,
+      </if>
+      <if test="itemDescription != null">
+        item_description,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount,
+      </if>
+      <if test="couponTotalCount != null">
+        coupon_total_count,
+      </if>
+      <if test="couponRemainCount != null">
+        coupon_remain_count,
+      </if>
+      <if test="couponStartFee != null">
+        coupon_start_fee,
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time,
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time,
+      </if>
+      <if test="couponInfo != null">
+        coupon_info,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="shopTitle != null">
+        shop_title,
+      </if>
+      <if test="nick != null">
+        nick,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="levelOneCategoryId != null">
+        level_one_category_id,
+      </if>
+      <if test="levelOneCategoryName != null">
+        level_one_category_name,
+      </if>
+      <if test="descImgs != null">
+        desc_imgs,
+      </if>
+      <if test="hqzbType != null">
+        hqzb_type,
+      </if>
+      <if test="deqType != null">
+        deq_type,
+      </if>
+      <if test="gybType != null">
+        gyb_type,
+      </if>
+      <if test="ppqType != null">
+        ppq_type,
+      </if>
+      <if test="myztType != null">
+        myzt_type,
+      </if>
+      <if test="jhsType != null">
+        jhs_type,
+      </if>
+      <if test="yhhType != null">
+        yhh_type,
+      </if>
+      <if test="clfType != null">
+        clf_type,
+      </if>
+      <if test="thType != null">
+        th_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pictUrl != null">
+        #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null">
+        #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPrice != null">
+        #{zkFinalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="itemDescription != null">
+        #{itemDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="couponAmount != null">
+        #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponTotalCount != null">
+        #{couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponRemainCount != null">
+        #{couponRemainCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponStartFee != null">
+        #{couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null">
+        #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponInfo != null">
+        #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryId != null">
+        #{levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryName != null">
+        #{levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="descImgs != null">
+        #{descImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="hqzbType != null">
+        #{hqzbType,jdbcType=INTEGER},
+      </if>
+      <if test="deqType != null">
+        #{deqType,jdbcType=INTEGER},
+      </if>
+      <if test="gybType != null">
+        #{gybType,jdbcType=INTEGER},
+      </if>
+      <if test="ppqType != null">
+        #{ppqType,jdbcType=INTEGER},
+      </if>
+      <if test="myztType != null">
+        #{myztType,jdbcType=INTEGER},
+      </if>
+      <if test="jhsType != null">
+        #{jhsType,jdbcType=INTEGER},
+      </if>
+      <if test="yhhType != null">
+        #{yhhType,jdbcType=INTEGER},
+      </if>
+      <if test="clfType != null">
+        #{clfType,jdbcType=INTEGER},
+      </if>
+      <if test="thType != null">
+        #{thType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dape.bc.dao.model.BcGoodsExample" resultType="java.lang.Long">
+    select count(*) from bc_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bc_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=BIT},
+      </if>
+      <if test="record.itemId != null">
+        item_id = #{record.itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortTitle != null">
+        short_title = #{record.shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictUrl != null">
+        pict_url = #{record.pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smallImages != null">
+        small_images = #{record.smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zkFinalPrice != null">
+        zk_final_price = #{record.zkFinalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.itemDescription != null">
+        item_description = #{record.itemDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.volume != null">
+        volume = #{record.volume,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponAmount != null">
+        coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.couponTotalCount != null">
+        coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponRemainCount != null">
+        coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponStartFee != null">
+        coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponStartTime != null">
+        coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponEndTime != null">
+        coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.couponInfo != null">
+        coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerId != null">
+        seller_id = #{record.sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopTitle != null">
+        shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nick != null">
+        nick = #{record.nick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryName != null">
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelOneCategoryId != null">
+        level_one_category_id = #{record.levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelOneCategoryName != null">
+        level_one_category_name = #{record.levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descImgs != null">
+        desc_imgs = #{record.descImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hqzbType != null">
+        hqzb_type = #{record.hqzbType,jdbcType=INTEGER},
+      </if>
+      <if test="record.deqType != null">
+        deq_type = #{record.deqType,jdbcType=INTEGER},
+      </if>
+      <if test="record.gybType != null">
+        gyb_type = #{record.gybType,jdbcType=INTEGER},
+      </if>
+      <if test="record.ppqType != null">
+        ppq_type = #{record.ppqType,jdbcType=INTEGER},
+      </if>
+      <if test="record.myztType != null">
+        myzt_type = #{record.myztType,jdbcType=INTEGER},
+      </if>
+      <if test="record.jhsType != null">
+        jhs_type = #{record.jhsType,jdbcType=INTEGER},
+      </if>
+      <if test="record.yhhType != null">
+        yhh_type = #{record.yhhType,jdbcType=INTEGER},
+      </if>
+      <if test="record.clfType != null">
+        clf_type = #{record.clfType,jdbcType=INTEGER},
+      </if>
+      <if test="record.thType != null">
+        th_type = #{record.thType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bc_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      is_enabled = #{record.isEnabled,jdbcType=BIT},
+      item_id = #{record.itemId,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      short_title = #{record.shortTitle,jdbcType=VARCHAR},
+      pict_url = #{record.pictUrl,jdbcType=VARCHAR},
+      small_images = #{record.smallImages,jdbcType=VARCHAR},
+      zk_final_price = #{record.zkFinalPrice,jdbcType=DECIMAL},
+      item_description = #{record.itemDescription,jdbcType=VARCHAR},
+      volume = #{record.volume,jdbcType=INTEGER},
+      coupon_amount = #{record.couponAmount,jdbcType=DECIMAL},
+      coupon_total_count = #{record.couponTotalCount,jdbcType=INTEGER},
+      coupon_remain_count = #{record.couponRemainCount,jdbcType=INTEGER},
+      coupon_start_fee = #{record.couponStartFee,jdbcType=VARCHAR},
+      coupon_start_time = #{record.couponStartTime,jdbcType=TIMESTAMP},
+      coupon_end_time = #{record.couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{record.couponInfo,jdbcType=VARCHAR},
+      seller_id = #{record.sellerId,jdbcType=VARCHAR},
+      shop_title = #{record.shopTitle,jdbcType=VARCHAR},
+      nick = #{record.nick,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      category_id = #{record.categoryId,jdbcType=VARCHAR},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      level_one_category_id = #{record.levelOneCategoryId,jdbcType=VARCHAR},
+      level_one_category_name = #{record.levelOneCategoryName,jdbcType=VARCHAR},
+      desc_imgs = #{record.descImgs,jdbcType=VARCHAR},
+      hqzb_type = #{record.hqzbType,jdbcType=INTEGER},
+      deq_type = #{record.deqType,jdbcType=INTEGER},
+      gyb_type = #{record.gybType,jdbcType=INTEGER},
+      ppq_type = #{record.ppqType,jdbcType=INTEGER},
+      myzt_type = #{record.myztType,jdbcType=INTEGER},
+      jhs_type = #{record.jhsType,jdbcType=INTEGER},
+      yhh_type = #{record.yhhType,jdbcType=INTEGER},
+      clf_type = #{record.clfType,jdbcType=INTEGER},
+      th_type = #{record.thType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dape.bc.dao.model.BcGoods">
+    update bc_goods
+    <set>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=BIT},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="shortTitle != null">
+        short_title = #{shortTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pictUrl != null">
+        pict_url = #{pictUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="smallImages != null">
+        small_images = #{smallImages,jdbcType=VARCHAR},
+      </if>
+      <if test="zkFinalPrice != null">
+        zk_final_price = #{zkFinalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="itemDescription != null">
+        item_description = #{itemDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="couponAmount != null">
+        coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="couponTotalCount != null">
+        coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponRemainCount != null">
+        coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
+      </if>
+      <if test="couponStartFee != null">
+        coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponStartTime != null">
+        coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponEndTime != null">
+        coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponInfo != null">
+        coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTitle != null">
+        shop_title = #{shopTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="nick != null">
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryId != null">
+        level_one_category_id = #{levelOneCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelOneCategoryName != null">
+        level_one_category_name = #{levelOneCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="descImgs != null">
+        desc_imgs = #{descImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="hqzbType != null">
+        hqzb_type = #{hqzbType,jdbcType=INTEGER},
+      </if>
+      <if test="deqType != null">
+        deq_type = #{deqType,jdbcType=INTEGER},
+      </if>
+      <if test="gybType != null">
+        gyb_type = #{gybType,jdbcType=INTEGER},
+      </if>
+      <if test="ppqType != null">
+        ppq_type = #{ppqType,jdbcType=INTEGER},
+      </if>
+      <if test="myztType != null">
+        myzt_type = #{myztType,jdbcType=INTEGER},
+      </if>
+      <if test="jhsType != null">
+        jhs_type = #{jhsType,jdbcType=INTEGER},
+      </if>
+      <if test="yhhType != null">
+        yhh_type = #{yhhType,jdbcType=INTEGER},
+      </if>
+      <if test="clfType != null">
+        clf_type = #{clfType,jdbcType=INTEGER},
+      </if>
+      <if test="thType != null">
+        th_type = #{thType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dape.bc.dao.model.BcGoods">
+    update bc_goods
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      is_enabled = #{isEnabled,jdbcType=BIT},
+      item_id = #{itemId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      short_title = #{shortTitle,jdbcType=VARCHAR},
+      pict_url = #{pictUrl,jdbcType=VARCHAR},
+      small_images = #{smallImages,jdbcType=VARCHAR},
+      zk_final_price = #{zkFinalPrice,jdbcType=DECIMAL},
+      item_description = #{itemDescription,jdbcType=VARCHAR},
+      volume = #{volume,jdbcType=INTEGER},
+      coupon_amount = #{couponAmount,jdbcType=DECIMAL},
+      coupon_total_count = #{couponTotalCount,jdbcType=INTEGER},
+      coupon_remain_count = #{couponRemainCount,jdbcType=INTEGER},
+      coupon_start_fee = #{couponStartFee,jdbcType=VARCHAR},
+      coupon_start_time = #{couponStartTime,jdbcType=TIMESTAMP},
+      coupon_end_time = #{couponEndTime,jdbcType=TIMESTAMP},
+      coupon_info = #{couponInfo,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=VARCHAR},
+      shop_title = #{shopTitle,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      level_one_category_id = #{levelOneCategoryId,jdbcType=VARCHAR},
+      level_one_category_name = #{levelOneCategoryName,jdbcType=VARCHAR},
+      desc_imgs = #{descImgs,jdbcType=VARCHAR},
+      hqzb_type = #{hqzbType,jdbcType=INTEGER},
+      deq_type = #{deqType,jdbcType=INTEGER},
+      gyb_type = #{gybType,jdbcType=INTEGER},
+      ppq_type = #{ppqType,jdbcType=INTEGER},
+      myzt_type = #{myztType,jdbcType=INTEGER},
+      jhs_type = #{jhsType,jdbcType=INTEGER},
+      yhh_type = #{yhhType,jdbcType=INTEGER},
+      clf_type = #{clfType,jdbcType=INTEGER},
+      th_type = #{thType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

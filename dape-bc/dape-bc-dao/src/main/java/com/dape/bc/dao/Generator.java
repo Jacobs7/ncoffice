@@ -14,7 +14,7 @@ public class Generator {
 
 	// 根据命名规范，只修改此常量值即可
 	private static String MODULE = "dape-bc";
-	private static String DATABASE = "dp-office";
+	private static String DATABASE = "dp-office-dev";
 	private static String TABLE_PREFIX = "bc_";
 	private static String PACKAGE_NAME = "com.dape.bc";
 	private static String JDBC_DRIVER = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.driver");

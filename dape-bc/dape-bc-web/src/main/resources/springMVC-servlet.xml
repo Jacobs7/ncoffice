@@ -15,7 +15,7 @@
 		<!-- 公共拦截器 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
-			<bean class="BcWebInterceptor"/>
+			<bean class="com.dape.bc.web.interceptor.BcWebInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 

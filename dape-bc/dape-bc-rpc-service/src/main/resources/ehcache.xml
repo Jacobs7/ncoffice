@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
-    <diskStore path="java.io.tmpdir/dape-shop-rpc-service/ehcache"/>
+    <diskStore path="java.io.tmpdir/dape-bc-rpc-service/ehcache"/>
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"
@@ -12,7 +12,7 @@
         <persistence strategy="localTempSwap"/>
     </defaultCache>
     <cache
-            name="dape-shop-rpc-service-ehcache"
+            name="dape-bc-rpc-service-ehcache"
             eternal="false"
             timeToIdleSeconds="120"
             timeToLiveSeconds="300"

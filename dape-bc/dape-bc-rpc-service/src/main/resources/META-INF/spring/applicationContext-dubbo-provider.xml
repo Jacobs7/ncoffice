@@ -11,6 +11,8 @@
 
     <dubbo:registry address="zookeeper://zkserver:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20883"/>
+    <dubbo:protocol name="dubbo" port="21880"/>
 
+    <bean id="bcGoodsServiceImpl" class="com.dape.bc.rpc.service.impl.BcGoodsServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.BcGoodsService" ref="bcGoodsServiceImpl" timeout="10000"/>
 </beans>

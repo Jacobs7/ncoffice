@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>com.dape</groupId>
-        <artifactId>dape-shop</artifactId>
+        <artifactId>dape-bc</artifactId>
         <version>1.0.0</version>
     </parent>
 
@@ -37,6 +37,7 @@
         <dependency>
             <groupId>com.dape</groupId>
             <artifactId>dape-bc-common</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <!-- rocketmq -->
         <dependency>
@@ -44,7 +45,6 @@
             <artifactId>rocketmq-client</artifactId>
             <version>3.6.2.Final</version>
         </dependency>
-
 
     </dependencies>
 
@@ -96,7 +96,7 @@
                         <contextPath>/</contextPath>
                     </webApp>
                     <httpConnector>
-                        <port>3334</port>
+                        <port>7070</port>
                     </httpConnector>
                     <reload>automatic</reload>
                 </configuration>
