@@ -10,6 +10,12 @@
         <module name="dape-api-rpc-api" />
         <module name="dape-api-rpc-service" />
         <module name="dape-api-server" />
+        <module name="dape-bc-admin" />
+        <module name="dape-bc-common" />
+        <module name="dape-bc-dao" />
+        <module name="dape-bc-rpc-api" />
+        <module name="dape-bc-rpc-service" />
+        <module name="dape-bc-web" />
         <module name="dape-cms-admin" />
         <module name="dape-cms-common" />
         <module name="dape-cms-dao" />
