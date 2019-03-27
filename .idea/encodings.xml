@@ -7,6 +7,13 @@
     <file url="file://$PROJECT_DIR$/dape-api/dape-api-rpc-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dape-api/dape-api-rpc-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dape-api/dape-api-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-rpc-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-rpc-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dape-bc/dape-bc-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dape-cms" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dape-cms/dape-cms-admin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dape-cms/dape-cms-common" charset="UTF-8" />

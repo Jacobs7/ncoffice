@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="dape-bc-admin"/>
+
+    <dubbo:registry file="./dape-datax-web-dubbo.cache" address="zookeeper://zkserver:2181"/>
+
+    <!-- 订阅服务 -->
+    <dubbo:consumer check="false"/>
+
+    <!--&lt;!&ndash; 文章 &ndash;&gt;-->
+    <!--<dubbo:reference id="dataxSourceTypeService" interface="com.dape.datax.rpc.api.DataxSourceTypeService" mock="true" />-->
+    <!--&lt;!&ndash; 类目 &ndash;&gt;-->
+    <!--<dubbo:reference id="dataxTaskService" interface="com.dape.datax.rpc.api.DataxTaskService" mock="true" />-->
+    <!--&lt;!&ndash; 评论 &ndash;&gt;-->
+    <!--<dubbo:reference id="dataxApplySource" interface="com.dape.datax.rpc.api.DataxApplySourceService" mock="true" />-->
+    <!--&lt;!&ndash; 评论 &ndash;&gt;-->
+
+    <!--&lt;!&ndash; 接口服务 &ndash;&gt;-->
+    <!--<dubbo:reference id="upmsApiService" interface="com.dape.upms.rpc.api.UpmsApiService" mock="true"/>-->
+
+    <!--&lt;!&ndash; 接口服务 &ndash;&gt;-->
+    <!--<dubbo:reference id="connectionInterService" interface="com.dape.datax.rpc.api.ConnectionInterService" mock="true"/>-->
+
+
+    <dubbo:reference id="bcGoodsService" interface="com.dape.bc.rpc.api.BcGoodsService" mock="true"/>
+    <dubbo:reference id="bcMenuService" interface="com.dape.bc.rpc.api.BcMenuService" mock="true"/>
+    <dubbo:reference id="bcModuleService" interface="com.dape.bc.rpc.api.BcModuleService" mock="true"/>
+</beans>
