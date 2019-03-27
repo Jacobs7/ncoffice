@@ -1,9 +1,8 @@
 package com.dape.bc.web.controller;
 
-import com.dape.bc.dao.model.BcGoods;
-import com.dape.bc.dao.model.BcGoodsExample;
-import com.dape.bc.dao.model.UpmsUser;
+import com.dape.bc.dao.model.*;
 import com.dape.bc.rpc.api.BcGoodsService;
+import com.dape.bc.rpc.api.BcModuleItemService;
 import com.dape.bc.rpc.api.BcModuleService;
 import com.dape.common.base.BaseController;
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +48,8 @@ public class GoodsController extends BaseController {
     private BcGoodsService bcGoodsService;
     @Autowired
     public BcModuleService bcModuleService;
+    @Autowired
+    public BcModuleItemService bcModuleItemService;
 
     /**
      * 加载数据库商品, ajax请求
@@ -237,4 +239,157 @@ public class GoodsController extends BaseController {
 
         return imgsArr;
     }
+
+    /**
+     * 子模块，好券直播、大额券等
+     * @param model
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/localCoupon", method = RequestMethod.GET)
+    public String localCoupon(Long i, Integer p, String t, Model model, HttpServletResponse response) {
+
+        if(i != null){
+            model.addAttribute("t", t);
+            BcModuleExample me = new BcModuleExample();
+            me.or().andIdEqualTo(i);
+            List<BcModule> modules = bcModuleService.selectByExample(me);
+            if(modules != null && modules.size() == 1){
+                model.addAttribute("module", modules.get(0));
+
+                BcModuleItemExample e = new BcModuleItemExample();
+                e.or().andModuleIdEqualTo(i);
+                List<BcModuleItem> items = bcModuleItemService.selectByExample(e);
+                model.addAttribute("items", items);
+                return thymeleaf("/coupon");
+            }
+        }
+
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 加载数据库商品, ajax请求
+     * @param pageNum 第几页
+     * @param pageSize 每页多少条
+     * @return
+     */
+    @RequestMapping(value = "/loadCouponGoods", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> loadCouponGoods(Integer pageNum, Integer pageSize, Integer type, String field, String sort, String des, String title) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("success", false);
+
+        BcGoodsExample example = new BcGoodsExample();
+        BcGoodsExample.Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotBlank(title)){
+            criteria.andTitleLike(title);
+        }
+        if(StringUtils.isNotBlank(field)){
+            if(field.equals("hqzb")){
+                if(type == null || type == 1){
+                    criteria.andHqzbTypeGreaterThan(0);
+                }else{
+                    criteria.andHqzbTypeEqualTo(type);
+                }
+            }else if(field.equals("deq")){
+                if(type == null || type == 1){
+                    criteria.andDeqTypeGreaterThan(0);
+                }else{
+                    criteria.andDeqTypeEqualTo(type);
+                }
+            }else if(field.equals("gyb")){
+                if(type == null || type == 1){
+                    criteria.andGybTypeGreaterThan(0);
+                }else{
+                    criteria.andGybTypeEqualTo(type);
+                }
+            }else if(field.equals("ppq")){
+                if(type == null || type == 1){
+                    criteria.andPpqTypeGreaterThan(0);
+                }else{
+                    criteria.andPpqTypeEqualTo(type);
+                }
+            }else if(field.equals("myzt")){
+                if(type == null || type == 1){
+                    criteria.andMyztTypeGreaterThan(0);
+                }else{
+                    criteria.andMyztTypeEqualTo(type);
+                }
+            }else if(field.equals("jhs")){
+                if(type == null || type == 1){
+                    criteria.andJhsTypeGreaterThan(0);
+                }else{
+                    criteria.andJhsTypeEqualTo(type);
+                }
+            }else if(field.equals("yhh")){
+                if(type == null || type == 1){
+                    criteria.andYhhTypeGreaterThan(0);
+                }else{
+                    criteria.andYhhTypeEqualTo(type);
+                }
+            }else if(field.equals("clf")){
+                if(type == null || type == 1){
+                    criteria.andClfTypeGreaterThan(0);
+                }else{
+                    criteria.andClfTypeEqualTo(type);
+                }
+            }else if(field.equals("th")){
+                if(type == null || type == 1){
+                    criteria.andThTypeGreaterThan(0);
+                }else{
+                    criteria.andThTypeEqualTo(type);
+                }
+            }
+        }
+        if(StringUtils.isNotBlank(sort)){
+            String order = "";
+            if(sort.equals("volume")){
+                order = "volume ";
+            }else if(sort.equals("price")){
+                order = "zk_final_price ";
+            }else{
+                order = "modify_date ";
+            }
+            if(StringUtils.isNotBlank(des) && des.equals("asc")){
+                order += "asc";
+            }else{
+                order += "desc";
+            }
+            example.setOrderByClause(order);
+        }else{
+            example.setOrderByClause("modify_date asc");
+        }
+
+        List<BcGoods> goods = bcGoodsService.selectByExampleForStartPage(example, pageNum, pageSize);
+        params.put("data", goods);
+        params.put("success", true);
+        return params;
+    }
+
+    /**
+     * 赚钱教程
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/courseZhuan", method = RequestMethod.GET)
+    public String edit(Model model) {
+        return thymeleaf("/course-zhuan");
+    }
+
+    /**
+     * 省钱教程页面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/courseSheng", method = RequestMethod.GET)
+    public String order(Model model) {
+        return thymeleaf("/course-sheng");
+    }
+
 }

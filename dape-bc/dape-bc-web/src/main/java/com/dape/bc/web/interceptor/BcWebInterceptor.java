@@ -21,6 +21,19 @@ public class BcWebInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
+        String url = request.getRequestURI();
+        Object u = request.getSession().getAttribute("upmsuser");
+        if(url.equals("/login/")){
+
+        }else if(u == null){
+            if(url.equals("/") || url.startsWith("/goods") || url.startsWith("/resources")){// 不登录也可访问的地址
+
+            }else{
+                response.sendRedirect("/login/");
+                return false;
+            }
+        }
+
         // zheng-ui静态资源配置信息
         String appName = PropertiesFileUtil.getInstance().get("app.name");
         String uiPath = PropertiesFileUtil.getInstance().get("dape.ui.path");
