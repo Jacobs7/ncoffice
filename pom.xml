@@ -18,6 +18,7 @@
     <module>dape-shop</module>
     <module>dape-pay</module>
     <module>dape-datax</module>
+    <module>dape-bc</module>
   </modules>
 
   <name>dape-office</name>
