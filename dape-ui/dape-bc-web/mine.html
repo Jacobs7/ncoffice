@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>会员中心</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script type="text/javascript">
+  function headLoaded(obj) {
+    $(obj).height($(obj).width());
+  }
+</script>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <div class="wy-center-top">
+        <div class="weui-media-box" style="text-align: center;">
+          <div class="weui-media-box__hd mine-head-d" style="width: 30%;margin: 0 auto;">
+              <img onload="headLoaded(this)" class="weui-media-box__thumb radius" th:src="${uiPath + appName} + '/images/headimg.jpg'" />
+          </div>
+          <div class="weui-media-box__bd">
+            <div class="weui-media-box__title user-name">昵称</div>
+            <div>
+              <span class="user-integral">
+                  <em th:if="${!#strings.isEmpty(upmsuser.phone)}" th:text="${#strings.substring(upmsuser.phone,0,3)}+'****'+${#strings.substring(upmsuser.phone,7,11)}"></em>
+                  <em>等级:普通</em>
+              </span>
+              <span class="user-integral"><em class="num" th:text="'积分:0积分'"></em></span>
+            </div>
+            <div class="weui-media-box__title">
+            <span class="user-integral">
+              <em>(公众号:多彩商城&nbsp;&nbsp;ID:999999)</em>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="weui-panel" style="margin-top:0;">
+        <div class="weui-panel__hd">
+            <div class="weui-cell__bd wy-cell">
+              <div class="weui-cell__hd"><img th:src="${uiPath + appName} + '/images/center-icon-jk.png'" alt="" class="center-list-icon"></div>
+              <div class="weui-cell__bd weui-cell_primary"><p class="center-list-txt">我的小金库</p></div>
+            </div>
+            <span class="weui-cell__ft"></span>
+        </div>
+        <div class="weui-panel__bd">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em>8989</em></div>
+                <div class="name">佣金总额</div>
+              </a>
+            </div>
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em>56</em></div>
+                <div class="name">账户余额</div>
+              </a>
+            </div>
+            <div class="weui-flex__item">
+              <a href="/user/cash" class="center-ordersModule">
+                <div class="center-money"><em>96</em></div>
+                <div class="name">累计提现</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="weui-panel" style="display: flex;padding: 0.5rem 2.5rem;">
+        <div style="flex: 0 0 50%;border-right: 1px solid #f0f0f0;">
+          <a href="/user/toFrends" class="weui-tabbar__item">
+            <div class="icon24-zz icon-friends-24"></div>
+            <p class="weui-tabbar__label">好友列表</p>
+          </a>
+        </div>
+        <div style="flex: 0 0 49%;">
+          <a href="javascript:showFenxiang()" class="weui-tabbar__item">
+            <div class="icon24-zz icon-invite-24"></div>
+            <p class="weui-tabbar__label">邀请好友</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="weui-panel" style="display: flex;flex-flow: row wrap;margin-bottom:5rem;">
+        <div class="mine-module-i">
+          <a href="/order/toOrders" class="weui-tabbar__item">
+            <div class="icon24-zz icon-report-24-2"></div>
+            <p class="weui-tabbar__label">订单业绩</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/user/cash" class="weui-tabbar__item">
+            <div class="icon24-zz icon-wallet-24-2"></div>
+            <p class="weui-tabbar__label">钱包提现</p>
+          </a>
+        </div>
+        <div class="mine-module-i" style="border-right: none;">
+          <a href="javascript:showKeFu('/upload/kefu.png')" class="weui-tabbar__item">
+            <div class="icon24-zz icon-cs-24-2"></div>
+            <p class="weui-tabbar__label">召唤客服</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/question" class="weui-tabbar__item">
+            <div class="icon24-zz icon-class-24"></div>
+            <p class="weui-tabbar__label">常见问题</p>
+          </a>
+        </div>
+        <div class="mine-module-i">
+          <a href="/pay/toPay" class="weui-tabbar__item">
+            <div class="icon24-zz icon-set-24"></div>
+            <p class="weui-tabbar__label">充值</p>
+          </a>
+        </div>
+        <div class="mine-module-i" style="border-right: none;">
+          <a href="/user/integral" class="weui-tabbar__item">
+            <div class="icon24-zz icon-fen-24"></div>
+            <p class="weui-tabbar__label">积分</p>
+          </a>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <!--
+  <a href="classify.html" class="weui-tabbar__item">
+    <i class="icon18-zz icon-retui-18"></i>
+    <p class="weui-tabbar__label">团长推荐</p>
+  </a>
+  <a href="shopcart.html" class="weui-tabbar__item">
+    <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+    <i class="icon18-zz icon-pyq-18"></i>
+    <p class="weui-tabbar__label">一键发圈</p>
+  </a>
+  -->
+  <a href="/user/mine" class="weui-tabbar__item on">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
+<script th:inline="javascript">
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    $(function() {
+        FastClick.attach(document.body);
+    });
+    function showFenxiang() {
+        var dialogId = 'fenxiang';
+        var len = $('#'+dialogId+'Win').length;
+
+        var content = '<div class="haibaoContent"><img src="/fenxiang" onload="imgloadComplent(\''+dialogId+'\')"/></div>';
+        var footer = '<div class="fenxiangFoot"><a href="javascript:" id="fenxiangCopyBtn" onclick="cloneTxt(\'fenxiangCopyBtn\')" data-clipboard-text="领券购物，分享返佣，轻松获得返佣回报!">复制文案</a><a href="javascript:closeDialog(\''+dialogId+'\')">关闭</a></div>';
+        createDialog(dialogId,'',content,footer);
+
+        if(len > 0){
+            showDialog(dialogId);
+        }else{
+            //$.showLoading('正在生成<br>分享图片');// 自带的不能调节宽高
+            showLoading('正在生成<br>分享图片','style="min-width: 7.5rem;min-height: 7.5rem;"');
+        }
+    }
+    // 图片加载完成后，隐藏加载杠，显示分享图片框
+    function imgloadComplent(id) {
+        $.hideLoading();
+        showDialog(id);
+    }
+</script>
+</body>
+</html>

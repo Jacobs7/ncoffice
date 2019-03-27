@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>宝贝详情</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:src="${uiPath + appName} + '/js/clipboard.min.js'"></script>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <!--产品详情-->
+      <!--主图轮播-->
+      <div class="weui-panel">
+        <div class="swiper-container swiper-zhutu">
+          <div class="swiper-wrapper" id="picList">
+              <div class="swiper-slide" id="picMain">
+                  <img onload="imgLoadD(this)" style="display:none;" th:src="${goods.pictUrl}" />
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+              </div>
+              <div class="swiper-slide" th:each="smallImg:${#strings.listSplit(goods.smallImages,',')}">
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+                  <img th:src="${smallImg}" onload="imgLoadD(this)" style="display:none;" />
+              </div>
+          </div>
+          <div class="swiper-pagination swiper-zhutu-pagination"></div>
+        </div>
+
+        <div class="weui-media-box_text detail-container">
+          <div class="detail-quan" style="bottom:2.5rem;"><span class="quanFlag" style="width: 40px;">优惠券<br><b id="quanAmountB" th:text="'¥'+${#numbers.formatDecimal(goods.couponAmount,1,0)}"></b></span></div>
+          <div class="detail-title" th:switch="${goods.userType}">
+              <em id="titleEm" th:text="${goods.title}"></em>
+          </div>
+          <div class="detail-price-c" >
+              <em id="zkPriceEm" class="num" style="font-size: 0.95rem;font-weight: bold;" th:text="'¥'+${goods.zkFinalPrice - goods.couponAmount}"></em>
+              <em class="detail-price-s" th:text="'原价'+${goods.zkFinalPrice}"></em>
+              <em class="detail-price-v" th:text="'月销量'+${goods.volume}"></em>
+          </div>
+        </div>
+      </div>
+
+      <div class="weui-panel">
+        <!-- 推荐理由 -->
+          <div class="detail-tj-title">推荐理由</div>
+          <div class="detail-tj-content" th:text="${#strings.isEmpty(goods.itemDescription)}?'无':${goods.itemDescription}"></div>
+      </div>
+
+      <div class="weui-panel">
+          <div class="weui-navbar" style="height:2.1rem;">
+            <a style="width: 100%;padding: 11px 0 9px 0;" class="weui-navbar__item proinfo-tab-tit weui-bar__item--on" href="#tab1">图文详情</a>
+          </div>
+          <div class="weui-tab__bd">
+            <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+              <div id="detailImgs">
+                  <div class="loading-d"><div class="loading-c"><div class="object object_one"></div><div class="object object_two"></div><div class="object object_three"></div></div></div>
+              </div>
+              <div class="weui-cells__title" style="text-align: center;line-height: 3rem;padding-left:0;padding-right:0;margin-bottom:3rem;">------已经到底了------</div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- 返回上页、查询页链接 -->
+<div class="index-header">
+    <div class="detail-back" style="left:0.5rem;top: 0.5rem;" onclick="javascript:history.back(-1);"><img style="margin: 20% auto auto 15%;" th:src="${uiPath} + ${appName} + '/images/icon-back_white.png'" /></div>
+    <div class="detail-back" style="right:0.5rem;top: 0.5rem;" onclick="$('#searchForm').submit()"><img style="margin: 20% auto auto 20%;" th:src="${uiPath} + ${appName} + '/images/icon-search_white.png'" /></div>
+</div>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+<!--底部导航-->
+<div class="foot-black"></div>
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item">
+    <div class="weui-tabbar__icon foot-menu-home"></div>
+    <p class="weui-tabbar__label">商城首页</p>
+  </a>
+
+  <a href="javascript:;" onclick="" class="weui-tabbar__item yellow-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">加入购物车</p>
+  </a>
+  <a href="javascript:;" onclick="" class="weui-tabbar__item red-color open-popup">
+    <p class="promotion-foot-menu-label" style="font-size: 0.8rem;">立即购买</p>
+  </a>
+</div>
+
+<script th:inline="javascript">
+
+  var title = [[${goods.title}]];
+  var detailImgs = [[${#strings.isEmpty(goods.descImgs)} ? '' : ${goods.descImgs}]]
+  $(function() {
+      FastClick.attach(document.body);
+      $(".swiper-zhutu").swiper({
+          loop: true,
+          paginationType:'fraction',
+          autoplay:5000
+      });
+      // 返回顶部
+      backScroll('listwrap');
+      goodsDetailImgs(detailImgs);
+  });
+
+</script>
+
+</body>
+</html>

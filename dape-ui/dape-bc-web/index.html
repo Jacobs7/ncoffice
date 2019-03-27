@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>商城首页</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/jquery-weui.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/weui.min.css'">
+<link rel="stylesheet" th:href="${uiPath + appName} + '/css/style.css'">
+  <style>.weui-panel.weui-panel:after{border-bottom:none;}</style>
+</head>
+<body ontouchstart>
+<!--主体-->
+<div class="w-container" id="listwrap">
+  <div class="w-main">
+      <div class="weui-flex wy-iconlist-box" style="position: relative;">
+        <a th:each="menu,menuStat:${menus}" th:if="${menuStat.index <= 6}" th:href="'?sId='+${menu.id}+'&type=' + ${menu.type}" th:text="${menu.name}" th:classappend="${sId== menu.id}? 'weui-bar__item--on'" class="weui-navbar__item proinfo-tab-tit" style="padding-left:5px;padding-right:5px;"></a>
+        <a href="javascript:;" onclick="menuPopup(this)" class="menuIcon"><i class="icon24-zz item-menu-24"></i></a>
+      </div>
+      <!--图标分类-->
+      <div class="weui-panel index-module">
+        <div th:each="module,moduleStat:${modules}" class="weui-flex__item" style="flex: 0 0 20%;">
+          <a href="javascript:;" th:onclick="'toModulePage('+${module.id} + ',\'/goods/localCoupon?i='+${module.id}+'&t=1\',\''+${module.url}+'\')'" class="wy-links-iconlist">
+            <div class="img">
+              <i th:classappend="${module.icon}" class="icon36-zz"></i>
+            </div>
+            <p style="font-size:0.7rem;" th:text="${module.name}"></p>
+          </a>
+        </div>
+      </div>
+      <!--优惠抢购-->
+        <div class="wy-Module-tit-line" style="padding-bottom:0;"><span style="font-size:0.75rem;">商品列表</span></div>
+      <!-- 数据列表 -->
+      <div class="weui-panel">
+          <ul id="goodsUL" class="wy-pro-list clear"></ul>
+      </div>
+      <div class="weui-loadmore" style="margin-bottom:3.5rem;height:1rem">
+        <i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>
+      </div>
+  </div>
+</div>
+
+<!--顶部搜索-->
+<header class="weui-header index-header">
+  <div class="weui-search-bar index-search-bar">
+    <div class="weui-search-bar__box index-search-box">
+      <form action="/goods/toSearch" method="post" id="searchForm">
+        <input type="hidden" name="platform" id="platform" th:value="${platform}" />
+        <i class="weui-icon-search"></i>
+        <input type="search" name="q" class="weui-search-bar__input" placeholder="搜索您想要的商品" style="width:98%;font-size: 0.7rem;" />
+      </form>
+    </div>
+    <div class="index-search-c">
+      <a href="javascript:void(0);" onclick="$('#searchForm').submit()" style="" class="weui-btn weui-btn_mini index-search-btn">搜索</a>
+    </div>
+  </div>
+</header>
+
+<!-- 菜单 -->
+<div id="top-menu-box" class="top-menu-box" onclick="hideMenuPopup()">
+  <a th:each="menu,menuStat:${menus}" th:if="${!menuStat.first}" th:onclick="'toNewUrl(this,\'?sId='+${menu.id}+'&type='+${menu.type}+'\')'" th:classappend="${sId== menu.id}? 'menuOn'" class="top-menu-box-a" href="javascript:;" th:text="${menu.name}"></a>
+</div>
+<div id="top-menu-box-mask" style="opacity:1;visibility:visible;display: none;background:none;" class="weui-mask" onclick="hideMenuPopup()"></div>
+
+<!-- 返回顶部 -->
+<div class="detail-top" id="backTop">
+  <img th:src="${uiPath} + ${appName} + '/images/icon_top.png'" />
+</div>
+
+<!-- 底部导航 -->
+<div class="weui-tabbar wy-foot-menu">
+  <a href="/" class="weui-tabbar__item on">
+    <i class="icon18-zz icon-quan-18-2"></i>
+    <p class="weui-tabbar__label">活动券</p>
+  </a>
+  <a href="/user/mine" class="weui-tabbar__item">
+    <i class="icon18-zz icon-mine-18"></i>
+    <p class="weui-tabbar__label">我的</p>
+  </a>
+</div>
+
+<script th:src="${uiPath + appName} + '/js/jquery-2.1.4.js'"></script>
+<script th:src="${uiPath + appName} + '/js/fastclick.js'"></script>
+<script th:src="${uiPath + appName} + '/js/jquery-weui.js'"></script>
+<script th:src="${uiPath + appName} + '/js/swiper.js'"></script>
+<script th:src="${uiPath + appName} + '/js/common.js'"></script>
+<script th:inline="javascript">
+
+    var type = [[${type}]];
+    var field = 'gyb';
+    var sort = '';
+    var des = '';
+    var title = '';
+
+    $(function() {
+        FastClick.attach(document.body);
+        // 第一次加载数据
+        $(".weui-loadmore").show();
+        loadGoods();
+        // 返回顶部
+        backScroll('listwrap');
+        $('#top-menu-box-mask').on('touchend',function(e) {
+            hideMenuPopup();
+        });
+    });
+    var appURL = [[${uiPath}]] + [[${appName}]];
+    var pageNum = 1;
+    var pageSize = 20;
+    var loading = false;
+
+    $("#listwrap").infinite().on("infinite", function () {
+        hideMenuPopup();
+        if (loading) return;
+        loading = true;
+        pageNum++; //页数
+        $('.weui-loadmore').show();
+        setTimeout(function () {
+            loadGoods();
+        }, 100);
+    });
+</script>
+</body>
+</html>
