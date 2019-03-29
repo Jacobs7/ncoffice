@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Random;
 
 /**
- * Velocity工具类
+ * Velocity工具类，(6位随机码)
  * Created by ZhangShuzheng on 2017/1/10.
  */
 public class RamdonUtil {

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * 二维码工具类
+ */
 public class QRCodeUtil {
 
 
