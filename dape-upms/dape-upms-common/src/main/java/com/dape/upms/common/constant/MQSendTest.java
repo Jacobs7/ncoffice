@@ -25,7 +25,7 @@ public class MQSendTest extends BaseConstants {
             connection = connectionFactory.createConnection(); // 构造从工厂得到连接对象
             connection.start(); // 启动
             session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE); // 获取操作连接
-            destination = session.createQueue("TestQueue"); // 获取session注意参数值xingbo.xu-queue是一个服务器的queue，须在在ActiveMq的console配置
+            destination = session.createQueue("TestQueue"); // // mq的队列名称，发送与接收要一致
             producer = session.createProducer(destination);// 得到消息生成者【发送者】
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);// 设置不持久化，此处学习，实际根据项目决定
             sendMessage(session, producer);// 构造消息，此处写死，项目就是参数，或者方法获取
