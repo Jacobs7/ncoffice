@@ -26,7 +26,7 @@ public class BcWebInterceptor extends HandlerInterceptorAdapter {
         if(url.equals("/login/")){
 
         }else if(u == null){
-            if(url.equals("/") || url.startsWith("/goods") || url.startsWith("/resources")){// 不登录也可访问的地址
+            if(url.equals("/") || url.startsWith("/goods") || url.startsWith("/aliPayWeb") || url.startsWith("/resources")){// 不登录也可访问的地址
 
             }else{
                 response.sendRedirect("/login/");
