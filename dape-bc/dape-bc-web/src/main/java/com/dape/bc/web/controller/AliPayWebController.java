@@ -64,10 +64,10 @@ public class AliPayWebController extends BaseController {
      */
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public String pay(HttpServletRequest request, Model model) {
-        AlipayClient alipayClient = new DefaultAlipayClient(AliPayWebController.gatewayUrl, AliPayWebController.app_id, AliPayWebController.merchant_private_key, "json", AliPayWebController.charset, AliPayWebController.alipay_public_key, AliPayWebController.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-        alipayRequest.setReturnUrl(AliPayWebController.return_url);
-        alipayRequest.setNotifyUrl(AliPayWebController.notify_url);
+        alipayRequest.setReturnUrl(AlipayConfig.return_url);
+        alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = request.getParameter("outTradeNo");
@@ -99,7 +99,7 @@ public class AliPayWebController extends BaseController {
      */
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public String query(HttpServletRequest request, Model model) {
-        AlipayClient alipayClient = new DefaultAlipayClient(AliPayWebController.gatewayUrl, AliPayWebController.app_id, AliPayWebController.merchant_private_key, "json", AliPayWebController.charset, AliPayWebController.alipay_public_key, AliPayWebController.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest();
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
@@ -125,7 +125,7 @@ public class AliPayWebController extends BaseController {
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
     public String refund(HttpServletRequest request, Model model) {
         //获得初始化的AlipayClient
-        AlipayClient alipayClient = new DefaultAlipayClient(AliPayWebController.gatewayUrl, AliPayWebController.app_id, AliPayWebController.merchant_private_key, "json", AliPayWebController.charset, AliPayWebController.alipay_public_key, AliPayWebController.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         //设置请求参数
         AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
 
@@ -162,7 +162,7 @@ public class AliPayWebController extends BaseController {
      */
     @RequestMapping(value = "/refundQuery", method = RequestMethod.POST)
     public String refundQuery(HttpServletRequest request, Model model) {
-        AlipayClient alipayClient = new DefaultAlipayClient(AliPayWebController.gatewayUrl, AliPayWebController.app_id, AliPayWebController.merchant_private_key, "json", AliPayWebController.charset, AliPayWebController.alipay_public_key, AliPayWebController.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         AlipayTradeFastpayRefundQueryRequest alipayRequest = new AlipayTradeFastpayRefundQueryRequest();
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
@@ -190,7 +190,7 @@ public class AliPayWebController extends BaseController {
      */
     @RequestMapping(value = "/close", method = RequestMethod.POST)
     public String close(HttpServletRequest request, Model model) {
-        AlipayClient alipayClient = new DefaultAlipayClient(AliPayWebController.gatewayUrl, AliPayWebController.app_id, AliPayWebController.merchant_private_key, "json", AliPayWebController.charset, AliPayWebController.alipay_public_key, AliPayWebController.sign_type);
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
         AlipayTradeCloseRequest alipayRequest = new AlipayTradeCloseRequest();
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
@@ -232,7 +232,7 @@ public class AliPayWebController extends BaseController {
 
             }
 
-            boolean signVerified = AlipaySignature.rsaCheckV1(params, AliPayWebController.alipay_public_key, AliPayWebController.charset, AliPayWebController.sign_type); //调用SDK验证签名
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
             if(signVerified) {//验证成功
                 //商户订单号
                 String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
@@ -303,7 +303,7 @@ public class AliPayWebController extends BaseController {
                 params.put(name, valueStr);
             }
 
-            boolean signVerified = AlipaySignature.rsaCheckV1(params, AliPayWebController.alipay_public_key, AliPayWebController.charset, AliPayWebController.sign_type); //调用SDK验证签名
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
 
             //——请在这里编写您的程序（以下代码仅作参考）——
             if(signVerified) {
