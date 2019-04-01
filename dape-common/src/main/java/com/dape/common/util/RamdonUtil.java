@@ -32,4 +32,19 @@ public class RamdonUtil {
 		}
 		return buf.toString();
 	}
+
+	/**
+	 * 获取固定位数随机码
+	 * @return
+	 */
+	public static String getCode(int num){
+		Random r = new Random();
+		StringBuffer buf = new StringBuffer();
+		int index = 0;
+		for (int i = 0; i < num; i++){
+			index = r.nextInt(34);
+			buf.append(charArr[index]);
+		}
+		return buf.toString();
+	}
 }

@@ -65,6 +65,8 @@
                                                 <table tableName="bc_menu" domainObjectName="BcMenu"></table>
                                                 <table tableName="bc_module" domainObjectName="BcModule"></table>
                                                 <table tableName="bc_module_item" domainObjectName="BcModuleItem"></table>
+                                                <table tableName="bc_pay_order" domainObjectName="BcPayOrder"></table>
+                                                <table tableName="bc_pay_order_refund" domainObjectName="BcPayOrderRefund"></table>
                                                 <table tableName="bc_sms" domainObjectName="BcSms"></table>
                         </context>
 </generatorConfiguration>

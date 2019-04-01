@@ -11,7 +11,7 @@
 
     <dubbo:registry address="zookeeper://zkserver:2181"/>
 
-    <dubbo:protocol name="dubbo" port="21880"/>
+    <dubbo:protocol name="dubbo" port="21884"/>
 
     <bean id="bcGoodsServiceImpl" class="com.dape.bc.rpc.service.impl.BcGoodsServiceImpl"/>
     <dubbo:service interface="com.dape.bc.rpc.api.BcGoodsService" ref="bcGoodsServiceImpl" timeout="10000"/>
@@ -27,6 +27,12 @@
 
     <bean id="bcSmsServiceImpl" class="com.dape.bc.rpc.service.impl.BcSmsServiceImpl"/>
     <dubbo:service interface="com.dape.bc.rpc.api.BcSmsService" ref="bcSmsServiceImpl" timeout="10000"/>
+
+    <bean id="bcPayOrderServiceImpl" class="com.dape.bc.rpc.service.impl.BcPayOrderServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.BcPayOrderService" ref="bcPayOrderServiceImpl" timeout="10000"/>
+
+    <bean id="bcPayOrderRefundServiceImpl" class="com.dape.bc.rpc.service.impl.BcPayOrderRefundServiceImpl"/>
+    <dubbo:service interface="com.dape.bc.rpc.api.BcPayOrderRefundService" ref="bcPayOrderRefundServiceImpl" timeout="10000"/>
 
     <bean id="upmsUserServiceImpl" class="com.dape.bc.rpc.service.impl.UpmsUserServiceImpl"/>
     <dubbo:service interface="com.dape.bc.rpc.api.UpmsUserService" ref="upmsUserServiceImpl" timeout="10000"/>
